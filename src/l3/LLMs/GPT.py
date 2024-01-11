@@ -96,5 +96,3 @@ class GPTValuePredictor:
                 prompt=prompt, 
                 raw_predictions=raw_predictions,
                 predictions=predictions), fp, indent=4)
-
-a = "import x\n# AUX COMMENT: END IMPORTS AND BEGIN INITIALIZATION\nall_data = [] # pragma: no cover\nconfig_str = 'some_config_str' # pragma: no cover\nhas_min_size = True # pragma: no cover"
