@@ -80,7 +80,10 @@ class GPTValuePredictor:
             [imports, initialization]
         )
         initialization_with_imports = remove_lines_with_execution_error(initialization_with_imports)
-        initialization = initialization_with_imports.split('\n# AUX COMMENT: END IMPORTS AND BEGIN INITIALIZATION\n')[-1]    
+        if imports:
+            initialization = initialization_with_imports.split('\n# AUX COMMENT: END IMPORTS AND BEGIN INITIALIZATION\n')[-1] 
+        else:
+             initialization = initialization_with_imports.replace('\n# AUX COMMENT: END IMPORTS AND BEGIN INITIALIZATION\n', '')  
 
         return {
             'imports': imports,
@@ -93,3 +96,5 @@ class GPTValuePredictor:
                 prompt=prompt, 
                 raw_predictions=raw_predictions,
                 predictions=predictions), fp, indent=4)
+
+a = "import x\n# AUX COMMENT: END IMPORTS AND BEGIN INITIALIZATION\nall_data = [] # pragma: no cover\nconfig_str = 'some_config_str' # pragma: no cover\nhas_min_size = True # pragma: no cover"
