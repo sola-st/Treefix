@@ -1,3 +1,4 @@
+import os
 import re
 import subprocess
 import libcst as cst
@@ -115,6 +116,9 @@ def code_executes(code):
         success = False
     subprocess.run(["rm", "temp.py"])
     return success
-    
-    
-    
+
+def install_dependencies(dependencies_dir_path, code):
+    with open(f"{dependencies_dir_path}/temp.py", "w") as f:
+        f.write(code)
+    os.system(f"pipreqs {dependencies_dir_path} --force & pip install -r {dependencies_dir_path}/requirements.txt")
+    subprocess.run(["rm", f"{dependencies_dir_path}/temp.py"])

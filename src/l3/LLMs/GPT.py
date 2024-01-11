@@ -1,9 +1,10 @@
+import os
 import re
 import json
 import time
 import openai
 import libcst as cst
-from ..Util import get_json_info, remove_lines_with_execution_error
+from ..Util import get_json_info, install_dependencies, remove_lines_with_execution_error
 
 
 class GPTValuePredictor:
@@ -12,6 +13,7 @@ class GPTValuePredictor:
         self.model_id = model_id
         
     def predict(self, code_snippet_file, undefined_variables):
+        self.code_snippet_file = code_snippet_file
         prompt = self.create_prompt(code_snippet_file, undefined_variables)
         print(prompt)
         raw_predictions = self.query_model(prompt)
@@ -64,18 +66,19 @@ class GPTValuePredictor:
     
     def post_process_predictions(self, raw_predictions):
         predictions = get_json_info(raw_predictions)
-
-        # Imports
         imports = '\n'.join(
             [f'{import_} # pragma: no cover' for import_ in predictions['imports']]
         )
-        imports = remove_lines_with_execution_error(imports)
-
-        # Initialization
         initialization = '\n'.join(
             [f'{init} # pragma: no cover' for init in predictions['initialization']]
         )
+
+        # Install missing dependencies
+        dependencies_dir_path = os.path.dirname(os.path.realpath(self.code_snippet_file))
+        install_dependencies(dependencies_dir_path, f'{imports}\n{initialization}')
+
         # TO DO: add imports from the original snippet?
+        imports = remove_lines_with_execution_error(imports)
         initialization_with_imports = '\n# AUX COMMENT: END IMPORTS AND BEGIN INITIALIZATION\n'.join(
             [imports, initialization]
         )

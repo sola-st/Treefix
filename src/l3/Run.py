@@ -28,7 +28,7 @@ if __name__ == "__main__":
             # Predict missing values
             predictor = GPTValuePredictor(args.openai_api_key)
             predictions = predictor.predict(file, undefined_variables)
-
+            
             imports = predictions['imports']
             imports = imports + '\n\n' if imports else imports
             updated_code = f'{imports}{code}'
@@ -45,6 +45,4 @@ if __name__ == "__main__":
         with open(updated_file_path, "w") as f:
             f.write(updated_code)
 
-        # Install missing dependencies
-        file_dir_path = os.path.dirname(os.path.realpath(file))
-        os.system(f"pipreqs {file_dir_path} --force & pip install -r {file_dir_path}/requirements.txt")
+        
