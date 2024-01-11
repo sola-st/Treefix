@@ -48,27 +48,3 @@ if __name__ == "__main__":
         # Install missing dependencies
         file_dir_path = os.path.dirname(os.path.realpath(file))
         os.system(f"pipreqs {file_dir_path} --force & pip install -r {file_dir_path}/requirements.txt")
-
-        # Execute file with predicted values
-        updated_file_path = file.replace('.py', '_updated.py')
-        execution_log_file_path = updated_file_path.replace('.py', '_execution_log.txt')
-        execution_log_file = open(execution_log_file_path, "w")
-
-        # run the files (with a timeout)
-        try:
-            process = subprocess.Popen(
-                f"time coverage run --parallel-mode {updated_file_path}", shell=True, start_new_session=True, stdout=execution_log_file, stderr=execution_log_file)
-            process.wait(timeout=30)  # seconds
-        except subprocess.TimeoutExpired:
-            execution_log_file.write("TimeLimit!!!!")
-            os.killpg(os.getpgid(process.pid), signal.SIGTERM)
-
-    # Combine coverage data 
-    process = subprocess.Popen(
-                f"coverage combine", shell=True, start_new_session=True, stdout=execution_log_file, stderr=execution_log_file)
-
-    # Save coverage data
-    process = subprocess.Popen(
-            f"coverage json", shell=True, start_new_session=True, stdout=execution_log_file, stderr=execution_log_file)
-
-    
