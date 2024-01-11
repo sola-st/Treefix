@@ -5,10 +5,10 @@ import openai
 import libcst as cst
 from ..Util import get_json_info, remove_lines_with_execution_error
 
-openai.api_key = ''
 
 class GPTValuePredictor:
-    def __init__(self, model_id="gpt-3.5-turbo"):
+    def __init__(self, openai_api_key, model_id="gpt-3.5-turbo"):
+        openai.api_key = openai_api_key
         self.model_id = model_id
         
     def predict(self, code_snippet_file, undefined_variables):

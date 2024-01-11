@@ -7,6 +7,8 @@ from .Util import code_executes, gather_files, get_undefined_variables
 parser = argparse.ArgumentParser()
 parser.add_argument(
     "--files", help="Python files or .txt file with all file paths", nargs="+")
+parser.add_argument(
+    "--openai_api_key", help="API Key from OpenAI", default="")
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -24,7 +26,7 @@ if __name__ == "__main__":
             from .LLMs.GPT import GPTValuePredictor
 
             # Predict missing values
-            predictor = GPTValuePredictor()
+            predictor = GPTValuePredictor(args.openai_api_key)
             predictions = predictor.predict(file, undefined_variables)
 
             imports = predictions['imports']
