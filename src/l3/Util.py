@@ -4,7 +4,7 @@ import subprocess
 import libcst as cst
 import json
 
-from l3.RemoveLines import RemoveLines
+from .RemoveLines import RemoveLines
 
 def gather_files(files_arg, suffix=".py"):
     if all([f.endswith(".txt") for f in files_arg]):
@@ -122,3 +122,6 @@ def install_dependencies(dependencies_dir_path, code):
         f.write(code)
     os.system(f"pipreqs {dependencies_dir_path} --force & pip install -r {dependencies_dir_path}/requirements.txt")
     subprocess.run(["rm", f"{dependencies_dir_path}/temp.py"])
+
+def _l_(iid):
+    pass
