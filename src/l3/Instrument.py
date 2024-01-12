@@ -43,11 +43,14 @@ def gather_accessed_names(ast_wrapper):
 
 def instrument_file(file_path, iids, line_coverage_instrumentation, validate):
     with open(file_path, "r") as file:
-        src = file.read()
+        lines = file.readlines()
 
-    if "L3: DO NOT INSTRUMENT" in src:
+    if "L3: DO NOT INSTRUMENT" in lines[0]:
         print(f"{file_path} is already instrumented -- skipping it")
         return
+    
+    predicted_lines = ''.join([line for line in lines if "# pragma: no cover" in line])
+    src = ''.join([line for line in lines if "# pragma: no cover" not in line])
 
     ast = cst.parse_module(src)
     ast_wrapper = cst.metadata.MetadataWrapper(ast)
@@ -55,7 +58,7 @@ def instrument_file(file_path, iids, line_coverage_instrumentation, validate):
 
     code_rewriter = CodeRewriter(file_path, iids, line_coverage_instrumentation, accessed_names)
     rewritten_ast = ast_wrapper.visit(code_rewriter)
-    rewritten_code = "# L3: DO NOT INSTRUMENT\n\n" + rewritten_ast.code
+    rewritten_code = "# L3: DO NOT INSTRUMENT\n\n" + predicted_lines + rewritten_ast.code
 
     if validate:
         try:
