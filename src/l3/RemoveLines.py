@@ -7,9 +7,8 @@ from libcst.metadata import (
     ParentNodeProvider,
     PositionProvider,
 )
-import libcst.matchers as m
 
-class RemoveLines(m.MatcherDecoratableTransformer):
+class RemoveLines(cst.CSTTransformer):
     lines_to_keep: List[int]
     METADATA_DEPENDENCIES = (
         ParentNodeProvider,
@@ -26,5 +25,10 @@ class RemoveLines(m.MatcherDecoratableTransformer):
             location = self.get_metadata(PositionProvider, original_node)
             if location.start.line in self.lines_to_remove:
                 return cst.RemoveFromParent()
+            elif isinstance(original_node, cst.ClassDef) or isinstance(original_node, cst.FunctionDef):
+                if original_node.decorators:
+                    location = self.get_metadata(PositionProvider, original_node.decorators[0])
+                    if location.start.line in self.lines_to_remove:
+                        return updated_node.with_changes(decorators=[])
 
         return updated_node
