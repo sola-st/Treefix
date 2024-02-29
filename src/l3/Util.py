@@ -20,8 +20,37 @@ def gather_files(files_arg, suffix=".py"):
         files = files_arg
     return files
 
+class UndefinedFinder(cst.CSTVisitor):
+    def __init__(self, undefined_variables_locations, ranges):
+        super().__init__()
+        self.undefined_variables = set()
+        self.undefined_variables_locations = undefined_variables_locations
+        self.ranges = ranges
+
+    def visit_Attribute(self, node):
+        for undefined_variable_location in self.undefined_variables_locations:
+            variable, location = undefined_variable_location
+            if isinstance(node.value, cst.Name) and node.value.value == variable:
+                self.undefined_variables.add(f'{node.value.value}.{node.attr.value}')
+                break
+        return node
+
 def get_undefined_variables(src):
     undefined_variables = set()
+    
+    ast = cst.parse_module(src)
+    ast_wrapper = cst.metadata.MetadataWrapper(ast)
+    scopes = set(ast_wrapper.resolve(cst.metadata.ScopeProvider).values())
+    for scope in scopes:
+        for access in scope.accesses:
+            if len(access.referents) == 0:
+                node = access.node
+                undefined_variables.add(node.value)
+
+    return undefined_variables
+
+def get_undefined_attributes_methods(src):
+    undefined_variables_locations = set()
 
     ast = cst.parse_module(src)
     ast_wrapper = cst.metadata.MetadataWrapper(ast)
@@ -31,8 +60,13 @@ def get_undefined_variables(src):
         for access in scope.accesses:
             if len(access.referents) == 0:
                 node = access.node
-                undefined_variables.add(node.value)
-    return undefined_variables
+                location = ranges[node].start
+                undefined_variables_locations.add((node.value, location))
+
+    undefined_finder = UndefinedFinder(undefined_variables_locations, ranges)
+    ast_wrapper.visit(undefined_finder)
+
+    return undefined_finder.undefined_variables
 
 def get_json_info(raw_json):
     try:
@@ -85,25 +119,27 @@ def remove_lines_with_execution_error(code):
     code = remove_lines_with_syntax_error(code)
     lines_with_execution_error = True
     while lines_with_execution_error:
-        with open("temp.py", "w") as f:
+        with open("temp_.py", "w") as f:
             f.write(code)
 
         try:
-            subprocess.run(["python3", "temp.py"], capture_output=True, text=True, check=True)
+            subprocess.run(["python3", "temp_.py"], capture_output=True, text=True, check=True)
             lines_with_execution_error = False
         except subprocess.CalledProcessError as e:
+            print(e)
             # Extract the line number from stderr
             lines = e.stderr.splitlines()
             for line in lines:
-                match = re.search(r'temp.py\", line (\d+)', line)
+                match = re.search(r'temp_.py\", line (\d+)', line)
                 if match:
                     line_with_error = int(match.group(1))
+                    print(line_with_error)
                     code = remove_lines(code, [line_with_error])
                     code = remove_lines_with_syntax_error(code)
-                    with open("temp.py", "w") as f:
+                    with open("temp_.py", "w") as f:
                         f.write(code)
                     break
-    subprocess.run(["rm", "temp.py"])
+    subprocess.run(["rm", "temp_.py"])
     return code
 
 def code_executes(code):
