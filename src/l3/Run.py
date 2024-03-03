@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
                 # Code with predicted imports only is not executable
                 if not code_executes(updated_code):
-                    initialization = predictions['initialization']
+                    initialization = prediction['initialization']
                     initialization = initialization + '\n\n' if initialization else initialization
 
                     updated_code = f'{imports}{initialization}{code}'

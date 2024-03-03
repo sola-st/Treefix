@@ -25,7 +25,7 @@ class GPTValuePredictor:
             "content": prompt
         })
         raw_predictions = self.query_model()
-        predictions = self.post_process_predictions(raw_predictions)
+        raw_predictions, predictions = self.post_process_predictions(raw_predictions)
         log_file = code_snippet_file.replace('.py', f'_{self.model_id}.csv')
         self.save_log(log_file, prompt, raw_predictions, predictions)
         return predictions
@@ -47,6 +47,7 @@ class GPTValuePredictor:
         return response.choices
     
     def post_process_predictions(self, raw_predictions):
+        predictions = []
         post_processed_predictions = []
         for raw_prediction in raw_predictions:
             # Add predictions to conversation history
@@ -55,7 +56,8 @@ class GPTValuePredictor:
                 "content": raw_prediction.message.content
             })
 
-            prediction = get_json_info(raw_prediction)
+            prediction = get_json_info(raw_prediction.message.content)
+            predictions.append(prediction)
 
             # Add comment to avoid counting predictions during line coverage calculation
             try:
@@ -96,13 +98,15 @@ class GPTValuePredictor:
                 'initialization': initialization
             })
 
-        return post_processed_predictions
+        return predictions, post_processed_predictions
     
     def save_log(self, log_file, prompt, raw_predictions, predictions):
-        predictions = {
-            'imports': predictions['imports'].split('\n'),
-            'initialization': predictions['initialization'].split('\n')
-        }
+        processed_predictions = []
+        for prediction in predictions:
+            processed_predictions.append({
+                'imports': prediction['imports'].split('\n'),
+                'initialization': prediction['initialization'].split('\n')
+            })
         # Create CSV file and add header if it doesn't exist
         if not os.path.isfile(log_file):
             columns = ['prompt', 'raw_predictions', 'predictions']
@@ -114,8 +118,8 @@ class GPTValuePredictor:
         df = pd.read_csv(log_file)
         df_new_data = pd.DataFrame({
             'prompt': [prompt],
-            'raw_predictions': [raw_predictions],
-            'predictions': [json.dumps(predictions, indent = 4)]
+            'raw_predictions': [json.dumps(raw_predictions, indent = 4)],
+            'predictions': [json.dumps(processed_predictions, indent = 4)]
         })
         df = pd.concat([df, df_new_data])
         df.to_csv(log_file, index=False)
