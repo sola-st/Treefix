@@ -2,8 +2,10 @@ import re
 import time
 import argparse
 import subprocess
+import pandas as pd
 from .LLMs.GPT import GPTValuePredictor
 from .Prompt import Prompt
+from .RuntimeStats import RuntimeStats
 from .Util import code_executes, gather_files, get_undefined_variables, get_undefined_attributes_methods
 
 parser = argparse.ArgumentParser()
@@ -26,7 +28,8 @@ if __name__ == "__main__":
 
         predictor = GPTValuePredictor(args.openai_api_key)
         successful_execution = code_executes(updated_code)
-        refine_attempts = 0
+
+        runtime_stats = RuntimeStats()
 
         start_time = time.time()
         
@@ -47,6 +50,8 @@ if __name__ == "__main__":
 
                 updated_code = f'{imports}{code}'
 
+                runtime_stats.refine_attempt = 0
+
                 # Code with predicted imports only is not executable
                 if not code_executes(updated_code):
                     initialization = prediction['initialization']
@@ -55,7 +60,7 @@ if __name__ == "__main__":
                     updated_code = f'{imports}{initialization}{code}'
 
                     # Refine predictions
-                    while not successful_execution and refine_attempts < 10:
+                    while not successful_execution and runtime_stats.refine_attempt < 10:
                         with open("temp.py", "w") as f:
                             f.write(updated_code)
                         try:
@@ -74,6 +79,8 @@ if __name__ == "__main__":
                             refine_prompt = prompt.refine(cleaned_error_msg)
                             refined_predictions = predictor.predict(refine_prompt, file)
 
+                            runtime_stats.refined_prediction_index = 0
+
                             for refined_prediction in refined_predictions:
                                 refined_imports = refined_prediction['imports']
                                 refined_imports = refined_imports + '\n\n' if refined_imports else refined_imports
@@ -90,14 +97,28 @@ if __name__ == "__main__":
                                     initialization = initialization + refined_initialization
 
                                     updated_code = f'{imports}{initialization}{code}'
+
+                                    if code_executes(updated_code):
+                                        successful_execution = True
+                                        break
                                 else:
                                     successful_execution = True
                                     break
+
+                                runtime_stats.refined_prediction_index += 1
+
                         except subprocess.TimeoutExpired:
                             break
 
-                        refine_attempts += 1
+                        runtime_stats.refine_attempt += 1
                         subprocess.run(["rm", "temp.py"])
+
+                if successful_execution:
+                    break
+
+                runtime_stats.prediction_index += 1
+
+        runtime_stats.save(file, predictor.__class__.__name__, start_time)
 
         updated_file_path = file.replace('.py', '_updated.py')
         with open(updated_file_path, "w") as f:
