@@ -3,7 +3,9 @@ import os
 import json
 import time
 import openai
+import tiktoken
 import pandas as pd
+
 from ..Util import get_json_info, install_dependencies, remove_lines_with_execution_error
 
 
@@ -11,12 +13,10 @@ class GPTValuePredictor:
     def __init__(self, openai_api_key, model_id="gpt-3.5-turbo-0125"):
         openai.api_key = openai_api_key
         self.model_id = model_id
-        self.conversation_history = [
-            {
-                "role": "system", 
-                "content": "You are an exceptionally useful value predictor that consistently predicts accurate and reliable responses to user instructions."
-            }
-        ]
+        self.conversation_history = [{
+            "role": "system", 
+            "content": "You are an exceptionally useful value predictor that consistently predicts accurate and reliable responses to user instructions."
+        }]
     
     def predict(self, prompt, code_snippet_file):
         self.code_snippet_file = code_snippet_file
@@ -24,6 +24,7 @@ class GPTValuePredictor:
             "role": "user",
             "content": prompt
         })
+        self.manage_conversation_history()
         raw_predictions = self.query_model()
         raw_predictions, predictions = self.post_process_predictions(raw_predictions)
         log_file = code_snippet_file.replace('.py', f'_{self.model_id}.csv')
@@ -99,6 +100,24 @@ class GPTValuePredictor:
             })
 
         return predictions, post_processed_predictions
+    
+    def manage_conversation_history(self):
+        # output tokens limit
+        max_tokens = 4096
+        # context size limit: input + output tokens
+        context_length = 16385
+        while self.count_tokens() + max_tokens > context_length:
+            self.conversation_history.pop(0) 
+
+    def count_tokens(self):
+        encoding = tiktoken.encoding_for_model(self.model_id)
+        num_tokens = 0
+        for message in self.conversation_history:
+            num_tokens += 4  # every message follows <im_start>{role/name}\n{content}<im_end>\n
+            for key, value in message.items():
+                num_tokens += len(encoding.encode(value))
+        num_tokens += 2  # every reply is primed with <im_start>assistant
+        return num_tokens
     
     def save_log(self, log_file, prompt, raw_predictions, predictions):
         processed_predictions = []
