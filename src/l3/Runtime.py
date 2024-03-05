@@ -1,14 +1,17 @@
 import atexit
 import sys
-from l3.RuntimeStats import RuntimeStats
+import time
+from .CoverageManager import CoverageManager
+
 
 file = sys.argv[0]
-iids = sys.argv[1]
+predictor = sys.argv[1]
+start_time = time.time()
 
-runtime_stats = RuntimeStats(iids)
-atexit.register(runtime_stats.save, file)
+coverage_manager = CoverageManager()
+coverage_manager.total_lines = coverage_manager.count_lines(file)
 
 def _l_(iid):
-    if runtime_stats is not None:
-        runtime_stats.cover_line(iid)
-        runtime_stats.save(file)
+    if coverage_manager is not None:
+        coverage_manager.cover_line(iid)
+        coverage_manager.save(file, predictor, start_time)
