@@ -277,10 +277,7 @@ class CodeRewriter(cst.CSTTransformer):
             return cst.FlattenSentinel([aux_stmt, stmt, updated_node.with_changes(body=new_return_content)])
         try:
             if isinstance(node.body[0], cst.Expr) and isinstance(node.body[0].value, cst.Call) and node.body[0].value.func.value == 'exit':
-                if len(updated_node.body[0].value.args) < 3:
-                    value = cst.SimpleString(value='""',lpar=[],rpar=[],)
-                else:
-                    value = updated_node.body[0].value.args[2]
+                value = updated_node.body[0].value.args[0]
                 aux_stmt =  self.__create_aux_stmt(updated_node, value)
                 new_exit_content = [cst.Expr(
                     value=cst.Call(
