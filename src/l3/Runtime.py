@@ -1,17 +1,16 @@
-import atexit
 import sys
-import time
+import atexit
+
 from .CoverageManager import CoverageManager
 
 
 file = sys.argv[0]
 predictor = sys.argv[1]
-start_time = time.time()
 
 coverage_manager = CoverageManager()
-coverage_manager.total_lines = coverage_manager.count_lines(file)
+atexit.register(coverage_manager.save, file, predictor)
 
 def _l_(iid):
     if coverage_manager is not None:
         coverage_manager.cover_line(iid)
-        coverage_manager.save(file, predictor, start_time)
+        coverage_manager.save(file, predictor)

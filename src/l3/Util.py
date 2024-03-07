@@ -1,10 +1,11 @@
 import os
 import re
+import json
 import subprocess
 import libcst as cst
-import json
 
 from .RemoveLines import RemoveLines
+
 
 def gather_files(files_arg, suffix=".py"):
     if all([f.endswith(".txt") for f in files_arg]):

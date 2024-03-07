@@ -1,39 +1,71 @@
 import os
 import csv
 import time
+import signal
+import subprocess
 import pandas as pd
+
+from .Hyperparams import Hyperparams as param
 
 
 class RuntimeStats:
-    def __init__(self):
+    def __init__(self, prediction_type):
         self.prediction_index = 0
         self.refine_attempt = 0
         self.refined_prediction_index = 0
-        self.executed_lines = []
+        self.prediction_type = prediction_type
+        self.executed_lines = set()
 
-    def cover_line(self, iid):
-        self.executed_lines.append(iid)
+    def measure_coverage(self, file_path, predictor_name):
+        # run the file (with a timeout)
+        log_file = open(f"{file_path}_execution_log.txt", "w")
+        try:
+            process = subprocess.Popen(
+                f"time python {file_path} {predictor_name}", shell=True, start_new_session=True, stdout=log_file, stderr=log_file)
+            process.wait(timeout=30)  # seconds
+        except subprocess.TimeoutExpired:
+            log_file.write("TimeLimit!!!!")
+            os.killpg(os.getpgid(process.pid), signal.SIGTERM)
+
+        project_name = ""
+        file_name = file_path.split("/")[2].split('.')[0]
+
+        df = pd.read_pickle(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}_coverage.pkl')
+        covered_lines = df.iloc[-1]['covered_lines']
+        self.total_lines = df.iloc[-1]['total_lines']
+        additional_covered_lines = self.executed_lines.difference(covered_lines).union(covered_lines.difference(self.executed_lines))
+
+        if additional_covered_lines:
+            self.executed_lines = self.executed_lines.union(additional_covered_lines)
 
     def _save_summary_metrics(self, file, predictor_name, execution_time):
-        # Create CSV file and add header if it doesn't exist
-        if not os.path.isfile(f'./metrics/additional_metrics_functions.csv'):
-            columns = ['file', 'execution_time', 'prediction_index', 'refine_attempt', 'refined_prediction_index']
+        project_name = ""
+        file_name = file.split("/")[2].split('.')[0]
 
-            with open(f'./metrics/additional_metrics_functions.csv', 'a') as csvFile:
+        # Create CSV file and add header if it doesn't exist
+        if not os.path.isfile(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}.csv'):
+            columns = ['file', 'predictor', 'prediction_type', 'execution_time', 'prediction_index', 'refine_attempt', 'refined_prediction_index', 'covered_lines']
+
+            with open(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}.csv', 'a') as csvFile:
                 writer = csv.writer(csvFile)
                 writer.writerow(columns)
 
-        df = pd.read_csv(f'./metrics/additional_metrics_functions.csv')
+        df = pd.read_csv(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}.csv')
         df_new_data = pd.DataFrame({
             'file': [file],
             'predictor': [predictor_name],
+            'prediction_type': [self.prediction_type],
             'execution_time': [execution_time],
             'prediction_index': [self.prediction_index],
             'refine_attempt': [self.refine_attempt],
-            'refined_prediction_index': [self.refined_prediction_index]
+            'refined_prediction_index': [self.refined_prediction_index],
+            'covered_lines': [self.executed_lines],
+            'num_covered_lines': [len(self.executed_lines)],
+            'total_lines': [self.total_lines],
+            'coverage_percentage': [len(self.executed_lines)/self.total_lines]
         })
         df = pd.concat([df, df_new_data])
-        df.to_csv(f'./metrics/additional_metrics_functions.csv', index=False)
+        df.to_csv(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}.csv', index=False)
 
     def save(self, file, predictor_name, start_time):
         self._save_summary_metrics(file, predictor_name, time.time() - start_time)

@@ -1,5 +1,5 @@
 class Prompt:
-    def generate_var(self, src, undefined_vars, undefined_attrs_mets):
+    def initial(self, src, undefined_vars, undefined_attrs_mets):
         src = '\n'.join(src.split('\n')[1:])
         undefined_vars = '\n'.join([var for var in undefined_vars])
         undefined_attrs_mets = '\n'.join([var for var in undefined_attrs_mets])
@@ -26,7 +26,6 @@ class Prompt:
             ' In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type("Mock", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.\n'
             'initialization: string[];\n'
             '}\n'
-            #'Please do NOT write anything in your reply outside of this JSON. The first and last characters of the response should be { and }, respectively.\n'
             '```'
         )
         return prompt
@@ -54,7 +53,7 @@ class Prompt:
         )
         return prompt
     
-    def cover_uncovered(self, src):
+    def cover(self, src):
         prompt = (
             'When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.\n\n'
             '# begin code snippet\n'
