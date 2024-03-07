@@ -157,5 +157,15 @@ def code_executes(code):
 def install_dependencies(dependencies_dir_path, code):
     with open(f"{dependencies_dir_path}/temp.py", "w") as f:
         f.write(code)
-    os.system(f"pipreqs {dependencies_dir_path} --force & pip install -r {dependencies_dir_path}/requirements.txt")
+    os.system(f"pipreqs {dependencies_dir_path}")
+
+    with open(f"{dependencies_dir_path}/requirements.txt", "r") as fp:
+        lines = fp.readlines()
+
+    with open(f"{dependencies_dir_path}/requirements.txt", "w") as fp:
+        for line in lines:
+            if "l3.egg==info" not in line:
+                fp.write(line)
+
+    os.system(f"pip install -r {dependencies_dir_path}/requirements.txt")
     subprocess.run(["rm", f"{dependencies_dir_path}/temp.py"])
