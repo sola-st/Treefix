@@ -53,7 +53,7 @@ class Prompt:
         )
         return prompt
     
-    def cover(self, src):
+    def guide(self, src):
         prompt = (
             'When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.\n\n'
             '# begin code snippet\n'

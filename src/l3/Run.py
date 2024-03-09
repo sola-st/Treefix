@@ -6,7 +6,7 @@ import subprocess
 from .LLMs.GPT import GPTValuePredictor
 from .Prompt import Prompt
 from .RuntimeStats import RuntimeStats
-from .Util import code_executes, gather_files, get_undefined_variables, get_undefined_attributes_methods
+from .Util import code_executes, count_lines, gather_files, get_undefined_variables, get_undefined_attributes_methods, add_comment_to_uncovered_lines
 
 
 parser = argparse.ArgumentParser()
@@ -17,16 +17,13 @@ parser.add_argument(
 
 prompt = Prompt()
 
-def initiate_predictions(code, instrumented_code, code_file, predictor):
-    runtime_stats = RuntimeStats('initial')
+def initiate_predictions(code, instrumented_code, code_file, predictor, runtime_stats):
     start_time = time.time()
     
     undefined_variables = get_undefined_variables(code)
     undefined_attributes_methods = get_undefined_attributes_methods(code)
 
     updated_code = code
-    imports = ""
-    initialization = ""
     predictions = []
     successful_execution = False
 
@@ -65,17 +62,14 @@ def initiate_predictions(code, instrumented_code, code_file, predictor):
         f.write(updated_code)
 
     runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__)
-    runtime_stats.save(code_file, predictor.__class__.__name__, start_time)
+    runtime_stats.save(code_file, predictor.__class__.__name__, start_time, 'initial')
 
-    return predictions, successful_execution, imports, initialization
+    return predictions, successful_execution
 
-def refine_predictions(code, instrumented_code, code_file, predictor, predictions):
-    runtime_stats = RuntimeStats('refine')
+def refine_predictions(code, instrumented_code, code_file, predictor, predictions, runtime_stats):
     start_time = time.time()
 
     updated_code = code
-    imports = ""
-    initialization = ""
     successful_execution = False
 
     for prediction in predictions:
@@ -140,6 +134,9 @@ def refine_predictions(code, instrumented_code, code_file, predictor, prediction
                                 successful_execution = True
                                 break
 
+                            imports = imports + initialization
+                            initialization = ""
+
                             runtime_stats.refined_prediction_index += 1
 
                     except subprocess.TimeoutExpired:
@@ -159,9 +156,59 @@ def refine_predictions(code, instrumented_code, code_file, predictor, prediction
         f.write(updated_code)
 
     runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__)
-    runtime_stats.save(code_file, predictor.__class__.__name__, start_time)
+    runtime_stats.save(code_file, predictor.__class__.__name__, start_time, 'refine')
 
-    return successful_execution, imports, initialization
+    return successful_execution, runtime_stats.executed_lines, runtime_stats.total_lines
+
+def guide_predictions(code, instrumented_code, code_file, predictor, runtime_stats):
+    start_time = time.time()
+
+    code_with_uncovered_comment = code
+
+    while runtime_stats.coverage_percentage < 1 and runtime_stats.guide_attempt < 10:
+        code_with_uncovered_comment = add_comment_to_uncovered_lines(instrumented_code, runtime_stats.executed_lines)
+
+        guide_prompt = prompt.guide(code_with_uncovered_comment)
+        guided_predictions = predictor.predict(guide_prompt, code_file)
+
+        guided_prediction_index = 0
+        successful_execution = False
+
+        for prediction in guided_predictions:
+            imports = prediction['imports']
+            imports = imports + '\n\n' if imports else imports
+
+            updated_code = f'{imports}{code}'
+
+            # Code with predicted imports only is not executable
+            if not code_executes(updated_code):
+                initialization = prediction['initialization']
+                initialization = initialization + '\n\n' if initialization else initialization
+
+                updated_code = f'{imports}{initialization}{code}'
+
+                if code_executes(updated_code):
+                    successful_execution = True
+                    break
+            
+            else:
+                successful_execution
+                break
+
+            guided_prediction_index += 1
+
+        runtime_stats.guide_attempt += 1
+        if successful_execution:
+            runtime_stats.guided_prediction_indexes[runtime_stats.guide_attempt] = guided_prediction_index
+
+            updated_file_path = code_file.replace('.py', f'_guide_{runtime_stats.guide_attempt}.py')
+            updated_code = f'{imports}{initialization}{instrumented_code}'
+            with open(updated_file_path, "w") as f:
+                f.write(updated_code)
+
+            runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__)
+
+    runtime_stats.save(code_file, predictor.__class__.__name__, start_time, 'guide')
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -179,8 +226,12 @@ if __name__ == "__main__":
             instrumented_code = ''.join(f.readlines())
 
         predictor = GPTValuePredictor(args.openai_api_key)
-        
-        initial_predictions, successful_execution, imports, initialization = initiate_predictions(code, instrumented_code, file, predictor)
+        runtime_stats = RuntimeStats()
+        runtime_stats.total_lines = count_lines(file)
+
+        initial_predictions, successful_execution = initiate_predictions(code, instrumented_code, file, predictor, runtime_stats)
 
         if not successful_execution:
-            successful_execution, imports, initialization = refine_predictions(code, instrumented_code, file, predictor, initial_predictions)
+            refine_predictions(code, instrumented_code, file, predictor, initial_predictions, runtime_stats)
+
+        guide_predictions(code, instrumented_code, file, predictor, runtime_stats)

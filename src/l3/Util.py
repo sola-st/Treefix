@@ -5,6 +5,8 @@ import subprocess
 import libcst as cst
 
 from .RemoveLines import RemoveLines
+from .IIDS import IIDs
+from .Hyperparams import Hyperparams as param
 
 
 def gather_files(files_arg, suffix=".py"):
@@ -69,6 +71,35 @@ def get_undefined_attributes_methods(src):
 
     return undefined_finder.undefined_variables
 
+def add_comment_to_uncovered_lines(instrumented_code, covered_lines):
+    updated_code = []
+    code = instrumented_code.split('\n')
+    updated_code = []
+
+    triple_quotes = 0
+
+    for line_index in range(len(code)-1):
+        if code[line_index].strip() != '' and code[line_index] != '# L3: DO NOT INSTRUMENT':
+            if code[line_index].strip() != '"""' and code[line_index][0] != '#' and not triple_quotes % 2:
+                if "_l_" not in code[line_index]:
+                    covered_line = False
+                    for iid in covered_lines:
+                        if f"_l_({iid})" in code[line_index+1]:
+                            updated_code.append(code[line_index])
+                            covered_line = True
+                            break
+                    if not covered_line:
+                        updated_code.append(f"{code[line_index]} # uncovered")
+            else:
+                updated_code.append(code[line_index])
+                if code[line_index].strip() == '"""':
+                    triple_quotes += 1
+        
+    if "_l_" not in code[-1]:
+        updated_code.append(code[-1]) 
+
+    return '\n'.join(updated_code[1:])
+    
 def get_json_info(raw_json):
     try:
         info = json.loads(raw_json)
@@ -157,7 +188,7 @@ def code_executes(code):
 def install_dependencies(dependencies_dir_path, code):
     with open(f"{dependencies_dir_path}/temp.py", "w") as f:
         f.write(code)
-    os.system(f"pipreqs {dependencies_dir_path}")
+    os.system(f"pipreqs {dependencies_dir_path} --force")
 
     with open(f"{dependencies_dir_path}/requirements.txt", "r") as fp:
         lines = fp.readlines()
@@ -169,3 +200,13 @@ def install_dependencies(dependencies_dir_path, code):
 
     os.system(f"pip install -r {dependencies_dir_path}/requirements.txt")
     subprocess.run(["rm", f"{dependencies_dir_path}/temp.py"])
+
+def count_lines(file_path):
+    total_lines = 0
+    with open(file_path, "r") as file:
+        lines = file.readlines()
+        for line in lines:
+            line = line.strip()
+            if line.startswith("_l_("):
+                total_lines += 1
+    return total_lines
