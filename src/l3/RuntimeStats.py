@@ -10,11 +10,10 @@ from .Hyperparams import Hyperparams as param
 
 class RuntimeStats:
     def __init__(self):
-        self.prediction_index = 0
-        self.refine_attempt = 0
-        self.refined_prediction_index = 0
+        self.initial_predictions_indexes = []
+        self.refined_predictions_indexes = {}
         self.guide_attempt = 0
-        self.guided_prediction_indexes = {}
+        self.guided_predictions_indexes = {}
         self.executed_lines = set()
         self.coverage_percentage = 0
 
@@ -44,7 +43,11 @@ class RuntimeStats:
 
         # Create CSV file and add header if it doesn't exist
         if not os.path.isfile(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}.csv'):
-            columns = ['file', 'predictor', 'prediction_type', 'execution_time', 'prediction_index', 'refine_attempt', 'refined_prediction_index', 'covered_lines']
+            columns = [
+                'file', 'predictor', 'prediction_type', 'execution_time', 
+                'initial_predictions_indexes', 'refined_predictions_indexes', 'guide_attempt', 'guided_predictions_indexes',
+                'covered_lines', 'num_covered_lines', 'total_lines', 'coverage_percentage'       
+            ]
 
             with open(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}.csv', 'a') as csvFile:
                 writer = csv.writer(csvFile)
@@ -56,11 +59,10 @@ class RuntimeStats:
             'predictor': [predictor_name],
             'prediction_type': [prediction_type],
             'execution_time': [execution_time],
-            'prediction_index': [self.prediction_index],
-            'refine_attempt': [self.refine_attempt],
-            'refined_prediction_index': [self.refined_prediction_index],
+            'initial_predictions_indexes': [self.initial_predictions_indexes],
+            'refined_predictions_indexes': [self.refined_predictions_indexes],
             'guide_attempt': [self.guide_attempt],
-            'guided_prediction_indexes': [self.guided_prediction_indexes],
+            'guided_predictions_indexes': [self.guided_predictions_indexes],
             'covered_lines': [self.executed_lines],
             'num_covered_lines': [len(self.executed_lines)],
             'total_lines': [self.total_lines],
