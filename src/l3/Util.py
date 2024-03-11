@@ -80,7 +80,7 @@ def add_comment_to_uncovered_lines(instrumented_code, covered_lines):
 
     for line_index in range(len(code)-1):
         if code[line_index].strip() != '' and code[line_index] != '# L3: DO NOT INSTRUMENT':
-            if code[line_index].strip() != '"""' and code[line_index][0] != '#' and not triple_quotes % 2:
+            if not code[line_index].strip().startswith('"""') and code[line_index].strip()[0] != '#' and not triple_quotes % 2:
                 if "_l_" not in code[line_index]:
                     covered_line = False
                     for iid in covered_lines:
@@ -92,7 +92,9 @@ def add_comment_to_uncovered_lines(instrumented_code, covered_lines):
                         updated_code.append(f"{code[line_index]} # uncovered")
             else:
                 updated_code.append(code[line_index])
-                if code[line_index].strip() == '"""':
+                if code[line_index].strip().startswith('"""'):
+                    triple_quotes += 1
+                if len(code[line_index].strip()) > 3 and code[line_index].strip().endswith('"""'):
                     triple_quotes += 1
         
     if "_l_" not in code[-1]:
