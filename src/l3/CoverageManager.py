@@ -18,8 +18,7 @@ class CoverageManager:
         total_lines = count_lines(file)
         
         if not os.path.isfile(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}_coverage.pkl'):
-            columns = ('file', 'predictor', 'covered_lines', 'num_covered_lines', 'total_lines', 'coverage_percentage')
-            df = pd.DataFrame(columns = columns)
+            df = pd.DataFrame()
         else:
             df = pd.read_pickle(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}_coverage.pkl')
 

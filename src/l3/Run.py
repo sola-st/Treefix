@@ -42,11 +42,13 @@ def initiate_predictions(code, instrumented_code, code_file, predictor, runtime_
                 initialization = prediction['initialization']
                 initialization = initialization + '\n\n' if initialization else initialization
 
-                updated_code = f'{imports}{initialization}{code}'
+                imports = imports + initialization
+
+                updated_code = f'{imports}{code}'
 
             updated_file_path = code_file.replace('.py', f'_initial_{prediction_index}.py')
             with open(updated_file_path, "w") as f:
-                f.write(f'{imports}{initialization}{instrumented_code}')
+                f.write(f'{imports}{instrumented_code}')
             runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__)
 
             if not code_executes(updated_code):
@@ -88,6 +90,7 @@ def refine_predictions(code, instrumented_code, code_file, predictor, prediction
             process = subprocess.run(["python3", "temp.py"], capture_output=True, text=True, check=True, timeout=30)
         except subprocess.CalledProcessError as e:
             lines = e.stderr.splitlines()
+            line_number = ""
             for line in lines:
                 match = re.search(r'temp.py\", line (\d+)', line)
                 if match:

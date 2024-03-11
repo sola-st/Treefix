@@ -147,7 +147,16 @@ def remove_lines_with_syntax_error(code):
             code = '\n'.join(temp)
     return code
 
+def remove_lines_with_exit(code):
+    updated_code = []
+    code = code.split('\n')
+    for line in code:
+        if 'exit(' not in line:
+            updated_code.append(line)
+    return '\n'.join(updated_code)
+
 def remove_lines_with_execution_error(code):
+    code = remove_lines_with_exit(code)
     code = remove_lines_with_syntax_error(code)
     lines_with_execution_error = True
     while lines_with_execution_error:
@@ -155,7 +164,7 @@ def remove_lines_with_execution_error(code):
             f.write(code)
 
         try:
-            subprocess.run(["python3", "temp_.py"], capture_output=True, text=True, check=True)
+            subprocess.run(["python3", "temp_.py"], capture_output=True, text=True, check=True, timeout=30)
             lines_with_execution_error = False
         except subprocess.CalledProcessError as e:
             print(e)
@@ -171,17 +180,22 @@ def remove_lines_with_execution_error(code):
                     with open("temp_.py", "w") as f:
                         f.write(code)
                     break
+        except subprocess.TimeoutExpired:
+            code = ""
+            break
+
     subprocess.run(["rm", "temp_.py"])
     return code
 
 def code_executes(code):
-    success = True
+    success = False
     with open("temp.py", "w") as f:
         f.write(code)
     try:
-        subprocess.run(["python3", "temp.py"], capture_output=True, text=True, check=True)
-    except subprocess.CalledProcessError as e:
-        success = False
+        subprocess.run(["python3", "temp.py"], capture_output=True, text=True, check=True, timeout=30)
+        success = True
+    except:
+        pass
     subprocess.run(["rm", "temp.py"])
     return success
 
