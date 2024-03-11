@@ -3,6 +3,7 @@ import re
 import json
 import subprocess
 import libcst as cst
+from time import perf_counter
 
 from .RemoveLines import RemoveLines
 from .IIDS import IIDs
@@ -189,7 +190,11 @@ def remove_lines_with_execution_error(code):
     subprocess.run(["rm", "temp_.py"])
     return code
 
+code_executes_counter = 0
+
 def code_executes(code):
+    global code_executes_counter
+    start = perf_counter()
     success = False
     with open("temp.py", "w") as f:
         f.write(code)
@@ -199,9 +204,15 @@ def code_executes(code):
     except:
         pass
     subprocess.run(["rm", "temp.py"])
+    code_executes_counter += (perf_counter() - start)
+    print(f"Total spent in code_executes(): {code_executes_counter} secs")
     return success
 
+install_dependencies_counter = 0
+
 def install_dependencies(dependencies_dir_path, code):
+    global install_dependencies_counter
+    start = perf_counter()    
     with open(f"{dependencies_dir_path}/temp.py", "w") as f:
         f.write(code)
     os.system(f"pipreqs {dependencies_dir_path} --force")
@@ -216,6 +227,9 @@ def install_dependencies(dependencies_dir_path, code):
 
     os.system(f"pip install -r {dependencies_dir_path}/requirements.txt")
     subprocess.run(["rm", f"{dependencies_dir_path}/temp.py"])
+    install_dependencies_counter += (perf_counter() - start)
+    print(f"Total spent in install_dependencies(): {install_dependencies_counter} secs")
+    print(f"Content of requirements.txt:\n{lines}(end)")
 
 def count_lines(file_path):
     total_lines = 0
