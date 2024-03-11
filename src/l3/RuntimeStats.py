@@ -9,13 +9,17 @@ from .Hyperparams import Hyperparams as param
 
 
 class RuntimeStats:
-    def __init__(self):
+    def __init__(self, predictor):
         self.initial_predictions_indexes = []
         self.refined_predictions_indexes = {}
         self.guide_attempt = 0
         self.guided_predictions_indexes = {}
         self.executed_lines = set()
         self.coverage_percentage = 0
+
+        self.out_dir = f'./metrics/{param.dataset}/{predictor.__class__.__name__}/raw/'
+        if not os.path.exists(self.out_dir):
+            os.makedirs(self.out_dir)
 
     def measure_coverage(self, file_path, predictor_name):
         # run the file (with a timeout)
@@ -31,8 +35,8 @@ class RuntimeStats:
         project_name = ""
         file_name = file_path.split("/")[2].split('.')[0]
 
-        if os.path.isfile(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}_coverage.pkl'):
-            df = pd.read_pickle(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}_coverage.pkl')
+        if os.path.isfile(f'{self.out_dir}metrics_{project_name}_{file_name}_coverage.pkl'):
+            df = pd.read_pickle(f'{self.out_dir}metrics_{project_name}_{file_name}_coverage.pkl')
             covered_lines = df.iloc[-1]['covered_lines']
             additional_covered_lines = self.executed_lines.difference(covered_lines).union(covered_lines.difference(self.executed_lines))
             self.executed_lines = self.executed_lines.union(additional_covered_lines)
@@ -43,18 +47,18 @@ class RuntimeStats:
         file_name = file.split("/")[2].split('.')[0]
 
         # Create CSV file and add header if it doesn't exist
-        if not os.path.isfile(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}.csv'):
+        if not os.path.isfile(f'{self.out_dir}metrics_{project_name}_{file_name}.csv'):
             columns = [
                 'file', 'predictor', 'prediction_type', 'execution_time', 
                 'initial_predictions_indexes', 'refined_predictions_indexes', 'guide_attempt', 'guided_predictions_indexes',
                 'covered_lines', 'num_covered_lines', 'total_lines', 'coverage_percentage'       
             ]
 
-            with open(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}.csv', 'a') as csvFile:
+            with open(f'{self.out_dir}metrics_{project_name}_{file_name}.csv', 'a') as csvFile:
                 writer = csv.writer(csvFile)
                 writer.writerow(columns)
 
-        df = pd.read_csv(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}.csv')
+        df = pd.read_csv(f'{self.out_dir}metrics_{project_name}_{file_name}.csv')
         df_new_data = pd.DataFrame({
             'file': [file],
             'predictor': [predictor_name],
@@ -70,7 +74,7 @@ class RuntimeStats:
             'coverage_percentage': [self.coverage_percentage]
         })
         df = pd.concat([df, df_new_data])
-        df.to_csv(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}.csv', index=False)
+        df.to_csv(f'{self.out_dir}metrics_{project_name}_{file_name}.csv', index=False)
 
     def save(self, file, predictor_name, start_time, prediction_type):
         self._save_summary_metrics(file, predictor_name, time.time() - start_time, prediction_type)
