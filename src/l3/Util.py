@@ -209,24 +209,31 @@ def code_executes(code):
     return success
 
 install_dependencies_counter = 0
+dependencies = []
 
 def install_dependencies(dependencies_dir_path, code):
     global install_dependencies_counter
-    start = perf_counter()    
-    with open(f"{dependencies_dir_path}/temp.py", "w") as f:
+    start = perf_counter()  
+    global dependencies  
+    
+    with open(f"{dependencies_dir_path}/temp/temp.py", "w") as f:
         f.write(code)
-    os.system(f"pipreqs {dependencies_dir_path} --force")
+    os.system(f"pipreqs {dependencies_dir_path}/temp --force")
 
-    with open(f"{dependencies_dir_path}/requirements.txt", "r") as fp:
+    with open(f"{dependencies_dir_path}/temp/requirements.txt", "r") as fp:
         lines = fp.readlines()
 
-    with open(f"{dependencies_dir_path}/requirements.txt", "w") as fp:
+    additional_dependencies = []
+    with open(f"{dependencies_dir_path}/temp/requirements.txt", "w") as fp:
         for line in lines:
-            if "l3.egg==info" not in line:
-                fp.write(line)
+            if line != "\n" and "l3.egg==info" not in line and line not in dependencies:
+                additional_dependencies.append(line)
+                dependencies.append(line)
+        
+        if additional_dependencies:
+            fp.write(''.join(additional_dependencies))
+            os.system(f"pip install -r {dependencies_dir_path}/temp/requirements.txt")
 
-    os.system(f"pip install -r {dependencies_dir_path}/requirements.txt")
-    subprocess.run(["rm", f"{dependencies_dir_path}/temp.py"])
     install_dependencies_counter += (perf_counter() - start)
     print(f"Total spent in install_dependencies(): {install_dependencies_counter} secs")
     print(f"Content of requirements.txt:\n{lines}(end)")
