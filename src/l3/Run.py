@@ -1,3 +1,4 @@
+import os
 import re
 import time
 import argparse
@@ -6,7 +7,7 @@ import subprocess
 from .LLMs.GPT import GPTValuePredictor
 from .Prompt import Prompt
 from .RuntimeStats import RuntimeStats
-from .Util import code_executes, count_lines, gather_files, get_undefined_variables, get_undefined_attributes_methods, add_comment_to_uncovered_lines
+from .Util import code_executes, count_lines, gather_files, get_undefined_variables, get_undefined_attributes_methods, add_comment_to_uncovered_lines, dependencies
 
 
 parser = argparse.ArgumentParser()
@@ -195,6 +196,10 @@ if __name__ == "__main__":
         with open(file, "r") as f:
             instrumented_code = ''.join(f.readlines())
 
+        dependencies_dir_path = os.path.dirname(os.path.realpath(file))
+        if not os.path.exists(f"{dependencies_dir_path}/temp"):
+            os.makedirs(f"{dependencies_dir_path}/temp")
+
         predictor = GPTValuePredictor(args.openai_api_key)
         runtime_stats = RuntimeStats(predictor)
         runtime_stats.total_lines = count_lines(file)
@@ -202,3 +207,6 @@ if __name__ == "__main__":
         predictions_with_unsuccessful_execution = initiate_predictions(code, instrumented_code, file, predictor, runtime_stats)
         refine_predictions(code, instrumented_code, file, predictor, predictions_with_unsuccessful_execution, runtime_stats)
         guide_predictions(code, instrumented_code, file, predictor, runtime_stats)
+
+    with open(f"additional_requirements.txt", "w") as fp:
+        fp.write('\n'.join(dependencies))
