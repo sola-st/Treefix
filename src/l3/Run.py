@@ -196,7 +196,7 @@ if __name__ == "__main__":
             instrumented_code = ''.join(f.readlines())
 
         predictor = GPTValuePredictor(args.openai_api_key)
-        runtime_stats = RuntimeStats()
+        runtime_stats = RuntimeStats(predictor)
         runtime_stats.total_lines = count_lines(file)
 
         predictions_with_unsuccessful_execution = initiate_predictions(code, instrumented_code, file, predictor, runtime_stats)
