@@ -30,7 +30,7 @@ def initiate_predictions(code, instrumented_code, code_file, predictor, runtime_
     if undefined_variables or undefined_attributes_methods:
         # Predict undefined variables and attributes
         initial_prompt = prompt.initial(code, undefined_variables, undefined_attributes_methods)
-        predictions = predictor.predict(initial_prompt, code_file)
+        predictions = predictor.predict(initial_prompt, 1, code_file)
 
         for prediction in predictions:
             imports = prediction['imports']
@@ -101,7 +101,7 @@ def refine_predictions(code, instrumented_code, code_file, predictor, prediction
             cleaned_error_msg = f'Execution error at line {line_number}:\n{line_code_and_error_msg}'
         
             refine_prompt = prompt.refine(cleaned_error_msg)
-            refined_predictions = predictor.predict(refine_prompt, code_file)
+            refined_predictions = predictor.predict(refine_prompt, 2, code_file, index)
 
             refined_prediction_index = 0
 
@@ -140,6 +140,9 @@ def refine_predictions(code, instrumented_code, code_file, predictor, prediction
 def guide_predictions(code, instrumented_code, code_file, predictor, runtime_stats):
     start_time = time.time()
 
+    predictor.conversation_history = [predictor.conversation_history[0]]
+    predictor.conversation_history_size = predictor.count_tokens(predictor.conversation_history)
+
     code_with_uncovered_comment = code
 
     while runtime_stats.coverage_percentage < 1 and runtime_stats.guide_attempt < 10:
@@ -148,7 +151,7 @@ def guide_predictions(code, instrumented_code, code_file, predictor, runtime_sta
         code_with_uncovered_comment = add_comment_to_uncovered_lines(instrumented_code, runtime_stats.executed_lines)
 
         guide_prompt = prompt.guide(code_with_uncovered_comment)
-        guided_predictions = predictor.predict(guide_prompt, code_file)
+        guided_predictions = predictor.predict(guide_prompt, 3, code_file)
 
         guided_prediction_index = 0
 

@@ -17,15 +17,32 @@ class GPTValuePredictor:
             "role": "system", 
             "content": "You are an exceptionally useful value predictor that consistently predicts accurate and reliable responses to user instructions."
         }]
+        self.conversation_history_size = self.count_tokens(self.conversation_history)
+        self.latest_predictions = {}
     
-    def predict(self, prompt, code_snippet_file):
+    def predict(self, prompt, prompt_type, code_snippet_file, prediction_index=0):
+        self.prompt_type = prompt_type
         self.code_snippet_file = code_snippet_file
-        self.conversation_history.append({
+
+        if self.prompt_type == 2:
+            prediction_with_error = self.latest_predictions[prediction_index]
+            self.conversation_history.append({
+                    "role": prediction_with_error.message.role,
+                    "content": prediction_with_error.message.content
+                })
+            self.conversation_history_size += self.count_tokens([self.conversation_history[-1]])
+
+        prompt_msg = {
             "role": "user",
             "content": prompt
-        })
+        }
+        self.conversation_history.append(prompt_msg)
+        self.conversation_history_size += self.count_tokens([prompt_msg])
+
         self.manage_conversation_history()
+
         raw_predictions = self.query_model()
+        self.latest_predictions = raw_predictions
         raw_predictions, predictions = self.post_process_predictions(raw_predictions)
         log_file = code_snippet_file.replace('.py', f'_{self.model_id}.csv')
         self.save_log(log_file, prompt, raw_predictions, predictions)
@@ -33,6 +50,7 @@ class GPTValuePredictor:
 
     def query_model(self):
         while True:
+            print(self.conversation_history)
             try:
                 response = openai.ChatCompletion.create(
                     model=self.model_id,
@@ -52,10 +70,12 @@ class GPTValuePredictor:
         post_processed_predictions = []
         for raw_prediction in raw_predictions:
             # Add predictions to conversation history
-            self.conversation_history.append({
-                "role": raw_prediction.message.role,
-                "content": raw_prediction.message.content
-            })
+            if self.prompt_type == 3:
+                self.conversation_history.append({
+                    "role": raw_prediction.message.role,
+                    "content": raw_prediction.message.content
+                })
+                self.conversation_history_size += self.count_tokens(self.conversation_history[:1])
 
             prediction = get_json_info(raw_prediction.message.content)
             predictions.append(prediction)
@@ -106,13 +126,24 @@ class GPTValuePredictor:
         max_tokens = 4096
         # context size limit: input + output tokens
         context_length = 16385
-        while self.count_tokens() + max_tokens > context_length:
-            self.conversation_history.pop(0) 
+        while self.conversation_history_size + max_tokens > context_length:
+            removed_messages = []
 
-    def count_tokens(self):
+            if self.prompt_type == 2:
+                removed_messages.append(self.conversation_history.pop(2))
+                removed_messages.append(self.conversation_history.pop(3))
+            elif self.prompt_type == 3:
+                for i in range(1, 12):
+                    removed_messages.append(self.conversation_history.pop(i))
+                    print(removed_messages)
+                    print(len(removed_messages))
+
+            self.conversation_history_size -= self.count_tokens(removed_messages)
+
+    def count_tokens(self, messages):
         encoding = tiktoken.encoding_for_model(self.model_id)
         num_tokens = 0
-        for message in self.conversation_history:
+        for message in messages:
             num_tokens += 4  # every message follows <im_start>{role/name}\n{content}<im_end>\n
             for key, value in message.items():
                 num_tokens += len(encoding.encode(value))
