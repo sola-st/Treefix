@@ -110,22 +110,23 @@ def refine_predictions(code, instrumented_code, code_file, predictor, prediction
                     refined_imports = refined_prediction['imports']
                     refined_imports = refined_imports + '\n\n' if refined_imports else refined_imports
 
-                    imports = imports + refined_imports
+                    # TO DO: fix imports to not save from all previous predictions
+                    refined_imports = imports + refined_imports
 
-                    updated_code = f'{imports}{code}'
+                    updated_code = f'{refined_imports}{code}'
 
                     # Code with predicted imports only is not executable
                     if not code_executes(updated_code):
                         refined_initialization = refined_prediction['initialization']
                         refined_initialization = refined_initialization + '\n\n' if refined_initialization else refined_initialization
 
-                        imports = imports + refined_initialization
+                        refined_imports = refined_imports + refined_initialization
 
-                        updated_code = f'{imports}{code}'
+                        updated_code = f'{refined_imports}{code}'
 
                     updated_file_path = code_file.replace('.py', f'_refine_{index}_{refined_prediction_index}.py')
                     with open(updated_file_path, "w") as f:
-                        f.write(f'{imports}{instrumented_code}')
+                        f.write(f'{refined_imports}{instrumented_code}')
                     runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__)
 
                     if code_executes(updated_code):
