@@ -73,67 +73,70 @@ def refine_predictions(code, instrumented_code, code_file, predictor, prediction
     start_time = time.time()
 
     for index, prediction in predictions.items():
-        runtime_stats.refined_predictions_indexes[index] = []
+        if runtime_stats.coverage_percentage < 1:
+            runtime_stats.refined_predictions_indexes[index] = []
 
-        imports = prediction['imports']
-        imports = imports + '\n\n' if imports else imports
+            imports = prediction['imports']
+            imports = imports + '\n\n' if imports else imports
 
-        initialization = prediction['initialization']
-        initialization = initialization + '\n\n' if initialization else initialization
+            initialization = prediction['initialization']
+            initialization = initialization + '\n\n' if initialization else initialization
 
-        imports = imports + initialization
-        initialization = ""
+            imports = imports + initialization
+            initialization = ""
+                
+            # Refine predictions
+            with open("temp.py", "w") as f:
+                f.write(f'{imports}{initialization}{code}')
+            try:
+                process = subprocess.run(["python3", "temp.py"], capture_output=True, text=True, check=True, timeout=30)
+            except subprocess.CalledProcessError as e:
+                lines = e.stderr.splitlines()
+                line_number = ""
+                for line in lines:
+                    match = re.search(r'temp.py\", line (\d+)', line)
+                    if match:
+                        line_number = int(match.group(1))
+
+                line_code_and_error_msg = '\n'.join(lines[-2:])
+                cleaned_error_msg = f'Execution error at line {line_number}:\n{line_code_and_error_msg}'
             
-        # Refine predictions
-        with open("temp.py", "w") as f:
-            f.write(f'{imports}{initialization}{code}')
-        try:
-            process = subprocess.run(["python3", "temp.py"], capture_output=True, text=True, check=True, timeout=30)
-        except subprocess.CalledProcessError as e:
-            lines = e.stderr.splitlines()
-            line_number = ""
-            for line in lines:
-                match = re.search(r'temp.py\", line (\d+)', line)
-                if match:
-                    line_number = int(match.group(1))
+                refine_prompt = prompt.refine(cleaned_error_msg)
+                refined_predictions = predictor.predict(refine_prompt, 2, code_file, index)
 
-            line_code_and_error_msg = '\n'.join(lines[-2:])
-            cleaned_error_msg = f'Execution error at line {line_number}:\n{line_code_and_error_msg}'
-        
-            refine_prompt = prompt.refine(cleaned_error_msg)
-            refined_predictions = predictor.predict(refine_prompt, 2, code_file, index)
+                refined_prediction_index = 0
 
-            refined_prediction_index = 0
+                for refined_prediction in refined_predictions:
+                    refined_imports = refined_prediction['imports']
+                    refined_imports = refined_imports + '\n\n' if refined_imports else refined_imports
 
-            for refined_prediction in refined_predictions:
-                refined_imports = refined_prediction['imports']
-                refined_imports = refined_imports + '\n\n' if refined_imports else refined_imports
-
-                imports = imports + refined_imports
-
-                updated_code = f'{imports}{code}'
-
-                # Code with predicted imports only is not executable
-                if not code_executes(updated_code):
-                    refined_initialization = refined_prediction['initialization']
-                    refined_initialization = refined_initialization + '\n\n' if refined_initialization else refined_initialization
-
-                    imports = imports + refined_initialization
+                    imports = imports + refined_imports
 
                     updated_code = f'{imports}{code}'
 
-                updated_file_path = code_file.replace('.py', f'_refine_{index}_{refined_prediction_index}.py')
-                with open(updated_file_path, "w") as f:
-                    f.write(f'{imports}{instrumented_code}')
-                runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__)
+                    # Code with predicted imports only is not executable
+                    if not code_executes(updated_code):
+                        refined_initialization = refined_prediction['initialization']
+                        refined_initialization = refined_initialization + '\n\n' if refined_initialization else refined_initialization
 
-                if code_executes(updated_code):
-                    runtime_stats.refined_predictions_indexes[index].append(refined_prediction_index)
+                        imports = imports + refined_initialization
 
-                refined_prediction_index += 1
+                        updated_code = f'{imports}{code}'
 
-        except subprocess.TimeoutExpired:
-            pass
+                    updated_file_path = code_file.replace('.py', f'_refine_{index}_{refined_prediction_index}.py')
+                    with open(updated_file_path, "w") as f:
+                        f.write(f'{imports}{instrumented_code}')
+                    runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__)
+
+                    if code_executes(updated_code):
+                        runtime_stats.refined_predictions_indexes[index].append(refined_prediction_index)
+
+                    refined_prediction_index += 1
+
+            except subprocess.TimeoutExpired:
+                pass
+        else:
+            break
 
     runtime_stats.save(code_file, predictor.__class__.__name__, start_time, 'refine')
 
