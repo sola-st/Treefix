@@ -21,13 +21,18 @@ class RuntimeStats:
         if not os.path.exists(self.out_dir):
             os.makedirs(self.out_dir)
 
-    def measure_coverage(self, file_path, predictor_name):
+    def measure_coverage(self, file_path, predictor_name, prompt_type, index=0, prediction_index=0):
         # run the file (with a timeout)
         log_file = open(f"{file_path}_execution_log.txt", "w")
         try:
             process = subprocess.Popen(
                 f"time python {file_path} {predictor_name}", shell=True, start_new_session=True, stdout=log_file, stderr=log_file)
             process.wait(timeout=30)  # seconds
+
+            if prompt_type == 2:
+                self.refined_predictions_indexes[index].append(prediction_index)
+            elif prompt_type == 3:
+                self.guided_predictions_indexes[index].append(prediction_index)
         except subprocess.TimeoutExpired:
             log_file.write("TimeLimit!!!!")
             os.killpg(os.getpgid(process.pid), signal.SIGTERM)

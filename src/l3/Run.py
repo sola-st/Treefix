@@ -50,7 +50,7 @@ def initiate_predictions(code, instrumented_code, code_file, predictor, runtime_
             updated_file_path = code_file.replace('.py', f'_initial_{prediction_index}.py')
             with open(updated_file_path, "w") as f:
                 f.write(f'{imports}{instrumented_code}')
-            runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__)
+            runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__, 1)
 
             if not code_executes(updated_code):
                 predictions_with_unsuccessful_execution[prediction_index] = prediction
@@ -63,7 +63,7 @@ def initiate_predictions(code, instrumented_code, code_file, predictor, runtime_
         updated_file_path = code_file.replace('.py', f'_initial.py')
         with open(updated_file_path, "w") as f:
             f.write(updated_code)
-        runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__)
+        runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__, 1)
 
     runtime_stats.save(code_file, predictor.__class__.__name__, start_time, 'initial')
 
@@ -83,11 +83,10 @@ def refine_predictions(code, instrumented_code, code_file, predictor, prediction
             initialization = initialization + '\n\n' if initialization else initialization
 
             imports = imports + initialization
-            initialization = ""
                 
             # Refine predictions
             with open("temp.py", "w") as f:
-                f.write(f'{imports}{initialization}{code}')
+                f.write(f'{imports}{code}')
             try:
                 process = subprocess.run(["python3", "temp.py"], capture_output=True, text=True, check=True, timeout=30)
             except subprocess.CalledProcessError as e:
@@ -110,7 +109,6 @@ def refine_predictions(code, instrumented_code, code_file, predictor, prediction
                     refined_imports = refined_prediction['imports']
                     refined_imports = refined_imports + '\n\n' if refined_imports else refined_imports
 
-                    # TO DO: fix imports to not save from all previous predictions
                     refined_imports = imports + refined_imports
 
                     updated_code = f'{refined_imports}{code}'
@@ -127,10 +125,7 @@ def refine_predictions(code, instrumented_code, code_file, predictor, prediction
                     updated_file_path = code_file.replace('.py', f'_refine_{index}_{refined_prediction_index}.py')
                     with open(updated_file_path, "w") as f:
                         f.write(f'{refined_imports}{instrumented_code}')
-                    runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__)
-
-                    if code_executes(updated_code):
-                        runtime_stats.refined_predictions_indexes[index].append(refined_prediction_index)
+                    runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__, 2, index, refined_prediction_index)
 
                     refined_prediction_index += 1
 
@@ -177,10 +172,7 @@ def guide_predictions(code, instrumented_code, code_file, predictor, runtime_sta
             updated_file_path = code_file.replace('.py', f'_guide_{runtime_stats.guide_attempt}_{guided_prediction_index}.py')
             with open(updated_file_path, "w") as f:
                 f.write(f'{imports}{instrumented_code}')
-            runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__)
-
-            if code_executes(updated_code):
-                runtime_stats.guided_predictions_indexes[runtime_stats.guide_attempt].append(guided_prediction_index)
+            runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__, 3, runtime_stats.guide_attempt, guided_prediction_index)
 
             guided_prediction_index += 1
 
@@ -189,6 +181,11 @@ def guide_predictions(code, instrumented_code, code_file, predictor, runtime_sta
     runtime_stats.save(code_file, predictor.__class__.__name__, start_time, 'guide')
 
 if __name__ == "__main__":
+    import cProfile, pstats
+    profiler = cProfile.Profile()
+    profiler.enable()
+
+
     args = parser.parse_args()
 
     files = gather_files(args.files)
@@ -214,3 +211,8 @@ if __name__ == "__main__":
         predictions_with_unsuccessful_execution = initiate_predictions(code, instrumented_code, file, predictor, runtime_stats)
         refine_predictions(code, instrumented_code, file, predictor, predictions_with_unsuccessful_execution, runtime_stats)
         guide_predictions(code, instrumented_code, file, predictor, runtime_stats)
+
+    profiler.disable()
+    stats = pstats.Stats(profiler).sort_stats('cumtime')
+    stats.print_stats()
+
