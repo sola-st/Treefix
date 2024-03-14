@@ -214,8 +214,11 @@ if __name__ == "__main__":
         runtime_stats = RuntimeStats(predictor)
         runtime_stats.total_lines = count_lines(file)
 
+        print(f"\n=============== Initial predictions for {file} ==================\n")
         predictions_with_unsuccessful_execution = initiate_predictions(code, instrumented_code, file, predictor, runtime_stats)
+        print(f"\n=============== Refined predictions for {file} ==================\n")
         refine_predictions(code, instrumented_code, file, predictor, predictions_with_unsuccessful_execution, runtime_stats)
+        print(f"\n=============== Guided predictions for {file} ==================\n")
         guide_predictions(code, instrumented_code, file, predictor, runtime_stats)
 
     
