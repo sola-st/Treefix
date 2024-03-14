@@ -3,11 +3,53 @@ import os
 import json
 import time
 from time import perf_counter
+import atexit
 import openai
 import tiktoken
 import pandas as pd
 
 from ..Util import get_json_info, install_dependencies, remove_lines_with_execution_error
+
+
+query_model_counter = 0  # for measuring time spent waiting for predictions
+
+
+class GPTCache:
+    key_to_value = {} # key: conversation_history as a JSON-serialized list, value: choices as a List
+    cache_file = "gpt_cache.json"
+    if os.path.exists(cache_file):
+        with open(cache_file, 'r') as f:
+            key_to_value = json.load(f)
+
+    save_ctr = 0 # save cache every k insertions
+    nb_hits = 0
+    nb_misses = 0
+
+    @classmethod
+    def look_up(self, conversation_history):
+        key = json.dumps(conversation_history)
+        value = self.key_to_value.get(key)
+        if value is not None:
+            self.nb_hits += 1
+        else:
+            self.nb_misses += 1
+        return value
+    
+    @classmethod
+    def insert(self, conversation_history, predictions):
+        key = json.dumps(conversation_history)
+        self.key_to_value[key] = predictions
+        self.save_ctr += 1
+        if self.save_ctr % 20 == 0:  # if the cache grows large, we may want to save it less frequently
+            self.save()
+
+    @classmethod
+    def save(self):
+        with open(self.cache_file, "w") as f:
+            json.dump(self.key_to_value, f)
+        print(f"GPT cache saved. Hits: {self.nb_hits}, Misses: {self.nb_misses}")
+
+atexit.register(GPTCache.save)
 
 
 class GPTValuePredictor:
@@ -20,9 +62,7 @@ class GPTValuePredictor:
         }]
         self.conversation_history_size = self.count_tokens(self.conversation_history)
         self.latest_predictions = {}
-
-        self.query_model_counter = 0  # for measuring time spent waiting for predictions
-    
+   
     def predict(self, prompt, prompt_type, code_snippet_file, prediction_index=0):
         self.prompt_type = prompt_type
         self.code_snippet_file = code_snippet_file
@@ -30,8 +70,8 @@ class GPTValuePredictor:
         if self.prompt_type == 2:
             prediction_with_error = self.latest_predictions[prediction_index]
             self.conversation_history.append({
-                    "role": prediction_with_error.message.role,
-                    "content": prediction_with_error.message.content
+                    "role": prediction_with_error["message"]["role"],
+                    "content": prediction_with_error["message"]["content"]
                 })
             self.conversation_history_size += self.count_tokens([self.conversation_history[-1]])
 
@@ -52,24 +92,30 @@ class GPTValuePredictor:
         return predictions
 
     def query_model(self):
+        global query_model_counter
         start = perf_counter()
-        while True:
-            print(self.conversation_history)
-            try:
-                response = openai.ChatCompletion.create(
-                    model=self.model_id,
-                    messages=self.conversation_history,
-                    response_format={ "type": "json_object" },
-                    n=10
-                )
-                break
-            except Exception as e:
-                print(e)
-                # Rate limit achieved
-                time.sleep(60)
-        self.query_model_counter += (perf_counter() - start)
-        print(f"Total spent in query_model(): {self.query_model_counter} secs")
-        return response.choices
+        choices = GPTCache.look_up(self.conversation_history)
+        if choices is None: # cache miss
+            while True:
+                print(self.conversation_history)
+                try:
+                    response = openai.ChatCompletion.create(
+                        model=self.model_id,
+                        messages=self.conversation_history,
+                        response_format={ "type": "json_object" },
+                        n=10
+                    )
+                    break
+                except Exception as e:
+                    print(e)
+                    # Rate limit achieved
+                    time.sleep(60)
+            choices = response.choices
+            choices = json.loads(json.dumps(choices)) # turning into a list of dicts, to be compatible with cached results
+            GPTCache.insert(self.conversation_history, choices)
+        query_model_counter += (perf_counter() - start)
+        print(f"Total spent in query_model(): {query_model_counter} secs")
+        return choices
     
     def post_process_predictions(self, raw_predictions):
         predictions = []
@@ -78,12 +124,12 @@ class GPTValuePredictor:
             # Add predictions to conversation history
             if self.prompt_type == 3:
                 self.conversation_history.append({
-                    "role": raw_prediction.message.role,
-                    "content": raw_prediction.message.content
+                    "role": raw_prediction["message"]["role"],
+                    "content": raw_prediction["message"]["content"]
                 })
                 self.conversation_history_size += self.count_tokens([self.conversation_history[-1]])
 
-            prediction = get_json_info(raw_prediction.message.content)
+            prediction = get_json_info(raw_prediction["message"]["content"])
             predictions.append(prediction)
 
             # Add comment to avoid counting predictions during line coverage calculation

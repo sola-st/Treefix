@@ -27,7 +27,7 @@ def gather_files(files_arg, suffix=".py"):
 class UndefinedFinder(cst.CSTVisitor):
     def __init__(self, undefined_variables_locations, ranges):
         super().__init__()
-        self.undefined_variables = set()
+        self.undefined_variables = []
         self.undefined_variables_locations = undefined_variables_locations
         self.ranges = ranges
 
@@ -35,42 +35,49 @@ class UndefinedFinder(cst.CSTVisitor):
         for undefined_variable_location in self.undefined_variables_locations:
             variable, location = undefined_variable_location
             if isinstance(node.value, cst.Name) and node.value.value == variable:
-                self.undefined_variables.add(f'{node.value.value}.{node.attr.value}')
+                self.undefined_variables.append(f'{node.value.value}.{node.attr.value}')
                 break
         return node
 
 def get_undefined_variables(src):
-    undefined_variables = set()
+    undefined_variables = []  # using a list here to get a deterministic order
     
     ast = cst.parse_module(src)
     ast_wrapper = cst.metadata.MetadataWrapper(ast)
-    scopes = set(ast_wrapper.resolve(cst.metadata.ScopeProvider).values())
+    scopes = ast_wrapper.resolve(cst.metadata.ScopeProvider).values()
     for scope in scopes:
         for access in scope.accesses:
             if len(access.referents) == 0:
                 node = access.node
-                undefined_variables.add(node.value)
+                undefined_variables.append(node.value)
+
+    # remove duplicates
+    undefined_variables = list(dict.fromkeys(undefined_variables))
 
     return undefined_variables
 
 def get_undefined_attributes_methods(src):
-    undefined_variables_locations = set()
+    undefined_variables_locations = []  # using a list here to get a deterministic order
 
     ast = cst.parse_module(src)
     ast_wrapper = cst.metadata.MetadataWrapper(ast)
-    scopes = set(ast_wrapper.resolve(cst.metadata.ScopeProvider).values())
+    scopes = ast_wrapper.resolve(cst.metadata.ScopeProvider).values()
     ranges = ast_wrapper.resolve(cst.metadata.PositionProvider)
     for scope in scopes:
         for access in scope.accesses:
             if len(access.referents) == 0:
                 node = access.node
                 location = ranges[node].start
-                undefined_variables_locations.add((node.value, location))
+                undefined_variables_locations.append((node.value, location))
 
     undefined_finder = UndefinedFinder(undefined_variables_locations, ranges)
     ast_wrapper.visit(undefined_finder)
 
-    return undefined_finder.undefined_variables
+    undefined_attributes = undefined_finder.undefined_variables
+    # remove duplicates
+    undefined_attributes = list(dict.fromkeys(undefined_attributes))
+
+    return undefined_attributes
 
 def add_comment_to_uncovered_lines(instrumented_code, covered_lines):
     updated_code = []
@@ -204,8 +211,8 @@ def code_executes(code):
     except:
         pass
     subprocess.run(["rm", "temp.py"])
-    code_executes_counter += (perf_counter() - start)
-    print(f"Total spent in code_executes(): {code_executes_counter} secs")
+    
+    
     return success
 
 install_dependencies_counter = 0
