@@ -5,6 +5,7 @@ import argparse
 import subprocess
 
 from .LLMs.GPT import GPTValuePredictor
+from .Logging import logger
 from .Prompt import Prompt
 from .RuntimeStats import RuntimeStats
 from .Util import code_executes, count_lines, gather_files, get_undefined_variables, get_undefined_attributes_methods, add_comment_to_uncovered_lines
@@ -33,31 +34,34 @@ def initiate_predictions(code, instrumented_code, code_file, predictor, runtime_
         predictions = predictor.predict(initial_prompt, 1, code_file)
 
         for prediction in predictions:
-            imports = prediction['imports']
-            imports = imports + '\n\n' if imports else imports
-
-            updated_code = f'{imports}{code}'
-
-            # Code with predicted imports only is not executable
-            if not code_executes(updated_code):
-                initialization = prediction['initialization']
-                initialization = initialization + '\n\n' if initialization else initialization
-
-                imports = imports + initialization
+            if runtime_stats.coverage_percentage < 1:
+                imports = prediction['imports']
+                imports = imports + '\n\n' if imports else imports
 
                 updated_code = f'{imports}{code}'
 
-            updated_file_path = code_file.replace('.py', f'_initial_{prediction_index}.py')
-            with open(updated_file_path, "w") as f:
-                f.write(f'{imports}{instrumented_code}')
-            runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__, 1)
+                # Code with predicted imports only is not executable
+                if not code_executes(updated_code):
+                    initialization = prediction['initialization']
+                    initialization = initialization + '\n\n' if initialization else initialization
 
-            if not code_executes(updated_code):
-                predictions_with_unsuccessful_execution[prediction_index] = prediction
+                    imports = imports + initialization
+
+                    updated_code = f'{imports}{code}'
+
+                updated_file_path = code_file.replace('.py', f'_initial_{prediction_index}.py')
+                with open(updated_file_path, "w") as f:
+                    f.write(f'{imports}{instrumented_code}')
+                runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__, 1)
+
+                if not code_executes(updated_code):
+                    predictions_with_unsuccessful_execution[prediction_index] = prediction
+                else:
+                    runtime_stats.initial_predictions_indexes.append(prediction_index)
+
+                prediction_index += 1
             else:
-                runtime_stats.initial_predictions_indexes.append(prediction_index)
-
-            prediction_index += 1
+                break
     else:
         updated_code = instrumented_code
         updated_file_path = code_file.replace('.py', f'_initial.py')
@@ -181,10 +185,9 @@ def guide_predictions(code, instrumented_code, code_file, predictor, runtime_sta
     runtime_stats.save(code_file, predictor.__class__.__name__, start_time, 'guide')
 
 if __name__ == "__main__":
-    import cProfile, pstats
-    profiler = cProfile.Profile()
-    profiler.enable()
-
+    # import cProfile, pstats
+    # profiler = cProfile.Profile()
+    # profiler.enable()
 
     args = parser.parse_args()
 
@@ -212,7 +215,10 @@ if __name__ == "__main__":
         refine_predictions(code, instrumented_code, file, predictor, predictions_with_unsuccessful_execution, runtime_stats)
         guide_predictions(code, instrumented_code, file, predictor, runtime_stats)
 
-    profiler.disable()
-    stats = pstats.Stats(profiler).sort_stats('cumtime')
-    stats.print_stats()
+    
+    logger.info("Logging ends")
+
+    # profiler.disable()
+    # stats = pstats.Stats(profiler).sort_stats('cumtime')
+    # stats.print_stats()
 
