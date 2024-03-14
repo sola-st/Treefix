@@ -42,11 +42,14 @@ class RuntimeStats:
         file_name = file_path.split("/")[2].split('.')[0]
 
         if os.path.isfile(f'{self.out_dir}metrics_{project_name}_{file_name}_coverage.pkl'):
-            df = pd.read_pickle(f'{self.out_dir}metrics_{project_name}_{file_name}_coverage.pkl')
-            covered_lines = df.iloc[-1]['covered_lines']
-            additional_covered_lines = self.executed_lines.difference(covered_lines).union(covered_lines.difference(self.executed_lines))
-            self.executed_lines = self.executed_lines.union(additional_covered_lines)
-            self.coverage_percentage = len(self.executed_lines)/self.total_lines
+            try:
+                df = pd.read_pickle(f'{self.out_dir}metrics_{project_name}_{file_name}_coverage.pkl')
+                covered_lines = df.iloc[-1]['covered_lines']
+                additional_covered_lines = self.executed_lines.difference(covered_lines).union(covered_lines.difference(self.executed_lines))
+                self.executed_lines = self.executed_lines.union(additional_covered_lines)
+                self.coverage_percentage = len(self.executed_lines)/self.total_lines
+            except EOFError:
+                pass
 
     def _save_summary_metrics(self, file, predictor_name, execution_time, prediction_type):
         project_name = ""

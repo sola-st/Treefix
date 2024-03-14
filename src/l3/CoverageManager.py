@@ -17,11 +17,7 @@ class CoverageManager:
         file_name = file.split("/")[2].split('.')[0]
         total_lines = count_lines(file)
         
-        if not os.path.isfile(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}_coverage.pkl'):
-            df = pd.DataFrame()
-        else:
-            df = pd.read_pickle(f'./metrics/{param.dataset}/{predictor_name}/raw/metrics_{project_name}_{file_name}_coverage.pkl')
-
+        df = pd.DataFrame() 
         df_new_data = pd.DataFrame({
             'file': [file],
             'predictor': [predictor_name],
