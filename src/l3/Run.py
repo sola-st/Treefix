@@ -194,6 +194,9 @@ if __name__ == "__main__":
     files = gather_files(args.files)
 
     for file in files:
+        # Restore file in case is already instrument
+        subprocess.run(["python", "-m", "l3.Instrument", "--files", file, "--restore"])
+
         with open(file, "r") as f:
             code = ''.join(f.readlines())
 
