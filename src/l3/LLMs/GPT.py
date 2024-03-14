@@ -75,7 +75,7 @@ class GPTValuePredictor:
                     "role": raw_prediction.message.role,
                     "content": raw_prediction.message.content
                 })
-                self.conversation_history_size += self.count_tokens(self.conversation_history[:1])
+                self.conversation_history_size += self.count_tokens([self.conversation_history[-1]])
 
             prediction = get_json_info(raw_prediction.message.content)
             predictions.append(prediction)
