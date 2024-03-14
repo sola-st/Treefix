@@ -29,10 +29,11 @@ class RuntimeStats:
                 f"time python {file_path} {predictor_name}", shell=True, start_new_session=True, stdout=log_file, stderr=log_file)
             process.wait(timeout=30)  # seconds
 
-            if prompt_type == 2:
-                self.refined_predictions_indexes[index].append(prediction_index)
-            elif prompt_type == 3:
-                self.guided_predictions_indexes[index].append(prediction_index)
+            if not process.returncode:
+                if prompt_type == 2:
+                    self.refined_predictions_indexes[index].append(prediction_index)
+                elif prompt_type == 3:
+                    self.guided_predictions_indexes[index].append(prediction_index)
         except subprocess.TimeoutExpired:
             log_file.write("TimeLimit!!!!")
             os.killpg(os.getpgid(process.pid), signal.SIGTERM)
