@@ -2,6 +2,7 @@ import csv
 import os
 import json
 import time
+from time import perf_counter
 import openai
 import tiktoken
 import pandas as pd
@@ -19,6 +20,8 @@ class GPTValuePredictor:
         }]
         self.conversation_history_size = self.count_tokens(self.conversation_history)
         self.latest_predictions = {}
+
+        self.query_model_counter = 0  # for measuring time spent waiting for predictions
     
     def predict(self, prompt, prompt_type, code_snippet_file, prediction_index=0):
         self.prompt_type = prompt_type
@@ -49,6 +52,7 @@ class GPTValuePredictor:
         return predictions
 
     def query_model(self):
+        start = perf_counter()
         while True:
             print(self.conversation_history)
             try:
@@ -63,6 +67,8 @@ class GPTValuePredictor:
                 print(e)
                 # Rate limit achieved
                 time.sleep(60)
+        self.query_model_counter += (perf_counter() - start)
+        print(f"Total spent in query_model(): {self.query_model_counter} secs")
         return response.choices
     
     def post_process_predictions(self, raw_predictions):
