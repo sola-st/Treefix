@@ -111,29 +111,32 @@ def refine_predictions(code, instrumented_code, code_file, predictor, prediction
                 refined_prediction_index = 0
 
                 for refined_prediction in refined_predictions:
-                    refined_imports = refined_prediction['imports']
-                    refined_imports = refined_imports + '\n\n' if refined_imports else refined_imports
+                    if runtime_stats.coverage_percentage < 1:
+                        refined_imports = refined_prediction['imports']
+                        refined_imports = refined_imports + '\n\n' if refined_imports else refined_imports
 
-                    refined_imports = imports + refined_imports
-
-                    updated_code = f'{refined_imports}{code}'
-
-                    # Code with predicted imports only is not executable
-                    if not code_executes(updated_code):
-                        refined_initialization = refined_prediction['initialization']
-                        refined_initialization = refined_initialization + '\n\n' if refined_initialization else refined_initialization
-
-                        refined_imports = refined_imports + refined_initialization
+                        refined_imports = imports + refined_imports
 
                         updated_code = f'{refined_imports}{code}'
 
-                    updated_file_path = code_file.replace('.py', f'_refine_{index}_{refined_prediction_index}.py')
-                    with open(updated_file_path, "w") as f:
-                        f.write(f'{refined_imports}{instrumented_code}')
-                    runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__, 2, index, refined_prediction_index)
+                        # Code with predicted imports only is not executable
+                        if not code_executes(updated_code):
+                            refined_initialization = refined_prediction['initialization']
+                            refined_initialization = refined_initialization + '\n\n' if refined_initialization else refined_initialization
 
-                    refined_prediction_index += 1
-                    num_executions += 1
+                            refined_imports = refined_imports + refined_initialization
+
+                            updated_code = f'{refined_imports}{code}'
+
+                        updated_file_path = code_file.replace('.py', f'_refine_{index}_{refined_prediction_index}.py')
+                        with open(updated_file_path, "w") as f:
+                            f.write(f'{refined_imports}{instrumented_code}')
+                        runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__, 2, index, refined_prediction_index)
+
+                        refined_prediction_index += 1
+                        num_executions += 1
+                    else:
+                        break
 
             except subprocess.TimeoutExpired:
                 pass
@@ -162,27 +165,30 @@ def guide_predictions(code, instrumented_code, code_file, predictor, runtime_sta
         guided_prediction_index = 0
 
         for prediction in guided_predictions:
-            imports = prediction['imports']
-            imports = imports + '\n\n' if imports else imports
+            if runtime_stats.coverage_percentage < 1:
+                imports = prediction['imports']
+                imports = imports + '\n\n' if imports else imports
 
-            updated_code = f'{imports}{code}'
+                updated_code = f'{imports}{code}'
 
-            # Code with predicted imports only is not executable
-            if not code_executes(updated_code):
-                initialization = prediction['initialization']
-                initialization = initialization + '\n\n' if initialization else initialization
+                # Code with predicted imports only is not executable
+                if not code_executes(updated_code):
+                    initialization = prediction['initialization']
+                    initialization = initialization + '\n\n' if initialization else initialization
 
-                updated_code = f'{imports}{initialization}{code}'
+                    updated_code = f'{imports}{initialization}{code}'
 
-                imports = imports + initialization
+                    imports = imports + initialization
 
-            updated_file_path = code_file.replace('.py', f'_guide_{runtime_stats.guide_attempt}_{guided_prediction_index}.py')
-            with open(updated_file_path, "w") as f:
-                f.write(f'{imports}{instrumented_code}')
-            runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__, 3, runtime_stats.guide_attempt, guided_prediction_index)
+                updated_file_path = code_file.replace('.py', f'_guide_{runtime_stats.guide_attempt}_{guided_prediction_index}.py')
+                with open(updated_file_path, "w") as f:
+                    f.write(f'{imports}{instrumented_code}')
+                runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__, 3, runtime_stats.guide_attempt, guided_prediction_index)
 
-            guided_prediction_index += 1
-            num_executions += 1
+                guided_prediction_index += 1
+                num_executions += 1
+            else:
+                break
 
         runtime_stats.guide_attempt += 1
 
