@@ -51,14 +51,14 @@ class RuntimeStats:
             except EOFError:
                 pass
 
-    def _save_summary_metrics(self, file, predictor_name, execution_time, prediction_type):
+    def _save_summary_metrics(self, file, predictor_name, execution_time, num_executions, prediction_type):
         project_name = ""
         file_name = file.split("/")[2].split('.')[0]
 
         # Create CSV file and add header if it doesn't exist
         if not os.path.isfile(f'{self.out_dir}metrics_{project_name}_{file_name}.csv'):
             columns = [
-                'file', 'predictor', 'prediction_type', 'execution_time', 
+                'file', 'predictor', 'prediction_type', 'execution_time', 'num_executions',
                 'initial_predictions_indexes', 'refined_predictions_indexes', 'guide_attempt', 'guided_predictions_indexes',
                 'covered_lines', 'num_covered_lines', 'total_lines', 'coverage_percentage'       
             ]
@@ -67,12 +67,16 @@ class RuntimeStats:
                 writer = csv.writer(csvFile)
                 writer.writerow(columns)
 
+        avg_exec_time = execution_time / num_executions if num_executions else 0
+
         df = pd.read_csv(f'{self.out_dir}metrics_{project_name}_{file_name}.csv')
         df_new_data = pd.DataFrame({
             'file': [file],
             'predictor': [predictor_name],
             'prediction_type': [prediction_type],
             'execution_time': [execution_time],
+            'num_executions': [num_executions],
+            'avg_exec_time': [avg_exec_time],
             'initial_predictions_indexes': [self.initial_predictions_indexes],
             'refined_predictions_indexes': [self.refined_predictions_indexes],
             'guide_attempt': [self.guide_attempt],
@@ -85,5 +89,5 @@ class RuntimeStats:
         df = pd.concat([df, df_new_data])
         df.to_csv(f'{self.out_dir}metrics_{project_name}_{file_name}.csv', index=False)
 
-    def save(self, file, predictor_name, start_time, prediction_type):
-        self._save_summary_metrics(file, predictor_name, time.time() - start_time, prediction_type)
+    def save(self, file, predictor_name, start_time, num_executions, prediction_type):
+        self._save_summary_metrics(file, predictor_name, time.time() - start_time, num_executions, prediction_type)

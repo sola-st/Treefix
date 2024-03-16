@@ -69,12 +69,13 @@ def initiate_predictions(code, instrumented_code, code_file, predictor, runtime_
             f.write(updated_code)
         runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__, 1)
 
-    runtime_stats.save(code_file, predictor.__class__.__name__, start_time, 'initial')
+    runtime_stats.save(code_file, predictor.__class__.__name__, start_time, prediction_index, 'initial')
 
     return predictions_with_unsuccessful_execution
 
 def refine_predictions(code, instrumented_code, code_file, predictor, predictions, runtime_stats):
     start_time = time.time()
+    num_executions = 0
 
     for index, prediction in predictions.items():
         if runtime_stats.coverage_percentage < 1:
@@ -132,16 +133,18 @@ def refine_predictions(code, instrumented_code, code_file, predictor, prediction
                     runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__, 2, index, refined_prediction_index)
 
                     refined_prediction_index += 1
+                    num_executions += 1
 
             except subprocess.TimeoutExpired:
                 pass
         else:
             break
 
-    runtime_stats.save(code_file, predictor.__class__.__name__, start_time, 'refine')
+    runtime_stats.save(code_file, predictor.__class__.__name__, start_time, num_executions, 'refine')
 
 def guide_predictions(code, instrumented_code, code_file, predictor, runtime_stats):
     start_time = time.time()
+    num_executions = 0
 
     predictor.conversation_history = [predictor.conversation_history[0]]
     predictor.conversation_history_size = predictor.count_tokens(predictor.conversation_history)
@@ -179,10 +182,11 @@ def guide_predictions(code, instrumented_code, code_file, predictor, runtime_sta
             runtime_stats.measure_coverage(updated_file_path, predictor.__class__.__name__, 3, runtime_stats.guide_attempt, guided_prediction_index)
 
             guided_prediction_index += 1
+            num_executions += 1
 
         runtime_stats.guide_attempt += 1
 
-    runtime_stats.save(code_file, predictor.__class__.__name__, start_time, 'guide')
+    runtime_stats.save(code_file, predictor.__class__.__name__, start_time, num_executions, 'guide')
 
 if __name__ == "__main__":
     # import cProfile, pstats
