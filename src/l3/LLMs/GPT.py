@@ -85,10 +85,12 @@ class GPTValuePredictor:
         self.manage_conversation_history()
 
         raw_predictions = self.query_model()
+        input_size = self.conversation_history_size
+        output_size = self.count_tokens(raw_predictions)
         self.latest_predictions = raw_predictions
         raw_predictions, predictions = self.post_process_predictions(raw_predictions)
         log_file = code_snippet_file.replace('.py', f'_{self.model_id}.csv')
-        self.save_log(log_file, prompt, raw_predictions, predictions)
+        self.save_log(log_file, prompt, raw_predictions, predictions, input_size, output_size)
         return predictions
 
     def query_model(self):
@@ -205,7 +207,7 @@ class GPTValuePredictor:
         num_tokens += 2  # every reply is primed with <im_start>assistant
         return num_tokens
     
-    def save_log(self, log_file, prompt, raw_predictions, predictions):
+    def save_log(self, log_file, prompt, raw_predictions, predictions, input_size, output_size):
         processed_predictions = []
         for prediction in predictions:
             processed_predictions.append({
@@ -214,7 +216,8 @@ class GPTValuePredictor:
             })
         # Create CSV file and add header if it doesn't exist
         if not os.path.isfile(log_file):
-            columns = ['prompt', 'raw_predictions', 'predictions']
+            columns = ['prompt', 'raw_predictions', 'predictions', 'prompt_type',
+                       'input_size', 'input_price', 'output_size', 'output_price']
 
             with open(log_file, 'a') as csvFile:
                 writer = csv.writer(csvFile)
@@ -224,7 +227,12 @@ class GPTValuePredictor:
         df_new_data = pd.DataFrame({
             'prompt': [prompt],
             'raw_predictions': [json.dumps(raw_predictions, indent = 4)],
-            'predictions': [json.dumps(processed_predictions, indent = 4)]
+            'predictions': [json.dumps(processed_predictions, indent = 4)],
+            'prompt_type': [self.prompt_type],
+            'input_size': [input_size],
+            'input_price': [(0.5*input_size)/1000]
+            'output_size': [output_size],
+            'output_price': [(1.5*output_size)/1000]
         })
         df = pd.concat([df, df_new_data])
         df.to_csv(log_file, index=False)
