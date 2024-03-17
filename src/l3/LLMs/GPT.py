@@ -74,7 +74,7 @@ class GPTValuePredictor:
                     "role": prediction_with_error["message"]["role"],
                     "content": prediction_with_error["message"]["content"]
                 })
-            self.conversation_history_size += self.count_tokens([self.conversation_history[-1]]) + 2  # every reply is primed with <im_start>assistant
+            self.conversation_history_size += self.count_tokens([self.conversation_history[-1]])
 
         prompt_msg = {
             "role": "user",
@@ -129,12 +129,12 @@ class GPTValuePredictor:
                 "content": raw_prediction["message"]["content"]
             }
             prediction_msg_size = self.count_tokens([prediction_msg])
-            predictions_size += prediction_msg_size + 2  # every reply is primed with <im_start>assistant
+            predictions_size += prediction_msg_size
 
             # Add predictions to conversation history
             if self.prompt_type == 3:
                 self.conversation_history.append(prediction_msg)
-                self.conversation_history_size += prediction_msg_size + 2  # every reply is primed with <im_start>assistant
+                self.conversation_history_size += prediction_msg_size
 
             prediction = get_json_info(raw_prediction["message"]["content"])
             predictions.append(prediction)
