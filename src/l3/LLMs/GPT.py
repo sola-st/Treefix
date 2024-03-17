@@ -87,7 +87,8 @@ class GPTValuePredictor:
 
         input_size = self.conversation_history_size
         raw_predictions = self.query_model()
-        self.latest_predictions = raw_predictions
+        if self.prompt_type == 1:
+            self.latest_predictions = raw_predictions
         raw_predictions, predictions, output_size = self.post_process_predictions(raw_predictions)
         log_file = code_snippet_file.replace('.py', f'_{self.model_id}.csv')
         self.save_log(log_file, prompt, raw_predictions, predictions, input_size, output_size)
