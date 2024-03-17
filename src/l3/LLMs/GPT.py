@@ -10,6 +10,7 @@ import pandas as pd
 
 from ..Util import get_json_info, install_dependencies, remove_lines_with_execution_error
 
+pd.set_option('display.precision', 12)
 
 query_model_counter = 0  # for measuring time spent waiting for predictions
 
@@ -73,7 +74,7 @@ class GPTValuePredictor:
                     "role": prediction_with_error["message"]["role"],
                     "content": prediction_with_error["message"]["content"]
                 })
-            self.conversation_history_size += self.count_tokens([self.conversation_history[-1]])
+            self.conversation_history_size += self.count_tokens([self.conversation_history[-1]]) + 2  # every reply is primed with <im_start>assistant
 
         prompt_msg = {
             "role": "user",
@@ -84,11 +85,10 @@ class GPTValuePredictor:
 
         self.manage_conversation_history()
 
-        raw_predictions = self.query_model()
         input_size = self.conversation_history_size
-        output_size = self.count_tokens(raw_predictions)
+        raw_predictions = self.query_model()
         self.latest_predictions = raw_predictions
-        raw_predictions, predictions = self.post_process_predictions(raw_predictions)
+        raw_predictions, predictions, output_size = self.post_process_predictions(raw_predictions)
         log_file = code_snippet_file.replace('.py', f'_{self.model_id}.csv')
         self.save_log(log_file, prompt, raw_predictions, predictions, input_size, output_size)
         return predictions
@@ -121,15 +121,20 @@ class GPTValuePredictor:
     
     def post_process_predictions(self, raw_predictions):
         predictions = []
+        predictions_size = 0
         post_processed_predictions = []
         for raw_prediction in raw_predictions:
+            prediction_msg = {
+                "role": raw_prediction["message"]["role"],
+                "content": raw_prediction["message"]["content"]
+            }
+            prediction_msg_size = self.count_tokens([prediction_msg])
+            predictions_size += prediction_msg_size + 2  # every reply is primed with <im_start>assistant
+
             # Add predictions to conversation history
             if self.prompt_type == 3:
-                self.conversation_history.append({
-                    "role": raw_prediction["message"]["role"],
-                    "content": raw_prediction["message"]["content"]
-                })
-                self.conversation_history_size += self.count_tokens([self.conversation_history[-1]])
+                self.conversation_history.append(prediction_msg)
+                self.conversation_history_size += prediction_msg_size + 2  # every reply is primed with <im_start>assistant
 
             prediction = get_json_info(raw_prediction["message"]["content"])
             predictions.append(prediction)
@@ -176,7 +181,7 @@ class GPTValuePredictor:
                 'initialization': initialization
             })
 
-        return predictions, post_processed_predictions
+        return predictions, post_processed_predictions, predictions_size
     
     def manage_conversation_history(self):
         # output tokens limit
@@ -204,7 +209,6 @@ class GPTValuePredictor:
             num_tokens += 4  # every message follows <im_start>{role/name}\n{content}<im_end>\n
             for key, value in message.items():
                 num_tokens += len(encoding.encode(value))
-        num_tokens += 2  # every reply is primed with <im_start>assistant
         return num_tokens
     
     def save_log(self, log_file, prompt, raw_predictions, predictions, input_size, output_size):
@@ -217,11 +221,14 @@ class GPTValuePredictor:
         # Create CSV file and add header if it doesn't exist
         if not os.path.isfile(log_file):
             columns = ['prompt', 'raw_predictions', 'predictions', 'prompt_type',
-                       'input_size', 'input_price', 'output_size', 'output_price']
+                       'input_size', 'input_price', 'output_size', 'output_price', 'total_price']
 
             with open(log_file, 'a') as csvFile:
                 writer = csv.writer(csvFile)
                 writer.writerow(columns)
+
+        input_price = float(0.5 * input_size) / 1000000
+        output_price = float(1.5 * output_size) / 1000000
 
         df = pd.read_csv(log_file)
         df_new_data = pd.DataFrame({
@@ -230,9 +237,10 @@ class GPTValuePredictor:
             'predictions': [json.dumps(processed_predictions, indent = 4)],
             'prompt_type': [self.prompt_type],
             'input_size': [input_size],
-            'input_price': [(0.5*input_size)/1000]
+            'input_price': [input_price],
             'output_size': [output_size],
-            'output_price': [(1.5*output_size)/1000]
+            'output_price': [output_price],
+            'total_price': [input_price + output_price]
         })
         df = pd.concat([df, df_new_data])
         df.to_csv(log_file, index=False)
