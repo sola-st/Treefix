@@ -1,10 +1,12 @@
 import os
+from os.path import join
 import re
 import json
 import subprocess
 import libcst as cst
 from time import perf_counter
-from tempfile import NamedTemporaryFile
+from tempfile import NamedTemporaryFile, TemporaryDirectory
+import fcntl
 from typing import Optional, Tuple
 
 from .RemoveLines import RemoveLines
@@ -216,25 +218,34 @@ dependencies = []
 def install_dependencies(dependencies_dir_path, code):
     global install_dependencies_counter
     start = perf_counter()  
-    global dependencies  
-    
-    with open(f"{dependencies_dir_path}/temp/temp.py", "w") as f:
-        f.write(code)
-    os.system(f"pipreqs {dependencies_dir_path}/temp --force")
+    global dependencies
 
-    with open(f"{dependencies_dir_path}/temp/requirements.txt", "r") as fp:
-        lines = fp.readlines()
+    # check for dependencies of the code using "pipreqs"
+    with TemporaryDirectory() as tmp_dir:
+        with open(join(tmp_dir, "temp.py"), "w") as f:
+            f.write(code)
+        pipreqs_result = subprocess.run(["pipreqs", tmp_dir, "--force"], capture_output=True, text=True)
+        if pipreqs_result.returncode != 0:
+            print(f"pipreqs failed:\n{pipreqs_result.stderr}")
+            return
 
+        with open(join(tmp_dir, "requirements.txt"), "r") as f:
+            lines = f.readlines()
+
+    # check if any of the dependencies are new
     additional_dependencies = []
-    with open(f"{dependencies_dir_path}/temp/requirements.txt", "w") as fp:
-        for line in lines:
-            if line != "\n" and "l3.egg==info" not in line and line not in dependencies:
-                additional_dependencies.append(line)
-                dependencies.append(line)
-        
-        if additional_dependencies:
+    for line in lines:
+        if line != "\n" and "l3.egg==info" not in line and line not in dependencies:
+            additional_dependencies.append(line)
+            dependencies.append(line)
+    
+    # add any new dependencies to the requirements.txt file and run "pip install"
+    if additional_dependencies:
+        with open(join(dependencies_dir_path, "requirements.txt"), "w") as fp:
+            fcntl.flock(fp, fcntl.LOCK_EX)
             fp.write(''.join(additional_dependencies))
-            os.system(f"pip install -r {dependencies_dir_path}/temp/requirements.txt")
+            fcntl.flock(fp, fcntl.LOCK_UN)
+            os.system(f"pip install -r {dependencies_dir_path}/requirements.txt")
 
     install_dependencies_counter += (perf_counter() - start)
     print(f"Total spent in install_dependencies(): {install_dependencies_counter} secs")
