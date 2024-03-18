@@ -4,6 +4,8 @@ import json
 import subprocess
 import libcst as cst
 from time import perf_counter
+from tempfile import NamedTemporaryFile
+from typing import Optional, Tuple
 
 from .RemoveLines import RemoveLines
 from .IIDS import IIDs
@@ -168,52 +170,45 @@ def remove_lines_with_exit(code):
 def remove_lines_with_execution_error(code):
     code = remove_lines_with_exit(code)
     code = remove_lines_with_syntax_error(code)
-    lines_with_execution_error = True
-    while lines_with_execution_error:
-        with open("temp_.py", "w") as f:
-            f.write(code)
+    while True:
+        result = execute_and_capture_error(code)
+        if result is None:
+            break # code runs without errors
 
+        exception, line_number, error_msg = result
+        if isinstance(exception, subprocess.TimeoutExpired):
+            code = ""
+            break # code times out
+
+        code = remove_lines(code, [line_number])
+        code = remove_lines_with_syntax_error(code)        
+    
+    return code
+
+def execute_and_capture_error(code) -> Optional[Tuple[BaseException, int, str]]:
+    """
+    Tries to execute the given code and returns either
+     * None if the code executes successfully, or
+     * (exception, line_number, message) if Python raises an exception
+    """
+    with NamedTemporaryFile("w") as tmp_file:
+        tmp_file.write(code)
         try:
-            subprocess.run(["python3", "temp_.py"], capture_output=True, text=True, check=True, timeout=30)
-            lines_with_execution_error = False
+            subprocess.run(["python3", tmp_file.name], capture_output=True, text=True, check=True, timeout=30)
         except subprocess.CalledProcessError as e:
             print(e)
             # Extract the line number from stderr
             lines = e.stderr.splitlines()
+            line_number = ""
             for line in lines:
-                match = re.search(r'temp_.py\", line (\d+)', line)
+                match = re.search(rf'{tmp_file.name}\", line (\d+)', line)
                 if match:
-                    line_with_error = int(match.group(1))
-                    print(line_with_error)
-                    code = remove_lines(code, [line_with_error])
-                    code = remove_lines_with_syntax_error(code)
-                    with open("temp_.py", "w") as f:
-                        f.write(code)
-                    break
-        except subprocess.TimeoutExpired:
-            code = ""
-            break
-
-    subprocess.run(["rm", "temp_.py"])
-    return code
-
-code_executes_counter = 0
-
-def code_executes(code):
-    global code_executes_counter
-    start = perf_counter()
-    success = False
-    with open("temp.py", "w") as f:
-        f.write(code)
-    try:
-        subprocess.run(["python3", "temp.py"], capture_output=True, text=True, check=True, timeout=30)
-        success = True
-    except:
-        pass
-    subprocess.run(["rm", "temp.py"])
-    
-    
-    return success
+                    line_number = int(match.group(1))
+            error_msg = '\n'.join(lines[-2:])
+            return e, line_number, error_msg
+        except subprocess.TimeoutExpired as e:
+            return e, -1, "Timeout"
+    return None
 
 install_dependencies_counter = 0
 dependencies = []
