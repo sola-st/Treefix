@@ -1,6 +1,6 @@
 from collections import namedtuple
-import os
 from os import path
+import fcntl
 import json
 from l3.Logging import logger
 
@@ -35,7 +35,9 @@ class IIDs:
         }
         json_object = json.dumps(all_data, indent=2)
         with open(self.file_path, "w") as file:
+            fcntl.flock(file, fcntl.LOCK_EX)
             file.write(json_object)
+            fcntl.flock(file, fcntl.LOCK_UN)
 
     def line(self, iid):
         return self._iid_to_location[str(iid)][1]
