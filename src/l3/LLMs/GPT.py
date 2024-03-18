@@ -1,6 +1,7 @@
 import csv
 import os
 import json
+import fcntl
 import time
 from time import perf_counter
 import atexit
@@ -47,7 +48,9 @@ class GPTCache:
     @classmethod
     def save(self):
         with open(self.cache_file, "w") as f:
+            fcntl.flock(f, fcntl.LOCK_EX)
             json.dump(self.key_to_value, f)
+            fcntl.flock(f, fcntl.LOCK_UN)
         print(f"GPT cache saved. Hits: {self.nb_hits}, Misses: {self.nb_misses}")
 
 atexit.register(GPTCache.save)
