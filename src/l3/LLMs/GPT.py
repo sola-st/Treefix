@@ -200,9 +200,7 @@ class GPTValuePredictor:
                 removed_messages.append(self.conversation_history.pop(3))
             elif self.prompt_type == 3:
                 for i in range(1, 12):
-                    removed_messages.append(self.conversation_history.pop(i))
-                    print(removed_messages)
-                    print(len(removed_messages))
+                    removed_messages.append(self.conversation_history.pop(1))
 
             self.conversation_history_size -= self.count_tokens(removed_messages)
 
