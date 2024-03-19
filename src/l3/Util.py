@@ -247,7 +247,7 @@ def install_dependencies(dependencies_dir_path, code):
             fcntl.flock(fp, fcntl.LOCK_EX)
             fp.write(''.join(additional_dependencies))
             fcntl.flock(fp, fcntl.LOCK_UN)
-            os.system(f"pip install -r {dependencies_dir_path}/requirements.txt")
+        os.system(f"pip install -r {dependencies_dir_path}/requirements.txt")
 
     install_dependencies_counter += (perf_counter() - start)
     print(f"Total spent in install_dependencies(): {install_dependencies_counter} secs")
