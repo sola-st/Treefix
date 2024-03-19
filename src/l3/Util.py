@@ -1,3 +1,4 @@
+import atexit
 import os
 from os.path import join
 import re
@@ -193,23 +194,24 @@ def execute_and_capture_error(code) -> Optional[Tuple[BaseException, int, str]]:
      * None if the code executes successfully, or
      * (exception, line_number, message) if Python raises an exception
     """
-    with NamedTemporaryFile("w") as tmp_file:
+    with NamedTemporaryFile("w", delete=False) as tmp_file:
         tmp_file.write(code)
-        try:
-            subprocess.run(["python3", tmp_file.name], capture_output=True, text=True, check=True, timeout=30)
-        except subprocess.CalledProcessError as e:
-            print(e)
-            # Extract the line number from stderr
-            lines = e.stderr.splitlines()
-            line_number = ""
-            for line in lines:
-                match = re.search(rf'{tmp_file.name}\", line (\d+)', line)
-                if match:
-                    line_number = int(match.group(1))
-            error_msg = '\n'.join(lines[-2:])
-            return e, line_number, error_msg
-        except subprocess.TimeoutExpired as e:
-            return e, -1, "Timeout"
+        atexit.register(os.unlink, tmp_file.name) 
+    try:
+        subprocess.run(["python3", tmp_file.name], capture_output=True, text=True, check=True, timeout=30)
+    except subprocess.CalledProcessError as e:
+        print(e)
+        # Extract the line number from stderr
+        lines = e.stderr.splitlines()
+        line_number = ""
+        for line in lines:
+            match = re.search(rf'{tmp_file.name}\", line (\d+)', line)
+            if match:
+                line_number = int(match.group(1))
+        error_msg = '\n'.join(lines[-2:])
+        return e, line_number, error_msg
+    except subprocess.TimeoutExpired as e:
+        return e, -1, "Timeout"
     return None
 
 install_dependencies_counter = 0
