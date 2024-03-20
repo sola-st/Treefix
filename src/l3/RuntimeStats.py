@@ -38,8 +38,12 @@ class RuntimeStats:
             log_file.write("TimeLimit!!!!")
             os.killpg(os.getpgid(process.pid), signal.SIGTERM)
 
-        project_name = ""
-        file_name = file_path.split("/")[2].split('.')[0]
+        if param.dataset == "random_functions":
+            project_name = file_path.split("/")[2]
+            file_name = file_path.split("/")[4].split('.')[0]
+        else:
+            project_name = ""
+            file_name = file_path.split("/")[2].split('.')[0]
 
         if os.path.isfile(f'{self.out_dir}metrics_{project_name}_{file_name}_coverage.pkl'):
             try:
@@ -52,8 +56,12 @@ class RuntimeStats:
                 pass
 
     def _save_summary_metrics(self, file, predictor_name, execution_time, num_executions, prediction_type):
-        project_name = ""
-        file_name = file.split("/")[2].split('.')[0]
+        if param.dataset == "random_functions":
+            project_name = file.split("/")[2]
+            file_name = file.split("/")[4].split('.')[0]
+        else:
+            project_name = ""
+            file_name = file.split("/")[2].split('.')[0]
 
         # Create CSV file and add header if it doesn't exist
         if not os.path.isfile(f'{self.out_dir}metrics_{project_name}_{file_name}.csv'):
