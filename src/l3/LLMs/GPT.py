@@ -173,8 +173,8 @@ class GPTValuePredictor:
             )
             initialization_with_imports = remove_lines_with_execution_error(initialization_with_imports)
 
-            initialization = ''.join([line for line in initialization_with_imports.split(
-                '\n# AUX COMMENT: END IMPORTS AND BEGIN INITIALIZATION\n')[-1].split('\n') if 'import' not in line or 'IMPORT' not in line])
+            initialization = '\n'.join([line for line in initialization_with_imports.split(
+                '\n# AUX COMMENT: END IMPORTS AND BEGIN INITIALIZATION\n')[-1].split('\n') if 'import' not in line and 'IMPORT' not in line])
 
             post_processed_predictions.append({
                 'imports': imports,
