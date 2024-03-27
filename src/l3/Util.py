@@ -170,11 +170,20 @@ def remove_lines_with_exit(code):
             updated_code.append(line)
     return '\n'.join(updated_code)
 
+def remove_lines_with_package(code, package):
+    updated_code = []
+    code = code.split('\n')
+    for line in code:
+        if package not in line:
+            updated_code.append(line)
+    return '\n'.join(updated_code)
+
 def remove_lines_with_execution_error(code):
     code = remove_lines_with_exit(code)
     code = remove_lines_with_syntax_error(code)
     while True:
         result = execute_and_capture_error(code)
+        print(result)
         if result is None:
             break # code runs without errors
 
@@ -182,9 +191,12 @@ def remove_lines_with_execution_error(code):
         if isinstance(exception, subprocess.TimeoutExpired):
             code = ""
             break # code times out
-
-        code = remove_lines(code, [line_number])
-        code = remove_lines_with_syntax_error(code)        
+        elif line_number == "" and "python package requires root access" in error_msg:
+            package = error_msg.split(":")[0]
+            code = remove_lines_with_package(code, package)
+        else:
+            code = remove_lines(code, [line_number])
+        code = remove_lines_with_syntax_error(code)    
     
     return code
 
@@ -203,6 +215,7 @@ def execute_and_capture_error(code) -> Optional[Tuple[BaseException, int, str]]:
         print(e)
         # Extract the line number from stderr
         lines = e.stderr.splitlines()
+        print(lines)
         line_number = ""
         for line in lines:
             match = re.search(rf'{tmp_file.name}\", line (\d+)', line)
