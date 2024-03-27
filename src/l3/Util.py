@@ -183,7 +183,6 @@ def remove_lines_with_execution_error(code):
     code = remove_lines_with_syntax_error(code)
     while True:
         result = execute_and_capture_error(code)
-        print(result)
         if result is None:
             break # code runs without errors
 
@@ -215,7 +214,6 @@ def execute_and_capture_error(code) -> Optional[Tuple[BaseException, int, str]]:
         print(e)
         # Extract the line number from stderr
         lines = e.stderr.splitlines()
-        print(lines)
         line_number = ""
         for line in lines:
             match = re.search(rf'{tmp_file.name}\", line (\d+)', line)
