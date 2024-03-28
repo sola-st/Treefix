@@ -181,7 +181,9 @@ def remove_lines_with_package(code, package):
 def remove_lines_with_execution_error(code):
     code = remove_lines_with_exit(code)
     code = remove_lines_with_syntax_error(code)
-    while True:
+    number_of_lines = len(code.split('\n'))
+    number_of_attempts = 0
+    while number_of_attempts < 10:
         result = execute_and_capture_error(code)
         if result is None:
             break # code runs without errors
@@ -195,7 +197,17 @@ def remove_lines_with_execution_error(code):
             code = remove_lines_with_package(code, package)
         else:
             code = remove_lines(code, [line_number])
-        code = remove_lines_with_syntax_error(code)    
+        code = remove_lines_with_syntax_error(code) 
+
+        current_number_of_lines = len(code.split('\n'))
+        if current_number_of_lines == number_of_lines:
+            number_of_attempts += 1
+        else:
+            number_of_lines = current_number_of_lines
+            number_of_attempts = 0  
+
+    if number_of_attempts == 10:
+        code = "" 
     
     return code
 
