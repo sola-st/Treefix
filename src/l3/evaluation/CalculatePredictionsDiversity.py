@@ -1,14 +1,12 @@
 import argparse
 import atexit
 import json
-import pickle
 import os
 import subprocess
 import libcst as cst
 import pandas as pd
 import fcntl
 
-from deepdiff import DeepDiff
 from tempfile import NamedTemporaryFile
 from ..Util import gather_files
 
@@ -17,7 +15,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
     "--files", help="CSV files containing the predictions from the model", nargs="+")
 
-def get_variable_names(code):
+def get_variable_names(code): 
     var_names = set()
 
     # Parse the source code
@@ -29,6 +27,8 @@ def get_variable_names(code):
             for import_alias in node.names:
                 if import_alias.asname:
                     import_name = import_alias.asname.name.value
+                elif isinstance(import_alias.name, cst.Attribute):
+                    import_name = f"{import_alias.name.value.value}.{import_alias.name.attr.value}"
                 else:
                     import_name = import_alias.name.value
                 var_names.add(import_name)
@@ -67,17 +67,11 @@ def serialize_value(value):
     if type(value).__name__ == "module":
         return str(value)
     try:
+        # Distinguish primitive and non-primitive objects
         attributes = value.__dict__
-        # Attributes may be of non-primitive types too
-        serialized_attributes = {}
-        for attribute in attributes:
-            serialized_attributes[attribute] = type(attributes[attribute]).__name__
-        methods = dir(value)
-        serialized_value = {
-            'attributes': serialized_attributes,
-            'methods': methods
-        }
-        return serialized_value
+        # Attributes and methods
+        properties = dir(value)
+        return properties
     except:
         return str(value)
 
@@ -92,16 +86,10 @@ def get_types_and_values(*args):
     for arg in args:
         arg_type = type(arg).__name__
         serialized_value = serialize_value(arg)
-
-        print(arg)
-        print(serialized_value)
-        print(types_and_values)
         
         if arg_type not in types_and_values:
-            types_and_values[arg_type] = []
-            types_and_values[arg_type].append(serialized_value)
-
-        if serialized_value not in types_and_values[arg_type]:
+            types_and_values[arg_type] = [serialized_value]
+        elif serialized_value not in types_and_values[arg_type]:
             types_and_values[arg_type].append(serialized_value)
         
     with open(file_name, "w") as f:
@@ -109,22 +97,26 @@ def get_types_and_values(*args):
         json.dump(types_and_values, f)
         fcntl.flock(f, fcntl.LOCK_UN)
 
+
 if __name__ == "__main__":
     args = parser.parse_args()
 
     files = gather_files(args.files)
 
     for file in files:
+        print(f"Analyzing file: {file}")
         df = pd.read_csv(file)
         for index, row in df.iterrows():
             print(f"row {index}")
             predictions = json.loads(row['predictions'])
 
+            prediction_id = 0
             for prediction in predictions:
                 print("=====================================================")
+                print(f"Prediction id: {prediction_id}")
                 imports_code = '\n'.join(prediction['imports'])
                 prediction_code = '\n'.join(prediction['initialization'])
-            
+
                 variable_names = get_variable_names(f"{imports_code}\n\n{prediction_code}")
 
                 cleaned_variable_names = ""  
@@ -144,6 +136,8 @@ if __name__ == "__main__":
 
                     try:
                         process = subprocess.run(["python3", tmp_file.name], stdout=subprocess.PIPE)
-                        print(process.stdout.decode('ascii'))
+                        print(process.stdout.decode('UTF-8'))
                     except subprocess.CalledProcessError as e:
                         print(e.stderr)
+
+                prediction_id += 1
