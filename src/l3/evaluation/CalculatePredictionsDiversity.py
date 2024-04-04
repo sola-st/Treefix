@@ -18,48 +18,51 @@ parser.add_argument(
 def get_variable_names(code): 
     var_names = set()
 
-    # Parse the source code
-    ast = cst.parse_module(code)
+    try:
+        # Parse the source code
+        ast = cst.parse_module(code)
 
-    # Define a visitor to traverse the AST
-    class VariableVisitor(cst.CSTVisitor):
-        def visit_Import(self, node):
-            for import_alias in node.names:
-                if import_alias.asname:
-                    import_name = import_alias.asname.name.value
-                elif isinstance(import_alias.name, cst.Attribute):
-                    import_name = f"{import_alias.name.value.value}.{import_alias.name.attr.value}"
-                else:
-                    import_name = import_alias.name.value
-                var_names.add(import_name)
-            return node
+        # Define a visitor to traverse the AST
+        class VariableVisitor(cst.CSTVisitor):
+            def visit_Import(self, node):
+                for import_alias in node.names:
+                    if import_alias.asname:
+                        import_name = import_alias.asname.name.value
+                    elif isinstance(import_alias.name, cst.Attribute):
+                        import_name = f"{import_alias.name.value.value}.{import_alias.name.attr.value}"
+                    else:
+                        import_name = import_alias.name.value
+                    var_names.add(import_name)
+                return node
 
-        def visit_Assign(self, node):
-            if isinstance(node.targets[0].target, cst.Name):
-                var_name = node.targets[0].target.value
-                var_names.add(var_name)
-            elif isinstance(node.targets[0].target, cst.Attribute) or isinstance(node.targets[0].target, cst.Subscript):
-                # Do not count attribute assignments nor subscripts
-                pass
-            else:
-                # Tuple unpacking
-                for element in node.targets[0].target.elements:
-                    var_name = element.value.value
+            def visit_Assign(self, node):
+                if isinstance(node.targets[0].target, cst.Name):
+                    var_name = node.targets[0].target.value
                     var_names.add(var_name)
-            return node
+                elif isinstance(node.targets[0].target, cst.Attribute) or isinstance(node.targets[0].target, cst.Subscript):
+                    # Do not count attribute assignments nor subscripts
+                    pass
+                else:
+                    # Tuple unpacking
+                    for element in node.targets[0].target.elements:
+                        var_name = element.value.value
+                        var_names.add(var_name)
+                return node
 
-        def visit_FunctionDef(self, node):
-            # Ignore function definitions
-            pass
+            def visit_FunctionDef(self, node):
+                # Ignore function definitions
+                pass
 
-        def visit_ClassDef(self, node):
-            # Ignore class definitions
-            pass
+            def visit_ClassDef(self, node):
+                # Ignore class definitions
+                pass
 
-    # Visit each node in the AST
-    ast_wrapper = cst.metadata.MetadataWrapper(ast)
-    variable_visitor = VariableVisitor()
-    ast_wrapper.visit(variable_visitor)
+        # Visit each node in the AST
+        ast_wrapper = cst.metadata.MetadataWrapper(ast)
+        variable_visitor = VariableVisitor()
+        ast_wrapper.visit(variable_visitor)
+    except:
+        pass
 
     return var_names
 
