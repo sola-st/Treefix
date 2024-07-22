@@ -57,7 +57,7 @@ atexit.register(GPTCache.save)
 
 
 class GPTValuePredictor:
-    def __init__(self, openai_api_key, model_id="gpt-3.5-turbo-0125"):
+    def __init__(self, openai_api_key, model_id="gpt-4o"):
         openai.api_key = openai_api_key
         self.model_id = model_id
         self.conversation_history = [{
