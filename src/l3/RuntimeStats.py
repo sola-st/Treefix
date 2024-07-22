@@ -17,6 +17,10 @@ class RuntimeStats:
         self.executed_lines = set()
         self.coverage_percentage = 0
 
+        self.minimal_predictions_set = []
+        self.max_coverage_prediction = ""
+        self.max_coverage_prediction_value = 0
+
         self.out_dir = f'./metrics/{param.dataset}/{predictor.__class__.__name__}/raw/'
         if not os.path.exists(self.out_dir):
             os.makedirs(self.out_dir)
@@ -49,9 +53,16 @@ class RuntimeStats:
             try:
                 df = pd.read_pickle(f'{self.out_dir}metrics_{project_name}_{file_name}_coverage.pkl')
                 covered_lines = df.iloc[-1]['covered_lines']
-                additional_covered_lines = self.executed_lines.difference(covered_lines).union(covered_lines.difference(self.executed_lines))
+                additional_covered_lines = covered_lines.difference(self.executed_lines)
                 self.executed_lines = self.executed_lines.union(additional_covered_lines)
                 self.coverage_percentage = len(self.executed_lines)/self.total_lines
+
+                if len(additional_covered_lines):
+                    self.minimal_predictions_set.append(file_name)
+                    if len(covered_lines)/self.total_lines > self.max_coverage_prediction_value:
+                        self.max_coverage_prediction = file_name
+                        self.max_coverage_prediction_value = len(covered_lines)/self.total_lines
+
             except EOFError:
                 pass
 
@@ -68,7 +79,8 @@ class RuntimeStats:
             columns = [
                 'file', 'predictor', 'prediction_type', 'execution_time', 'num_executions',
                 'initial_predictions_indexes', 'refined_predictions_indexes', 'guide_attempt', 'guided_predictions_indexes',
-                'covered_lines', 'num_covered_lines', 'total_lines', 'coverage_percentage'       
+                'covered_lines', 'num_covered_lines', 'total_lines', 'coverage_percentage', 
+                'minimal_predictions_set', 'minimal_predictions_set_size', 'max_coverage_prediction', 'max_coverage_prediction_value'     
             ]
 
             with open(f'{self.out_dir}metrics_{project_name}_{file_name}.csv', 'a') as csvFile:
@@ -92,7 +104,12 @@ class RuntimeStats:
             'covered_lines': [self.executed_lines],
             'num_covered_lines': [len(self.executed_lines)],
             'total_lines': [self.total_lines],
-            'coverage_percentage': [self.coverage_percentage]
+            'coverage_percentage': [self.coverage_percentage],
+            'minimal_predictions_set': [self.minimal_predictions_set],
+            'minimal_predictions_set_size': [len(self.minimal_predictions_set)],
+            'max_coverage_prediction': [self.max_coverage_prediction],
+            'max_coverage_prediction_value': [self.max_coverage_prediction_value]
+
         })
         df = pd.concat([df, df_new_data])
         df.to_csv(f'{self.out_dir}metrics_{project_name}_{file_name}.csv', index=False)
