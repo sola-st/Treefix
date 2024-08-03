@@ -3,8 +3,8 @@
 Create and enter a virtual environment:
 
 ```
-virtualenv -p /usr/bin/python3.8 l3_env
-source l3_env/bin/activate
+virtualenv -p /usr/bin/python3.8 treefix_env
+source treefix_env/bin/activate
 ```
 
 Install requirements:
