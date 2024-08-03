@@ -160,6 +160,8 @@ def remove_lines_with_syntax_error(code):
             temp = code.split('\n')
             temp.pop(line)
             code = '\n'.join(temp)
+        except Exception:
+            code = ""
     return code
 
 def remove_lines_with_exit(code):
