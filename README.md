@@ -1,6 +1,6 @@
-# L3: LLMs Based LExecution
+# Treefix: Enabling Execution with a Tree of Prefixes
 
-This repository contains the implementation of L3.
+This repository contains the implementation of Treefix.
 
 ## Getting Started Guide
 
