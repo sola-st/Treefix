@@ -32,13 +32,15 @@ def get_variable_names(code):
                         import_name = f"{import_alias.name.value.value}.{import_alias.name.attr.value}"
                     else:
                         import_name = import_alias.name.value
-                    var_names.add(import_name)
+                    if isinstance(import_name, str):
+                        var_names.add(import_name)
                 return node
 
             def visit_Assign(self, node):
                 if isinstance(node.targets[0].target, cst.Name):
                     var_name = node.targets[0].target.value
-                    var_names.add(var_name)
+                    if isinstance(var_name, str):
+                        var_names.add(var_name)
                 elif isinstance(node.targets[0].target, cst.Attribute) or isinstance(node.targets[0].target, cst.Subscript):
                     # Do not count attribute assignments nor subscripts
                     pass
@@ -46,7 +48,8 @@ def get_variable_names(code):
                     # Tuple unpacking
                     for element in node.targets[0].target.elements:
                         var_name = element.value.value
-                        var_names.add(var_name)
+                        if isinstance(var_name, str):
+                            var_names.add(var_name)
                 return node
 
             def visit_FunctionDef(self, node):
@@ -77,9 +80,16 @@ def serialize_value(value):
         return properties
     except:
         return str(value)
+    
+def is_valid_json(dictionary):
+    try:
+        aux = json.loads(json.dumps(dictionary))
+        return True
+    except:
+        return False
 
 def get_types_and_values(*args):
-    file_name = 'l3_types_and_values.json'
+    file_name = 'treefix_types_and_values.json'
     if os.path.isfile(file_name):
         with open(file_name, "r") as f:
             types_and_values = json.load(f)
@@ -94,12 +104,14 @@ def get_types_and_values(*args):
             types_and_values[arg_type] = [serialized_value]
         elif serialized_value not in types_and_values[arg_type]:
             types_and_values[arg_type].append(serialized_value)
-        
-    with open(file_name, "w") as f:
-        fcntl.flock(f, fcntl.LOCK_EX)
-        json.dump(types_and_values, f)
-        fcntl.flock(f, fcntl.LOCK_UN)
 
+    # Only save valid json values
+    if is_valid_json(types_and_values):
+        with open(file_name, "w") as f:
+            fcntl.flock(f, fcntl.LOCK_EX)
+            json.dump(types_and_values, f)
+            fcntl.flock(f, fcntl.LOCK_UN)
+    
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -107,7 +119,6 @@ if __name__ == "__main__":
     files = gather_files(args.files)
 
     for file in files:
-        print(f"Analyzing file: {file}")
         df = pd.read_csv(file)
         for index, row in df.iterrows():
             print(f"row {index}")
@@ -115,6 +126,7 @@ if __name__ == "__main__":
 
             prediction_id = 0
             for prediction in predictions:
+                print(f"Analyzing file: {file}")
                 print("=====================================================")
                 print(f"Prediction id: {prediction_id}")
                 imports_code = '\n'.join(prediction['imports'])
