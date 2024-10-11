@@ -1,0 +1,17 @@
+import os # pragma: no cover
+
+self = type('Mock', (object,), {'_test_dir': './test_dir', 'evaluate': lambda x: x, 'assertEqual': lambda a, b: print('Equal' if a == b else 'Not Equal')})() # pragma: no cover
+if not os.path.exists(self._test_dir): os.makedirs(self._test_dir) # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/data/experimental/kernel_tests/io_test.py
+from l3.Runtime import _l_
+dataset = dataset_ops.Dataset.range(42)
+_l_(8837)
+io.save(dataset, self._test_dir)
+_l_(8838)
+dataset2 = io.load(self._test_dir, dataset.element_spec)
+_l_(8839)
+self.assertEqual(self.evaluate(dataset2.cardinality()), 42)
+_l_(8840)

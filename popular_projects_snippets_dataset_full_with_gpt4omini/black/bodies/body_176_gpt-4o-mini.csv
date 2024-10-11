@@ -1,0 +1,2717 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""See `can_omit_invisible_parens`.""""""
+length = 4 * line.depth
+seen_other_brackets = False
+for _index, leaf, leaf_length in line.enumerate_with_length():
+    length += leaf_length
+    if leaf is last.opening_bracket:
+        if seen_other_brackets or length <= line_length:
+            exit(True)
+
+    elif leaf.type in OPENING_BRACKETS:
+        # There are brackets we can further split on.
+        seen_other_brackets = True
+
+exit(False)
+
+# end code snippet
+
+# begin undefined variables
+line
+last
+line_length
+OPENING_BRACKETS
+# end undefined variables
+
+# begin undefined attributes and methods
+line.depth
+line.enumerate_with_length
+last.opening_bracket
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Any]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf), len(leaf)\n\nline = MockLine(depth=3, leaves=[\""(\"", \"")\"", \""[\"", \""]\""])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = \""(\""  # example value\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> List[Tuple[int, str, int]]:\n        return [(i, leaf[0], leaf[1]) for i, leaf in enumerate(self.leaves)]"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""line = MockLine(depth=2, leaves=[('(', 2), (')', 2), ('[', 3), (']', 3)])"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Any]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        return enumerate((leaf for leaf in self.leaves), start=1)"",
+            ""line = MockLine(2, ['(', '[', '(', ')'])"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> List[Tuple[int, str, int]]:\n        return [(i, leaf[0], leaf[1]) for i, leaf in enumerate(self.leaves)]"",
+            ""line = MockLine(depth=3, leaves=[('a', 1), ('b', 1), ('(', 1), (')', 1)])"",
+            ""class MockLast:\n    opening_bracket = '('"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{', '<'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> Tuple[int, str, int]:\n        for index, (leaf, length) in enumerate(self.leaves):\n            yield index, leaf, length\n\nline = MockLine(depth=3, leaves=[('a', 1), ('b', 2), ('(', 1), (')', 1)])"",
+            ""class MockLast:\n    open_bracket = '(' \n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n    def enumerate_with_length(self):\n        for leaf, length in self.leaves:\n            yield leaf, length"",
+            ""line = MockLine(2, [(\""(\"", 1), (\""a\"", 1), (\""b\"", 1), (\"")\"", 1)])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = \""(\"""",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth:int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n    def enumerate_with_length(self):\n        for leaf, length in self.leaves:\n            yield (None, leaf, length)"",
+            ""line = MockLine(depth=2, leaves=[('a', 1), ('b', 1), ('(', 1), (')', 1)])"",
+            ""class MockLast:\n    @property\n    def opening_bracket(self): return '('"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:  # Initialize with mock data for 'line'\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        total_length = 0\n        for leaf, length in self.leaves:\n            total_length += length\n            yield leaf, length\n"",
+            ""line = MockLine(depth=2, leaves=[('leaf1', 3), ('leaf2', 5), ('(', 1), (')', 1)])"",
+            ""class MockLast:  # Initialize with mock data for 'last'\n    class OpeningBracket:\n        pass\n\n    opening_bracket = OpeningBracket()\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '\u00ab'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf, length in self.leaves:\n            yield (None, leaf, length)"",
+            ""class MockLast:\n    class opening_bracket:\n        pass\n\nline = MockLine(depth=3, leaves=[('a', 1), ('b', 2), ('{', 1), ('c', 1)])"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'{', '(', '[', '<'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf[0], leaf[1]"",
+            ""class MockLast:\n    opening_bracket = '('"",
+            ""line = MockLine(depth=2, leaves=[('a', 1), ('b', 2), ('(', 1)])"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'('}""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Any]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, len(leaf), len(leaf)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[\""(\"", \"")\"", \""[\"", \""]\""]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = \""(\""  # example value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> List[Tuple[int, str, int]]:# pragma: no cover"",
+            ""        return [(i, leaf[0], leaf[1]) for i, leaf in enumerate(self.leaves)] # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=[('(', 2), (')', 2), ('[', 3), (']', 3)]) # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Any]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        return enumerate((leaf for leaf in self.leaves), start=1) # pragma: no cover"",
+            ""line = MockLine(2, ['(', '[', '(', ')']) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> List[Tuple[int, str, int]]:# pragma: no cover"",
+            ""        return [(i, leaf[0], leaf[1]) for i, leaf in enumerate(self.leaves)] # pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[('a', 1), ('b', 1), ('(', 1), (')', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = '(' # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{', '<'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> Tuple[int, str, int]:# pragma: no cover"",
+            ""        for index, (leaf, length) in enumerate(self.leaves):# pragma: no cover"",
+            ""            yield index, leaf, length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[('a', 1), ('b', 2), ('(', 1), (')', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    open_bracket = '(' # pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf, length in self.leaves:# pragma: no cover"",
+            ""            yield leaf, length # pragma: no cover"",
+            ""line = MockLine(2, [(\""(\"", 1), (\""a\"", 1), (\""b\"", 1), (\"")\"", 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = \""(\"" # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth:int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf, length in self.leaves:# pragma: no cover"",
+            ""            yield (None, leaf, length) # pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=[('a', 1), ('b', 1), ('(', 1), (')', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    @property# pragma: no cover"",
+            ""    def opening_bracket(self): return '(' # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:  # Initialize with mock data for 'line'# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        total_length = 0# pragma: no cover"",
+            ""        for leaf, length in self.leaves:# pragma: no cover"",
+            ""            total_length += length# pragma: no cover"",
+            ""            yield leaf, length# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=[('leaf1', 3), ('leaf2', 5), ('(', 1), (')', 1)]) # pragma: no cover"",
+            ""class MockLast:  # Initialize with mock data for 'last'# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket()# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '\u00ab'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf, length in self.leaves:# pragma: no cover"",
+            ""            yield (None, leaf, length) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class opening_bracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[('a', 1), ('b', 2), ('{', 1), ('c', 1)]) # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'{', '(', '[', '<'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf[0], leaf[1] # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = '(' # pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=[('a', 1), ('b', 2), ('(', 1)]) # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'('} # pragma: no cover""
+        ]
+    }
+]",1,420,0.00021,1959,0.0029385,0.0031485
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 31:
+    elif leaf.type in OPENING_BRACKETS:
+AttributeError: 'int' object has no attribute 'type'
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type: str):\n        self.type = type\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf.type), len(leaf.type)\n\nline = MockLine(depth=3, leaves=[MockLeaf(\""(\""), MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf(\""(\"")  # example value\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, value: str, leaf_type: str):\n        self.value = value\n        self.type = leaf_type\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf.value), len(leaf.value)\n\nline = MockLine(\n    depth=3,\n    leaves=[\n        MockLeaf(value=\""(\"", leaf_type=\""opening\""),\n        MockLeaf(value=\"")\"", leaf_type=\""closing\""),\n        MockLeaf(value=\""[\"", leaf_type=\""opening\""),\n        MockLeaf(value=\""]\"", leaf_type=\""closing\""),\n    ]\n)"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf(value=\""(\"", leaf_type=\""opening\"")\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type: str):\n        self.type = type\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf.type), len(leaf.type)\n\nline = MockLine(depth=3, leaves=[MockLeaf(\""(\""), MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")] )"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf(\""(\"")  # example value\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type: str):\n        self.type = type\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf.type), len(leaf.type)\n\nline = MockLine(depth=3, leaves=[MockLeaf(\""(\""), MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")] )"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf(\""(\"")  # example value\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type: str):\n        self.type = type\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf.type), len(leaf.type)\n\nline = MockLine(depth=3, leaves=[MockLeaf(\""(\\""
+        ],
+        "",MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")])\n\nclass MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf(\""(\"")\n\nlast = MockLast()\""MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")])\n\nclass MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf(\""(\"")\n\nlast = MockLast()\""MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")])\n\nclass MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf(\""(\"")\n\nlast = MockLast()\""MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")])\n\nclass MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf(\""(\"")\n\nlast = MockLast()\""MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")])\n\nclass MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf(\""(\"")\n\nlast = MockLast()\""MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")])\n\nclass MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf(\""(\"")\n\nlast = MockLast()\""MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")])\n\nclass MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf(\""(\"")\n\nlast = MockLast()\"", \""(\"")\nlast = MockLast()'| \\\"", \\\"", \\\"", \\\"", \\\"", \\\"", \\\"", \\\"", \\\"", \\\"", \\\"", \\\"", \\\"", \\\"", \\\"")\n\ndef MockLeaf(type: str):\n    return {'type': type}\n\nOPENING_BRACKETS = [\""(\"", \""[\"", \""{\""]"": [
+            ""class MockLeaf:\n    def __init__(self, type: str):\n        self.type = type\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf.type), len(leaf.type)\n\nline = MockLine(depth=3, leaves=[MockLeaf(\""(\\""
+        ],
+        "",MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")])\n\nclass MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf(\""(\"")\n\nlast = MockLast()"": []
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type: str):\n        self.type = type\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf.type), len(leaf.type)\n\nline = MockLine(depth=3, leaves=[MockLeaf(\""(\""), MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf(\""(\"")  # example value\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, leaf_type: str):\n        self.type = leaf_type\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf.type), len(leaf.type)\n\nline = MockLine(\n    depth=3, \n    leaves=[MockLeaf(\""(\""), MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")]\n)"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf(\""(\"")  # example value\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_: str):\n        self.type = type_\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf.type), len(leaf.type)\n\nline = MockLine(depth=3, leaves=[MockLeaf(\""(\""), MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf(\""(\"")  # example value\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Any]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf), len(leaf)\n\nclass Leaf:\n    def __init__(self, typ: str):\n        self.type = typ\n\nline = MockLine(depth=3, leaves=[Leaf('('), Leaf(')'), Leaf('['), Leaf(']')])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = Leaf('(')  # example value\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, leaf_type: str):\n        self.type = leaf_type\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf.type), len(leaf.type)\n\nline = MockLine(depth=3, leaves=[MockLeaf(\""(\""), MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf(\""(\"")  # example value\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""]""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type: str):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, len(leaf.type), len(leaf.type)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[MockLeaf(\""(\""), MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = MockLeaf(\""(\"")  # example value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, value: str, leaf_type: str):# pragma: no cover"",
+            ""        self.value = value# pragma: no cover"",
+            ""        self.type = leaf_type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, len(leaf.value), len(leaf.value)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(# pragma: no cover"",
+            ""    depth=3,# pragma: no cover"",
+            ""    leaves=[# pragma: no cover"",
+            ""        MockLeaf(value=\""(\"", leaf_type=\""opening\""),# pragma: no cover"",
+            ""        MockLeaf(value=\"")\"", leaf_type=\""closing\""),# pragma: no cover"",
+            ""        MockLeaf(value=\""[\"", leaf_type=\""opening\""),# pragma: no cover"",
+            ""        MockLeaf(value=\""]\"", leaf_type=\""closing\""),# pragma: no cover"",
+            ""    ]# pragma: no cover"",
+            "") # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = MockLeaf(value=\""(\"", leaf_type=\""opening\"")# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type: str):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, len(leaf.type), len(leaf.type)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[MockLeaf(\""(\""), MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")] ) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = MockLeaf(\""(\"")  # example value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type: str):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, len(leaf.type), len(leaf.type)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[MockLeaf(\""(\""), MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")] ) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = MockLeaf(\""(\"")  # example value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type: str):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, len(leaf.type), len(leaf.type)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[MockLeaf(\""(\""), MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = MockLeaf(\""(\"")  # example value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, leaf_type: str):# pragma: no cover"",
+            ""        self.type = leaf_type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, len(leaf.type), len(leaf.type)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(# pragma: no cover"",
+            ""    depth=3, # pragma: no cover"",
+            ""    leaves=[MockLeaf(\""(\""), MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")]# pragma: no cover"",
+            "") # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = MockLeaf(\""(\"")  # example value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_: str):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, len(leaf.type), len(leaf.type)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[MockLeaf(\""(\""), MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = MockLeaf(\""(\"")  # example value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Any]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, len(leaf), len(leaf)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, typ: str):# pragma: no cover"",
+            ""        self.type = typ# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[Leaf('('), Leaf(')'), Leaf('['), Leaf(']')]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = Leaf('(')  # example value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, leaf_type: str):# pragma: no cover"",
+            ""        self.type = leaf_type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, len(leaf.type), len(leaf.type)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[MockLeaf(\""(\""), MockLeaf(\"")\""), MockLeaf(\""[\""), MockLeaf(\""]\"")]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = MockLeaf(\""(\"")  # example value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""] # pragma: no cover""
+        ]
+    }
+]",2,906,0.000453,2963,0.0044445,0.0048975
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 29:
+    elif leaf.type in OPENING_BRACKETS:
+AttributeError: 'str' object has no attribute 'type'
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type: str):\n        self.type = type\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> List[Tuple[int, MockLeaf, int]]:\n        return [(i, leaf, 1) for i, leaf in enumerate(self.leaves)]"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""line = MockLine(depth=2, leaves=[MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')])"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_: str):\n        self.type = type_\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> List[Tuple[int, MockLeaf, int]]:\n        return [(i, leaf, 1) for i, leaf in enumerate(self.leaves)]"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf('(')\n\nlast = MockLast()"",
+            ""line = MockLine(depth=2, leaves=[MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')])"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List['MockLeaf']) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, leaf.length\n\nclass MockLeaf:\n    def __init__(self, symbol: str, length: int):\n        self.symbol = symbol\n        self.length = length\n        self.type = symbol  # Using symbol as the type for this context\n\nline = MockLine(depth=2, leaves=[MockLeaf('(', 2), MockLeaf(')', 2), MockLeaf('[', 3), MockLeaf(']', 3)])"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, value: str):\n        self.value = value\n        self.type = value  # The type is directly taken from the value\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf.value)\n\nline = MockLine(depth=2, leaves=[MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')])"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, value: str):\n        self.value = value\n        self.type = value  # Simulate having a type attribute\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> List[Tuple[int, MockLeaf, int]]:\n        return [(i, leaf, len(leaf.value)) for i, leaf in enumerate(self.leaves)]"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""leaves = [MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')]\nline = MockLine(depth=2, leaves=leaves)"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_: str):\n        self.type = type_\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> List[Tuple[int, MockLeaf, int]]:\n        return [(i, leaf, 1) for i, leaf in enumerate(self.leaves)]"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""line = MockLine(depth=3, leaves=[MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')])"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Dict, Any""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_str: str):\n        self.type = type_str\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, 1  # Assuming a constant length of 1 for simplicity\n\nline = MockLine(depth=2, leaves=[MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = MockLeaf('(')\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    def __init__(self, value: str):\n        self.value = value\n        self.type = value  # type is defined as the value for simplicity\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[Leaf]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> List[Tuple[int, Leaf, int]]:\n        return [(i, leaf, len(leaf.value)) for i, leaf in enumerate(self.leaves)]"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = Leaf('(')  # example value\n\nlast = MockLast()"",
+            ""line = MockLine(depth=2, leaves=[Leaf('('), Leaf(')'), Leaf('['), Leaf(']')])"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type: str):\n        self.type = type\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> List[Tuple[int, MockLeaf, int]]:\n        return [(i, leaf, 1) for i, leaf in enumerate(self.leaves)]"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""line = MockLine(depth=2, leaves=[MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')])"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    def __init__(self, type_: str):\n        self.type = type_\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[Leaf]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> List[Tuple[int, Leaf, int]]:\n        return [(i, leaf, 1) for i, leaf in enumerate(self.leaves)]"",
+            ""class MockLast:\n    class OpeningBracket:\n        def __init__(self):\n            self.type = '('\n    opening_bracket = OpeningBracket()"",
+            ""line = MockLine(depth=2, leaves=[Leaf('('), Leaf(')'), Leaf('['), Leaf(']')])"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type: str):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> List[Tuple[int, MockLeaf, int]]:# pragma: no cover"",
+            ""        return [(i, leaf, 1) for i, leaf in enumerate(self.leaves)] # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=[MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')]) # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_: str):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> List[Tuple[int, MockLeaf, int]]:# pragma: no cover"",
+            ""        return [(i, leaf, 1) for i, leaf in enumerate(self.leaves)] # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = MockLeaf('(')# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=[MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')]) # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List['MockLeaf']) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, leaf.length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, symbol: str, length: int):# pragma: no cover"",
+            ""        self.symbol = symbol# pragma: no cover"",
+            ""        self.length = length# pragma: no cover"",
+            ""        self.type = symbol  # Using symbol as the type for this context# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=[MockLeaf('(', 2), MockLeaf(')', 2), MockLeaf('[', 3), MockLeaf(']', 3)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, value: str):# pragma: no cover"",
+            ""        self.value = value# pragma: no cover"",
+            ""        self.type = value  # The type is directly taken from the value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, len(leaf.value)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=[MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, value: str):# pragma: no cover"",
+            ""        self.value = value# pragma: no cover"",
+            ""        self.type = value  # Simulate having a type attribute# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> List[Tuple[int, MockLeaf, int]]:# pragma: no cover"",
+            ""        return [(i, leaf, len(leaf.value)) for i, leaf in enumerate(self.leaves)] # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""leaves = [MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')]# pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=leaves) # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_: str):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> List[Tuple[int, MockLeaf, int]]:# pragma: no cover"",
+            ""        return [(i, leaf, 1) for i, leaf in enumerate(self.leaves)] # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')]) # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Dict, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_str: str):# pragma: no cover"",
+            ""        self.type = type_str# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, 1  # Assuming a constant length of 1 for simplicity# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=[MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = MockLeaf('(')# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, value: str):# pragma: no cover"",
+            ""        self.value = value# pragma: no cover"",
+            ""        self.type = value  # type is defined as the value for simplicity# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Leaf]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> List[Tuple[int, Leaf, int]]:# pragma: no cover"",
+            ""        return [(i, leaf, len(leaf.value)) for i, leaf in enumerate(self.leaves)] # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = Leaf('(')  # example value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=[Leaf('('), Leaf(')'), Leaf('['), Leaf(']')]) # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type: str):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> List[Tuple[int, MockLeaf, int]]:# pragma: no cover"",
+            ""        return [(i, leaf, 1) for i, leaf in enumerate(self.leaves)] # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=[MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')]) # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, type_: str):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Leaf]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> List[Tuple[int, Leaf, int]]:# pragma: no cover"",
+            ""        return [(i, leaf, 1) for i, leaf in enumerate(self.leaves)] # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        def __init__(self):# pragma: no cover"",
+            ""            self.type = '('# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=[Leaf('('), Leaf(')'), Leaf('['), Leaf(']')]) # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    }
+]",2,1414,0.000707,2354,0.003531,0.004238
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 23:
+    for _index, leaf, leaf_length in line.enumerate_with_length():
+ValueError: not enough values to unpack (expected 3, got 2)
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[str]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> Tuple[int, str, int]:\n        for index, leaf in enumerate(self.leaves):\n            yield index + 1, leaf, len(leaf)"",
+            ""line = MockLine(2, ['(', '[', '(', ')'])"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[str]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> Tuple[int, str, int]:\n        for index, leaf in enumerate(self.leaves):\n            yield index, leaf, len(leaf)"",
+            ""line = MockLine(2, ['(', '[', '(', ')'])"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[str]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> Tuple[int, str, int]:\n        for leaf in self.leaves:\n            yield leaf, len(leaf)\n"",
+            ""line = MockLine(2, ['(', '[', '(', ')'])"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[str]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> List[Tuple[int, str, int]]:\n        return [(i, leaf, len(leaf)) for i, leaf in enumerate(self.leaves)]"",
+            ""line = MockLine(2, ['(', '[', '(', ')'])"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf), len(leaf)  # Returning the leaf, its length, and length again to match unpacking"",
+            ""line = MockLine(2, ['(', '[', ')', ''])"",
+            ""  # Added an empty string for length consistency, simulating leaves"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[str]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf)\n\nline = MockLine(2, ['(', '[', ']', ')'])"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf), len(leaf)"",
+            ""line = MockLine(2, [\""(\\\""]\"", \"")\\\"", \""[\\\"", \""]\\\"", \""{\\\"", \""}\\\""]\"")"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[str]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> List[Tuple[int, str, int]]:\n        return [(i + 1, leaf, len(leaf)) for i, leaf in enumerate(self.leaves)]"",
+            ""line = MockLine(depth=2, leaves=['(', '[', ')', ']'])"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[str]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf)\n"",
+            ""line = MockLine(2, ['(', '[', '(', ')'])"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[str]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> List[Tuple[int, str, int]]:\n        return [(i + 1, leaf, len(leaf)) for i, leaf in enumerate(self.leaves)]"",
+            ""line = MockLine(2, ['(', '[', '(', ')'])"",
+            ""class MockLast:\n    class OpeningBracket:\n        pass\n    opening_bracket = OpeningBracket()"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[str]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> Tuple[int, str, int]:# pragma: no cover"",
+            ""        for index, leaf in enumerate(self.leaves):# pragma: no cover"",
+            ""            yield index + 1, leaf, len(leaf) # pragma: no cover"",
+            ""line = MockLine(2, ['(', '[', '(', ')']) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[str]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> Tuple[int, str, int]:# pragma: no cover"",
+            ""        for index, leaf in enumerate(self.leaves):# pragma: no cover"",
+            ""            yield index, leaf, len(leaf) # pragma: no cover"",
+            ""line = MockLine(2, ['(', '[', '(', ')']) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[str]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> Tuple[int, str, int]:# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, len(leaf)# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""line = MockLine(2, ['(', '[', '(', ')']) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[str]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> List[Tuple[int, str, int]]:# pragma: no cover"",
+            ""        return [(i, leaf, len(leaf)) for i, leaf in enumerate(self.leaves)] # pragma: no cover"",
+            ""line = MockLine(2, ['(', '[', '(', ')']) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, len(leaf), len(leaf)  # Returning the leaf, its length, and length again to match unpacking # pragma: no cover"",
+            ""line = MockLine(2, ['(', '[', ')', '']) # pragma: no cover"",
+            ""  # Added an empty string for length consistency, simulating leaves # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[str]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, len(leaf)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(2, ['(', '[', ']', ')']) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[str]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> List[Tuple[int, str, int]]:# pragma: no cover"",
+            ""        return [(i + 1, leaf, len(leaf)) for i, leaf in enumerate(self.leaves)] # pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=['(', '[', ')', ']']) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[str]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, len(leaf)# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""line = MockLine(2, ['(', '[', '(', ')']) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[str]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> List[Tuple[int, str, int]]:# pragma: no cover"",
+            ""        return [(i + 1, leaf, len(leaf)) for i, leaf in enumerate(self.leaves)] # pragma: no cover"",
+            ""line = MockLine(2, ['(', '[', '(', ')']) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    class OpeningBracket:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    opening_bracket = OpeningBracket() # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    }
+]",2,1889,0.0009445,1877,0.0028155,0.00376
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 27:
+    elif leaf.type in OPENING_BRACKETS:
+AttributeError: 'str' object has no attribute 'type'
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List, Any""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, typ: str):\n        self.type = typ\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, 1  # Assume each leaf has a length of 1"",
+            ""line = MockLine(depth=3, leaves=[MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf('{')])"",
+            ""class MockLast:\n    opening_bracket = MockLeaf('(')"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, value: str):\n        self.value = value\n        self.type = value\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, 1  # Assuming length of each leaf is 1\n"",
+            ""leaves = [MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')]\nline = MockLine(depth=2, leaves=leaves)"",
+            ""class MockLast:\n    opening_bracket = MockLeaf('(')"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type: str):\n        self.type = type\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        return enumerate((leaf for leaf in self.leaves), start=1)"",
+            ""line = MockLine(depth=3, leaves=[MockLeaf('('), MockLeaf('['), MockLeaf(')'), MockLeaf(']')])"",
+            ""class MockLast:\n    opening_bracket = MockLeaf('(')"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{', '<'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_: str, length: int):\n        self.type = type_\n        self.length = length"",
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, leaf.length"",
+            ""line = MockLine(depth=2, leaves=[MockLeaf('(', 1), MockLeaf(')', 1), MockLeaf('[', 1), MockLeaf(']', 1)])"",
+            ""class MockLast:\n    opening_bracket = MockLeaf('(', 1)"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    def __init__(self, content: str):\n        self.content = content\n        self.type = content  # Using content as the type for simplicity\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[Leaf]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> List[Tuple[int, Leaf, int]]:\n        return [(i, leaf, 1) for i, leaf in enumerate(self.leaves)]"",
+            ""line = MockLine(3, [Leaf('('), Leaf(')'), Leaf('['), Leaf(']')])"",
+            ""class MockLast:\n    opening_bracket = Leaf('(')"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{', '<'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    def __init__(self, type_: str):\n        self.type = type_\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[Leaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> Tuple[int, Leaf, int]:\n        for index, leaf in enumerate(self.leaves):\n            yield index, leaf, 1  # assuming each leaf has a length of 1"",
+            ""line = MockLine(depth=3, leaves=[Leaf('('), Leaf(')'), Leaf('['), Leaf(']')])"",
+            ""class MockLast:\n    opening_bracket = Leaf('(')"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = { '(', '[', '{' }""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Dict""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, typ: str, length: int):\n        self.type = typ\n        self.length = length\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, leaf.length"",
+            ""line = MockLine(depth=3, leaves=[MockLeaf('(', 1), MockLeaf(')', 1), MockLeaf('[', 1), MockLeaf(']', 1)])"",
+            ""class MockLast:\n    opening_bracket = MockLeaf('(', 1)  # example value\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Dict""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_str):\n        self.type = type_str\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[MockLeaf]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, 1  # assuming length is 1 for each leaf"",
+            ""line = MockLine(2, [MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')])"",
+            ""class MockLast:\n    opening_bracket = MockLeaf('(')"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    def __init__(self, value: str, leaf_type: str):\n        self.value = value\n        self.type = leaf_type\n\nclass MockLine:\n    def __init__(self, depth: int, leaves: List[Leaf]):\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, 1  # Assuming each leaf has a length of 1 for simplicity"",
+            ""line = MockLine(depth=3, leaves=[Leaf('a', 'other'), Leaf('b', 'other'), Leaf('(', 'opening'), Leaf(')', 'closing')])"",
+            ""class MockLast:\n    opening_bracket = Leaf('(', 'opening')  # example value"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{', '<'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[str]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf, len(leaf)\n"",
+            ""line = MockLine(depth=4, leaves=['(', '[', 'text', ')'])"",
+            ""class MockLast:\n    opening_bracket = '('"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = ['(', '[', '{']""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, typ: str):# pragma: no cover"",
+            ""        self.type = typ# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, 1  # Assume each leaf has a length of 1 # pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf('{')]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = MockLeaf('(') # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, value: str):# pragma: no cover"",
+            ""        self.value = value# pragma: no cover"",
+            ""        self.type = value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, 1  # Assuming length of each leaf is 1# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""leaves = [MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')]# pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=leaves) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = MockLeaf('(') # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type: str):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        return enumerate((leaf for leaf in self.leaves), start=1) # pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[MockLeaf('('), MockLeaf('['), MockLeaf(')'), MockLeaf(']')]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = MockLeaf('(') # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{', '<'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_: str, length: int):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.length = length # pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, leaf.length # pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=[MockLeaf('(', 1), MockLeaf(')', 1), MockLeaf('[', 1), MockLeaf(']', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = MockLeaf('(', 1) # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, content: str):# pragma: no cover"",
+            ""        self.content = content# pragma: no cover"",
+            ""        self.type = content  # Using content as the type for simplicity# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Leaf]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> List[Tuple[int, Leaf, int]]:# pragma: no cover"",
+            ""        return [(i, leaf, 1) for i, leaf in enumerate(self.leaves)] # pragma: no cover"",
+            ""line = MockLine(3, [Leaf('('), Leaf(')'), Leaf('['), Leaf(']')]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = Leaf('(') # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{', '<'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, type_: str):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Leaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> Tuple[int, Leaf, int]:# pragma: no cover"",
+            ""        for index, leaf in enumerate(self.leaves):# pragma: no cover"",
+            ""            yield index, leaf, 1  # assuming each leaf has a length of 1 # pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[Leaf('('), Leaf(')'), Leaf('['), Leaf(']')]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = Leaf('(') # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = { '(', '[', '{' } # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Dict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, typ: str, length: int):# pragma: no cover"",
+            ""        self.type = typ# pragma: no cover"",
+            ""        self.length = length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, leaf.length # pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[MockLeaf('(', 1), MockLeaf(')', 1), MockLeaf('[', 1), MockLeaf(']', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = MockLeaf('(', 1)  # example value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Dict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_str):# pragma: no cover"",
+            ""        self.type = type_str# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[MockLeaf]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, 1  # assuming length is 1 for each leaf # pragma: no cover"",
+            ""line = MockLine(2, [MockLeaf('('), MockLeaf(')'), MockLeaf('['), MockLeaf(']')]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = MockLeaf('(') # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, value: str, leaf_type: str):# pragma: no cover"",
+            ""        self.value = value# pragma: no cover"",
+            ""        self.type = leaf_type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Leaf]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, 1  # Assuming each leaf has a length of 1 for simplicity # pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[Leaf('a', 'other'), Leaf('b', 'other'), Leaf('(', 'opening'), Leaf(')', 'closing')]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = Leaf('(', 'opening')  # example value # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{', '<'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[str]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, len(leaf)# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""line = MockLine(depth=4, leaves=['(', '[', 'text', ')']) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = '(' # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = ['(', '[', '{'] # pragma: no cover""
+        ]
+    }
+]",2,2388,0.001194,2166,0.003249,0.004443
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 26:
+    if leaf is last.opening_bracket:
+AttributeError: 'MockLast' object has no attribute 'opening_bracket'
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for index, (leaf, length) in enumerate(self.leaves):\n            yield index, leaf, length\n\nline = MockLine(depth=3, leaves=[('a', 1), ('b', 1), ('(', 1), (')', 1)])"",
+            ""class MockLast:\n    opening_bracket = '(' \n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{', '<'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for index, (leaf, length) in enumerate(self.leaves):\n            yield index, leaf, length\n\nline = MockLine(depth=3, leaves=[('a', 1), ('b', 2), ('(', 1), (')', 1)])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = '('  # using a string for opening bracket\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> Tuple[int, str, int]:\n        for index, (leaf, length) in enumerate(self.leaves):\n            yield index, leaf, length\n\nline = MockLine(depth=4, leaves=[('(', 1), ('b', 1), ('{', 2), (')', 1)])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = '('\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for index, (leaf, length) in enumerate(self.leaves):\n            yield index, leaf, length\n\nline = MockLine(depth=3, leaves=[('a', 1), ('b', 1), ('(', 1), (')', 1)])"",
+            ""class MockLast:\n    opening_bracket = '('\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for index, (leaf, length) in enumerate(self.leaves):\n            yield index, leaf, length\n\nline = MockLine(depth=3, leaves=[('a', 1), ('b', 2), ('(', 1), (')', 1)])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = '('\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self) -> Tuple[int, str, int]:\n        for index, (leaf, length) in enumerate(self.leaves):\n            yield index, leaf, length\n\nline = MockLine(depth=3, leaves=[('a', 1), ('b', 2), ('(', 1), (')', 1)])"",
+            ""class MockLast:\n    opening_bracket = '('  # Changed to the correct attribute name\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for index, (leaf, length) in enumerate(self.leaves):\n            yield index, leaf, length\n\nline = MockLine(depth=3, leaves=[('a', 1), ('b', 1), ('(', 1), (')', 1)])"",
+            ""class MockLast:\n    opening_bracket = '('\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for index, (leaf, length) in enumerate(self.leaves):\n            yield index, leaf, length\n\nline = MockLine(depth=3, leaves=[('a', 1), ('(', 1), ('b', 1)])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = '('  # example opening bracket\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for index, (leaf, length) in enumerate(self.leaves):\n            yield index, leaf, length\n\nline = MockLine(depth=3, leaves=[('a', 1), ('b', 2), ('(', 1), (')', 1)])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = '('\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for index, (leaf, length) in enumerate(self.leaves):\n            yield index, leaf, length\n\nline = MockLine(depth=3, leaves=[('a', 1), ('b', 1), ('(', 1), (')', 1)])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = '('\n\nlast = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'}""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for index, (leaf, length) in enumerate(self.leaves):# pragma: no cover"",
+            ""            yield index, leaf, length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[('a', 1), ('b', 1), ('(', 1), (')', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = '(' # pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{', '<'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for index, (leaf, length) in enumerate(self.leaves):# pragma: no cover"",
+            ""            yield index, leaf, length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[('a', 1), ('b', 2), ('(', 1), (')', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = '('  # using a string for opening bracket# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> Tuple[int, str, int]:# pragma: no cover"",
+            ""        for index, (leaf, length) in enumerate(self.leaves):# pragma: no cover"",
+            ""            yield index, leaf, length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=4, leaves=[('(', 1), ('b', 1), ('{', 2), (')', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = '('# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for index, (leaf, length) in enumerate(self.leaves):# pragma: no cover"",
+            ""            yield index, leaf, length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[('a', 1), ('b', 1), ('(', 1), (')', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = '('# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for index, (leaf, length) in enumerate(self.leaves):# pragma: no cover"",
+            ""            yield index, leaf, length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[('a', 1), ('b', 2), ('(', 1), (')', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = '('# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> Tuple[int, str, int]:# pragma: no cover"",
+            ""        for index, (leaf, length) in enumerate(self.leaves):# pragma: no cover"",
+            ""            yield index, leaf, length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[('a', 1), ('b', 2), ('(', 1), (')', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = '('  # Changed to the correct attribute name# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for index, (leaf, length) in enumerate(self.leaves):# pragma: no cover"",
+            ""            yield index, leaf, length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[('a', 1), ('b', 1), ('(', 1), (')', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = '('# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for index, (leaf, length) in enumerate(self.leaves):# pragma: no cover"",
+            ""            yield index, leaf, length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[('a', 1), ('(', 1), ('b', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = '('  # example opening bracket# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for index, (leaf, length) in enumerate(self.leaves):# pragma: no cover"",
+            ""            yield index, leaf, length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[('a', 1), ('b', 2), ('(', 1), (')', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = '('# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for index, (leaf, length) in enumerate(self.leaves):# pragma: no cover"",
+            ""            yield index, leaf, length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[('a', 1), ('b', 1), ('(', 1), (')', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = '('# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '{', '[', '<'} # pragma: no cover""
+        ]
+    }
+]",2,2887,0.0014435,2014,0.003021,0.0044645
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 22:
+    for _index, leaf, leaf_length in line.enumerate_with_length():
+ValueError: not enough values to unpack (expected 3, got 2)
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf[0], leaf[1]"",
+            ""line = MockLine(depth=3, leaves=[('(', 2), ('b', 1), ('c', 1), (')', 2)])"",
+            ""class MockLast:\n    opening_bracket = '('"",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n    def enumerate_with_length(self):\n        for index, (leaf, length) in enumerate(self.leaves):\n            yield index, leaf, length"",
+            ""line = MockLine(2, [(\""(\"", 1), (\""a\"", 1), (\""b\"", 1), (\"")\"", 1)])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = \""(\"""",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n    \n    def enumerate_with_length(self):\n        for leaf, length in self.leaves:\n            yield (0, leaf, length)  # Adding a dummy index to match the expected unpacking"",
+            ""line = MockLine(2, [(\""(\"", 1), (\""a\"", 1), (\""b\"", 1), (\""[\"", 1)])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = \""(\"""",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n    def enumerate_with_length(self):\n        for leaf, length in self.leaves:\n            yield leaf, length"",
+            ""line = MockLine(2, [(\""(\"", 1), (\""a\"", 1), (\""b\"", 1), (\""(\"", 1), (\"")\"", 1)])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = \""(\"""",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n    \n    def enumerate_with_length(self):\n        for leaf, length in self.leaves:\n            yield leaf, length"",
+            ""line = MockLine(2, [(\""(\"", 1), (\""a\"", 1), (\""b\"", 1), (\"")\"", 1)])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = \""(\"""",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf, length in self.leaves:\n            yield leaf, length, length  # Yielding an additional length for unpacking"",
+            ""line = MockLine(depth=2, leaves=[(\""(\"", 1), (\""b\"", 1), (\""[\"", 1), (\"")\"", 1)])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = \""(\"""",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[str]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n    def enumerate_with_length(self) -> Tuple[str, int]:\n        for leaf in self.leaves:\n            yield leaf, 1"",
+            ""line = MockLine(2, [\""(\"", \""a\"", \""b\"", \"")\""])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = \""(\"""",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf[0], leaf[1]"",
+            ""line = MockLine(depth=3, leaves=[('(', 1), ('a', 1), (')', 1), ('[', 1)])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = \""(\"""",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple, Any""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf[0], leaf[1]"",
+            ""line = MockLine(2, [(\""(\"", 1), (\""a\"", 1), (\""[\"", 1), (\""b\"", 1), (\"")\"", 1)])"",
+            ""class MockLast:\n    opening_bracket = \""(\"""",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:\n        self.depth = depth\n        self.leaves = leaves\n    def enumerate_with_length(self):\n        for leaf in self.leaves:\n            yield leaf[0], leaf[1]"",
+            ""line = MockLine(2, [(\""(\"", 1), (\""a\"", 1), (\""b\"", 1), (\"")\"", 1)])"",
+            ""class MockLast:\n    def __init__(self):\n        self.opening_bracket = \""(\"""",
+            ""last = MockLast()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""}""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf[0], leaf[1] # pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[('(', 2), ('b', 1), ('c', 1), (')', 2)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = '(' # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for index, (leaf, length) in enumerate(self.leaves):# pragma: no cover"",
+            ""            yield index, leaf, length # pragma: no cover"",
+            ""line = MockLine(2, [(\""(\"", 1), (\""a\"", 1), (\""b\"", 1), (\"")\"", 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = \""(\"" # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf, length in self.leaves:# pragma: no cover"",
+            ""            yield (0, leaf, length)  # Adding a dummy index to match the expected unpacking # pragma: no cover"",
+            ""line = MockLine(2, [(\""(\"", 1), (\""a\"", 1), (\""b\"", 1), (\""[\"", 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = \""(\"" # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf, length in self.leaves:# pragma: no cover"",
+            ""            yield leaf, length # pragma: no cover"",
+            ""line = MockLine(2, [(\""(\"", 1), (\""a\"", 1), (\""b\"", 1), (\""(\"", 1), (\"")\"", 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = \""(\"" # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf, length in self.leaves:# pragma: no cover"",
+            ""            yield leaf, length # pragma: no cover"",
+            ""line = MockLine(2, [(\""(\"", 1), (\""a\"", 1), (\""b\"", 1), (\"")\"", 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = \""(\"" # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = [\""(\"", \""[\"", \""{\""] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf, length in self.leaves:# pragma: no cover"",
+            ""            yield leaf, length, length  # Yielding an additional length for unpacking # pragma: no cover"",
+            ""line = MockLine(depth=2, leaves=[(\""(\"", 1), (\""b\"", 1), (\""[\"", 1), (\"")\"", 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = \""(\"" # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[str]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""    def enumerate_with_length(self) -> Tuple[str, int]:# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf, 1 # pragma: no cover"",
+            ""line = MockLine(2, [\""(\"", \""a\"", \""b\"", \"")\""]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = \""(\"" # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf[0], leaf[1] # pragma: no cover"",
+            ""line = MockLine(depth=3, leaves=[('(', 1), ('a', 1), (')', 1), ('[', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = \""(\"" # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf[0], leaf[1] # pragma: no cover"",
+            ""line = MockLine(2, [(\""(\"", 1), (\""a\"", 1), (\""[\"", 1), (\""b\"", 1), (\"")\"", 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    opening_bracket = \""(\"" # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[str, int]]) -> None:# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for leaf in self.leaves:# pragma: no cover"",
+            ""            yield leaf[0], leaf[1] # pragma: no cover"",
+            ""line = MockLine(2, [(\""(\"", 1), (\""a\"", 1), (\""b\"", 1), (\"")\"", 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.opening_bracket = \""(\"" # pragma: no cover"",
+            ""last = MockLast() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {\""(\"", \""[\"", \""{\""} # pragma: no cover""
+        ]
+    }
+]",2,3391,0.0016955,2014,0.003021,0.0047165

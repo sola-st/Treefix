@@ -1,0 +1,48 @@
+from typing import List, Optional, Any # pragma: no cover
+
+class MockQueue:# pragma: no cover
+    def peek(self):# pragma: no cover
+        return 'next_item'  # Replace with proper implementation if necessary # pragma: no cover
+class MockDownloaderInterface:# pragma: no cover
+    def stats(self, pqueues):# pragma: no cover
+        return [(1, 0), (2, 1)]  # Returns a list of tuples with stats, replace values as needed # pragma: no cover
+
+from typing import List # pragma: no cover
+
+class MockQueue:# pragma: no cover
+    def peek(self):# pragma: no cover
+        return 'next_item'  # Simulates returning the next item without removing it # pragma: no cover
+class MockDownloaderInterface:# pragma: no cover
+    def stats(self, pqueues: List[MockQueue]):# pragma: no cover
+        return [(len(queue), index) for index, queue in enumerate(pqueues)]  # Returns length of queues for stats # pragma: no cover
+class MockSelf:# pragma: no cover
+    def __init__(self):# pragma: no cover
+        self._downloader_interface = MockDownloaderInterface()# pragma: no cover
+        self.pqueues = [MockQueue(), MockQueue()]  # Creates mock queues # pragma: no cover
+self = MockSelf() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/scrapy/scrapy/pqueues.py
+from l3.Runtime import _l_
+"""Returns the next object to be returned by :meth:`pop`,
+        but without removing it from the queue.
+
+        Raises :exc:`NotImplementedError` if the underlying queue class does
+        not implement a ``peek`` method, which is optional for queues.
+        """
+stats = self._downloader_interface.stats(self.pqueues)
+_l_(8202)
+if not stats:
+    _l_(8204)
+
+    aux = None
+    _l_(8203)
+    exit(aux)
+slot = min(stats)[1]
+_l_(8205)
+queue = self.pqueues[slot]
+_l_(8206)
+aux = queue.peek()
+_l_(8207)
+exit(aux)

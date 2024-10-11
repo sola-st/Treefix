@@ -1,0 +1,65 @@
+import numpy as np # pragma: no cover
+import pytest # pragma: no cover
+
+data = np.array([1, 2, 3]) # pragma: no cover
+self = type('MockSelf', (object,), {'assert_extension_array_equal': lambda x, y: None})() # pragma: no cover
+pytest = type('MockPytest', (object,), {'raises': staticmethod(lambda exc: (lambda f: f))})() # pragma: no cover
+np = type('MockNumpy', (object,), {'newaxis': None})() # pragma: no cover
+
+import numpy as np # pragma: no cover
+import pytest # pragma: no cover
+
+data = np.array([1, 2, 3]) # pragma: no cover
+class Mock: # pragma: no cover
+    def assert_extension_array_equal(self, a, b): # pragma: no cover
+        assert np.array_equal(a, b) # pragma: no cover
+self = Mock() # pragma: no cover
+pytest = type('Mock', (object,), {'raises': pytest.raises})() # pragma: no cover
+np = type('Mock', (object,), {'newaxis': np.newaxis})() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/pandas/pandas/tests/extension/base/dim2.py
+from l3.Runtime import _l_
+arr2d = data.reshape(1, -1)
+_l_(10655)
+
+result = arr2d[0]
+_l_(10656)
+self.assert_extension_array_equal(result, data)
+_l_(10657)
+
+with pytest.raises(IndexError):
+    _l_(10659)
+
+    arr2d[1]
+    _l_(10658)
+
+with pytest.raises(IndexError):
+    _l_(10661)
+
+    arr2d[-2]
+    _l_(10660)
+
+result = arr2d[:]
+_l_(10662)
+self.assert_extension_array_equal(result, arr2d)
+_l_(10663)
+
+result = arr2d[:, :]
+_l_(10664)
+self.assert_extension_array_equal(result, arr2d)
+_l_(10665)
+
+result = arr2d[:, 0]
+_l_(10666)
+expected = data[[0]]
+_l_(10667)
+self.assert_extension_array_equal(result, expected)
+_l_(10668)
+
+# dimension-expanding getitem on 1D
+result = data[:, np.newaxis]
+_l_(10669)
+self.assert_extension_array_equal(result, arr2d.T)
+_l_(10670)

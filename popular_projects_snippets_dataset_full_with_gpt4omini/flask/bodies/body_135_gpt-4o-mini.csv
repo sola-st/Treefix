@@ -1,0 +1,4756 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Intercept routing exceptions and possibly do something else.
+
+        In debug mode, intercept a routing redirect and replace it with
+        an error if the body will be discarded.
+
+        With modern Werkzeug this shouldn't occur, since it now uses a
+        308 status which tells the browser to resend the method and
+        body.
+
+        .. versionchanged:: 2.1
+            Don't intercept 307 and 308 redirects.
+
+        :meta private:
+        :internal:
+        """"""
+if (
+    not self.debug
+    or not isinstance(request.routing_exception, RequestRedirect)
+    or request.routing_exception.code in {307, 308}
+    or request.method in {""GET"", ""HEAD"", ""OPTIONS""}
+):
+    raise request.routing_exception  # type: ignore
+
+from .debughelpers import FormDataRoutingRedirect
+
+raise FormDataRoutingRedirect(request)
+
+# end code snippet
+
+# begin undefined variables
+self
+request
+RequestRedirect
+# end undefined variables
+
+# begin undefined attributes and methods
+self.debug
+request.routing_exception
+request.method
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException, RequestRedirect"",
+            ""from werkzeug.test import EnvironBuilder"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = Request(environ=EnvironBuilder().get_environ())"",
+            ""RequestRedirect = type('MockRequestRedirect', (HTTPException,), {'code': 302})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('', 301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})()"",
+            ""request = type('Mock', (object,), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})()"",
+            ""request = type('MockRequest', (), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': False})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('http://example.com', 'Redirected'), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.wrappers import Request"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})()"",
+            ""request = type('Mock', (object,), {'routing_exception': RequestRedirect('Some URL', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})()"",
+            ""request = type('MockRequest', (), {'routing_exception': RequestRedirect('example', 'location'), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import InternalServerError, RequestRedirect"",
+            ""from werkzeug.datastructures import MultiDict""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = Mock()"",
+            ""self.debug = False"",
+            ""class MockRoutingException: pass"",
+            ""request = Mock()"",
+            ""request.routing_exception = MockRoutingException()"",
+            ""request.routing_exception.code = 500"",
+            ""request.method = 'POST'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from werkzeug.datastructures import Headers""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})()"",
+            ""class MockRequestRedirect(HTTPException):"",
+            ""    def __init__(self, code):"",
+            ""        self.code = code"",
+            ""        self.description = 'Redirected'"",
+            ""request = type('MockRequest', (Mock,), {'routing_exception': MockRequestRedirect(302), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.test import EnvironBuilder # pragma: no cover"",
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover"",
+            ""request = Request(environ=EnvironBuilder().get_environ()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.datastructures import MultiDict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""self.debug = False # pragma: no cover"",
+            ""class MockRoutingException: pass # pragma: no cover"",
+            ""request = Mock() # pragma: no cover"",
+            ""request.routing_exception = MockRoutingException() # pragma: no cover"",
+            ""request.routing_exception.code = 500 # pragma: no cover"",
+            ""request.method = 'POST' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover"",
+            ""from werkzeug.datastructures import Headers # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})() # pragma: no cover"",
+            ""class MockRequestRedirect(HTTPException): # pragma: no cover"",
+            ""    def __init__(self, code): # pragma: no cover"",
+            ""        self.code = code # pragma: no cover"",
+            ""        self.description = 'Redirected' # pragma: no cover"",
+            ""request = type('MockRequest', (Mock,), {'routing_exception': MockRequestRedirect(302), 'method': 'POST'})() # pragma: no cover""
+        ]
+    }
+]",1,472,0.000236,1031,0.0015465,0.0017824999999999
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 26:
+    raise request.routing_exception  # type: ignore
+NameError: name 'request' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect): def __init__(self): self.code = 301"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""self = type('MockSelf', (object,), {'debug': False})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect):"",
+            ""    code = 302"",
+            ""    description = 'Redirected'"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()"",
+            ""request.routing_exception.code = 302""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()"",
+            ""request.routing_exception.code = 400""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect): def __init__(self): super().__init__('Redirected', 302, None, None, None)"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})() # pragma: no cover""
+        ]
+    }
+]",2,876,0.000438,1150,0.001725,0.002163
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 29:
+    raise request.routing_exception  # type: ignore
+AttributeError: 'Request' object has no attribute 'routing_exception'
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException, RequestRedirect"",
+            ""from werkzeug.test import EnvironBuilder"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException, RequestRedirect"",
+            ""from werkzeug.test import EnvironBuilder"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""class MockRoutingException(RequestRedirect): pass"",
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""environ = EnvironBuilder(method='POST').get_environ()"",
+            ""request = Request(environ)"",
+            ""request.routing_exception = MockRoutingException()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.test import EnvironBuilder"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""def mock_routing_exception(self): return MockRequestRedirect()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': mock_routing_exception(None), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException, RequestRedirect"",
+            ""from werkzeug.test import EnvironBuilder"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""class MockRoutingException(RequestRedirect): pass"",
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRoutingException('Redirecting...'), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException, RequestRedirect"",
+            ""from werkzeug.test import EnvironBuilder"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""self = type('MockSelf', (), {'debug': False})()"",
+            ""environ = EnvironBuilder().get_environ()"",
+            ""request = Request(environ)"",
+            ""request.routing_exception = MockRequestRedirect()"",
+            ""request.method = 'POST'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException, RequestRedirect"",
+            ""from werkzeug.test import EnvironBuilder"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect):\n    def __init__(self):\n        self.code = 302"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException, RequestRedirect"",
+            ""from werkzeug.test import EnvironBuilder"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException, RequestRedirect"",
+            ""from werkzeug.test import EnvironBuilder"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException, RequestRedirect"",
+            ""from werkzeug.test import EnvironBuilder"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect):"",
+            ""    def __init__(self):"",
+            ""        self.code = 302"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException, RequestRedirect"",
+            ""from werkzeug.test import EnvironBuilder"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""class MockRoutingException(RequestRedirect): pass"",
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRoutingException(), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from werkzeug.test import EnvironBuilder # pragma: no cover"",
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.test import EnvironBuilder # pragma: no cover"",
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover"",
+            ""environ = EnvironBuilder(method='POST').get_environ() # pragma: no cover"",
+            ""request = Request(environ) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.test import EnvironBuilder # pragma: no cover"",
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.test import EnvironBuilder # pragma: no cover"",
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.test import EnvironBuilder # pragma: no cover"",
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': False})() # pragma: no cover"",
+            ""environ = EnvironBuilder().get_environ() # pragma: no cover"",
+            ""request = Request(environ) # pragma: no cover"",
+            ""request.method = 'POST' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.test import EnvironBuilder # pragma: no cover"",
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.test import EnvironBuilder # pragma: no cover"",
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.test import EnvironBuilder # pragma: no cover"",
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.test import EnvironBuilder # pragma: no cover"",
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.test import EnvironBuilder # pragma: no cover"",
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    }
+]",2,1286,0.000643,1194,0.001791,0.002434
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 25:
+    raise request.routing_exception  # type: ignore
+NameError: name 'request' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()"",
+            ""RequestRedirect = type('MockRequestRedirect', (RequestRedirect,), {'code': 302})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect(), 'method': 'POST'})()"",
+            ""RequestRedirect = type('MockRequestRedirect', (RequestRedirect,), {'__init__': lambda s, message='', code=302: None})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect):"",
+            ""    def __init__(self):"",
+            ""        super().__init__('Redirecting', 302)"",
+            ""request = type('MockRequest', (), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class MockDebug: pass"",
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""routing_exception = RequestRedirect('Redirected URL', 302)"",
+            ""request = type('MockRequest', (), {'routing_exception': routing_exception, 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""routing_exception = RequestRedirect('Redirecting...', 301)"",
+            ""request = type('MockRequest', (), {'routing_exception': routing_exception, 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect):"",
+            ""    def __init__(self):"",
+            ""        super().__init__('Redirect occurred', 302)"",
+            ""request = type('MockRequest', (), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('MockRequest', (), {'routing_exception': RequestRedirect('Redirecting...', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect, HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': False})()"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class MockSelf: pass\nself = MockSelf()\nself.debug = False"",
+            ""class MockRequestRedirect(RequestRedirect):\n    def __init__(self, message='Redirect', code=302):\n        super().__init__(message, code=code)\nrequest = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': False})()"",
+            ""request = type('MockRequest', (), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockDebug: pass # pragma: no cover"",
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockSelf: pass# pragma: no cover"",
+            ""self = MockSelf()# pragma: no cover"",
+            ""self.debug = False # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': False})() # pragma: no cover""
+        ]
+    }
+]",2,1668,0.000834,1098,0.001647,0.002481
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 21:
+    or not isinstance(request.routing_exception, RequestRedirect)
+NameError: name 'request' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()"",
+            ""RequestRedirect = type('MockRequestRedirect', (RequestRedirect,), {'code': 302})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})()"",
+            ""request = type('Mock', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect(), 'method': 'POST'})()"",
+            ""RequestRedirect = type('MockRequestRedirect', (RequestRedirect,), {'__init__': lambda self: None})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect(), 'method': 'POST'})()"",
+            ""RequestRedirect = type('MockRequestRedirect', (RequestRedirect,), {})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})()"",
+            ""request = type('Mock', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    }
+]",2,2051,0.0010255,964,0.001446,0.0024714999999999
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 21:
+    or not isinstance(request.routing_exception, RequestRedirect)
+NameError: name 'request' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""self = type('Mock', (), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})()"",
+            ""request = type('MockRequest', (), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': True})()"",
+            ""request = type('MockRequest', (), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect(), 'method': 'POST'})()"",
+            ""RequestRedirect = type('MockRequestRedirect', (HTTPException,), {'code': 302})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})() # pragma: no cover"",
+            ""RequestRedirect = type('MockRequestRedirect', (HTTPException,), {'code': 302}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})() # pragma: no cover""
+        ]
+    }
+]",2,2432,0.001216,948,0.001422,0.002638
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 25:
+    raise request.routing_exception  # type: ignore
+NameError: name 'request' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()"",
+            ""RequestRedirect = type('MockRequestRedirect', (RequestRedirect,), {'code': 302})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class MockRoutingException(RequestRedirect): pass"",
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRoutingException('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})()"",
+            ""routing_exception = RequestRedirect('http://example.com', 'Redirected')"",
+            ""request = type('MockRequest', (), {'routing_exception': routing_exception, 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('http://example.com', 'Redirected'), 'method': 'POST'})()"",
+            ""RequestRedirect = type('RequestRedirectMock', (RequestRedirect,), {})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('http://example.com', 301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('http://example.com', 'Redirected'), 'method': 'POST'})()"",
+            ""request.routing_exception = RequestRedirect('http://example.com', 'Redirected')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""self = type('Mock', (), {'debug': True})()"",
+            ""request = type('Mock', (), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})()"",
+            ""req_redirect = RequestRedirect('http://example.com', 'Redirected')"",
+            ""request = type('MockRequest', (Mock,), {'routing_exception': req_redirect, 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})() # pragma: no cover""
+        ]
+    }
+]",2,2826,0.001413,1053,0.0015795,0.0029925
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 27:
+    raise request.routing_exception  # type: ignore
+NameError: name 'request' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.wrappers import Request"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('http://example.com', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('http://example.com', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})()"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.wrappers import Request"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('http://example.com', 'Redirected'), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""routing_exception = RequestRedirect('http://example.com', 302)"",
+            ""request = type('MockRequest', (object,), {'routing_exception': routing_exception, 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})()"",
+            ""request_redirect = RequestRedirect('http://example.com', 302)"",
+            ""request = type('Mock', (object,), {'routing_exception': request_redirect, 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('http://example.com', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('http://example.com', 'Redirected'), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    }
+]",2,3226,0.001613,1015,0.0015225,0.0031355
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 21:
+    or not isinstance(request.routing_exception, RequestRedirect)
+NameError: name 'request' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('http://example.com', 'Redirected'), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('https://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})()"",
+            ""routing_exception_instance = RequestRedirect('http://example.com', 'Redirecting...')"",
+            ""request = type('MockRequest', (), {'routing_exception': routing_exception_instance, 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('Location', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class MockSelf: def __init__(self): self.debug = True"",
+            ""class MockRequest: def __init__(self): self.routing_exception = RequestRedirect('', 302); self.method = 'POST'"",
+            ""self = MockSelf()"",
+            ""request = MockRequest()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",2,3612,0.001806,974,0.001461,0.003267
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 34:
+    raise request.routing_exception  # type: ignore
+TypeError: exceptions must derive from BaseException
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class MockSelf: pass"",
+            ""self = MockSelf()"",
+            ""self.debug = True"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class MockSelf: pass"",
+            ""self = MockSelf()"",
+            ""self.debug = True"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect('Redirected', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import InternalServerError"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = Mock()"",
+            ""self.debug = True"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})()"",
+            ""request_exception = RequestRedirect('http://example.com', 302)"",
+            ""request = type('MockRequest', (), {'routing_exception': request_exception, 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect('some-url', 301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""class MockRoutingException(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRoutingException('Redirecting...', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect('Redirected', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': True})()"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = type('Mock', (), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = Mock()"",
+            ""self.debug = True"",
+            ""class MockRoutingException(RequestRedirect): pass"",
+            ""request = Mock()"",
+            ""request.routing_exception = MockRoutingException('Redirected', 302)"",
+            ""request.method = 'POST'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = Mock()"",
+            ""self.debug = True"",
+            ""class MockRequestRedirect(RequestRedirect): pass"",
+            ""request = Mock()"",
+            ""request.routing_exception = MockRequestRedirect('This is a redirect', 302)"",
+            ""request.method = 'POST'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockSelf: pass # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover"",
+            ""self.debug = True # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockSelf: pass # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover"",
+            ""self.debug = True # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import InternalServerError # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""self.debug = True # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""self.debug = True # pragma: no cover"",
+            ""request = Mock() # pragma: no cover"",
+            ""request.method = 'POST' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""self.debug = True # pragma: no cover"",
+            ""request = Mock() # pragma: no cover"",
+            ""request.method = 'POST' # pragma: no cover""
+        ]
+    }
+]",2,4020,0.00201,1119,0.0016785,0.0036885
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 30:
+    or not isinstance(request.routing_exception, RequestRedirect)
+NameError: name 'RequestRedirect' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})()"",
+            ""class MockRequestRedirect(RequestRedirect):"",
+            ""    def __init__(self):"",
+            ""        super().__init__('Redirect', 302)"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException, RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})()"",
+            ""class MockRequestRedirect(RequestRedirect):"",
+            ""    def __init__(self):"",
+            ""        super().__init__('Redirected', 302)"",
+            ""request = type('MockRequest', (Mock,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect, HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})()"",
+            ""class MockRequestRedirect(RequestRedirect):"",
+            ""    def __init__(self):"",
+            ""        super().__init__('Redirected', code=302)"",
+            ""request = type('MockRequest', (Mock,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (), {'debug': True})()"",
+            ""class MockRequestRedirect(RequestRedirect):"",
+            ""    def __init__(self):"",
+            ""        super().__init__(description='Redirected', response=None, code=302)"",
+            ""request = type('MockRequest', (object,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect, HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})()"",
+            ""request = type('MockRequest', (Mock,), {'routing_exception': RequestRedirect('http://example.com/redirect', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})()"",
+            ""class MockRequestRedirect(RequestRedirect):"",
+            ""    def __init__(self):"",
+            ""        super().__init__('Redirected', 302)"",
+            ""request = type('MockRequest', (Mock,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect, HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})()"",
+            ""request = type('MockRequest', (Mock,), {'routing_exception': RequestRedirect('', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException, RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})()"",
+            ""class MockRequestRedirect(RequestRedirect):"",
+            ""    def __init__(self):"",
+            ""        super().__init__('Redirected', None, 302, None)"",
+            ""request = type('MockRequest', (Mock,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException, RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})()"",
+            ""request = type('MockRequest', (Mock,), {'routing_exception': RequestRedirect('example.com', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})()"",
+            ""class MockRequestRedirect(RequestRedirect):"",
+            ""    def __init__(self):"",
+            ""        super().__init__('', 302)"",
+            ""request = type('MockRequest', (Mock,), {'routing_exception': MockRequestRedirect(), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockSelf', (Mock,), {'debug': True})() # pragma: no cover""
+        ]
+    }
+]",2,4456,0.002228,1248,0.001872,0.0040999999999999
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Intercept routing exceptions and possibly do something else.
+        In debug mode, intercept a routing redirect and replace it with
+        an error if the body will be discarded.
+        With modern Werkzeug this shouldn't occur, since it now uses a
+        308 status which tells the browser to resend the method and
+        body.
+        .. versionchanged:: 2.1
+            Don't intercept 307 and 308 redirects.
+        :meta private:
+        :internal:
+        """"""
+if ( # uncovered
+    not self.debug # uncovered
+    or not isinstance(request.routing_exception, RequestRedirect) # uncovered
+    or request.routing_exception.code in {307, 308} # uncovered
+    or request.method in {""GET"", ""HEAD"", ""OPTIONS""} # uncovered
+):
+    raise request.routing_exception  # type: ignore # uncovered
+try: # uncovered
+    from .debughelpers import FormDataRoutingRedirect # uncovered
+except ImportError: # uncovered
+    pass # uncovered
+raise FormDataRoutingRedirect(request) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('test', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import NotFound"",
+            ""from werkzeug.exceptions import RequestRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})()"",
+            ""request = type('Mock', (object,), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException, RequestRedirect"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})()"",
+            ""request = type('Mock', (object,), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from flask import Flask, request""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from flask import request""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect, 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import NotFound # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    }
+]",3,503,0.0002515,857,0.0012855,0.001537
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Intercept routing exceptions and possibly do something else.
+        In debug mode, intercept a routing redirect and replace it with
+        an error if the body will be discarded.
+        With modern Werkzeug this shouldn't occur, since it now uses a
+        308 status which tells the browser to resend the method and
+        body.
+        .. versionchanged:: 2.1
+            Don't intercept 307 and 308 redirects.
+        :meta private:
+        :internal:
+        """"""
+if ( # uncovered
+    not self.debug # uncovered
+    or not isinstance(request.routing_exception, RequestRedirect) # uncovered
+    or request.routing_exception.code in {307, 308} # uncovered
+    or request.method in {""GET"", ""HEAD"", ""OPTIONS""} # uncovered
+):
+    raise request.routing_exception  # type: ignore # uncovered
+try: # uncovered
+    from .debughelpers import FormDataRoutingRedirect # uncovered
+except ImportError: # uncovered
+    pass # uncovered
+raise FormDataRoutingRedirect(request) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('http://example.com', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})()"",
+            ""request = type('Mock', (object,), {'routing_exception': RequestRedirect('http://example.com', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('/redirect', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.routing import Map, Rule""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com'), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('MockRequest', (object,), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})()"",
+            ""request = type('Mock', (object,), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})()"",
+            ""request = type('Mock', (object,), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('MockRequest', (), {'routing_exception': RequestRedirect(), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.routing import Map, Rule # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    }
+]",3,1840,0.00092,908,0.001362,0.002282
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Intercept routing exceptions and possibly do something else.
+        In debug mode, intercept a routing redirect and replace it with
+        an error if the body will be discarded.
+        With modern Werkzeug this shouldn't occur, since it now uses a
+        308 status which tells the browser to resend the method and
+        body.
+        .. versionchanged:: 2.1
+            Don't intercept 307 and 308 redirects.
+        :meta private:
+        :internal:
+        """"""
+if ( # uncovered
+    not self.debug # uncovered
+    or not isinstance(request.routing_exception, RequestRedirect) # uncovered
+    or request.routing_exception.code in {307, 308} # uncovered
+    or request.method in {""GET"", ""HEAD"", ""OPTIONS""} # uncovered
+):
+    raise request.routing_exception  # type: ignore # uncovered
+try: # uncovered
+    from .debughelpers import FormDataRoutingRedirect # uncovered
+except ImportError: # uncovered
+    pass # uncovered
+raise FormDataRoutingRedirect(request) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})()"",
+            ""request = type('Mock', (object,), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('MockRequest', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': True})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect(url='http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('MockRequest', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'GET'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', 301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://test.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('MockRequest', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    }
+]",3,3228,0.001614,929,0.0013935,0.0030074999999999
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Intercept routing exceptions and possibly do something else.
+        In debug mode, intercept a routing redirect and replace it with
+        an error if the body will be discarded.
+        With modern Werkzeug this shouldn't occur, since it now uses a
+        308 status which tells the browser to resend the method and
+        body.
+        .. versionchanged:: 2.1
+            Don't intercept 307 and 308 redirects.
+        :meta private:
+        :internal:
+        """"""
+if ( # uncovered
+    not self.debug # uncovered
+    or not isinstance(request.routing_exception, RequestRedirect) # uncovered
+    or request.routing_exception.code in {307, 308} # uncovered
+    or request.method in {""GET"", ""HEAD"", ""OPTIONS""} # uncovered
+):
+    raise request.routing_exception  # type: ignore # uncovered
+try: # uncovered
+    from .debughelpers import FormDataRoutingRedirect # uncovered
+except ImportError: # uncovered
+    pass # uncovered
+raise FormDataRoutingRedirect(request) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com'), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', 301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': True})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', 302), 'method': 'GET'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('MockRequest', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'GET'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from werkzeug.exceptions import BadRequest""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('MockRequest', (), {'routing_exception': RequestRedirect('/redirect', code=301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover"",
+            ""from werkzeug.exceptions import BadRequest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    }
+]",3,4637,0.0023185,974,0.001461,0.0037795
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Intercept routing exceptions and possibly do something else.
+        In debug mode, intercept a routing redirect and replace it with
+        an error if the body will be discarded.
+        With modern Werkzeug this shouldn't occur, since it now uses a
+        308 status which tells the browser to resend the method and
+        body.
+        .. versionchanged:: 2.1
+            Don't intercept 307 and 308 redirects.
+        :meta private:
+        :internal:
+        """"""
+if ( # uncovered
+    not self.debug # uncovered
+    or not isinstance(request.routing_exception, RequestRedirect) # uncovered
+    or request.routing_exception.code in {307, 308} # uncovered
+    or request.method in {""GET"", ""HEAD"", ""OPTIONS""} # uncovered
+):
+    raise request.routing_exception  # type: ignore # uncovered
+try: # uncovered
+    from .debughelpers import FormDataRoutingRedirect # uncovered
+except ImportError: # uncovered
+    pass # uncovered
+raise FormDataRoutingRedirect(request) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', 302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', 301), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    }
+]",3,6091,0.0030455,995,0.0014925,0.004538
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Intercept routing exceptions and possibly do something else.
+        In debug mode, intercept a routing redirect and replace it with
+        an error if the body will be discarded.
+        With modern Werkzeug this shouldn't occur, since it now uses a
+        308 status which tells the browser to resend the method and
+        body.
+        .. versionchanged:: 2.1
+            Don't intercept 307 and 308 redirects.
+        :meta private:
+        :internal:
+        """"""
+if ( # uncovered
+    not self.debug # uncovered
+    or not isinstance(request.routing_exception, RequestRedirect) # uncovered
+    or request.routing_exception.code in {307, 308} # uncovered
+    or request.method in {""GET"", ""HEAD"", ""OPTIONS""} # uncovered
+):
+    raise request.routing_exception  # type: ignore # uncovered
+try: # uncovered
+    from .debughelpers import FormDataRoutingRedirect # uncovered
+except ImportError: # uncovered
+    pass # uncovered
+raise FormDataRoutingRedirect(request) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', 301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'GET'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('/redirect', code=301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=301), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    }
+]",3,7566,0.003783,1005,0.0015075,0.0052905
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Intercept routing exceptions and possibly do something else.
+        In debug mode, intercept a routing redirect and replace it with
+        an error if the body will be discarded.
+        With modern Werkzeug this shouldn't occur, since it now uses a
+        308 status which tells the browser to resend the method and
+        body.
+        .. versionchanged:: 2.1
+            Don't intercept 307 and 308 redirects.
+        :meta private:
+        :internal:
+        """"""
+if ( # uncovered
+    not self.debug # uncovered
+    or not isinstance(request.routing_exception, RequestRedirect) # uncovered
+    or request.routing_exception.code in {307, 308} # uncovered
+    or request.method in {""GET"", ""HEAD"", ""OPTIONS""} # uncovered
+):
+    raise request.routing_exception  # type: ignore # uncovered
+try: # uncovered
+    from .debughelpers import FormDataRoutingRedirect # uncovered
+except ImportError: # uncovered
+    pass # uncovered
+raise FormDataRoutingRedirect(request) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://test.com', 301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', 307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=308), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=301), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    }
+]",3,9051,0.0045255,1023,0.0015345,0.00606
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Intercept routing exceptions and possibly do something else.
+        In debug mode, intercept a routing redirect and replace it with
+        an error if the body will be discarded.
+        With modern Werkzeug this shouldn't occur, since it now uses a
+        308 status which tells the browser to resend the method and
+        body.
+        .. versionchanged:: 2.1
+            Don't intercept 307 and 308 redirects.
+        :meta private:
+        :internal:
+        """"""
+if ( # uncovered
+    not self.debug # uncovered
+    or not isinstance(request.routing_exception, RequestRedirect) # uncovered
+    or request.routing_exception.code in {307, 308} # uncovered
+    or request.method in {""GET"", ""HEAD"", ""OPTIONS""} # uncovered
+):
+    raise request.routing_exception  # type: ignore # uncovered
+try: # uncovered
+    from .debughelpers import FormDataRoutingRedirect # uncovered
+except ImportError: # uncovered
+    pass # uncovered
+raise FormDataRoutingRedirect(request) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': True})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'OPTIONS'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'OPTIONS'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', 307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=308), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    }
+]",3,10554,0.005277,1029,0.0015435,0.0068204999999999
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Intercept routing exceptions and possibly do something else.
+        In debug mode, intercept a routing redirect and replace it with
+        an error if the body will be discarded.
+        With modern Werkzeug this shouldn't occur, since it now uses a
+        308 status which tells the browser to resend the method and
+        body.
+        .. versionchanged:: 2.1
+            Don't intercept 307 and 308 redirects.
+        :meta private:
+        :internal:
+        """"""
+if ( # uncovered
+    not self.debug # uncovered
+    or not isinstance(request.routing_exception, RequestRedirect) # uncovered
+    or request.routing_exception.code in {307, 308} # uncovered
+    or request.method in {""GET"", ""HEAD"", ""OPTIONS""} # uncovered
+):
+    raise request.routing_exception  # type: ignore # uncovered
+try: # uncovered
+    from .debughelpers import FormDataRoutingRedirect # uncovered
+except ImportError: # uncovered
+    pass # uncovered
+raise FormDataRoutingRedirect(request) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'GET'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=301), 'method': 'GET'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=301), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    }
+]",3,12063,0.0060315,1030,0.001545,0.0075765
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Intercept routing exceptions and possibly do something else.
+        In debug mode, intercept a routing redirect and replace it with
+        an error if the body will be discarded.
+        With modern Werkzeug this shouldn't occur, since it now uses a
+        308 status which tells the browser to resend the method and
+        body.
+        .. versionchanged:: 2.1
+            Don't intercept 307 and 308 redirects.
+        :meta private:
+        :internal:
+        """"""
+if ( # uncovered
+    not self.debug # uncovered
+    or not isinstance(request.routing_exception, RequestRedirect) # uncovered
+    or request.routing_exception.code in {307, 308} # uncovered
+    or request.method in {""GET"", ""HEAD"", ""OPTIONS""} # uncovered
+):
+    raise request.routing_exception  # type: ignore # uncovered
+try: # uncovered
+    from .debughelpers import FormDataRoutingRedirect # uncovered
+except ImportError: # uncovered
+    pass # uncovered
+raise FormDataRoutingRedirect(request) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=404), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': True})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=302), 'method': 'GET'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'GET'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=308), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'POST'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import RequestRedirect"",
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from .debughelpers import FormDataRoutingRedirect""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})()"",
+            ""request = type('Mock', (), {'routing_exception': RequestRedirect('http://example.com', code=307), 'method': 'GET'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': True})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'debug': False})() # pragma: no cover""
+        ]
+    }
+]",3,12236,0.006118,1030,0.001545,0.007663

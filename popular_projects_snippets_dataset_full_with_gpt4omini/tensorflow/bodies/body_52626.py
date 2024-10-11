@@ -1,0 +1,28 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/feature_column/feature_column_v2_test.py
+wire_column = fc.categorical_column_with_vocabulary_file(
+    key='wire',
+    vocabulary_file=self._wire_vocabulary_file_name,
+    vocabulary_size=self._wire_vocabulary_size,
+    num_oov_buckets=1)
+self.assertEqual(4, wire_column.num_buckets)
+with ops.Graph().as_default():
+    predictions = fc_old.linear_model({
+        wire_column.name:
+            sparse_tensor.SparseTensorValue(
+                indices=((0, 0), (1, 0), (1, 1)),
+                values=('marlo', 'skywalker', 'omar'),
+                dense_shape=(2, 2))
+    }, (wire_column,))
+    bias = get_linear_model_bias()
+    wire_var = get_linear_model_column_var(wire_column)
+
+    self.evaluate(variables_lib.global_variables_initializer())
+    self.evaluate(lookup_ops.tables_initializer())
+
+    self.assertAllClose((0.,), self.evaluate(bias))
+    self.assertAllClose(((0.,), (0.,), (0.,), (0.,)), self.evaluate(wire_var))
+    self.assertAllClose(((0.,), (0.,)), self.evaluate(predictions))
+    self.evaluate(wire_var.assign(((1.,), (2.,), (3.,), (4.,))))
+    # 'marlo' -> 2: wire_var[2] = 3
+    # 'skywalker' -> 3, 'omar' -> 0: wire_var[3] + wire_var[0] = 4+1 = 5
+    self.assertAllClose(((3.,), (5.,)), self.evaluate(predictions))

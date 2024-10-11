@@ -1,0 +1,47 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/compiler/tensorrt/test/tf_function_test.py
+self._copy_test_attr_to_func_def(
+    func_def=func_def,
+    param_name="_tftrt_convert_function",
+    attr_value_type="b")
+self._copy_test_attr_to_func_def(
+    func_def=func_def,
+    param_name="_tftrt_trt_logger_name",
+    attr_value_type="s")
+self._copy_test_attr_to_func_def(
+    func_def=func_def,
+    param_name="_tftrt_max_batch_size",
+    attr_value_type="i")
+self._copy_test_attr_to_func_def(
+    func_def=func_def,
+    param_name="_tftrt_max_workspace_size_bytes",
+    attr_value_type="i")
+self._copy_test_attr_to_func_def(
+    func_def=func_def,
+    param_name="_tftrt_precision_mode",
+    attr_value_type="s")
+self._copy_test_attr_to_func_def(
+    func_def=func_def,
+    param_name="_tftrt_minimum_segment_size",
+    attr_value_type="i")
+self._copy_test_attr_to_func_def(
+    func_def=func_def, param_name="_tftrt_is_dyn_op", attr_value_type="b")
+self._copy_test_attr_to_func_def(
+    func_def=func_def,
+    param_name="_tftrt_max_cached_engines",
+    attr_value_type="i")
+self._copy_test_attr_to_func_def(
+    func_def=func_def,
+    param_name="_tftrt_use_calibration",
+    attr_value_type="b")
+self._copy_test_attr_to_func_def(
+    func_def=func_def,
+    param_name="_tftrt_use_implicit_batch",
+    attr_value_type="b")
+self._copy_test_attr_to_func_def(
+    func_def=func_def,
+    param_name="_tftrt_profile_strategy",
+    attr_value_type="s")
+self._copy_test_attr_to_func_def(
+    func_def=func_def,
+    param_name="_tftrt_allow_build_at_runtime",
+    attr_value_type="b")

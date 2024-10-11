@@ -1,0 +1,1498 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Return a new shape where the rows are broadcasted.
+
+        *--self--->*
+        |          |
+        rp       result
+        |          |
+        V          V
+        *--------->*
+
+    This is equivalent to:
+      return RowPartition.from_row_lengths(self.broadcast(rp.row_lengths()))
+
+    However, if the shape has uniform row length, then that property is
+    maintained.
+
+    Args:
+      rp: a row partition.
+
+    Returns:
+      a RowPartition representing a broadcast version of this row partition.
+    """"""
+if not rp.is_uniform():
+    exit(RowPartition.from_row_lengths(
+        self.broadcast_tensor(rp.row_lengths())))
+else:
+    exit(RowPartition.from_uniform_row_length(
+        rp.uniform_row_length(),
+        nvals=rp.uniform_row_length() * self.dest_nrows(),
+        nrows=self.dest_nrows()))
+
+# end code snippet
+
+# begin undefined variables
+rp
+RowPartition
+self
+# end undefined variables
+
+# begin undefined attributes and methods
+rp.is_uniform
+RowPartition.from_row_lengths
+self.broadcast_tensor
+rp.row_lengths
+RowPartition.from_uniform_row_length
+rp.uniform_row_length
+self.dest_nrows
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, lengths):\n        self.lengths = lengths\n\n    def is_uniform(self):\n        return len(set(self.lengths)) == 1\n\n    def row_lengths(self):\n        return self.lengths\n\n    @classmethod\n    def from_row_lengths(cls, lengths):\n        return cls(lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, uniform_length, nvals, nrows):\n        return cls([uniform_length] * nrows)\n\n    def uniform_row_length(self):\n        return self.lengths[0] if self.is_uniform() else None"",
+            ""class MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]\n\n    def dest_nrows(self):\n        return 5"",
+            ""rp = MockRowPartition([3, 3, 3])"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):\n        self._row_lengths = row_lengths or []\n        self._uniform_length = uniform_length\n        self._nrows = nrows\n        \n    def is_uniform(self):\n        return self._uniform_length is not None\n    \n    def row_lengths(self):\n        return self._row_lengths\n    \n    def uniform_row_length(self):\n        return self._uniform_length\n    \n    @classmethod\n    def from_row_lengths(cls, row_lengths):\n        return cls(row_lengths=row_lengths)\n    \n    @classmethod\n    def from_uniform_row_length(cls, length, nvals, nrows):\n        return cls(uniform_length=length, nrows=nrows)\n\nclass MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]  # Example broadcasting implementation\n    \n    def dest_nrows(self):\n        return 3  # Example return value indicating number of destination rows\n\nrp = MockRowPartition(row_lengths=[1, 2, 3], uniform_length=None, nrows=3)\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, lengths: List[int]):\n        self._lengths = lengths\n        self._uniform_length = lengths[0] if lengths else 0\n        self._is_uniform = all(length == self._uniform_length for length in lengths)\n\n    def is_uniform(self):\n        return self._is_uniform\n\n    @classmethod\n    def from_row_lengths(cls, lengths):\n        return cls(lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, uniform_length, nvals, nrows):\n        return cls([uniform_length] * nrows)\n\n    def row_lengths(self):\n        return self._lengths\n\n    def uniform_row_length(self):\n        return self._uniform_length\n\nclass MockSelf:\n    def broadcast_tensor(self, lengths):\n        return lengths  # Simulate broadcast by returning the same lengths\n\n    def dest_nrows(self):\n        return 5  # Arbitrary number of destination rows for this example\n\nrp = MockRowPartition([3, 3, 3])  # Example with uniform lengths\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, row_lengths: List[int] = None, uniform_length: int = None, nrows: int = 0):\n        self._row_lengths = row_lengths or []\n        self._uniform_length = uniform_length\n        self._nrows = nrows\n\n    def is_uniform(self):\n        return self._uniform_length is not None\n\n    def row_lengths(self):\n        return self._row_lengths\n\n    def uniform_row_length(self):\n        return self._uniform_length\n\n    def dest_nrows(self):\n        return self._nrows\n\n    @staticmethod\n    def from_row_lengths(row_lengths):\n        return MockRowPartition(row_lengths)\n\n    @staticmethod\n    def from_uniform_row_length(uniform_length, nvals, nrows):\n        return MockRowPartition(uniform_length=uniform_length, nrows=nrows)\n\nclass MockSelf:\n    def broadcast_tensor(self, row_lengths):\n        return [length * 2 for length in row_lengths]\n\nrp = MockRowPartition([3, 3, 3], uniform_length=3, nrows=3)\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Callable""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):\n        self.row_lengths = row_lengths or []\n        self.uniform_length = uniform_length\n        self.nrows = nrows or 0\n\n    def is_uniform(self):\n        return self.uniform_length is not None\n\n    @classmethod\n    def from_row_lengths(cls, row_lengths):\n        return cls(row_lengths=row_lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, uniform_length, nvals, nrows):\n        return cls(uniform_length=uniform_length, nrows=nrows)\n\n    def row_lengths(self):\n        return self.row_lengths\n\n    def uniform_row_length(self):\n        return self.uniform_length"",
+            ""class MockSelf:\n    def __init__(self, dest_nrows):\n        self.dest_nrows = dest_nrows\n\n    def broadcast_tensor(self, lengths):\n        return lengths  # Mock implementation simply returns input lengths\n\nrp = MockRowPartition(row_lengths=[1, 2, 3], uniform_length=None)\nself = MockSelf(dest_nrows=5)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = Mock()"",
+            ""self.dest_nrows = lambda: 3"",
+            ""self.broadcast_tensor = lambda x: [i * 2 for i in x]"",
+            ""class RowPartition:"",
+            ""    def __init__(self, lengths: List[int]):"",
+            ""        self.lengths = lengths"",
+            ""    @classmethod"",
+            ""    def from_row_lengths(cls, lengths):"",
+            ""        return cls(lengths)"",
+            ""    @classmethod"",
+            ""    def from_uniform_row_length(cls, length, nvals, nrows):"",
+            ""        return cls([length] * nrows)"",
+            ""    def is_uniform(self):"",
+            ""        return len(set(self.lengths)) == 1"",
+            ""    def row_lengths(self):"",
+            ""        return self.lengths"",
+            ""    def uniform_row_length(self):"",
+            ""        return self.lengths[0] if self.is_uniform() else None"",
+            ""rp = RowPartition([4, 4, 4])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, row_lengths=None, uniform_length=None, nrows=0):\n        self._row_lengths = row_lengths if row_lengths is not None else []\n        self._uniform_length = uniform_length\n        self._nrows = nrows\n\n    def is_uniform(self):\n        return self._uniform_length is not None\n\n    def row_lengths(self):\n        return self._row_lengths\n\n    @classmethod\n    def from_row_lengths(cls, lengths):\n        return cls(row_lengths=lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, length, nvals, nrows):\n        return cls(uniform_length=length, nrows=nrows)\n\n    def uniform_row_length(self):\n        return self._uniform_length\n\n    def dest_nrows(self):\n        return self._nrows\n\nclass Mock:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]  # Example broadcast implementation\n\nrp = MockRowPartition(row_lengths=[3, 3, 3], uniform_length=None, nrows=3)\nself = Mock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, lengths):\n        self.lengths = lengths\n    def is_uniform(self):\n        return len(set(self.lengths)) == 1\n    def row_lengths(self):\n        return self.lengths\n    @staticmethod\n    def from_row_lengths(lengths):\n        return MockRowPartition(lengths)\n    @staticmethod\n    def from_uniform_row_length(length, nvals, nrows):\n        return MockRowPartition([length] * nrows)\n    def uniform_row_length(self):\n        return self.lengths[0] if self.is_uniform() else None\n\nclass MockSelf:\n    def broadcast_tensor(self, row_lengths):\n        return [length for length in row_lengths]\n    def dest_nrows(self):\n        return len(rp.lengths)\n\nrp = MockRowPartition([5, 5, 5])\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, lengths=None, uniform_length=None, nrows=None):\n        self._lengths = lengths or []\n        self._uniform_length = uniform_length\n        self._nrows = nrows\n\n    def is_uniform(self):\n        return self._uniform_length is not None\n\n    def row_lengths(self):\n        return self._lengths\n\n    @classmethod\n    def from_row_lengths(cls, lengths):\n        return cls(lengths=lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, uniform_length, nvals, nrows):\n        return cls(uniform_length=uniform_length, nrows=nrows)\n\n    def uniform_row_length(self):\n        return self._uniform_length\n\n    def dest_nrows(self):\n        return self._nrows\n\n\nclass MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]  # Example broadcasting\n\n    def dest_nrows(self):\n        return 10  # Example fixed number of destination rows\n\nrp = MockRowPartition(lengths=[1, 2, 3], uniform_length=None, nrows=3)\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""rp = MockRowPartition([3, 3, 3])"",
+            ""self = type('MockSelf', (object,), {'broadcast_tensor': lambda self, x: [i * 2 for i in x], 'dest_nrows': lambda self: 4})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, lengths):# pragma: no cover"",
+            ""        self.lengths = lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return len(set(self.lengths)) == 1# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self.lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, lengths):# pragma: no cover"",
+            ""        return cls(lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, uniform_length, nvals, nrows):# pragma: no cover"",
+            ""        return cls([uniform_length] * nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self.lengths[0] if self.is_uniform() else None # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 5 # pragma: no cover"",
+            ""rp = MockRowPartition([3, 3, 3]) # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):# pragma: no cover"",
+            ""        self._row_lengths = row_lengths or []# pragma: no cover"",
+            ""        self._uniform_length = uniform_length# pragma: no cover"",
+            ""        self._nrows = nrows# pragma: no cover"",
+            ""        # pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return self._uniform_length is not None# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self._row_lengths# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self._uniform_length# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, row_lengths):# pragma: no cover"",
+            ""        return cls(row_lengths=row_lengths)# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, length, nvals, nrows):# pragma: no cover"",
+            ""        return cls(uniform_length=length, nrows=nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]  # Example broadcasting implementation# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 3  # Example return value indicating number of destination rows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""rp = MockRowPartition(row_lengths=[1, 2, 3], uniform_length=None, nrows=3)# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, lengths: List[int]):# pragma: no cover"",
+            ""        self._lengths = lengths# pragma: no cover"",
+            ""        self._uniform_length = lengths[0] if lengths else 0# pragma: no cover"",
+            ""        self._is_uniform = all(length == self._uniform_length for length in lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return self._is_uniform# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, lengths):# pragma: no cover"",
+            ""        return cls(lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, uniform_length, nvals, nrows):# pragma: no cover"",
+            ""        return cls([uniform_length] * nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self._lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self._uniform_length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return lengths  # Simulate broadcast by returning the same lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 5  # Arbitrary number of destination rows for this example# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""rp = MockRowPartition([3, 3, 3])  # Example with uniform lengths# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, row_lengths: List[int] = None, uniform_length: int = None, nrows: int = 0):# pragma: no cover"",
+            ""        self._row_lengths = row_lengths or []# pragma: no cover"",
+            ""        self._uniform_length = uniform_length# pragma: no cover"",
+            ""        self._nrows = nrows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return self._uniform_length is not None# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self._row_lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self._uniform_length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return self._nrows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def from_row_lengths(row_lengths):# pragma: no cover"",
+            ""        return MockRowPartition(row_lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(uniform_length, nvals, nrows):# pragma: no cover"",
+            ""        return MockRowPartition(uniform_length=uniform_length, nrows=nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, row_lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in row_lengths]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""rp = MockRowPartition([3, 3, 3], uniform_length=3, nrows=3)# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Callable # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):# pragma: no cover"",
+            ""        self.row_lengths = row_lengths or []# pragma: no cover"",
+            ""        self.uniform_length = uniform_length# pragma: no cover"",
+            ""        self.nrows = nrows or 0# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return self.uniform_length is not None# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, row_lengths):# pragma: no cover"",
+            ""        return cls(row_lengths=row_lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, uniform_length, nvals, nrows):# pragma: no cover"",
+            ""        return cls(uniform_length=uniform_length, nrows=nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self.row_lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self.uniform_length # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def __init__(self, dest_nrows):# pragma: no cover"",
+            ""        self.dest_nrows = dest_nrows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return lengths  # Mock implementation simply returns input lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""rp = MockRowPartition(row_lengths=[1, 2, 3], uniform_length=None)# pragma: no cover"",
+            ""self = MockSelf(dest_nrows=5) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""self.dest_nrows = lambda: 3 # pragma: no cover"",
+            ""self.broadcast_tensor = lambda x: [i * 2 for i in x] # pragma: no cover"",
+            ""class RowPartition: # pragma: no cover"",
+            ""    def __init__(self, lengths: List[int]): # pragma: no cover"",
+            ""        self.lengths = lengths # pragma: no cover"",
+            ""    @classmethod # pragma: no cover"",
+            ""    def from_row_lengths(cls, lengths): # pragma: no cover"",
+            ""        return cls(lengths) # pragma: no cover"",
+            ""    @classmethod # pragma: no cover"",
+            ""    def from_uniform_row_length(cls, length, nvals, nrows): # pragma: no cover"",
+            ""        return cls([length] * nrows) # pragma: no cover"",
+            ""    def is_uniform(self): # pragma: no cover"",
+            ""        return len(set(self.lengths)) == 1 # pragma: no cover"",
+            ""    def row_lengths(self): # pragma: no cover"",
+            ""        return self.lengths # pragma: no cover"",
+            ""    def uniform_row_length(self): # pragma: no cover"",
+            ""        return self.lengths[0] if self.is_uniform() else None # pragma: no cover"",
+            ""rp = RowPartition([4, 4, 4]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, row_lengths=None, uniform_length=None, nrows=0):# pragma: no cover"",
+            ""        self._row_lengths = row_lengths if row_lengths is not None else []# pragma: no cover"",
+            ""        self._uniform_length = uniform_length# pragma: no cover"",
+            ""        self._nrows = nrows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return self._uniform_length is not None# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self._row_lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, lengths):# pragma: no cover"",
+            ""        return cls(row_lengths=lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, length, nvals, nrows):# pragma: no cover"",
+            ""        return cls(uniform_length=length, nrows=nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self._uniform_length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return self._nrows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class Mock:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]  # Example broadcast implementation# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""rp = MockRowPartition(row_lengths=[3, 3, 3], uniform_length=None, nrows=3)# pragma: no cover"",
+            ""self = Mock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, lengths):# pragma: no cover"",
+            ""        self.lengths = lengths# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return len(set(self.lengths)) == 1# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self.lengths# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def from_row_lengths(lengths):# pragma: no cover"",
+            ""        return MockRowPartition(lengths)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(length, nvals, nrows):# pragma: no cover"",
+            ""        return MockRowPartition([length] * nrows)# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self.lengths[0] if self.is_uniform() else None# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, row_lengths):# pragma: no cover"",
+            ""        return [length for length in row_lengths]# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return len(rp.lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""rp = MockRowPartition([5, 5, 5])# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, lengths=None, uniform_length=None, nrows=None):# pragma: no cover"",
+            ""        self._lengths = lengths or []# pragma: no cover"",
+            ""        self._uniform_length = uniform_length# pragma: no cover"",
+            ""        self._nrows = nrows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return self._uniform_length is not None# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self._lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, lengths):# pragma: no cover"",
+            ""        return cls(lengths=lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, uniform_length, nvals, nrows):# pragma: no cover"",
+            ""        return cls(uniform_length=uniform_length, nrows=nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self._uniform_length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return self._nrows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]  # Example broadcasting# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 10  # Example fixed number of destination rows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""rp = MockRowPartition(lengths=[1, 2, 3], uniform_length=None, nrows=3)# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'broadcast_tensor': lambda self, x: [i * 2 for i in x], 'dest_nrows': lambda self: 4})() # pragma: no cover""
+        ]
+    }
+]",1,499,0.0002495,2811,0.0042165,0.0044659999999999
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 58:
+    exit(RowPartition.from_uniform_row_length(
+NameError: name 'RowPartition' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, lengths):\n        self.lengths = lengths\n\n    def is_uniform(self):\n        return len(set(self.lengths)) == 1\n\n    def row_lengths(self):\n        return self.lengths\n\n    @classmethod\n    def from_row_lengths(cls, lengths):\n        return cls(lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, uniform_length, nvals, nrows):\n        return cls([uniform_length] * nrows)\n\n    def uniform_row_length(self):\n        return self.lengths[0] if self.is_uniform() else None"",
+            ""class MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]\n\n    def dest_nrows(self):\n        return 5"",
+            ""RowPartition = MockRowPartition"",
+            ""rp = MockRowPartition([3, 3, 3])"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class RowPartition:\n    def __init__(self, lengths):\n        self.lengths = lengths\n\n    def is_uniform(self):\n        return len(set(self.lengths)) == 1\n\n    def row_lengths(self):\n        return self.lengths\n\n    @classmethod\n    def from_row_lengths(cls, lengths):\n        return cls(lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, uniform_length, nvals, nrows):\n        return cls([uniform_length] * nrows)\n\n    def uniform_row_length(self):\n        return self.lengths[0] if self.is_uniform() else None"",
+            ""class MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]\n\n    def dest_nrows(self):\n        return 5"",
+            ""rp = RowPartition([3, 3, 3])"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, lengths):\n        self.lengths = lengths\n\n    def is_uniform(self):\n        return len(set(self.lengths)) == 1\n\n    def row_lengths(self):\n        return self.lengths\n\n    @classmethod\n    def from_row_lengths(cls, lengths):\n        return cls(lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, uniform_length, nvals, nrows):\n        return cls([uniform_length] * nrows)\n\n    def uniform_row_length(self):\n        return self.lengths[0] if self.is_uniform() else None"",
+            ""class MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]\n\n    def dest_nrows(self):\n        return 5"",
+            ""RowPartition = MockRowPartition"",
+            ""rp = RowPartition([3, 3, 3])"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, lengths):\n        self.lengths = lengths\n\n    def is_uniform(self):\n        return len(set(self.lengths)) == 1\n\n    def row_lengths(self):\n        return self.lengths\n\n    @classmethod\n    def from_row_lengths(cls, lengths):\n        return cls(lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, uniform_length, nvals, nrows):\n        return cls([uniform_length] * nrows)\n\n    def uniform_row_length(self):\n        return self.lengths[0] if self.is_uniform() else None"",
+            ""class MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]\n\n    def dest_nrows(self):\n        return 5"",
+            ""RowPartition = MockRowPartition"",
+            ""rp = RowPartition([3, 3, 3])"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, lengths):\n        self.lengths = lengths\n\n    def is_uniform(self):\n        return len(set(self.lengths)) == 1\n\n    def row_lengths(self):\n        return self.lengths\n\n    @classmethod\n    def from_row_lengths(cls, lengths):\n        return cls(lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, uniform_length, nvals, nrows):\n        return cls([uniform_length] * nrows)\n\n    def uniform_row_length(self):\n        return self.lengths[0] if self.is_uniform() else None"",
+            ""class MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]\n\n    def dest_nrows(self):\n        return 5"",
+            ""RowPartition = MockRowPartition\n"",
+            ""rp = RowPartition([3, 3, 3])"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class RowPartition:\n    def __init__(self, lengths):\n        self.lengths = lengths\n\n    def is_uniform(self):\n        return len(set(self.lengths)) == 1\n\n    def row_lengths(self):\n        return self.lengths\n\n    @classmethod\n    def from_row_lengths(cls, lengths):\n        return cls(lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, uniform_length, nvals, nrows):\n        return cls([uniform_length] * nrows)\n\n    def uniform_row_length(self):\n        return self.lengths[0] if self.is_uniform() else None"",
+            ""class MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]\n\n    def dest_nrows(self):\n        return 5"",
+            ""rp = RowPartition([3, 3, 3])"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, lengths):\n        self.lengths = lengths\n\n    def is_uniform(self):\n        return len(set(self.lengths)) == 1\n\n    def row_lengths(self):\n        return self.lengths\n\n    @classmethod\n    def from_row_lengths(cls, lengths):\n        return cls(lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, uniform_length, nvals, nrows):\n        return cls([uniform_length] * nrows)\n\n    def uniform_row_length(self):\n        return self.lengths[0] if self.is_uniform() else None"",
+            ""class MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]\n\n    def dest_nrows(self):\n        return 5"",
+            ""RowPartition = MockRowPartition"",
+            ""rp = RowPartition([3, 3, 3])"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, lengths):\n        self.lengths = lengths\n\n    def is_uniform(self):\n        return len(set(self.lengths)) == 1\n\n    def row_lengths(self):\n        return self.lengths\n\n    @classmethod\n    def from_row_lengths(cls, lengths):\n        return cls(lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, uniform_length, nvals, nrows):\n        return cls([uniform_length] * nrows)\n\n    def uniform_row_length(self):\n        return self.lengths[0] if self.is_uniform() else None"",
+            ""class MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]\n\n    def dest_nrows(self):\n        return 5"",
+            ""RowPartition = MockRowPartition"",
+            ""rp = RowPartition([3, 3, 3])"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, lengths):\n        self.lengths = lengths\n\n    def is_uniform(self):\n        return len(set(self.lengths)) == 1\n\n    def row_lengths(self):\n        return self.lengths\n\n    @classmethod\n    def from_row_lengths(cls, lengths):\n        return cls(lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, uniform_length, nvals, nrows):\n        return cls([uniform_length] * nrows)\n\n    def uniform_row_length(self):\n        return self.lengths[0] if self.is_uniform() else None"",
+            ""class MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]\n\n    def dest_nrows(self):\n        return 5"",
+            ""RowPartition = MockRowPartition"",
+            ""rp = RowPartition([3, 3, 3])"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, lengths):\n        self.lengths = lengths\n\n    def is_uniform(self):\n        return len(set(self.lengths)) == 1\n\n    def row_lengths(self):\n        return self.lengths\n\n    @classmethod\n    def from_row_lengths(cls, lengths):\n        return cls(lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, uniform_length, nvals, nrows):\n        return cls([uniform_length] * nrows)\n\n    def uniform_row_length(self):\n        return self.lengths[0] if self.is_uniform() else None"",
+            ""class MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]\n\n    def dest_nrows(self):\n        return 5"",
+            ""RowPartition = MockRowPartition"",
+            ""rp = MockRowPartition([3, 3, 3])"",
+            ""self = MockSelf()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, lengths):# pragma: no cover"",
+            ""        self.lengths = lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return len(set(self.lengths)) == 1# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self.lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, lengths):# pragma: no cover"",
+            ""        return cls(lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, uniform_length, nvals, nrows):# pragma: no cover"",
+            ""        return cls([uniform_length] * nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self.lengths[0] if self.is_uniform() else None # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 5 # pragma: no cover"",
+            ""RowPartition = MockRowPartition # pragma: no cover"",
+            ""rp = MockRowPartition([3, 3, 3]) # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class RowPartition:# pragma: no cover"",
+            ""    def __init__(self, lengths):# pragma: no cover"",
+            ""        self.lengths = lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return len(set(self.lengths)) == 1# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self.lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, lengths):# pragma: no cover"",
+            ""        return cls(lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, uniform_length, nvals, nrows):# pragma: no cover"",
+            ""        return cls([uniform_length] * nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self.lengths[0] if self.is_uniform() else None # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 5 # pragma: no cover"",
+            ""rp = RowPartition([3, 3, 3]) # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, lengths):# pragma: no cover"",
+            ""        self.lengths = lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return len(set(self.lengths)) == 1# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self.lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, lengths):# pragma: no cover"",
+            ""        return cls(lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, uniform_length, nvals, nrows):# pragma: no cover"",
+            ""        return cls([uniform_length] * nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self.lengths[0] if self.is_uniform() else None # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 5 # pragma: no cover"",
+            ""RowPartition = MockRowPartition # pragma: no cover"",
+            ""rp = RowPartition([3, 3, 3]) # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, lengths):# pragma: no cover"",
+            ""        self.lengths = lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return len(set(self.lengths)) == 1# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self.lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, lengths):# pragma: no cover"",
+            ""        return cls(lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, uniform_length, nvals, nrows):# pragma: no cover"",
+            ""        return cls([uniform_length] * nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self.lengths[0] if self.is_uniform() else None # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 5 # pragma: no cover"",
+            ""RowPartition = MockRowPartition # pragma: no cover"",
+            ""rp = RowPartition([3, 3, 3]) # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, lengths):# pragma: no cover"",
+            ""        self.lengths = lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return len(set(self.lengths)) == 1# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self.lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, lengths):# pragma: no cover"",
+            ""        return cls(lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, uniform_length, nvals, nrows):# pragma: no cover"",
+            ""        return cls([uniform_length] * nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self.lengths[0] if self.is_uniform() else None # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 5 # pragma: no cover"",
+            ""RowPartition = MockRowPartition# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""rp = RowPartition([3, 3, 3]) # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class RowPartition:# pragma: no cover"",
+            ""    def __init__(self, lengths):# pragma: no cover"",
+            ""        self.lengths = lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return len(set(self.lengths)) == 1# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self.lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, lengths):# pragma: no cover"",
+            ""        return cls(lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, uniform_length, nvals, nrows):# pragma: no cover"",
+            ""        return cls([uniform_length] * nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self.lengths[0] if self.is_uniform() else None # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 5 # pragma: no cover"",
+            ""rp = RowPartition([3, 3, 3]) # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, lengths):# pragma: no cover"",
+            ""        self.lengths = lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return len(set(self.lengths)) == 1# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self.lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, lengths):# pragma: no cover"",
+            ""        return cls(lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, uniform_length, nvals, nrows):# pragma: no cover"",
+            ""        return cls([uniform_length] * nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self.lengths[0] if self.is_uniform() else None # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 5 # pragma: no cover"",
+            ""RowPartition = MockRowPartition # pragma: no cover"",
+            ""rp = RowPartition([3, 3, 3]) # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, lengths):# pragma: no cover"",
+            ""        self.lengths = lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return len(set(self.lengths)) == 1# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self.lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, lengths):# pragma: no cover"",
+            ""        return cls(lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, uniform_length, nvals, nrows):# pragma: no cover"",
+            ""        return cls([uniform_length] * nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self.lengths[0] if self.is_uniform() else None # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 5 # pragma: no cover"",
+            ""RowPartition = MockRowPartition # pragma: no cover"",
+            ""rp = RowPartition([3, 3, 3]) # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, lengths):# pragma: no cover"",
+            ""        self.lengths = lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return len(set(self.lengths)) == 1# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self.lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, lengths):# pragma: no cover"",
+            ""        return cls(lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, uniform_length, nvals, nrows):# pragma: no cover"",
+            ""        return cls([uniform_length] * nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self.lengths[0] if self.is_uniform() else None # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 5 # pragma: no cover"",
+            ""RowPartition = MockRowPartition # pragma: no cover"",
+            ""rp = RowPartition([3, 3, 3]) # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, lengths):# pragma: no cover"",
+            ""        self.lengths = lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return len(set(self.lengths)) == 1# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self.lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, lengths):# pragma: no cover"",
+            ""        return cls(lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, uniform_length, nvals, nrows):# pragma: no cover"",
+            ""        return cls([uniform_length] * nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self.lengths[0] if self.is_uniform() else None # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 5 # pragma: no cover"",
+            ""RowPartition = MockRowPartition # pragma: no cover"",
+            ""rp = MockRowPartition([3, 3, 3]) # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    }
+]",2,1040,0.00052,2536,0.003804,0.004324
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 59:
+    exit(RowPartition.from_row_lengths(
+NameError: name 'RowPartition' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, row_lengths=None):\n        self._row_lengths = row_lengths or []\n        self._uniform_length = None if len(set(self._row_lengths)) > 1 else self._row_lengths[0] if self._row_lengths else None\n        self._nrows = len(self._row_lengths)\n\n    def is_uniform(self):\n        return self._uniform_length is not None\n\n    def row_lengths(self):\n        return self._row_lengths\n\n    @classmethod\n    def from_row_lengths(cls, row_lengths):\n        return cls(row_lengths=row_lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, length, nvals, nrows):\n        return cls(row_lengths=[length] * nrows)\n\n    def uniform_row_length(self):\n        return self._uniform_length\n\nclass MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]  # Example broadcasting implementation\n\n    def dest_nrows(self):\n        return 4  # Example return value indicating number of destination rows\n\nrp = MockRowPartition(row_lengths=[3, 3, 3])\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, row_lengths=None, uniform_length=None):\n        self._row_lengths = row_lengths or []\n        self._uniform_length = uniform_length\n\n    def is_uniform(self):\n        return self._uniform_length is not None\n\n    def row_lengths(self):\n        return self._row_lengths\n\n    def uniform_row_length(self):\n        return self._uniform_length\n\n    @classmethod\n    def from_row_lengths(cls, row_lengths):\n        return cls(row_lengths=row_lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, length, nvals, nrows):\n        return cls(uniform_length=length)\n\nclass MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]\n\n    def dest_nrows(self):\n        return 3\n\nrp = MockRowPartition(row_lengths=[1, 2, 3], uniform_length=None)\nself = MockSelf()"",
+            ""RowPartition = MockRowPartition""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class RowPartition:\n    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):\n        self._row_lengths = row_lengths or []\n        self._uniform_length = uniform_length\n        self._nrows = nrows\n    \n    def is_uniform(self):\n        return self._uniform_length is not None\n    \n    def row_lengths(self):\n        return self._row_lengths\n    \n    def uniform_row_length(self):\n        return self._uniform_length\n    \n    @classmethod\n    def from_row_lengths(cls, row_lengths):\n        return cls(row_lengths=row_lengths)\n    \n    @classmethod\n    def from_uniform_row_length(cls, length, nvals, nrows):\n        return cls(uniform_length=length, nrows=nrows)\n\nclass MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]  # Example broadcasting implementation\n    \n    def dest_nrows(self):\n        return 3  # Example return value indicating number of destination rows\n\nrp = RowPartition(row_lengths=[1, 2, 3], uniform_length=None, nrows=3)\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class RowPartition:\n    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):\n        self._row_lengths = row_lengths or []\n        self._uniform_length = uniform_length\n        self._nrows = nrows\n        \n    def is_uniform(self):\n        return self._uniform_length is not None\n    \n    def row_lengths(self):\n        return self._row_lengths\n    \n    def uniform_row_length(self):\n        return self._uniform_length\n    \n    @classmethod\n    def from_row_lengths(cls, row_lengths):\n        return cls(row_lengths=row_lengths)\n    \n    @classmethod\n    def from_uniform_row_length(cls, length, nvals, nrows):\n        return cls(uniform_length=length, nrows=nrows)\n\nclass MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]  # Example broadcasting implementation\n    \n    def dest_nrows(self):\n        return 3  # Example return value indicating number of destination rows\n\nrp = RowPartition(row_lengths=[1, 2, 3], uniform_length=None, nrows=3)\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class RowPartition:\n    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):\n        self._row_lengths = row_lengths or []\n        self._uniform_length = uniform_length\n        self._nrows = nrows\n\n    def is_uniform(self):\n        return self._uniform_length is not None\n\n    def row_lengths(self):\n        return self._row_lengths\n\n    def uniform_row_length(self):\n        return self._uniform_length\n\n    @classmethod\n    def from_row_lengths(cls, row_lengths):\n        return cls(row_lengths=row_lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, length, nvals, nrows):\n        return cls(uniform_length=length, nrows=nrows)\n\nclass MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]  # Example broadcasting implementation\n\n    def dest_nrows(self):\n        return 3  # Example return value indicating number of destination rows\n\nrp = RowPartition(row_lengths=[1, 2, 3], uniform_length=None, nrows=3)\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class RowPartition:\n    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):\n        self._row_lengths = row_lengths or []\n        self._uniform_length = uniform_length\n        self._nrows = nrows\n    \n    def is_uniform(self):\n        return self._uniform_length is not None\n    \n    def row_lengths(self):\n        return self._row_lengths\n    \n    def uniform_row_length(self):\n        return self._uniform_length\n    \n    @classmethod\n    def from_row_lengths(cls, row_lengths):\n        return cls(row_lengths=row_lengths)\n    \n    @classmethod\n    def from_uniform_row_length(cls, length, nvals, nrows):\n        return cls(uniform_length=length, nrows=nrows)\n\nclass MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]\n    \n    def dest_nrows(self):\n        return 3\n\nrp = RowPartition(row_lengths=[1, 2, 3], uniform_length=None, nrows=3)\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class RowPartition:\n    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):\n        self._row_lengths = row_lengths or []\n        self._uniform_length = uniform_length\n        self._nrows = nrows\n\n    def is_uniform(self):\n        return self._uniform_length is not None\n\n    def row_lengths(self):\n        return self._row_lengths\n\n    def uniform_row_length(self):\n        return self._uniform_length\n\n    @classmethod\n    def from_row_lengths(cls, row_lengths):\n        return cls(row_lengths=row_lengths)\n\n    @classmethod\n    def from_uniform_row_length(cls, length, nvals, nrows):\n        return cls(uniform_length=length, nrows=nrows)\n\nclass MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]\n\n    def dest_nrows(self):\n        return 3\n\nrp = RowPartition(row_lengths=[1, 2, 3], uniform_length=None, nrows=3)\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class RowPartition:\n    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):\n        self._row_lengths = row_lengths or []\n        self._uniform_length = uniform_length\n        self._nrows = nrows\n\n    def is_uniform(self):\n        return self._uniform_length is not None\n\n    def row_lengths(self):\n        return self._row_lengths\n\n    def uniform_row_length(self):\n        return self._uniform_length\n\n    @classmethod\n    def from_row_lengths(cls, row_lengths):\n        uniform_length = row_lengths[0] if len(set(row_lengths)) == 1 else None\n        return cls(row_lengths=row_lengths, uniform_length=uniform_length)\n\n    @classmethod\n    def from_uniform_row_length(cls, length, nvals, nrows):\n        return cls(uniform_length=length, nrows=nrows)\n\nclass MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]\n    \n    def dest_nrows(self):\n        return 5\n\nrp = RowPartition(row_lengths=[3, 3, 3])\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):\n        self._row_lengths = row_lengths or []\n        self._uniform_length = uniform_length\n        self._nrows = nrows\n        \n    def is_uniform(self):\n        return self._uniform_length is not None\n    \n    def row_lengths(self):\n        return self._row_lengths\n    \n    def uniform_row_length(self):\n        return self._uniform_length\n    \n    @classmethod\n    def from_row_lengths(cls, row_lengths):\n        return cls(row_lengths=row_lengths)\n    \n    @classmethod\n    def from_uniform_row_length(cls, length, nvals, nrows):\n        return cls(uniform_length=length, nrows=nrows)\n\nclass MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]\n    \n    def dest_nrows(self):\n        return 3\n\nRowPartition = MockRowPartition  # Define RowPartition as MockRowPartition\n\nrp = MockRowPartition(row_lengths=[3, 3, 3])\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:\n    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):\n        self._row_lengths = row_lengths or []\n        self._uniform_length = uniform_length\n        self._nrows = nrows\n        \n    def is_uniform(self):\n        return self._uniform_length is not None\n    \n    def row_lengths(self):\n        return self._row_lengths\n    \n    def uniform_row_length(self):\n        return self._uniform_length\n    \n    @classmethod\n    def from_row_lengths(cls, row_lengths):\n        return cls(row_lengths=row_lengths)\n    \n    @classmethod\n    def from_uniform_row_length(cls, length, nvals, nrows):\n        return cls(uniform_length=length, nrows=nrows)\n\nclass MockSelf:\n    def broadcast_tensor(self, lengths):\n        return [length * 2 for length in lengths]  # Example broadcasting implementation\n    \n    def dest_nrows(self):\n        return 3  # Example return value indicating number of destination rows\n\n# Initializing instances\nrp = MockRowPartition(row_lengths=[1, 2, 3], uniform_length=None, nrows=3)\nself = MockSelf()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, row_lengths=None):# pragma: no cover"",
+            ""        self._row_lengths = row_lengths or []# pragma: no cover"",
+            ""        self._uniform_length = None if len(set(self._row_lengths)) > 1 else self._row_lengths[0] if self._row_lengths else None# pragma: no cover"",
+            ""        self._nrows = len(self._row_lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return self._uniform_length is not None# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self._row_lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, row_lengths):# pragma: no cover"",
+            ""        return cls(row_lengths=row_lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, length, nvals, nrows):# pragma: no cover"",
+            ""        return cls(row_lengths=[length] * nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self._uniform_length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]  # Example broadcasting implementation# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 4  # Example return value indicating number of destination rows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""rp = MockRowPartition(row_lengths=[3, 3, 3])# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, row_lengths=None, uniform_length=None):# pragma: no cover"",
+            ""        self._row_lengths = row_lengths or []# pragma: no cover"",
+            ""        self._uniform_length = uniform_length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return self._uniform_length is not None# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self._row_lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self._uniform_length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, row_lengths):# pragma: no cover"",
+            ""        return cls(row_lengths=row_lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, length, nvals, nrows):# pragma: no cover"",
+            ""        return cls(uniform_length=length)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 3# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""rp = MockRowPartition(row_lengths=[1, 2, 3], uniform_length=None)# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover"",
+            ""RowPartition = MockRowPartition # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class RowPartition:# pragma: no cover"",
+            ""    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):# pragma: no cover"",
+            ""        self._row_lengths = row_lengths or []# pragma: no cover"",
+            ""        self._uniform_length = uniform_length# pragma: no cover"",
+            ""        self._nrows = nrows# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return self._uniform_length is not None# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self._row_lengths# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self._uniform_length# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, row_lengths):# pragma: no cover"",
+            ""        return cls(row_lengths=row_lengths)# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, length, nvals, nrows):# pragma: no cover"",
+            ""        return cls(uniform_length=length, nrows=nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]  # Example broadcasting implementation# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 3  # Example return value indicating number of destination rows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""rp = RowPartition(row_lengths=[1, 2, 3], uniform_length=None, nrows=3)# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class RowPartition:# pragma: no cover"",
+            ""    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):# pragma: no cover"",
+            ""        self._row_lengths = row_lengths or []# pragma: no cover"",
+            ""        self._uniform_length = uniform_length# pragma: no cover"",
+            ""        self._nrows = nrows# pragma: no cover"",
+            ""        # pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return self._uniform_length is not None# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self._row_lengths# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self._uniform_length# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, row_lengths):# pragma: no cover"",
+            ""        return cls(row_lengths=row_lengths)# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, length, nvals, nrows):# pragma: no cover"",
+            ""        return cls(uniform_length=length, nrows=nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]  # Example broadcasting implementation# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 3  # Example return value indicating number of destination rows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""rp = RowPartition(row_lengths=[1, 2, 3], uniform_length=None, nrows=3)# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class RowPartition:# pragma: no cover"",
+            ""    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):# pragma: no cover"",
+            ""        self._row_lengths = row_lengths or []# pragma: no cover"",
+            ""        self._uniform_length = uniform_length# pragma: no cover"",
+            ""        self._nrows = nrows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return self._uniform_length is not None# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self._row_lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self._uniform_length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, row_lengths):# pragma: no cover"",
+            ""        return cls(row_lengths=row_lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, length, nvals, nrows):# pragma: no cover"",
+            ""        return cls(uniform_length=length, nrows=nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]  # Example broadcasting implementation# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 3  # Example return value indicating number of destination rows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""rp = RowPartition(row_lengths=[1, 2, 3], uniform_length=None, nrows=3)# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class RowPartition:# pragma: no cover"",
+            ""    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):# pragma: no cover"",
+            ""        self._row_lengths = row_lengths or []# pragma: no cover"",
+            ""        self._uniform_length = uniform_length# pragma: no cover"",
+            ""        self._nrows = nrows# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return self._uniform_length is not None# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self._row_lengths# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self._uniform_length# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, row_lengths):# pragma: no cover"",
+            ""        return cls(row_lengths=row_lengths)# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, length, nvals, nrows):# pragma: no cover"",
+            ""        return cls(uniform_length=length, nrows=nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 3# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""rp = RowPartition(row_lengths=[1, 2, 3], uniform_length=None, nrows=3)# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class RowPartition:# pragma: no cover"",
+            ""    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):# pragma: no cover"",
+            ""        self._row_lengths = row_lengths or []# pragma: no cover"",
+            ""        self._uniform_length = uniform_length# pragma: no cover"",
+            ""        self._nrows = nrows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return self._uniform_length is not None# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self._row_lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self._uniform_length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, row_lengths):# pragma: no cover"",
+            ""        return cls(row_lengths=row_lengths)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, length, nvals, nrows):# pragma: no cover"",
+            ""        return cls(uniform_length=length, nrows=nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 3# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""rp = RowPartition(row_lengths=[1, 2, 3], uniform_length=None, nrows=3)# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class RowPartition:# pragma: no cover"",
+            ""    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):# pragma: no cover"",
+            ""        self._row_lengths = row_lengths or []# pragma: no cover"",
+            ""        self._uniform_length = uniform_length# pragma: no cover"",
+            ""        self._nrows = nrows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return self._uniform_length is not None# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self._row_lengths# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self._uniform_length# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, row_lengths):# pragma: no cover"",
+            ""        uniform_length = row_lengths[0] if len(set(row_lengths)) == 1 else None# pragma: no cover"",
+            ""        return cls(row_lengths=row_lengths, uniform_length=uniform_length)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, length, nvals, nrows):# pragma: no cover"",
+            ""        return cls(uniform_length=length, nrows=nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 5# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""rp = RowPartition(row_lengths=[3, 3, 3])# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):# pragma: no cover"",
+            ""        self._row_lengths = row_lengths or []# pragma: no cover"",
+            ""        self._uniform_length = uniform_length# pragma: no cover"",
+            ""        self._nrows = nrows# pragma: no cover"",
+            ""        # pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return self._uniform_length is not None# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self._row_lengths# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self._uniform_length# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, row_lengths):# pragma: no cover"",
+            ""        return cls(row_lengths=row_lengths)# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, length, nvals, nrows):# pragma: no cover"",
+            ""        return cls(uniform_length=length, nrows=nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 3# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""RowPartition = MockRowPartition  # Define RowPartition as MockRowPartition# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""rp = MockRowPartition(row_lengths=[3, 3, 3])# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:# pragma: no cover"",
+            ""    def __init__(self, row_lengths=None, uniform_length=None, nrows=None):# pragma: no cover"",
+            ""        self._row_lengths = row_lengths or []# pragma: no cover"",
+            ""        self._uniform_length = uniform_length# pragma: no cover"",
+            ""        self._nrows = nrows# pragma: no cover"",
+            ""        # pragma: no cover"",
+            ""    def is_uniform(self):# pragma: no cover"",
+            ""        return self._uniform_length is not None# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def row_lengths(self):# pragma: no cover"",
+            ""        return self._row_lengths# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def uniform_row_length(self):# pragma: no cover"",
+            ""        return self._uniform_length# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_row_lengths(cls, row_lengths):# pragma: no cover"",
+            ""        return cls(row_lengths=row_lengths)# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    @classmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(cls, length, nvals, nrows):# pragma: no cover"",
+            ""        return cls(uniform_length=length, nrows=nrows)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def broadcast_tensor(self, lengths):# pragma: no cover"",
+            ""        return [length * 2 for length in lengths]  # Example broadcasting implementation# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def dest_nrows(self):# pragma: no cover"",
+            ""        return 3  # Example return value indicating number of destination rows# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""# Initializing instances# pragma: no cover"",
+            ""rp = MockRowPartition(row_lengths=[1, 2, 3], uniform_length=None, nrows=3)# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    }
+]",2,1641,0.0008205,2965,0.0044475,0.005268

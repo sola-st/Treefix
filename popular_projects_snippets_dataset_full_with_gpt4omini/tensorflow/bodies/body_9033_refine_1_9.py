@@ -1,0 +1,37 @@
+class MockCancellationManager:# pragma: no cover
+    def start_cancel(self): pass # pragma: no cover
+class MockWatchdog:# pragma: no cover
+    def stop(self): pass # pragma: no cover
+class MockCondition:# pragma: no cover
+    def notify_all(self): pass # pragma: no cover
+
+class MockCancellationManager:# pragma: no cover
+    def start_cancel(self): print('Cancellation started') # pragma: no cover
+class MockWatchdog:# pragma: no cover
+    def stop(self): print('Watchdog stopped') # pragma: no cover
+class MockCondition:# pragma: no cover
+    def __init__(self, lock):# pragma: no cover
+        self.lock = lock# pragma: no cover
+    def notify_all(self): print('Notify all') # pragma: no cover
+class MyClass:# pragma: no cover
+    def __init__(self):# pragma: no cover
+        self._should_process_closures = False# pragma: no cover
+        self._cancellation_mgr = MockCancellationManager()# pragma: no cover
+        self._watchdog = MockWatchdog()# pragma: no cover
+self = MyClass() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/distribute/coordinator/cluster_coordinator.py
+from l3.Runtime import _l_
+with self._queue_lock:
+    _l_(5360)
+
+    self._should_process_closures = False
+    _l_(5357)
+    self._cancellation_mgr.start_cancel()
+    _l_(5358)
+    self._closures_queued_condition.notify_all()
+    _l_(5359)
+self._watchdog.stop()
+_l_(5361)

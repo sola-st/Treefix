@@ -1,0 +1,38 @@
+value = [0, 1, 2, 3] # pragma: no cover
+class MockPywrap:# pragma: no cover
+    @staticmethod# pragma: no cover
+    def TFE_Py_FastPathExecute(ctx, op_name, _1, split_dim, value, attr_name, num_split):# pragma: no cover
+        raise core._FallbackException() # pragma: no cover
+pywrap_tfe = MockPywrap() # pragma: no cover
+pywrap_tfe.TFE_Py_Execute = lambda ctx_handle, _1, op_name, inputs, attrs, num_split: (_ for _ in ()).throw(ValueError('Number of outputs is too big')) # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/eager/pywrap_tfe_test.py
+from l3.Runtime import _l_
+split_dim = constant_op.constant(0, dtype=dtypes.int32)
+_l_(4328)
+value = [0, 1, 2, 3]
+_l_(4329)
+ctx = context.context()
+_l_(4330)
+ctx.ensure_initialized()
+_l_(4331)
+
+with self.assertRaises(core._FallbackException):
+    _l_(4333)
+
+    pywrap_tfe.TFE_Py_FastPathExecute(ctx, "Split", None, split_dim, value,
+                                      "num_split", 1000000000000)
+    _l_(4332)
+
+value = constant_op.constant(value)
+_l_(4334)
+attrs = ("num_split", 1000000000000, "T", value.dtype.as_datatype_enum)
+_l_(4335)
+with self.assertRaisesRegex(ValueError, "Number of outputs is too big"):
+    _l_(4337)
+
+    pywrap_tfe.TFE_Py_Execute(ctx._handle, None, "Split", [split_dim, value],
+                              attrs, 1000000000000)
+    _l_(4336)

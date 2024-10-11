@@ -1,0 +1,28 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/parallel_for/math_test.py
+real_ops = [
+    lambda x: math_ops.acosh(1 + math_ops.square(x)),
+    math_ops.abs,
+    math_ops.acos,
+    math_ops.asin,
+    math_ops.asinh,
+    math_ops.atan,
+    math_ops.atanh,
+    math_ops.cos,
+    math_ops.cosh,
+    math_ops.digamma,
+    math_ops.erf,
+    math_ops.erfc,
+    math_ops.erfinv,
+    math_ops.exp,
+    math_ops.expm1,
+    math_ops.inv,
+    math_ops.is_finite,
+    math_ops.is_inf,
+    math_ops.lgamma,
+    math_ops.log,
+    math_ops.log1p,
+    math_ops.ndtri,
+    special_math_ops.bessel_i0e,
+    special_math_ops.bessel_i1e,
+]
+self._test_unary_cwise_ops(real_ops, False)

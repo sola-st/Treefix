@@ -1,0 +1,7 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/data/experimental/kernel_tests/shuffle_and_repeat_test.py
+with self.assertRaises(errors.OutOfRangeError):
+    self._gen_outputs(lambda: self._build_ds(10, count=None, num_elements=0),
+                      100)
+with self.assertRaises(errors.OutOfRangeError):
+    self._gen_outputs(lambda: self._build_ds(10, count=-1, num_elements=0),
+                      100)

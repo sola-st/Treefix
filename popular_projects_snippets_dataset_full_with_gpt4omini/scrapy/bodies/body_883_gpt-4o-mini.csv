@@ -1,0 +1,339 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+self.client = client
+protocol = ReceivedDataProtocol(request.meta.get(""ftp_local_filename""))
+exit(client.retrieveFile(filepath, protocol).addCallbacks(
+    callback=self._build_response,
+    callbackArgs=(request, protocol),
+    errback=self._failed,
+    errbackArgs=(request,),
+))
+
+# end code snippet
+
+# begin undefined variables
+self
+client
+ReceivedDataProtocol
+request
+filepath
+# end undefined variables
+
+# begin undefined attributes and methods
+self.client
+request.meta
+client.retrieveFile
+self._build_response
+self._failed
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from twisted.internet import defer""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'client': None, '_build_response': lambda self, request, protocol: None, '_failed': lambda self, request: None})()"",
+            ""client = type('MockClient', (), {'retrieveFile': lambda self, filepath, protocol: defer.Deferred()})()"",
+            ""class ReceivedDataProtocol: def __init__(self, filename): pass"",
+            ""request = type('MockRequest', (), {'meta': {'ftp_local_filename': 'file.txt'}})()"",
+            ""filepath = 'mock/path/to/file.txt'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from some_module import ReceivedDataProtocol"",
+            ""from mock import Mock""
+        ],
+        ""initialization"": [
+            ""self = Mock()"",
+            ""client = Mock()"",
+            ""request = Mock(meta={'ftp_local_filename': 'example.txt'})"",
+            ""filepath = '/path/to/file.txt'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""self = Mock()"",
+            ""client = Mock()"",
+            ""class ReceivedDataProtocol:\n    def __init__(self, filename):\n        self.filename = filename\nprotocol = ReceivedDataProtocol('test_filename')"",
+            ""request = Mock(meta={'ftp_local_filename': 'test_file.txt'})"",
+            ""filepath = 'remote_path/to/test_file.txt'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import defer"",
+            ""from ftplib import FTP""
+        ],
+        ""initialization"": [
+            ""class MockRequest: pass"",
+            ""class MockProtocol: def __init__(self, filename): self.filename = filename"",
+            ""class MockClient: def retrieveFile(self, filepath, protocol): return defer.Deferred()"",
+            ""class MockSelf: def __init__(self): self.client = MockClient(); self._build_response = lambda request, protocol: None; self._failed = lambda request: None"",
+            ""self = MockSelf()"",
+            ""client = self.client"",
+            ""ReceivedDataProtocol = MockProtocol"",
+            ""request = MockRequest()"",
+            ""request.meta = {'ftp_local_filename': 'example.txt'}"",
+            ""filepath = '/path/to/file'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import defer"",
+            ""from mock import Mock""
+        ],
+        ""initialization"": [
+            ""self = Mock()"",
+            ""client = Mock()"",
+            ""class ReceivedDataProtocol: def __init__(self, filename): self.filename = filename"",
+            ""request = Mock(meta={'ftp_local_filename': 'example.txt'})"",
+            ""filepath = '/path/to/example.txt'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet.defer import Deferred"",
+            ""from your_module import ReceivedDataProtocol""
+        ],
+        ""initialization"": [
+            ""class MockClient: def retrieveFile(self, filepath, protocol): return Deferred()"",
+            ""class MockRequest: def __init__(self): self.meta = {'ftp_local_filename': 'testfile.txt'}"",
+            ""self = type('MockSelf', (object,), {'client': MockClient()})()"",
+            ""client = MockClient()"",
+            ""ReceivedDataProtocol = lambda filename: filename"",
+            ""request = MockRequest()"",
+            ""filepath = '/path/to/testfile.txt'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from ftplib import FTP"",
+            ""from twisted.internet import defer""
+        ],
+        ""initialization"": [
+            ""class MockRequest:\n    def __init__(self):\n        self.meta = {'ftp_local_filename': 'dummy_file.txt'}"",
+            ""class MockClient:\n    def retrieveFile(self, filepath, protocol):\n        return defer.succeed(None)"",
+            ""class Mock:\n    def __init__(self):\n        self.client = MockClient()\n        self._build_response = lambda request, protocol: None\n        self._failed = lambda request: None\n\nself = Mock()"",
+            ""protocol = ReceivedDataProtocol('dummy_file.txt')"",
+            ""filepath = '/path/to/dummy_file.txt'"",
+            ""class ReceivedDataProtocol:\n    def __init__(self, filename):\n        self.filename = filename""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from mock import Mock"",
+            ""from twisted.internet.defer import Deferred""
+        ],
+        ""initialization"": [
+            ""class MockRequest: meta = {'ftp_local_filename': 'test.txt'}"",
+            ""self = Mock()"",
+            ""client = Mock()"",
+            ""request = MockRequest()"",
+            ""filepath = '/path/to/file'"",
+            ""client.retrieveFile = Mock(return_value=Deferred())"",
+            ""self._build_response = Mock()"",
+            ""self._failed = Mock()"",
+            ""ReceivedDataProtocol = Mock()"",
+            ""ReceivedDataProtocol.return_value = 'protocol'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet.defer import Deferred"",
+            ""from mock import Mock""
+        ],
+        ""initialization"": [
+            ""self = Mock()"",
+            ""client = Mock()"",
+            ""class ReceivedDataProtocol:\n    def __init__(self, filename):\n        self.filename = filename\nprotocol = ReceivedDataProtocol('example.txt')"",
+            ""request = Mock()\nrequest.meta = {'ftp_local_filename': 'example.txt'}"",
+            ""filepath = '/path/to/remote/file.txt'"",
+            ""self._build_response = Mock(return_value=Deferred())"",
+            ""self._failed = Mock(return_value=None)"",
+            ""client.retrieveFile = Mock(return_value=Deferred())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import defer"",
+            ""from twisted.protocols.ftp import FTPClient"",
+            ""from typing import Any""
+        ],
+        ""initialization"": [
+            ""class MockRequest:\n    def __init__(self):\n        self.meta = {'ftp_local_filename': 'mock_filename.txt'}"",
+            ""class MockClient:\n    def retrieveFile(self, filepath, protocol):\n        return defer.succeed('Mocked file retrieval')\n\nclass MockResponse:\n    def _build_response(self, request, protocol):\n        pass\n    def _failed(self, request):\n        pass"",
+            ""self = MockResponse()"",
+            ""client = MockClient()"",
+            ""ReceivedDataProtocol = type('ReceivedDataProtocol', (object,), {})(request.meta.get('ftp_local_filename'))"",
+            ""request = MockRequest()"",
+            ""filepath = 'mock/file/path/to/file.txt'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from twisted.internet import defer # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'client': None, '_build_response': lambda self, request, protocol: None, '_failed': lambda self, request: None})() # pragma: no cover"",
+            ""client = type('MockClient', (), {'retrieveFile': lambda self, filepath, protocol: defer.Deferred()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = Mock() # pragma: no cover"",
+            ""client = Mock() # pragma: no cover"",
+            ""request = Mock(meta={'ftp_local_filename': 'example.txt'}) # pragma: no cover"",
+            ""filepath = '/path/to/file.txt' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = Mock() # pragma: no cover"",
+            ""client = Mock() # pragma: no cover"",
+            ""class ReceivedDataProtocol:# pragma: no cover"",
+            ""    def __init__(self, filename):# pragma: no cover"",
+            ""        self.filename = filename# pragma: no cover"",
+            ""protocol = ReceivedDataProtocol('test_filename') # pragma: no cover"",
+            ""request = Mock(meta={'ftp_local_filename': 'test_file.txt'}) # pragma: no cover"",
+            ""filepath = 'remote_path/to/test_file.txt' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import defer # pragma: no cover"",
+            ""from ftplib import FTP # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRequest: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import defer # pragma: no cover"",
+            ""from mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = Mock() # pragma: no cover"",
+            ""client = Mock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet.defer import Deferred # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from ftplib import FTP # pragma: no cover"",
+            ""from twisted.internet import defer # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRequest:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.meta = {'ftp_local_filename': 'dummy_file.txt'} # pragma: no cover"",
+            ""class MockClient:# pragma: no cover"",
+            ""    def retrieveFile(self, filepath, protocol):# pragma: no cover"",
+            ""        return defer.succeed(None) # pragma: no cover"",
+            ""class Mock:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.client = MockClient()# pragma: no cover"",
+            ""        self._build_response = lambda request, protocol: None# pragma: no cover"",
+            ""        self._failed = lambda request: None# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""filepath = '/path/to/dummy_file.txt' # pragma: no cover"",
+            ""class ReceivedDataProtocol:# pragma: no cover"",
+            ""    def __init__(self, filename):# pragma: no cover"",
+            ""        self.filename = filename # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from mock import Mock # pragma: no cover"",
+            ""from twisted.internet.defer import Deferred # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRequest: meta = {'ftp_local_filename': 'test.txt'} # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""client = Mock() # pragma: no cover"",
+            ""request = MockRequest() # pragma: no cover"",
+            ""filepath = '/path/to/file' # pragma: no cover"",
+            ""client.retrieveFile = Mock(return_value=Deferred()) # pragma: no cover"",
+            ""self._build_response = Mock() # pragma: no cover"",
+            ""self._failed = Mock() # pragma: no cover"",
+            ""ReceivedDataProtocol = Mock() # pragma: no cover"",
+            ""ReceivedDataProtocol.return_value = 'protocol' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet.defer import Deferred # pragma: no cover"",
+            ""from mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = Mock() # pragma: no cover"",
+            ""client = Mock() # pragma: no cover"",
+            ""class ReceivedDataProtocol:# pragma: no cover"",
+            ""    def __init__(self, filename):# pragma: no cover"",
+            ""        self.filename = filename# pragma: no cover"",
+            ""protocol = ReceivedDataProtocol('example.txt') # pragma: no cover"",
+            ""request = Mock()# pragma: no cover"",
+            ""request.meta = {'ftp_local_filename': 'example.txt'} # pragma: no cover"",
+            ""filepath = '/path/to/remote/file.txt' # pragma: no cover"",
+            ""self._build_response = Mock(return_value=Deferred()) # pragma: no cover"",
+            ""self._failed = Mock(return_value=None) # pragma: no cover"",
+            ""client.retrieveFile = Mock(return_value=Deferred()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import defer # pragma: no cover"",
+            ""from twisted.protocols.ftp import FTPClient # pragma: no cover"",
+            ""from typing import Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRequest:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.meta = {'ftp_local_filename': 'mock_filename.txt'} # pragma: no cover"",
+            ""class MockClient:# pragma: no cover"",
+            ""    def retrieveFile(self, filepath, protocol):# pragma: no cover"",
+            ""        return defer.succeed('Mocked file retrieval')# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockResponse:# pragma: no cover"",
+            ""    def _build_response(self, request, protocol):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    def _failed(self, request):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = MockResponse() # pragma: no cover"",
+            ""client = MockClient() # pragma: no cover"",
+            ""request = MockRequest() # pragma: no cover"",
+            ""filepath = 'mock/file/path/to/file.txt' # pragma: no cover""
+        ]
+    }
+]",1,375,0.0001875,1463,0.0021945,0.002382

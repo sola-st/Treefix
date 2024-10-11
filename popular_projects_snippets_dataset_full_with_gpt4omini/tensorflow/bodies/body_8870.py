@@ -1,0 +1,11 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/distribute/coordinator/cluster_coordinator_test.py
+queue = coordinator_lib._CoordinatedClosureQueue()
+closure1 = self._create_closure(queue._cancellation_mgr)
+queue.put(closure1)
+self.assertIs(closure1, queue.get())
+self.assertFalse(queue.done())
+queue.put_back(closure1)
+self.assertEqual(closure1, queue.get())
+queue.mark_finished()
+self.assertTrue(queue.done())
+queue.wait()

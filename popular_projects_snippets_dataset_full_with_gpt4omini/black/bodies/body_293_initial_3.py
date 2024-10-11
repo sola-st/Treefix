@@ -1,0 +1,74 @@
+from collections import namedtuple # pragma: no cover
+
+Opening = namedtuple('Opening', ['type', 'bracket_depth']) # pragma: no cover
+closing = Opening(type='}', bracket_depth=0) # pragma: no cover
+opening = Opening(type='{', bracket_depth=0) # pragma: no cover
+brackets = ('{', '}') # pragma: no cover
+Token = namedtuple('Token', ['COMMA']) # pragma: no cover
+token = Token(COMMA=',') # pragma: no cover
+Syms = namedtuple('Syms', ['arglist', 'typedargslist']) # pragma: no cover
+syms = Syms(arglist='arglist', typedargslist='typedargslist') # pragma: no cover
+Leaf = namedtuple('Leaf', ['type', 'bracket_depth', 'parent']) # pragma: no cover
+leaves = [Leaf('{', 0, None), Leaf(',', 1, Leaf('arglist', 0, None)), Leaf('}', 0, None)] # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/black/src/black/nodes.py
+from l3.Runtime import _l_
+"""Return True if content between `opening` and `closing` is a one-sequence."""
+if (opening.type, closing.type) != brackets:
+    _l_(7134)
+
+    aux = False
+    _l_(7133)
+    exit(aux)
+
+depth = closing.bracket_depth + 1
+_l_(7135)
+for _opening_index, leaf in enumerate(leaves):
+    _l_(7139)
+
+    if leaf is opening:
+        _l_(7137)
+
+        break
+        _l_(7136)
+
+else:
+    raise LookupError("Opening paren not found in `leaves`")
+    _l_(7138)
+
+commas = 0
+_l_(7140)
+_opening_index += 1
+_l_(7141)
+for leaf in leaves[_opening_index:]:
+    _l_(7150)
+
+    if leaf is closing:
+        _l_(7143)
+
+        break
+        _l_(7142)
+
+    bracket_depth = leaf.bracket_depth
+    _l_(7144)
+    if bracket_depth == depth and leaf.type == token.COMMA:
+        _l_(7149)
+
+        commas += 1
+        _l_(7145)
+        if leaf.parent and leaf.parent.type in {
+            syms.arglist,
+            syms.typedargslist,
+        }:
+            _l_(7148)
+
+            commas += 1
+            _l_(7146)
+            break
+            _l_(7147)
+aux = commas < 2
+_l_(7151)
+
+exit(aux)

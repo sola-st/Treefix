@@ -1,0 +1,30 @@
+kwargs = {'key1': 'value1', 'key2': 'value2'} # pragma: no cover
+super = type('Mock', (object,), {})() # pragma: no cover
+
+class MockParent: pass # pragma: no cover
+kwargs = {'key1': 'value1', 'key2': 'value2'} # pragma: no cover
+class Mock(MockParent): # pragma: no cover
+    def __init__(self, **kwargs): pass # pragma: no cover
+super = Mock() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/flask/src/flask/json/__init__.py
+from l3.Runtime import _l_
+try:
+    import warnings
+    _l_(5287)
+
+except ImportError:
+    pass
+
+warnings.warn(
+    "'JSONDecoder' is deprecated and will be removed in"
+    " Flask 2.3. Use 'Flask.json' to provide an alternate"
+    " JSON implementation instead.",
+    DeprecationWarning,
+    stacklevel=3,
+)
+_l_(5288)
+super().__init__(**kwargs)
+_l_(5289)

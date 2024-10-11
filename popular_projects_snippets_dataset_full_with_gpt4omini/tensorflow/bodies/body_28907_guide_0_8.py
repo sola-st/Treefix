@@ -1,0 +1,14 @@
+class MockTestCase(object): # pragma: no cover
+    def assertDatasetProduces(self, dataset, expected): # pragma: no cover
+        for actual in dataset: # pragma: no cover
+            assert actual == expected, f'Expected {expected}, but got {actual}' # pragma: no cover
+mock_test_case = MockTestCase() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/data/kernel_tests/as_numpy_iterator_test.py
+from l3.Runtime import _l_
+ds = dataset_ops.Dataset.from_tensors((2, None))
+_l_(8673)
+self.assertDatasetProduces(ds, [(2, None)])
+_l_(8674)

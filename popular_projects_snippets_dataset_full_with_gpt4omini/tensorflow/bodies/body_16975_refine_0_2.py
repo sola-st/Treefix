@@ -1,0 +1,24 @@
+ # pragma: no cover
+gen_io_ops = type('Mock', (object,), {'identity_reader_v2': lambda name: 'identity_reader'})() # pragma: no cover
+name = 'my_identity_reader' # pragma: no cover
+
+ # pragma: no cover
+def identity_reader_v2(name): # pragma: no cover
+    return f'identity_reader_with_name_{name}' # pragma: no cover
+ # pragma: no cover
+gen_io_ops = type('Mock', (object,), {'identity_reader_v2': identity_reader_v2})() # pragma: no cover
+name = 'my_identity_reader' # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/io_ops.py
+from l3.Runtime import _l_
+"""Create a IdentityReader.
+
+    Args:
+      name: A name for the operation (optional).
+    """
+rr = gen_io_ops.identity_reader_v2(name=name)
+_l_(9750)
+super(IdentityReader, self).__init__(rr, supports_serialize=True)
+_l_(9751)

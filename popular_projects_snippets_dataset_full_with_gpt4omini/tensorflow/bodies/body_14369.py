@@ -1,0 +1,6 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/numpy_ops/np_math_ops.py
+if x1.dtype == dtypes.bool:
+    assert x2.dtype == dtypes.bool
+    x1 = math_ops.cast(x1, dtypes.int8)
+    x2 = math_ops.cast(x2, dtypes.int8)
+exit(math_ops.floordiv(x1, x2))

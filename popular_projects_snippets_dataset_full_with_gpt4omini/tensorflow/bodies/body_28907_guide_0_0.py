@@ -1,0 +1,15 @@
+class MockTestCase:  # Define Mock object for test case # pragma: no cover
+    def assertDatasetProduces(self, ds, expected):  # Define method to compare dataset output # pragma: no cover
+        output = list(ds.as_numpy_iterator())  # Convert dataset to numpy iterator and list # pragma: no cover
+        assert output == expected, f'Expected {expected}, but got {output}' # pragma: no cover
+ # pragma: no cover
+mock_test_case = MockTestCase()  # Create an instance of the mock test case # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/data/kernel_tests/as_numpy_iterator_test.py
+from l3.Runtime import _l_
+ds = dataset_ops.Dataset.from_tensors((2, None))
+_l_(8673)
+self.assertDatasetProduces(ds, [(2, None)])
+_l_(8674)

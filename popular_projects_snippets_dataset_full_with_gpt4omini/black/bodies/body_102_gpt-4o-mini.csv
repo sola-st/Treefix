@@ -1,0 +1,747 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""
+        Returns:
+            string_idx such that @LL[string_idx] is equal to our target (i.e.
+            matched) string, if this line matches the return/yield statement
+            requirements listed in the 'Requirements' section of this classes'
+            docstring.
+                OR
+            None, otherwise.
+        """"""
+# If this line is apart of a return/yield statement and the first leaf
+# contains either the ""return"" or ""yield"" keywords...
+if parent_type(LL[0]) in [syms.return_stmt, syms.yield_expr] and LL[
+    0
+].value in [""return"", ""yield""]:
+    is_valid_index = is_valid_index_factory(LL)
+
+    idx = 2 if is_valid_index(1) and is_empty_par(LL[1]) else 1
+    # The next visible leaf MUST contain a string...
+    if is_valid_index(idx) and LL[idx].type == token.STRING:
+        exit(idx)
+
+exit(None)
+
+# end code snippet
+
+# begin undefined variables
+parent_type
+LL
+syms
+is_valid_index_factory
+is_empty_par
+token
+# end undefined variables
+
+# begin undefined attributes and methods
+syms.return_stmt
+syms.yield_expr
+token.STRING
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""import enum""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})()"",
+            ""token = type('MockToken', (object,), {'STRING': 3})()"",
+            ""LL = [Mock(), Mock(), Mock()]"",
+            ""LL[0].value = 'return'"",
+            ""LL[1].type = token.STRING"",
+            ""LL[1].value = 'target_string'"",
+            ""def parent_type(node): return syms.return_stmt"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""def is_empty_par(node): return len(node) == 0""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Callable, Any"",
+            ""import tokenize""
+        ],
+        ""initialization"": [
+            ""syms = type('Mock', (object,), {'return_stmt': 'return_stmt', 'yield_expr': 'yield_expr'})()"",
+            ""token = type('Mock', (object,), {'STRING': 'string'})()"",
+            ""LL: List[Any] = [type('MockLeaf', (object,), {'type': 'string', 'value': 'yield'})()] * 3"",
+            ""parent_type = lambda x: x.type"",
+            ""is_valid_index_factory = lambda LL: lambda idx: 0 <= idx < len(LL)"",
+            ""is_empty_par = lambda leaf: leaf.value == ''""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""import token"",
+            ""import builtins""
+        ],
+        ""initialization"": [
+            ""def parent_type(node): return node['type']"",
+            ""LL = [{'type': token.STRING, 'value': 'target'}, {'type': 'empty'}, {'type': token.STRING, 'value': 'matched'}]"",
+            ""class MockSyms: return_stmt = 'return_stmt'; yield_expr = 'yield_expr'"",
+            ""syms = MockSyms()"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""is_valid_index = is_valid_index_factory(LL)"",
+            ""def is_empty_par(node): return node['type'] == 'empty'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""import token"",
+            ""import pytest""
+        ],
+        ""initialization"": [
+            ""def parent_type(node): return syms.return_stmt if node.value == 'return' else syms.yield_expr if node.value == 'yield' else None"",
+            ""LL = [{'value': 'return', 'type': token.STRING}, {'value': '', 'type': None}, {'value': 'my_string', 'type': token.STRING}]"",
+            ""class syms: return_stmt = 'return_stmt'; yield_expr = 'yield_expr'"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""def is_empty_par(node): return node['value'] == ''"",
+            ""token.STRING = 'STRING'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Any"",
+            ""import tokenize"",
+            ""import ast""
+        ],
+        ""initialization"": [
+            ""def parent_type(node): return node.type"",
+            ""LL = [{ 'type': 'return_stmt', 'value': 'return' }, { 'type': 'empty', 'value': '' }, {'type': 'STRING', 'value': 'matched_string'}]"",
+            ""class Mock: pass; syms = Mock(); syms.return_stmt = 'return_stmt'; syms.yield_expr = 'yield_expr'"",
+            ""def is_valid_index_factory(LL): return lambda index: index < len(LL)"",
+            ""def is_empty_par(node): return node['type'] == 'empty'"",
+            ""class token: STRING = 'STRING'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""import token"",
+            ""from collections import namedtuple""
+        ],
+        ""initialization"": [
+            ""def parent_type(node): return node.type"",
+            ""LL = [namedtuple('Node', ['type', 'value'])('return', 'return'), namedtuple('Node', ['type', 'value'])('empty', ''), namedtuple('Node', ['type', 'value'])('string', '\""my_string\""')]"",
+            ""class MockSymbols: return_stmt = 'return_stmt'; yield_expr = 'yield_expr'"",
+            ""syms = MockSymbols()"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""def is_empty_par(node): return node.value == ''"",
+            ""token = type('MockToken', (), {'STRING': 'string'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any"",
+            ""import token"",
+            ""import collections""
+        ],
+        ""initialization"": [
+            ""def parent_type(node): return syms.return_stmt if isinstance(node, ReturnNode) else syms.yield_expr if isinstance(node, YieldNode) else None"",
+            ""LL = [collections.namedtuple('Node', ['type', 'value'])('return', None), collections.namedtuple('Node', ['type', 'value'])('empty', None), collections.namedtuple('Node', ['type', 'value'])('string', '\""matched_string\""')]"",
+            ""class Mock: pass\nsyms = Mock()\nsyms.return_stmt = 'return_stmt'\nsyms.yield_expr = 'yield_expr'"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""def is_empty_par(node): return node != 'string'"",
+            ""token.STRING = 'STRING'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import typing"",
+            ""import ply.yacc as yacc"",
+            ""import ply.lex as lex""
+        ],
+        ""initialization"": [
+            ""def parent_type(node): return node.type"",
+            ""LL = [{'type': 'return_stmt', 'value': 'return'}, {'type': 'empty'}, {'type': 'STRING', 'value': 'target_string'}]"",
+            ""class Mock: pass\nsyms = Mock()\nsyms.return_stmt = 'return_stmt'\nsyms.yield_expr = 'yield_expr'"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""def is_empty_par(element): return element['type'] == 'empty'"",
+            ""class MockToken: STRING = 'STRING'\ntoken = MockToken()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""import token"",
+            ""import pytest""
+        ],
+        ""initialization"": [
+            ""def parent_type(node): return node.type"",
+            ""LL = [type('MockNode', (object,), {'value': 'return', 'type': token.STRING})()] * 3"",
+            ""class MockSyms: return_stmt = 'return_stmt'; yield_expr = 'yield_expr'"",
+            ""syms = MockSyms()"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""def is_empty_par(node): return False""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""import token"",
+            ""from collections import namedtuple""
+        ],
+        ""initialization"": [
+            ""syms = type('Mock', (object,), {'return_stmt': 1, 'yield_expr': 2})()"",
+            ""LL: List = [type('MockLeaf', (object,), {'type': token.STRING, 'value': 'return'})()] * 3"",
+            ""parent_type = lambda x: syms.return_stmt if LL[x].value == 'return' else syms.yield_expr"",
+            ""is_valid_index_factory = lambda ll: lambda idx: 0 <= idx < len(ll)"",
+            ""is_valid_index = is_valid_index_factory(LL)"",
+            ""is_empty_par = lambda leaf: isinstance(leaf, type('MockLeaf', (object,), {}))"",
+            ""token = type('MockToken', (object,), {'STRING': 3})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""import enum # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})() # pragma: no cover"",
+            ""token = type('MockToken', (object,), {'STRING': 3})() # pragma: no cover"",
+            ""LL = [Mock(), Mock(), Mock()] # pragma: no cover"",
+            ""LL[0].value = 'return' # pragma: no cover"",
+            ""LL[1].type = token.STRING # pragma: no cover"",
+            ""LL[1].value = 'target_string' # pragma: no cover"",
+            ""def parent_type(node): return syms.return_stmt # pragma: no cover"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL) # pragma: no cover"",
+            ""def is_empty_par(node): return len(node) == 0 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Callable, Any # pragma: no cover"",
+            ""import tokenize # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""syms = type('Mock', (object,), {'return_stmt': 'return_stmt', 'yield_expr': 'yield_expr'})() # pragma: no cover"",
+            ""token = type('Mock', (object,), {'STRING': 'string'})() # pragma: no cover"",
+            ""LL: List[Any] = [type('MockLeaf', (object,), {'type': 'string', 'value': 'yield'})()] * 3 # pragma: no cover"",
+            ""parent_type = lambda x: x.type # pragma: no cover"",
+            ""is_valid_index_factory = lambda LL: lambda idx: 0 <= idx < len(LL) # pragma: no cover"",
+            ""is_empty_par = lambda leaf: leaf.value == '' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""import token # pragma: no cover"",
+            ""import builtins # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def parent_type(node): return node['type'] # pragma: no cover"",
+            ""LL = [{'type': token.STRING, 'value': 'target'}, {'type': 'empty'}, {'type': token.STRING, 'value': 'matched'}] # pragma: no cover"",
+            ""class MockSyms: return_stmt = 'return_stmt'; yield_expr = 'yield_expr' # pragma: no cover"",
+            ""syms = MockSyms() # pragma: no cover"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL) # pragma: no cover"",
+            ""is_valid_index = is_valid_index_factory(LL) # pragma: no cover"",
+            ""def is_empty_par(node): return node['type'] == 'empty' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""import token # pragma: no cover"",
+            ""import pytest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def parent_type(node): return syms.return_stmt if node.value == 'return' else syms.yield_expr if node.value == 'yield' else None # pragma: no cover"",
+            ""LL = [{'value': 'return', 'type': token.STRING}, {'value': '', 'type': None}, {'value': 'my_string', 'type': token.STRING}] # pragma: no cover"",
+            ""class syms: return_stmt = 'return_stmt'; yield_expr = 'yield_expr' # pragma: no cover"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL) # pragma: no cover"",
+            ""def is_empty_par(node): return node['value'] == '' # pragma: no cover"",
+            ""token.STRING = 'STRING' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Any # pragma: no cover"",
+            ""import tokenize # pragma: no cover"",
+            ""import ast # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def parent_type(node): return node.type # pragma: no cover"",
+            ""LL = [{ 'type': 'return_stmt', 'value': 'return' }, { 'type': 'empty', 'value': '' }, {'type': 'STRING', 'value': 'matched_string'}] # pragma: no cover"",
+            ""def is_valid_index_factory(LL): return lambda index: index < len(LL) # pragma: no cover"",
+            ""def is_empty_par(node): return node['type'] == 'empty' # pragma: no cover"",
+            ""class token: STRING = 'STRING' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""import token # pragma: no cover"",
+            ""from collections import namedtuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def parent_type(node): return node.type # pragma: no cover"",
+            ""LL = [namedtuple('Node', ['type', 'value'])('return', 'return'), namedtuple('Node', ['type', 'value'])('empty', ''), namedtuple('Node', ['type', 'value'])('string', '\""my_string\""')] # pragma: no cover"",
+            ""class MockSymbols: return_stmt = 'return_stmt'; yield_expr = 'yield_expr' # pragma: no cover"",
+            ""syms = MockSymbols() # pragma: no cover"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL) # pragma: no cover"",
+            ""def is_empty_par(node): return node.value == '' # pragma: no cover"",
+            ""token = type('MockToken', (), {'STRING': 'string'})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any # pragma: no cover"",
+            ""import token # pragma: no cover"",
+            ""import collections # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def parent_type(node): return syms.return_stmt if isinstance(node, ReturnNode) else syms.yield_expr if isinstance(node, YieldNode) else None # pragma: no cover"",
+            ""LL = [collections.namedtuple('Node', ['type', 'value'])('return', None), collections.namedtuple('Node', ['type', 'value'])('empty', None), collections.namedtuple('Node', ['type', 'value'])('string', '\""matched_string\""')] # pragma: no cover"",
+            ""class Mock: pass# pragma: no cover"",
+            ""syms = Mock()# pragma: no cover"",
+            ""syms.return_stmt = 'return_stmt'# pragma: no cover"",
+            ""syms.yield_expr = 'yield_expr' # pragma: no cover"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL) # pragma: no cover"",
+            ""def is_empty_par(node): return node != 'string' # pragma: no cover"",
+            ""token.STRING = 'STRING' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import typing # pragma: no cover"",
+            ""import ply.yacc as yacc # pragma: no cover"",
+            ""import ply.lex as lex # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def parent_type(node): return node.type # pragma: no cover"",
+            ""LL = [{'type': 'return_stmt', 'value': 'return'}, {'type': 'empty'}, {'type': 'STRING', 'value': 'target_string'}] # pragma: no cover"",
+            ""class Mock: pass# pragma: no cover"",
+            ""syms = Mock()# pragma: no cover"",
+            ""syms.return_stmt = 'return_stmt'# pragma: no cover"",
+            ""syms.yield_expr = 'yield_expr' # pragma: no cover"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL) # pragma: no cover"",
+            ""def is_empty_par(element): return element['type'] == 'empty' # pragma: no cover"",
+            ""class MockToken: STRING = 'STRING'# pragma: no cover"",
+            ""token = MockToken() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""import token # pragma: no cover"",
+            ""import pytest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def parent_type(node): return node.type # pragma: no cover"",
+            ""LL = [type('MockNode', (object,), {'value': 'return', 'type': token.STRING})()] * 3 # pragma: no cover"",
+            ""class MockSyms: return_stmt = 'return_stmt'; yield_expr = 'yield_expr' # pragma: no cover"",
+            ""syms = MockSyms() # pragma: no cover"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL) # pragma: no cover"",
+            ""def is_empty_par(node): return False # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""import token # pragma: no cover"",
+            ""from collections import namedtuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""syms = type('Mock', (object,), {'return_stmt': 1, 'yield_expr': 2})() # pragma: no cover"",
+            ""LL: List = [type('MockLeaf', (object,), {'type': token.STRING, 'value': 'return'})()] * 3 # pragma: no cover"",
+            ""parent_type = lambda x: syms.return_stmt if LL[x].value == 'return' else syms.yield_expr # pragma: no cover"",
+            ""is_valid_index_factory = lambda ll: lambda idx: 0 <= idx < len(ll) # pragma: no cover"",
+            ""is_valid_index = is_valid_index_factory(LL) # pragma: no cover"",
+            ""is_empty_par = lambda leaf: isinstance(leaf, type('MockLeaf', (object,), {})) # pragma: no cover"",
+            ""token = type('MockToken', (object,), {'STRING': 3})() # pragma: no cover""
+        ]
+    }
+]",1,521,0.0002605,1847,0.0027705,0.003031
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 13:
+    def is_empty_par(node): return len(node) == 0 # pragma: no cover
+TypeError: object of type 'Mock' has no len()
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""import enum""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""class MockLeaf:  # Represents a leaf node with type and value"",
+            ""    def __init__(self, value=None, type=None):"",
+            ""        self.value = value"",
+            ""        self.type = type"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})()"",
+            ""token = type('MockToken', (object,), {'STRING': 3})()"",
+            ""LL = [MockLeaf(value='return', type=None), MockLeaf(value=None, type=token.STRING)]"",
+            ""LL.append(MockLeaf(value='target_string', type=None))"",
+            ""def parent_type(node): return syms.return_stmt"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""def is_empty_par(node): return node.value is None  # Adjusted to check values""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""import enum""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""class MockNode: def __init__(self, value=None, type=None): self.value = value; self.type = type"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})()"",
+            ""token = type('MockToken', (object,), {'STRING': 3})()"",
+            ""LL: List[MockNode] = [MockNode('return', None), MockNode('target_string', token.STRING)]"",
+            ""def parent_type(node): return syms.return_stmt"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""def is_empty_par(node): return node.value is None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""import enum""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""class MockNode: pass"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})()"",
+            ""token = type('MockToken', (object,), {'STRING': 3})()"",
+            ""LL = [MockNode(), MockNode(), MockNode()]"",
+            ""LL[0].value = 'return'"",
+            ""LL[1].type = token.STRING"",
+            ""LL[1].value = 'target_string'"",
+            ""def parent_type(node): return syms.return_stmt"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""def is_empty_par(node): return not hasattr(node, 'value') or node.value == ''""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""import enum""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})()"",
+            ""token = type('MockToken', (object,), {'STRING': 3})()"",
+            ""LL = [Mock() for _ in range(3)]"",
+            ""LL[0].value = 'return'"",
+            ""LL[1].type = token.STRING"",
+            ""LL[1].value = 'target_string'"",
+            ""def parent_type(node): return syms.return_stmt"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""def is_empty_par(node): return node.value == ''""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""import enum""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""class MockNode: def __init__(self, value, node_type): self.value = value; self.type = node_type"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})()"",
+            ""token = type('MockToken', (object,), {'STRING': 3})()"",
+            ""LL = [MockNode('return', None), MockNode('', token.STRING), MockNode('', None)]"",
+            ""LL[1].value = 'target_string'"",
+            ""def parent_type(node): return syms.return_stmt"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""def is_empty_par(node): return node.value == ''""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""import enum""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""class MockNode: pass"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})()"",
+            ""token = type('MockToken', (object,), {'STRING': 3})()"",
+            ""LL = [MockNode(), MockNode(), MockNode()]"",
+            ""LL[0].value = 'return'"",
+            ""LL[1].type = token.STRING"",
+            ""LL[1].value = 'target_string'"",
+            ""def parent_type(node): return syms.return_stmt"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""def is_empty_par(node): return not hasattr(node, 'value') or node.value == ''""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""import enum""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""class MockLeaf:  # Represents a leaf node in LL"",
+            ""    def __init__(self, value=None, type=None):"",
+            ""        self.value = value"",
+            ""        self.type = type"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})()"",
+            ""token = type('MockToken', (object,), {'STRING': 3})()"",
+            ""LL = [MockLeaf('return', syms.return_stmt), MockLeaf('', token.STRING), MockLeaf('target_string', None)]"",
+            ""def parent_type(node): return syms.return_stmt"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""def is_empty_par(node): return node.value == ''""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""import enum""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""class MockNode(Mock):"",
+            ""    def __init__(self, value=None, node_type=None):"",
+            ""        self.value = value"",
+            ""        self.type = node_type"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})()"",
+            ""token = type('MockToken', (object,), {'STRING': 3})()"",
+            ""LL = [MockNode('return', None), MockNode('target_string', token.STRING)]"",
+            ""def parent_type(node): return syms.return_stmt"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""def is_empty_par(node): return True""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""import enum""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""class MockLeaf: pass"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})()"",
+            ""token = type('MockToken', (object,), {'STRING': 3})()"",
+            ""LL = [MockLeaf(), MockLeaf(), MockLeaf()]"",
+            ""LL[0].value = 'return'"",
+            ""LL[1].type = token.STRING"",
+            ""LL[1].value = 'target_string'"",
+            ""def parent_type(node): return syms.return_stmt"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""def is_empty_par(node): return node is None or not hasattr(node, '__len__')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""import enum""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})()"",
+            ""token = type('MockToken', (object,), {'STRING': 3})()"",
+            ""class MockLeaf:  # Mocking a more realistic Leaf object"",
+            ""    def __init__(self, value=None, type=None):"",
+            ""        self.value = value"",
+            ""        self.type = type"",
+            ""LL = [MockLeaf('return', None), MockLeaf(None, token.STRING), MockLeaf('target_string', None)]"",
+            ""def parent_type(node): return syms.return_stmt"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL)"",
+            ""def is_empty_par(node): return node.value is None""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""import enum # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""class MockLeaf:  # Represents a leaf node with type and value # pragma: no cover"",
+            ""    def __init__(self, value=None, type=None): # pragma: no cover"",
+            ""        self.value = value # pragma: no cover"",
+            ""        self.type = type # pragma: no cover"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})() # pragma: no cover"",
+            ""token = type('MockToken', (object,), {'STRING': 3})() # pragma: no cover"",
+            ""LL = [MockLeaf(value='return', type=None), MockLeaf(value=None, type=token.STRING)] # pragma: no cover"",
+            ""LL.append(MockLeaf(value='target_string', type=None)) # pragma: no cover"",
+            ""def parent_type(node): return syms.return_stmt # pragma: no cover"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL) # pragma: no cover"",
+            ""def is_empty_par(node): return node.value is None  # Adjusted to check values # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""import enum # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""import enum # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""class MockNode: pass # pragma: no cover"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})() # pragma: no cover"",
+            ""token = type('MockToken', (object,), {'STRING': 3})() # pragma: no cover"",
+            ""LL = [MockNode(), MockNode(), MockNode()] # pragma: no cover"",
+            ""LL[0].value = 'return' # pragma: no cover"",
+            ""LL[1].type = token.STRING # pragma: no cover"",
+            ""LL[1].value = 'target_string' # pragma: no cover"",
+            ""def parent_type(node): return syms.return_stmt # pragma: no cover"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL) # pragma: no cover"",
+            ""def is_empty_par(node): return not hasattr(node, 'value') or node.value == '' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""import enum # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})() # pragma: no cover"",
+            ""token = type('MockToken', (object,), {'STRING': 3})() # pragma: no cover"",
+            ""LL = [Mock() for _ in range(3)] # pragma: no cover"",
+            ""LL[0].value = 'return' # pragma: no cover"",
+            ""LL[1].type = token.STRING # pragma: no cover"",
+            ""LL[1].value = 'target_string' # pragma: no cover"",
+            ""def parent_type(node): return syms.return_stmt # pragma: no cover"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL) # pragma: no cover"",
+            ""def is_empty_par(node): return node.value == '' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""import enum # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""import enum # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""class MockNode: pass # pragma: no cover"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})() # pragma: no cover"",
+            ""token = type('MockToken', (object,), {'STRING': 3})() # pragma: no cover"",
+            ""LL = [MockNode(), MockNode(), MockNode()] # pragma: no cover"",
+            ""LL[0].value = 'return' # pragma: no cover"",
+            ""LL[1].type = token.STRING # pragma: no cover"",
+            ""LL[1].value = 'target_string' # pragma: no cover"",
+            ""def parent_type(node): return syms.return_stmt # pragma: no cover"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL) # pragma: no cover"",
+            ""def is_empty_par(node): return not hasattr(node, 'value') or node.value == '' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""import enum # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""class MockLeaf:  # Represents a leaf node in LL # pragma: no cover"",
+            ""    def __init__(self, value=None, type=None): # pragma: no cover"",
+            ""        self.value = value # pragma: no cover"",
+            ""        self.type = type # pragma: no cover"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})() # pragma: no cover"",
+            ""token = type('MockToken', (object,), {'STRING': 3})() # pragma: no cover"",
+            ""LL = [MockLeaf('return', syms.return_stmt), MockLeaf('', token.STRING), MockLeaf('target_string', None)] # pragma: no cover"",
+            ""def parent_type(node): return syms.return_stmt # pragma: no cover"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL) # pragma: no cover"",
+            ""def is_empty_par(node): return node.value == '' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""import enum # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""class MockNode(Mock): # pragma: no cover"",
+            ""    def __init__(self, value=None, node_type=None): # pragma: no cover"",
+            ""        self.value = value # pragma: no cover"",
+            ""        self.type = node_type # pragma: no cover"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})() # pragma: no cover"",
+            ""token = type('MockToken', (object,), {'STRING': 3})() # pragma: no cover"",
+            ""LL = [MockNode('return', None), MockNode('target_string', token.STRING)] # pragma: no cover"",
+            ""def parent_type(node): return syms.return_stmt # pragma: no cover"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL) # pragma: no cover"",
+            ""def is_empty_par(node): return True # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""import enum # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""class MockLeaf: pass # pragma: no cover"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})() # pragma: no cover"",
+            ""token = type('MockToken', (object,), {'STRING': 3})() # pragma: no cover"",
+            ""LL = [MockLeaf(), MockLeaf(), MockLeaf()] # pragma: no cover"",
+            ""LL[0].value = 'return' # pragma: no cover"",
+            ""LL[1].type = token.STRING # pragma: no cover"",
+            ""LL[1].value = 'target_string' # pragma: no cover"",
+            ""def parent_type(node): return syms.return_stmt # pragma: no cover"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL) # pragma: no cover"",
+            ""def is_empty_par(node): return node is None or not hasattr(node, '__len__') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""import enum # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""syms = type('MockSYMS', (object,), {'return_stmt': 1, 'yield_expr': 2})() # pragma: no cover"",
+            ""token = type('MockToken', (object,), {'STRING': 3})() # pragma: no cover"",
+            ""class MockLeaf:  # Mocking a more realistic Leaf object # pragma: no cover"",
+            ""    def __init__(self, value=None, type=None): # pragma: no cover"",
+            ""        self.value = value # pragma: no cover"",
+            ""        self.type = type # pragma: no cover"",
+            ""LL = [MockLeaf('return', None), MockLeaf(None, token.STRING), MockLeaf('target_string', None)] # pragma: no cover"",
+            ""def parent_type(node): return syms.return_stmt # pragma: no cover"",
+            ""def is_valid_index_factory(LL): return lambda idx: 0 <= idx < len(LL) # pragma: no cover"",
+            ""def is_empty_par(node): return node.value is None # pragma: no cover""
+        ]
+    }
+]",2,1018,0.000509,2105,0.0031575,0.0036665

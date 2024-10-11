@@ -1,0 +1,36 @@
+from flask import current_app # pragma: no cover
+
+class MockFormData(object): # pragma: no cover
+    def __init__(self): # pragma: no cover
+        self.mimetype = 'application/json' # pragma: no cover
+        self.files = None # pragma: no cover
+        self._load_form_data = lambda: None # pragma: no cover
+form_data = MockFormData() # pragma: no cover
+current_app = type('MockApp', (object,), {'debug': True})() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/flask/src/flask/wrappers.py
+from l3.Runtime import _l_
+super()._load_form_data()
+_l_(4323)
+
+# In debug mode we're replacing the files multidict with an ad-hoc
+# subclass that raises a different error for key errors.
+if (
+    current_app
+    and current_app.debug
+    and self.mimetype != "multipart/form-data"
+    and not self.files
+):
+    _l_(4327)
+
+    try:
+        from .debughelpers import attach_enctype_error_multidict
+        _l_(4325)
+
+    except ImportError:
+        pass
+
+    attach_enctype_error_multidict(self)
+    _l_(4326)

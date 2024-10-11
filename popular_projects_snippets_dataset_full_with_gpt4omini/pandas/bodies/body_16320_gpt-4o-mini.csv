@@ -1,0 +1,467 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+
+# 8260
+# support datetime64 with tz
+
+dr = date_range(""20130101"", periods=3, tz=""US/Eastern"")
+s = Series(dr)
+assert s.dtype.name == ""datetime64[ns, US/Eastern]""
+assert s.dtype == ""datetime64[ns, US/Eastern]""
+assert is_datetime64tz_dtype(s.dtype)
+assert ""datetime64[ns, US/Eastern]"" in str(s)
+
+# export
+result = s.values
+assert isinstance(result, np.ndarray)
+assert result.dtype == ""datetime64[ns]""
+
+exp = DatetimeIndex(result)
+exp = exp.tz_localize(""UTC"").tz_convert(tz=s.dt.tz)
+tm.assert_index_equal(dr, exp)
+
+# indexing
+result = s.iloc[0]
+assert result == Timestamp(""2013-01-01 00:00:00-0500"", tz=""US/Eastern"")
+result = s[0]
+assert result == Timestamp(""2013-01-01 00:00:00-0500"", tz=""US/Eastern"")
+
+result = s[Series([True, True, False], index=s.index)]
+tm.assert_series_equal(result, s[0:2])
+
+result = s.iloc[0:1]
+tm.assert_series_equal(result, Series(dr[0:1]))
+
+# concat
+result = pd.concat([s.iloc[0:1], s.iloc[1:]])
+tm.assert_series_equal(result, s)
+
+# short str
+assert ""datetime64[ns, US/Eastern]"" in str(s)
+
+# formatting with NaT
+result = s.shift()
+assert ""datetime64[ns, US/Eastern]"" in str(result)
+assert ""NaT"" in str(result)
+
+# long str
+t = Series(date_range(""20130101"", periods=1000, tz=""US/Eastern""))
+assert ""datetime64[ns, US/Eastern]"" in str(t)
+
+result = DatetimeIndex(s, freq=""infer"")
+tm.assert_index_equal(result, dr)
+
+# end code snippet
+
+# begin undefined variables
+date_range
+Series
+is_datetime64tz_dtype
+np
+DatetimeIndex
+tm
+Timestamp
+pd
+# end undefined variables
+
+# begin undefined attributes and methods
+np.ndarray
+tm.assert_index_equal
+tm.assert_series_equal
+pd.concat
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp"",
+            ""from pandas.api.extensions import is_datetime64tz_dtype"",
+            ""import pandas.testing as tm""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range"",
+            ""Series = pd.Series"",
+            ""is_datetime64tz_dtype = pd.api.extensions.is_datetime64tz_dtype"",
+            ""np = import('numpy')"",
+            ""DatetimeIndex = pd.DatetimeIndex"",
+            ""tm = import('pandas.testing')"",
+            ""Timestamp = pd.Timestamp"",
+            ""pd = import('pandas')"",
+            ""np.ndarray = type('MockNdarray', (object,), {})"",
+            ""tm.assert_index_equal = type('MockAssertIndexEqual', (object,), {})"",
+            ""tm.assert_series_equal = type('MockAssertSeriesEqual', (object,), {})"",
+            ""pd.concat = type('MockConcat', (object,), {})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp"",
+            ""from pandas.api.extensions import is_datetime64tz_dtype"",
+            ""import pandas._testing as tm""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range"",
+            ""Series = pd.Series"",
+            ""is_datetime64tz_dtype = pd.api.extensions.is_datetime64tz_dtype"",
+            ""np = __import__('numpy')"",
+            ""DatetimeIndex = pd.DatetimeIndex"",
+            ""tm = pd._testing"",
+            ""Timestamp = pd.Timestamp"",
+            ""pd = __import__('pandas')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp"",
+            ""from pandas.api.extensions import is_datetime64tz_dtype"",
+            ""import pandas.testing as tm""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range"",
+            ""Series = pd.Series"",
+            ""is_datetime64tz_dtype = pd.api.extensions.is_datetime64tz_dtype"",
+            ""np = numpy"",
+            ""DatetimeIndex = pd.DatetimeIndex"",
+            ""tm = pandas.testing"",
+            ""Timestamp = pd.Timestamp"",
+            ""pd = pandas"",
+            ""np.ndarray = type('Mock', (object,), {})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp"",
+            ""from pandas.api.types import is_datetime64tz_dtype"",
+            ""import pandas.testing as tm""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range"",
+            ""Series = pd.Series"",
+            ""is_datetime64tz_dtype = pd.api.types.is_datetime64tz_dtype"",
+            ""np = np"",
+            ""DatetimeIndex = pd.DatetimeIndex"",
+            ""tm = pandas.testing"",
+            ""Timestamp = pd.Timestamp"",
+            ""pd = pd"",
+            ""np.ndarray = type('MockNDArray', (object,), {})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp"",
+            ""import pandas._testing as tm"",
+            ""from pandas.api.types import is_datetime64tz_dtype""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range"",
+            ""Series = pd.Series"",
+            ""is_datetime64tz_dtype = pd.api.types.is_datetime64tz_dtype"",
+            ""np = np"",
+            ""DatetimeIndex = pd.DatetimeIndex"",
+            ""tm = pd._testing"",
+            ""Timestamp = pd.Timestamp"",
+            ""pd = pd"",
+            ""np.ndarray = np.ndarray"",
+            ""tm.assert_index_equal = type('Mock', (object,), {'assert_index_equal': staticmethod(lambda x, y: None)})"",
+            ""tm.assert_series_equal = type('Mock', (object,), {'assert_series_equal': staticmethod(lambda x, y: None)})"",
+            ""pd.concat = type('Mock', (object,), {'concat': staticmethod(lambda dfs, axis=0: pd.concat(dfs, axis=axis))})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp"",
+            ""from pandas.api.extensions import is_datetime64tz_dtype"",
+            ""import pandas.testing as tm""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range"",
+            ""Series = pd.Series"",
+            ""is_datetime64tz_dtype = pd.api.extensions.is_datetime64tz_dtype"",
+            ""np = np"",
+            ""DatetimeIndex = pd.DatetimeIndex"",
+            ""tm = pd.testing"",
+            ""Timestamp = pd.Timestamp"",
+            ""pd = pd"",
+            ""np.ndarray = type('Mock', (object,), {})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp"",
+            ""from pandas.api.types import is_datetime64tz_dtype"",
+            ""import pandas.testing as tm""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range"",
+            ""Series = pd.Series"",
+            ""is_datetime64tz_dtype = pd.api.types.is_datetime64tz_dtype"",
+            ""np = np"",
+            ""DatetimeIndex = pd.DatetimeIndex"",
+            ""tm = pd.testing"",
+            ""Timestamp = pd.Timestamp"",
+            ""pd = pd"",
+            ""np.ndarray = type('Mock', (object,), {})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp"",
+            ""from pandas.api.types import is_datetime64tz_dtype"",
+            ""import pandas.testing as tm""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range"",
+            ""Series = pd.Series"",
+            ""is_datetime64tz_dtype = pd.api.types.is_datetime64tz_dtype"",
+            ""np = np"",
+            ""DatetimeIndex = pd.DatetimeIndex"",
+            ""tm = pd.testing"",
+            ""Timestamp = pd.Timestamp"",
+            ""pd = pd"",
+            ""np.ndarray = type('Mock', (object,), {})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp"",
+            ""from pandas.api.extensions import is_datetime64tz_dtype"",
+            ""import pandas.testing as tm""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range"",
+            ""Series = pd.Series"",
+            ""is_datetime64tz_dtype = pd.api.extensions.is_datetime64tz_dtype"",
+            ""np = numpy"",
+            ""DatetimeIndex = pd.DatetimeIndex"",
+            ""tm = pandas.testing"",
+            ""Timestamp = pd.Timestamp"",
+            ""pd = pandas""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp"",
+            ""from pandas.api.types import is_datetime64tz_dtype"",
+            ""import pandas.testing as tm""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range"",
+            ""Series = pd.Series"",
+            ""is_datetime64tz_dtype = pd.api.types.is_datetime64tz_dtype"",
+            ""np = np"",
+            ""DatetimeIndex = pd.DatetimeIndex"",
+            ""tm = pd.testing"",
+            ""Timestamp = pd.Timestamp"",
+            ""pd = pd"",
+            ""np.ndarray = type('Mock', (object,), {})""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp # pragma: no cover"",
+            ""import pandas.testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp # pragma: no cover"",
+            ""import pandas._testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""DatetimeIndex = pd.DatetimeIndex # pragma: no cover"",
+            ""tm = pd._testing # pragma: no cover"",
+            ""Timestamp = pd.Timestamp # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp # pragma: no cover"",
+            ""import pandas.testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""DatetimeIndex = pd.DatetimeIndex # pragma: no cover"",
+            ""Timestamp = pd.Timestamp # pragma: no cover"",
+            ""np.ndarray = type('Mock', (object,), {}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp # pragma: no cover"",
+            ""from pandas.api.types import is_datetime64tz_dtype # pragma: no cover"",
+            ""import pandas.testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""is_datetime64tz_dtype = pd.api.types.is_datetime64tz_dtype # pragma: no cover"",
+            ""np = np # pragma: no cover"",
+            ""DatetimeIndex = pd.DatetimeIndex # pragma: no cover"",
+            ""Timestamp = pd.Timestamp # pragma: no cover"",
+            ""pd = pd # pragma: no cover"",
+            ""np.ndarray = type('MockNDArray', (object,), {}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp # pragma: no cover"",
+            ""import pandas._testing as tm # pragma: no cover"",
+            ""from pandas.api.types import is_datetime64tz_dtype # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""is_datetime64tz_dtype = pd.api.types.is_datetime64tz_dtype # pragma: no cover"",
+            ""np = np # pragma: no cover"",
+            ""DatetimeIndex = pd.DatetimeIndex # pragma: no cover"",
+            ""tm = pd._testing # pragma: no cover"",
+            ""Timestamp = pd.Timestamp # pragma: no cover"",
+            ""pd = pd # pragma: no cover"",
+            ""np.ndarray = np.ndarray # pragma: no cover"",
+            ""tm.assert_index_equal = type('Mock', (object,), {'assert_index_equal': staticmethod(lambda x, y: None)}) # pragma: no cover"",
+            ""tm.assert_series_equal = type('Mock', (object,), {'assert_series_equal': staticmethod(lambda x, y: None)}) # pragma: no cover"",
+            ""pd.concat = type('Mock', (object,), {'concat': staticmethod(lambda dfs, axis=0: pd.concat(dfs, axis=axis))}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp # pragma: no cover"",
+            ""import pandas.testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""np = np # pragma: no cover"",
+            ""DatetimeIndex = pd.DatetimeIndex # pragma: no cover"",
+            ""tm = pd.testing # pragma: no cover"",
+            ""Timestamp = pd.Timestamp # pragma: no cover"",
+            ""pd = pd # pragma: no cover"",
+            ""np.ndarray = type('Mock', (object,), {}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp # pragma: no cover"",
+            ""from pandas.api.types import is_datetime64tz_dtype # pragma: no cover"",
+            ""import pandas.testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""is_datetime64tz_dtype = pd.api.types.is_datetime64tz_dtype # pragma: no cover"",
+            ""np = np # pragma: no cover"",
+            ""DatetimeIndex = pd.DatetimeIndex # pragma: no cover"",
+            ""tm = pd.testing # pragma: no cover"",
+            ""Timestamp = pd.Timestamp # pragma: no cover"",
+            ""pd = pd # pragma: no cover"",
+            ""np.ndarray = type('Mock', (object,), {}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp # pragma: no cover"",
+            ""from pandas.api.types import is_datetime64tz_dtype # pragma: no cover"",
+            ""import pandas.testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""is_datetime64tz_dtype = pd.api.types.is_datetime64tz_dtype # pragma: no cover"",
+            ""np = np # pragma: no cover"",
+            ""DatetimeIndex = pd.DatetimeIndex # pragma: no cover"",
+            ""tm = pd.testing # pragma: no cover"",
+            ""Timestamp = pd.Timestamp # pragma: no cover"",
+            ""pd = pd # pragma: no cover"",
+            ""np.ndarray = type('Mock', (object,), {}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp # pragma: no cover"",
+            ""import pandas.testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""DatetimeIndex = pd.DatetimeIndex # pragma: no cover"",
+            ""Timestamp = pd.Timestamp # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import date_range, Series, DatetimeIndex, Timestamp # pragma: no cover"",
+            ""from pandas.api.types import is_datetime64tz_dtype # pragma: no cover"",
+            ""import pandas.testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""date_range = pd.date_range # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""is_datetime64tz_dtype = pd.api.types.is_datetime64tz_dtype # pragma: no cover"",
+            ""np = np # pragma: no cover"",
+            ""DatetimeIndex = pd.DatetimeIndex # pragma: no cover"",
+            ""tm = pd.testing # pragma: no cover"",
+            ""Timestamp = pd.Timestamp # pragma: no cover"",
+            ""pd = pd # pragma: no cover"",
+            ""np.ndarray = type('Mock', (object,), {}) # pragma: no cover""
+        ]
+    }
+]",1,734,0.000367,1702,0.002553,0.0029200000000000003

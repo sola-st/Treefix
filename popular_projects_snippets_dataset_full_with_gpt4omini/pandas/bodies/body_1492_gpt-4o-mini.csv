@@ -1,0 +1,368 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+# .loc[:,column] setting with slice == len of the column
+# GH10408
+levels = [
+    [""Region_1""] * 4,
+    [""Site_1"", ""Site_1"", ""Site_2"", ""Site_2""],
+    [3987227376, 3980680971, 3977723249, 3977723089],
+]
+mi = MultiIndex.from_arrays(levels, names=[""Region"", ""Site"", ""RespondentID""])
+
+clevels = [
+    [""Respondent"", ""Respondent"", ""Respondent"", ""OtherCat"", ""OtherCat""],
+    [""Something"", ""StartDate"", ""EndDate"", ""Yes/No"", ""SomethingElse""],
+]
+cols = MultiIndex.from_arrays(clevels, names=[""Level_0"", ""Level_1""])
+
+values = [
+    [""A"", ""5/25/2015 10:59"", ""5/25/2015 11:22"", ""Yes"", np.nan],
+    [""A"", ""5/21/2015 9:40"", ""5/21/2015 9:52"", ""Yes"", ""Yes""],
+    [""A"", ""5/20/2015 8:27"", ""5/20/2015 8:41"", ""Yes"", np.nan],
+    [""A"", ""5/20/2015 8:33"", ""5/20/2015 9:09"", ""Yes"", ""No""],
+]
+df = DataFrame(values, index=mi, columns=cols)
+
+df.loc[:, (""Respondent"", ""StartDate"")] = to_datetime(
+    df.loc[:, (""Respondent"", ""StartDate"")]
+)
+df.loc[:, (""Respondent"", ""EndDate"")] = to_datetime(
+    df.loc[:, (""Respondent"", ""EndDate"")]
+)
+df = df.infer_objects(copy=False)
+
+# Adding a new key
+df.loc[:, (""Respondent"", ""Duration"")] = (
+    df.loc[:, (""Respondent"", ""EndDate"")]
+    - df.loc[:, (""Respondent"", ""StartDate"")]
+)
+
+# timedelta64[m] -> float, so this cannot be done inplace, so
+#  no warning
+df.loc[:, (""Respondent"", ""Duration"")] = df.loc[
+    :, (""Respondent"", ""Duration"")
+] / Timedelta(60_000_000_000)
+
+expected = Series(
+    [23.0, 12.0, 14.0, 36.0], index=df.index, name=(""Respondent"", ""Duration"")
+)
+tm.assert_series_equal(df[(""Respondent"", ""Duration"")], expected)
+
+# end code snippet
+
+# begin undefined variables
+MultiIndex
+np
+DataFrame
+to_datetime
+Timedelta
+Series
+tm
+# end undefined variables
+
+# begin undefined attributes and methods
+MultiIndex.from_arrays
+np.nan
+tm.assert_series_equal
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""MultiIndex = pd.MultiIndex"",
+            ""np = np"",
+            ""DataFrame = pd.DataFrame"",
+            ""to_datetime = pd.to_datetime"",
+            ""Timedelta = pd.Timedelta"",
+            ""Series = pd.Series"",
+            ""tm = type('Mock', (object,), {'assert_series_equal': staticmethod(lambda a, b: None)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""MultiIndex = pd.MultiIndex"",
+            ""np = np"",
+            ""DataFrame = pd.DataFrame"",
+            ""to_datetime = pd.to_datetime"",
+            ""Timedelta = pd.Timedelta"",
+            ""Series = pd.Series"",
+            ""tm = type('Mock', (object,), {'assert_series_equal': lambda a, b: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""from pandas import MultiIndex, DataFrame, Timedelta, Series, to_datetime"",
+            ""import pandas.testing as tm"",
+            ""MultiIndex = type('Mock', (object,), {'from_arrays': staticmethod(lambda arrays, names: pd.MultiIndex.from_arrays(arrays, names=names))})"",
+            ""np = type('Mock', (object,), {'nan': np.nan})"",
+            ""tm = type('Mock', (object,), {'assert_series_equal': staticmethod(lambda left, right: pd.testing.assert_series_equal(left, right))})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""from pandas import MultiIndex, DataFrame, to_datetime, Timedelta, Series"",
+            ""import pandas.testing as tm"",
+            ""MultiIndex = type('Mock', (object,), {'from_arrays': staticmethod(lambda arrays, names: 'MockMultiIndex')})"",
+            ""np = type('Mock', (object,), {'nan': 'nan'})"",
+            ""tm = type('Mock', (object,), {'assert_series_equal': staticmethod(lambda left, right: None)})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""from pandas import MultiIndex"",
+            ""from pandas import DataFrame"",
+            ""from pandas import to_datetime"",
+            ""from pandas import Timedelta"",
+            ""from pandas import Series"",
+            ""import pandas.testing as tm"",
+            ""MultiIndex = type('Mock', (object,), {'from_arrays': staticmethod(lambda levels, names=None: pd.MultiIndex(levels, names=names))})"",
+            ""np = type('Mock', (object,), {'nan': float('nan')})"",
+            ""tm = type('Mock', (object,), {'assert_series_equal': staticmethod(lambda left, right: pd.testing.assert_series_equal(left, right))})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""MultiIndex = pd.MultiIndex"",
+            ""np = np"",
+            ""DataFrame = pd.DataFrame"",
+            ""to_datetime = pd.to_datetime"",
+            ""Timedelta = pd.Timedelta"",
+            ""Series = pd.Series"",
+            ""class Mock: pass; tm = Mock(); tm.assert_series_equal = lambda a, b: a.equals(b)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""from pandas import MultiIndex, DataFrame, Series, to_datetime, Timedelta"",
+            ""import pandas._testing as tm"",
+            ""MultiIndex = type('Mock', (object,), {'from_arrays': staticmethod(lambda arrs, names=None: pd.MultiIndex(arrays=arrs, names=names))})"",
+            ""np = type('Mock', (object,), {'nan': float('nan')})"",
+            ""tm = type('Mock', (object,), {'assert_series_equal': staticmethod(lambda left, right: pd.testing.assert_series_equal(left, right))})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd"",
+            ""from pandas import MultiIndex, DataFrame, Series, to_datetime, Timedelta""
+        ],
+        ""initialization"": [
+            ""MultiIndex = pd.MultiIndex"",
+            ""np = import('numpy')"",
+            ""DataFrame = pd.DataFrame"",
+            ""to_datetime = pd.to_datetime"",
+            ""Timedelta = pd.Timedelta"",
+            ""Series = pd.Series"",
+            ""tm = type('Mock', (object,), {'assert_series_equal': lambda self, left, right: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd"",
+            ""from pandas import MultiIndex"",
+            ""from pandas import DataFrame"",
+            ""from pandas import to_datetime"",
+            ""from pandas import Timedelta"",
+            ""from pandas import Series"",
+            ""import pandas.testing as tm""
+        ],
+        ""initialization"": [
+            ""MultiIndex = pd.MultiIndex"",
+            ""np = np"",
+            ""DataFrame = pd.DataFrame"",
+            ""to_datetime = pd.to_datetime"",
+            ""Timedelta = pd.Timedelta"",
+            ""Series = pd.Series"",
+            ""tm = tm"",
+            ""MultiIndex.from_arrays = MultiIndex.from_arrays"",
+            ""np.nan = np.nan"",
+            ""tm.assert_series_equal = lambda left, right: pd.testing.assert_series_equal(left, right)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""from pandas import MultiIndex"",
+            ""from pandas import DataFrame"",
+            ""from pandas import to_datetime"",
+            ""from pandas import Timedelta"",
+            ""from pandas import Series"",
+            ""import pandas.testing as tm""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""MultiIndex = pd.MultiIndex # pragma: no cover"",
+            ""np = np # pragma: no cover"",
+            ""DataFrame = pd.DataFrame # pragma: no cover"",
+            ""to_datetime = pd.to_datetime # pragma: no cover"",
+            ""Timedelta = pd.Timedelta # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'assert_series_equal': staticmethod(lambda a, b: None)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""MultiIndex = pd.MultiIndex # pragma: no cover"",
+            ""np = np # pragma: no cover"",
+            ""DataFrame = pd.DataFrame # pragma: no cover"",
+            ""to_datetime = pd.to_datetime # pragma: no cover"",
+            ""Timedelta = pd.Timedelta # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'assert_series_equal': lambda a, b: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""MultiIndex = type('Mock', (object,), {'from_arrays': staticmethod(lambda arrays, names: pd.MultiIndex.from_arrays(arrays, names=names))}) # pragma: no cover"",
+            ""np = type('Mock', (object,), {'nan': np.nan}) # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'assert_series_equal': staticmethod(lambda left, right: pd.testing.assert_series_equal(left, right))}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""MultiIndex = type('Mock', (object,), {'from_arrays': staticmethod(lambda arrays, names: 'MockMultiIndex')}) # pragma: no cover"",
+            ""np = type('Mock', (object,), {'nan': 'nan'}) # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'assert_series_equal': staticmethod(lambda left, right: None)}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""MultiIndex = type('Mock', (object,), {'from_arrays': staticmethod(lambda levels, names=None: pd.MultiIndex(levels, names=names))}) # pragma: no cover"",
+            ""np = type('Mock', (object,), {'nan': float('nan')}) # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'assert_series_equal': staticmethod(lambda left, right: pd.testing.assert_series_equal(left, right))}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""MultiIndex = pd.MultiIndex # pragma: no cover"",
+            ""np = np # pragma: no cover"",
+            ""DataFrame = pd.DataFrame # pragma: no cover"",
+            ""to_datetime = pd.to_datetime # pragma: no cover"",
+            ""Timedelta = pd.Timedelta # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""MultiIndex = type('Mock', (object,), {'from_arrays': staticmethod(lambda arrs, names=None: pd.MultiIndex(arrays=arrs, names=names))}) # pragma: no cover"",
+            ""np = type('Mock', (object,), {'nan': float('nan')}) # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'assert_series_equal': staticmethod(lambda left, right: pd.testing.assert_series_equal(left, right))}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover"",
+            ""from pandas import MultiIndex, DataFrame, Series, to_datetime, Timedelta # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""MultiIndex = pd.MultiIndex # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover"",
+            ""from pandas import MultiIndex # pragma: no cover"",
+            ""from pandas import DataFrame # pragma: no cover"",
+            ""from pandas import to_datetime # pragma: no cover"",
+            ""from pandas import Timedelta # pragma: no cover"",
+            ""from pandas import Series # pragma: no cover"",
+            ""import pandas.testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""MultiIndex = pd.MultiIndex # pragma: no cover"",
+            ""np = np # pragma: no cover"",
+            ""DataFrame = pd.DataFrame # pragma: no cover"",
+            ""to_datetime = pd.to_datetime # pragma: no cover"",
+            ""Timedelta = pd.Timedelta # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""tm = tm # pragma: no cover"",
+            ""MultiIndex.from_arrays = MultiIndex.from_arrays # pragma: no cover"",
+            ""np.nan = np.nan # pragma: no cover"",
+            ""tm.assert_series_equal = lambda left, right: pd.testing.assert_series_equal(left, right) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",1,861,0.0004305,1357,0.0020355,0.002466

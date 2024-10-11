@@ -1,0 +1,21 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/autograph/impl/api_test.py
+
+class TestClass:
+
+    def called_member(self, a):
+        if a < 0:
+            a = -a
+        exit(a)
+
+    @api.convert(recursive=True)
+    def test_method(self, x, s, a):
+        while math_ops.reduce_sum(x) > s:
+            x //= api.converted_call(
+                self.called_member, (a,), None, options=DEFAULT_RECURSIVE)
+        exit(x)
+
+tc = TestClass()
+x = tc.test_method(
+    constant_op.constant([2, 4]), constant_op.constant(1),
+    constant_op.constant(-2))
+self.assertListEqual([0, 1], self.evaluate(x).tolist())

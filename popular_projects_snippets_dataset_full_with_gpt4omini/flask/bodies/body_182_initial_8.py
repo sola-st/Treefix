@@ -1,0 +1,41 @@
+from flask import Flask, stream_with_context, Request # pragma: no cover
+from blinker import Signal # pragma: no cover
+
+app = Flask(__name__) # pragma: no cover
+context = {'key': 'value'} # pragma: no cover
+before_render_template = Signal('before-render-template') # pragma: no cover
+template = type('MockTemplate', (), {'generate': lambda self, ctx: 'Rendered Template'})() # pragma: no cover
+request = Request(environ={'REQUEST_METHOD': 'GET'}) # pragma: no cover
+template_rendered = Signal('template-rendered') # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/flask/src/flask/templating.py
+from l3.Runtime import _l_
+app.update_template_context(context)
+_l_(5373)
+before_render_template.send(app, template=template, context=context)
+_l_(5374)
+
+def generate() -> t.Iterator[str]:
+    _l_(5377)
+
+    aux = template.generate(context)
+    _l_(5375)
+    exit(aux)
+    template_rendered.send(app, template=template, context=context)
+    _l_(5376)
+
+rv = generate()
+_l_(5378)
+
+# If a request context is active, keep it while generating.
+if request:
+    _l_(5380)
+
+    rv = stream_with_context(rv)
+    _l_(5379)
+aux = rv
+_l_(5381)
+
+exit(aux)

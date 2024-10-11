@@ -1,0 +1,354 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+r = resource.Resource()
+r.putChild(b""text"", static.Data(b""Works"", ""text/plain""))
+r.putChild(b""html"", static.Data(b""<body><p class='one'>Works</p><p class='two'>World</p></body>"", ""text/html""))
+r.putChild(b""enc-gb18030"", static.Data(b""<p>gb18030 encoding</p>"", ""text/html; charset=gb18030""))
+r.putChild(b""redirect"", util.Redirect(b""/redirected""))
+r.putChild(b""redirect-no-meta-refresh"", NoMetaRefreshRedirect(b""/redirected""))
+r.putChild(b""redirected"", static.Data(b""Redirected here"", ""text/plain""))
+exit(server.Site(r))
+
+# end code snippet
+
+# begin undefined variables
+resource
+static
+util
+NoMetaRefreshRedirect
+server
+# end undefined variables
+
+# begin undefined attributes and methods
+resource.Resource
+static.Data
+util.Redirect
+server.Site
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from twisted.web import resource, static, server, util"",
+            ""from twisted.web.server import Site""
+        ],
+        ""initialization"": [
+            ""class NoMetaRefreshRedirect(util.Redirect): pass"",
+            ""resource = type('MockResource', (object,), {'putChild': lambda self, name, child: None})()"",
+            ""static = type('MockStatic', (object,), {'Data': static.Data})()"",
+            ""util = type('MockUtil', (object,), {'Redirect': util.Redirect})()"",
+            ""server = type('MockServer', (object,), {'Site': Site})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.web import resource, static, server, util"",
+            ""from twisted.web.server import Site"",
+            ""from twisted.web.http import Redirect""
+        ],
+        ""initialization"": [
+            ""class MockResource(resource.Resource): pass"",
+            ""class MockStaticData(static.Data): def __init__(self, data, contentType): super().__init__(data, contentType)"",
+            ""class MockRedirect(util.Redirect): pass"",
+            ""class MockNoMetaRefreshRedirect: def __init__(self, url): self.url = url"",
+            ""resource = MockResource()"",
+            ""static = type('MockStatic', (object,), {'Data': MockStaticData})()"",
+            ""util = type('MockUtil', (object,), {'Redirect': MockRedirect})()"",
+            ""NoMetaRefreshRedirect = MockNoMetaRefreshRedirect"",
+            ""server = type('MockServer', (object,), {'Site': Site})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""twisted.web.resource"",
+            ""twisted.web.static"",
+            ""twisted.web.util"",
+            ""twisted.web.server""
+        ],
+        ""initialization"": [
+            ""resource = type('MockResource', (object,), {'putChild': lambda self, name, child: None})()"",
+            ""static = type('MockStatic', (object,), {'Data': staticmethod(lambda data, mimeType: None)})()"",
+            ""util = type('MockUtil', (object,), {'Redirect': lambda path: None})"",
+            ""NoMetaRefreshRedirect = type('MockNoMetaRefreshRedirect', (object,), {})"",
+            ""server = type('MockServer', (object,), {'Site': lambda resource: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.web import resource, server, static, util"",
+            ""from twisted.web.server import Site""
+        ],
+        ""initialization"": [
+            ""class NoMetaRefreshRedirect(util.Redirect): pass"",
+            ""resource.Resource = type('MockResource', (object,), {})"",
+            ""static.Data = type('MockStaticData', (object,), {'__init__': lambda self, data, content_type: None})"",
+            ""util.Redirect = type('MockRedirect', (object,), {'__init__': lambda self, url: None})"",
+            ""server.Site = type('MockSite', (object,), {'__init__': lambda self, resource: None})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.web import resource, static, server, util"",
+            ""from twisted.internet import reactor""
+        ],
+        ""initialization"": [
+            ""class NoMetaRefreshRedirect(resource.Resource):"",
+            ""    def __init__(self, url):"",
+            ""        super().__init__()"",
+            ""        self.url = url"",
+            ""    def render(self, request):"",
+            ""        request.setHeader(b'Location', self.url)"",
+            ""        request.setResponseCode(302)"",
+            ""        return b''"",
+            ""r = resource.Resource()"",
+            ""r.putChild(b'text', static.Data(b'Works', 'text/plain'))"",
+            ""r.putChild(b'html', static.Data(b'<body><p class=\""one\"">Works</p><p class=\""two\"">World</p></body>', 'text/html'))"",
+            ""r.putChild(b'enc-gb18030', static.Data(b'<p>gb18030 encoding</p>', 'text/html; charset=gb18030'))"",
+            ""r.putChild(b'redirect', util.Redirect(b'/redirected'))"",
+            ""r.putChild(b'redirect-no-meta-refresh', NoMetaRefreshRedirect(b'/redirected'))"",
+            ""r.putChild(b'redirected', static.Data(b'Redirected here', 'text/plain'))"",
+            ""exit(server.Site(r))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.web import resource, static, server, util"",
+            ""from twisted.web.server import Site""
+        ],
+        ""initialization"": [
+            ""class NoMetaRefreshRedirect(resource.Resource):"",
+            ""    def __init__(self, redirect_url):"",
+            ""        super().__init__()"",
+            ""        self.redirect_url = redirect_url"",
+            """",
+            ""    def render(self, request):"",
+            ""        request.redirect(self.redirect_url)"",
+            ""        return b''"",
+            """",
+            ""r = resource.Resource()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.web import resource, static, server, util"",
+            ""from twisted.web.server import Site"",
+            ""from twisted.web.resource import Resource""
+        ],
+        ""initialization"": [
+            ""class NoMetaRefreshRedirect(resource.Resource):"",
+            ""    isLeaf = True"",
+            ""    def __init__(self, redirect_url):"",
+            ""        self.redirect_url = redirect_url"",
+            """",
+            ""    def render_GET(self, request):"",
+            ""        request.setHeader(b'Location', self.redirect_url.encode('utf-8'))"",
+            ""        request.setResponseCode(302)"",
+            ""        return b''"",
+            """",
+            ""r = resource.Resource()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""twisted.web.resource"",
+            ""twisted.web.static"",
+            ""twisted.web.util"",
+            ""twisted.web.server""
+        ],
+        ""initialization"": [
+            ""resource = type('MockResource', (object,), {'putChild': lambda self, name, child: None})()"",
+            ""static = type('MockStatic', (object,), {'Data': staticmethod(lambda content, mimeType: {'content': content, 'mimeType': mimeType})})()"",
+            ""util = type('MockUtil', (object,), {'Redirect': lambda path: {'path': path}})()"",
+            ""NoMetaRefreshRedirect = lambda path: {'path': path, 'no_meta_refresh': True}"",
+            ""server = type('MockServer', (object,), {'Site': lambda resource: 'Site initialized with resource'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.web import server, resource, static, util"",
+            ""from twisted.web.server import Site"",
+            ""from twisted.web.resource import Resource"",
+            ""from twisted.web.static import Data""
+        ],
+        ""initialization"": [
+            ""class NoMetaRefreshRedirect(resource.Resource):"",
+            ""    isLeaf = True"",
+            ""    def __init__(self, redirect_url):"",
+            ""        self.redirect_url = redirect_url"",
+            ""    def render_GET(self, request):"",
+            ""        request.setHeader(b'Location', self.redirect_url.encode())"",
+            ""        return b'<!DOCTYPE html><html><head><meta http-equiv=\""refresh\"" content=\""0; url="",
+            ""    + self.redirect_url + b""
+        ],
+        ""]"": 0
+    },
+    {
+        ""imports"": [
+            ""from twisted.web import resource, static, server, util"",
+            ""from twisted.web.server import Site""
+        ],
+        ""initialization"": [
+            ""class NoMetaRefreshRedirect(util.Redirect): pass"",
+            ""resource = resource.Resource()"",
+            ""static = type('MockStatic', (object,), {'Data': static.Data})"",
+            ""util = type('MockUtil', (object,), {'Redirect': util.Redirect})"",
+            ""server = type('MockServer', (object,), {'Site': Site})""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from twisted.web import resource, static, server, util # pragma: no cover"",
+            ""from twisted.web.server import Site # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class NoMetaRefreshRedirect(util.Redirect): pass # pragma: no cover"",
+            ""resource = type('MockResource', (object,), {'putChild': lambda self, name, child: None})() # pragma: no cover"",
+            ""static = type('MockStatic', (object,), {'Data': static.Data})() # pragma: no cover"",
+            ""util = type('MockUtil', (object,), {'Redirect': util.Redirect})() # pragma: no cover"",
+            ""server = type('MockServer', (object,), {'Site': Site})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.web import resource, static, server, util # pragma: no cover"",
+            ""from twisted.web.server import Site # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockResource(resource.Resource): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""resource = type('MockResource', (object,), {'putChild': lambda self, name, child: None})() # pragma: no cover"",
+            ""static = type('MockStatic', (object,), {'Data': staticmethod(lambda data, mimeType: None)})() # pragma: no cover"",
+            ""util = type('MockUtil', (object,), {'Redirect': lambda path: None}) # pragma: no cover"",
+            ""NoMetaRefreshRedirect = type('MockNoMetaRefreshRedirect', (object,), {}) # pragma: no cover"",
+            ""server = type('MockServer', (object,), {'Site': lambda resource: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.web import resource, server, static, util # pragma: no cover"",
+            ""from twisted.web.server import Site # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class NoMetaRefreshRedirect(util.Redirect): pass # pragma: no cover"",
+            ""resource.Resource = type('MockResource', (object,), {}) # pragma: no cover"",
+            ""static.Data = type('MockStaticData', (object,), {'__init__': lambda self, data, content_type: None}) # pragma: no cover"",
+            ""util.Redirect = type('MockRedirect', (object,), {'__init__': lambda self, url: None}) # pragma: no cover"",
+            ""server.Site = type('MockSite', (object,), {'__init__': lambda self, resource: None}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.web import resource, static, server, util # pragma: no cover"",
+            ""from twisted.internet import reactor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class NoMetaRefreshRedirect(resource.Resource): # pragma: no cover"",
+            ""    def __init__(self, url): # pragma: no cover"",
+            ""        super().__init__() # pragma: no cover"",
+            ""        self.url = url # pragma: no cover"",
+            ""    def render(self, request): # pragma: no cover"",
+            ""        request.setHeader(b'Location', self.url) # pragma: no cover"",
+            ""        request.setResponseCode(302) # pragma: no cover"",
+            ""        return b'' # pragma: no cover"",
+            ""r = resource.Resource() # pragma: no cover"",
+            ""r.putChild(b'text', static.Data(b'Works', 'text/plain')) # pragma: no cover"",
+            ""r.putChild(b'html', static.Data(b'<body><p class=\""one\"">Works</p><p class=\""two\"">World</p></body>', 'text/html')) # pragma: no cover"",
+            ""r.putChild(b'enc-gb18030', static.Data(b'<p>gb18030 encoding</p>', 'text/html; charset=gb18030')) # pragma: no cover"",
+            ""r.putChild(b'redirect', util.Redirect(b'/redirected')) # pragma: no cover"",
+            ""r.putChild(b'redirect-no-meta-refresh', NoMetaRefreshRedirect(b'/redirected')) # pragma: no cover"",
+            ""r.putChild(b'redirected', static.Data(b'Redirected here', 'text/plain')) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.web import resource, static, server, util # pragma: no cover"",
+            ""from twisted.web.server import Site # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class NoMetaRefreshRedirect(resource.Resource): # pragma: no cover"",
+            ""    def __init__(self, redirect_url): # pragma: no cover"",
+            ""        super().__init__() # pragma: no cover"",
+            ""        self.redirect_url = redirect_url # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def render(self, request): # pragma: no cover"",
+            ""        request.redirect(self.redirect_url) # pragma: no cover"",
+            ""        return b'' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""r = resource.Resource() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.web import resource, static, server, util # pragma: no cover"",
+            ""from twisted.web.server import Site # pragma: no cover"",
+            ""from twisted.web.resource import Resource # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class NoMetaRefreshRedirect(resource.Resource): # pragma: no cover"",
+            ""    isLeaf = True # pragma: no cover"",
+            ""    def __init__(self, redirect_url): # pragma: no cover"",
+            ""        self.redirect_url = redirect_url # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def render_GET(self, request): # pragma: no cover"",
+            ""        request.setHeader(b'Location', self.redirect_url.encode('utf-8')) # pragma: no cover"",
+            ""        request.setResponseCode(302) # pragma: no cover"",
+            ""        return b'' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""r = resource.Resource() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""resource = type('MockResource', (object,), {'putChild': lambda self, name, child: None})() # pragma: no cover"",
+            ""static = type('MockStatic', (object,), {'Data': staticmethod(lambda content, mimeType: {'content': content, 'mimeType': mimeType})})() # pragma: no cover"",
+            ""util = type('MockUtil', (object,), {'Redirect': lambda path: {'path': path}})() # pragma: no cover"",
+            ""NoMetaRefreshRedirect = lambda path: {'path': path, 'no_meta_refresh': True} # pragma: no cover"",
+            ""server = type('MockServer', (object,), {'Site': lambda resource: 'Site initialized with resource'})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.web import server, resource, static, util # pragma: no cover"",
+            ""from twisted.web.server import Site # pragma: no cover"",
+            ""from twisted.web.resource import Resource # pragma: no cover"",
+            ""from twisted.web.static import Data # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.web import resource, static, server, util # pragma: no cover"",
+            ""from twisted.web.server import Site # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class NoMetaRefreshRedirect(util.Redirect): pass # pragma: no cover"",
+            ""resource = resource.Resource() # pragma: no cover"",
+            ""static = type('MockStatic', (object,), {'Data': static.Data}) # pragma: no cover"",
+            ""util = type('MockUtil', (object,), {'Redirect': util.Redirect}) # pragma: no cover"",
+            ""server = type('MockServer', (object,), {'Site': Site}) # pragma: no cover""
+        ]
+    }
+]",1,460,0.00023,2742,0.004113,0.0043430000000000005

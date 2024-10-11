@@ -1,0 +1,17 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/summary/writer/writer_test.py
+with ops.Graph().as_default():
+    dir1 = self._test_dir("test_cache_1")
+    dir2 = self._test_dir("test_cache_2")
+    sw1 = writer_cache.FileWriterCache.get(dir1)
+    sw2 = writer_cache.FileWriterCache.get(dir2)
+    sw3 = writer_cache.FileWriterCache.get(dir1)
+    self.assertEqual(sw1, sw3)
+    self.assertFalse(sw1 == sw2)
+    sw1.close()
+    sw2.close()
+    events1 = glob.glob(os.path.join(dir1, "event*"))
+    self.assertTrue(events1)
+    events2 = glob.glob(os.path.join(dir2, "event*"))
+    self.assertTrue(events2)
+    events3 = glob.glob(os.path.join("nowriter", "event*"))
+    self.assertFalse(events3)

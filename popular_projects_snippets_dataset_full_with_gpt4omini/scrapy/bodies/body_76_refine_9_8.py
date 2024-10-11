@@ -1,0 +1,21 @@
+from unittest.mock import MagicMock # pragma: no cover
+
+a = (1, 2, 3) # pragma: no cover
+kw = {'param1': 'value1', 'param2': 'value2'} # pragma: no cover
+self = type('MockSelf', (object,), {'_compile_rules': MagicMock()})() # pragma: no cover
+
+from typing import Any, Dict, Tuple # pragma: no cover
+
+class BaseClass: pass # pragma: no cover
+self = type('Mock', (BaseClass,), {'_compile_rules': lambda self: None})() # pragma: no cover
+a: Tuple[Any] = (1, 2, 3) # pragma: no cover
+kw: Dict[str, Any] = {'key1': 'value1', 'key2': 'value2'} # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/scrapy/scrapy/spiders/crawl.py
+from l3.Runtime import _l_
+super().__init__(*a, **kw)
+_l_(8832)
+self._compile_rules()
+_l_(8833)

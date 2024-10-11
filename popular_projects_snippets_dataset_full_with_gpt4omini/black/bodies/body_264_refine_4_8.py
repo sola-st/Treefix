@@ -1,0 +1,57 @@
+from tokenize_rt import Token # pragma: no cover
+
+has_trailing_semicolon = False # pragma: no cover
+src = 'print("Hello, World")' # pragma: no cover
+TOKENS_TO_IGNORE = {'NL', 'COMMENT'} # pragma: no cover
+
+from tokenize_rt import Token # pragma: no cover
+
+has_trailing_semicolon = False # pragma: no cover
+src = 'print(42)' # pragma: no cover
+TOKENS_TO_IGNORE = {'NEWLINE', 'ENDMARKER'} # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/black/src/black/handle_ipynb_magics.py
+from l3.Runtime import _l_
+"""Put trailing semicolon back if cell originally had it.
+
+    Mirrors the logic in `quiet` from `IPython.core.displayhook`, but uses
+    ``tokenize_rt`` so that round-tripping works fine.
+    """
+if not has_trailing_semicolon:
+    _l_(5320)
+
+    aux = src
+    _l_(5319)
+    exit(aux)
+try:
+    from tokenize_rt import reversed_enumerate, src_to_tokens, tokens_to_src
+    _l_(5322)
+
+except ImportError:
+    pass
+
+tokens = src_to_tokens(src)
+_l_(5323)
+for idx, token in reversed_enumerate(tokens):
+    _l_(5329)
+
+    if token.name in TOKENS_TO_IGNORE:
+        _l_(5325)
+
+        continue
+        _l_(5324)
+    tokens[idx] = token._replace(src=token.src + ";")
+    _l_(5326)
+    break
+    _l_(5327)
+else:  # pragma: nocover
+    raise AssertionError(
+        "INTERNAL ERROR: Was not able to reinstate trailing semicolon. "
+        "Please report a bug on https://github.com/psf/black/issues.  "
+    ) from None
+    _l_(5328)
+aux = str(tokens_to_src(tokens))
+_l_(5330)
+exit(aux)

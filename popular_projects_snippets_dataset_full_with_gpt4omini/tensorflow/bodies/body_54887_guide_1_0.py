@@ -1,0 +1,38 @@
+class MockDimension: # pragma: no cover
+    def __init__(self, value): # pragma: no cover
+        self.value = value # pragma: no cover
+class MockTensorShape: # pragma: no cover
+    def __init__(self, dimensions): # pragma: no cover
+        self.dimensions = dimensions # pragma: no cover
+    def merge_with(self, other): # pragma: no cover
+        new_dims = [] # pragma: no cover
+        for d1, d2 in zip(self.dimensions, other.dimensions): # pragma: no cover
+            if d1.value is None: # pragma: no cover
+                new_dims.append(d2.value) # pragma: no cover
+            elif d2.value is None: # pragma: no cover
+                new_dims.append(d1.value) # pragma: no cover
+            else: # pragma: no cover
+                new_dims.append(max(d1.value, d2.value)) # pragma: no cover
+        return MockTensorShape(new_dims) # pragma: no cover
+    def as_list(self): # pragma: no cover
+        return [dim.value for dim in self.dimensions] # pragma: no cover
+self = type('Mock', (object,), {'assertEqual': lambda self, x, y: print('AssertEqual:', x == y)})() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/framework/tensor_shape_test.py
+from l3.Runtime import _l_
+s1 = tensor_shape.TensorShape([
+    tensor_shape.Dimension(3),
+    tensor_shape.Dimension(None),
+    tensor_shape.Dimension(7)
+])
+_l_(5000)
+s2 = tensor_shape.TensorShape([
+    tensor_shape.Dimension(None),
+    tensor_shape.Dimension(4),
+    tensor_shape.Dimension(7)
+])
+_l_(5001)
+self.assertEqual([3, 4, 7], s1.merge_with(s2).as_list())
+_l_(5002)

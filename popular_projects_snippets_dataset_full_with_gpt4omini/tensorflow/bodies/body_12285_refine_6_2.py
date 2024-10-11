@@ -1,0 +1,27 @@
+import numpy as np # pragma: no cover
+
+grad = np.array([[1.0, 2.0], [3.0, 4.0]]) # pragma: no cover
+class MockOp:  # pragma: no cover
+    def __init__(self): # pragma: no cover
+        self.inputs = [np.array([0.5]), np.array([1.5]), np.array([2.5])] # pragma: no cover
+    def get_attr(self, name): # pragma: no cover
+        if name == 'axis': # pragma: no cover
+            return 1 # pragma: no cover
+        raise ValueError('Attribute not found') # pragma: no cover
+op = MockOp() # pragma: no cover
+
+def quantize_and_dequantize_v4_grad(grad, input_0, input_1, input_2, axis): return grad # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/array_ops.py
+from l3.Runtime import _l_
+"""Gradient for QuantizeAndDequantizeV4 op."""
+aux = quantize_and_dequantize_v4_grad(
+    grad,
+    op.inputs[0],
+    op.inputs[1],
+    op.inputs[2],
+    axis=op.get_attr("axis"))
+_l_(7213)
+exit(aux)

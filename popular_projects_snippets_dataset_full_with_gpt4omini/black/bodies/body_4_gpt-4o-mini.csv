@@ -1,0 +1,266 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Split an iterable of paths in `sources` into two sets.
+
+    The first contains paths of files that modified on disk or are not in the
+    cache. The other contains paths to non-modified files.
+    """"""
+todo, done = set(), set()
+for src in sources:
+    res_src = src.resolve()
+    if cache.get(str(res_src)) != get_cache_info(res_src):
+        todo.add(src)
+    else:
+        done.add(src)
+exit((todo, done))
+
+# end code snippet
+
+# begin undefined variables
+sources
+cache
+get_cache_info
+# end undefined variables
+
+# begin undefined attributes and methods
+cache.get
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""from collections import defaultdict""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt')]"",
+            ""cache = defaultdict(lambda: None)"",
+            ""def get_cache_info(path): return 'modified' if path.name == 'file1.txt' else 'not_modified'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""from collections import defaultdict""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt')]"",
+            ""cache = defaultdict(lambda: None)"",
+            ""def get_cache_info(path): return 'info' if path.name == 'file1.txt' else 'no_info'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt')]"",
+            ""cache = type('MockCache', (object,), {'get': lambda self, key: False})()"",
+            ""def get_cache_info(path): return False""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""from collections import UserDict""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt'), Path('/path/to/file3.txt')]"",
+            ""class MockCache(UserDict):\n    def get(self, key):\n        return self.data.get(key)\n\ncache = MockCache({'/path/to/file1.txt': 'info1', '/path/to/file2.txt': 'info2'})"",
+            ""def get_cache_info(path):\n    return 'info'  # Simulated cache info based on the path""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""from collections import defaultdict""
+        ],
+        ""initialization"": [
+            ""sources = [Path('file1.txt'), Path('file2.txt')]"",
+            ""cache = defaultdict(lambda: None)"",
+            ""def get_cache_info(path): return 'modified' if path.name == 'file1.txt' else 'not_modified'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""from collections import defaultdict""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt')]"",
+            ""cache = defaultdict(lambda: None, {'/path/to/file1.txt': 'info1'})"",
+            ""def get_cache_info(path): return 'info2' if path.name == 'file2.txt' else 'info1'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""from collections import defaultdict""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt'), Path('/path/to/file3.txt')]"",
+            ""cache = defaultdict(lambda: None, {str(Path('/path/to/file1.txt').resolve()): 'cached_info1', str(Path('/path/to/file2.txt').resolve()): 'cached_info2'})"",
+            ""def get_cache_info(res_src): return 'new_info' if str(res_src) == '/path/to/file3.txt' else 'cached_info'"",
+            ""cache.get = lambda key: cache[key]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""from collections import defaultdict""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt')]"",
+            ""cache = defaultdict(lambda: None)"",
+            ""def get_cache_info(res_src): return 'modified' if res_src.name == 'file1.txt' else 'unmodified'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""from collections import defaultdict""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt')]"",
+            ""cache = defaultdict(lambda: None)"",
+            ""def get_cache_info(res_src): return 'modified' if res_src.name == 'file1.txt' else 'unchanged'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""from collections import defaultdict""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt')]"",
+            ""cache = defaultdict(lambda: None)"",
+            ""def get_cache_info(path): return {'modified': False}""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""from collections import defaultdict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt')] # pragma: no cover"",
+            ""cache = defaultdict(lambda: None) # pragma: no cover"",
+            ""def get_cache_info(path): return 'modified' if path.name == 'file1.txt' else 'not_modified' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""from collections import defaultdict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt')] # pragma: no cover"",
+            ""cache = defaultdict(lambda: None) # pragma: no cover"",
+            ""def get_cache_info(path): return 'info' if path.name == 'file1.txt' else 'no_info' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt')] # pragma: no cover"",
+            ""cache = type('MockCache', (object,), {'get': lambda self, key: False})() # pragma: no cover"",
+            ""def get_cache_info(path): return False # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""from collections import UserDict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt'), Path('/path/to/file3.txt')] # pragma: no cover"",
+            ""class MockCache(UserDict):# pragma: no cover"",
+            ""    def get(self, key):# pragma: no cover"",
+            ""        return self.data.get(key)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""cache = MockCache({'/path/to/file1.txt': 'info1', '/path/to/file2.txt': 'info2'}) # pragma: no cover"",
+            ""def get_cache_info(path):# pragma: no cover"",
+            ""    return 'info'  # Simulated cache info based on the path # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""from collections import defaultdict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('file1.txt'), Path('file2.txt')] # pragma: no cover"",
+            ""cache = defaultdict(lambda: None) # pragma: no cover"",
+            ""def get_cache_info(path): return 'modified' if path.name == 'file1.txt' else 'not_modified' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""from collections import defaultdict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt')] # pragma: no cover"",
+            ""cache = defaultdict(lambda: None, {'/path/to/file1.txt': 'info1'}) # pragma: no cover"",
+            ""def get_cache_info(path): return 'info2' if path.name == 'file2.txt' else 'info1' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""from collections import defaultdict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt'), Path('/path/to/file3.txt')] # pragma: no cover"",
+            ""cache = defaultdict(lambda: None, {str(Path('/path/to/file1.txt').resolve()): 'cached_info1', str(Path('/path/to/file2.txt').resolve()): 'cached_info2'}) # pragma: no cover"",
+            ""def get_cache_info(res_src): return 'new_info' if str(res_src) == '/path/to/file3.txt' else 'cached_info' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""from collections import defaultdict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt')] # pragma: no cover"",
+            ""cache = defaultdict(lambda: None) # pragma: no cover"",
+            ""def get_cache_info(res_src): return 'modified' if res_src.name == 'file1.txt' else 'unmodified' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""from collections import defaultdict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt')] # pragma: no cover"",
+            ""cache = defaultdict(lambda: None) # pragma: no cover"",
+            ""def get_cache_info(res_src): return 'modified' if res_src.name == 'file1.txt' else 'unchanged' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""from collections import defaultdict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1.txt'), Path('/path/to/file2.txt')] # pragma: no cover"",
+            ""cache = defaultdict(lambda: None) # pragma: no cover"",
+            ""def get_cache_info(path): return {'modified': False} # pragma: no cover""
+        ]
+    }
+]",1,396,0.000198,1042,0.001563,0.001761

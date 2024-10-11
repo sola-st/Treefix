@@ -1,0 +1,1381 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Main method to visit `node` and its children.
+
+        It tries to find a `visit_*()` method for the given `node.type`, like
+        `visit_simple_stmt` for Node objects or `visit_INDENT` for Leaf objects.
+        If no dedicated `visit_*()` method is found, chooses `visit_default()`
+        instead.
+
+        Then yields objects of type `T` from the selected visitor.
+        """"""
+if node.type < 256:
+    name = token.tok_name[node.type]
+else:
+    name = str(type_repr(node.type))
+# We explicitly branch on whether a visitor exists (instead of
+# using self.visit_default as the default arg to getattr) in order
+# to save needing to create a bound method object and so mypyc can
+# generate a native call to visit_default.
+visitf = getattr(self, f""visit_{name}"", None)
+if visitf:
+    exit(visitf(node))
+else:
+    exit(self.visit_default(node))
+
+# end code snippet
+
+# begin undefined variables
+node
+token
+type_repr
+self
+# end undefined variables
+
+# begin undefined attributes and methods
+node.type
+token.tok_name
+self.visit_default
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any"",
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, type):\n        self.type = type\n\nnode = MockNode(type=257)"",
+            ""class MockToken:\n    def __init__(self, tok_name):\n        self.tok_name = tok_name\n\ntoken = MockToken(tok_name={257: 'INDENT'})"",
+            ""def mock_type_repr(val):\n    return f'Type({val})'\ntype_repr = mock_type_repr"",
+            ""class MockSelf:\n    def visit_default(self, node):\n        return 'Visited default node'\n\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42)"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'})"",
+            ""type_repr = lambda x: f'Type({x})'"",
+            ""self = type('Mock', (), {'visit_default': lambda x: 'default_visit'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token"",
+            ""from typing import Callable, Any""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:\n    def visit_default(self, node):\n        return 'default visit'"",
+            ""node = type('Node', (object,), {'type': 42})()"",
+            ""token.tok_name = {42: 'SIMPLE_STMT'}"",
+            ""self = MockVisitor()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Any""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""token = type('MockToken', (), {'tok_name': {0: 'NUMBER', 1: 'STRING', 2: 'NAME'}})()"",
+            ""class MockNode: pass"",
+            ""node = MockNode()"",
+            ""node.type = 1"",
+            ""type_repr = lambda x: f'Type({x})'"",
+            ""class MockSelf: pass"",
+            ""self = MockSelf()"",
+            ""self.visit_default = lambda node: 'default_visit'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token"",
+            ""from typing import Callable, Any""
+        ],
+        ""initialization"": [
+            ""class MockNode: type = 1"",
+            ""node = MockNode()"",
+            ""token.tok_name = {1: 'NAME', 2: 'NUMBER'}"",
+            ""def type_repr(type_value: int) -> str: return f'Type-{type_value}'"",
+            ""self = type('MockSelf', (), {'visit_default': lambda self, node: f'Default visit for node type {node.type}'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable"",
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class Node:\n    def __init__(self, type):\n        self.type = type\n\nnode = Node(42)"",
+            ""class Token:\n    tok_name = {42: 'simple_stmt'}\n\ntoken = Token()"",
+            ""def type_repr(value):\n    return f'NodeType({value})'\n"",
+            ""class Mock:\n    def visit_default(self, node):\n        return 'default visit'\n\nself = Mock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any""
+        ],
+        ""initialization"": [
+            ""class Node:\n    def __init__(self, type):\n        self.type = type"",
+            ""class Token:\n    tok_name = {0: 'END', 1: 'NAME', 2: 'NUMBER'}"",
+            ""def type_repr(type):\n    return f'TokenType({type})'"",
+            ""class Visitor:\n    def visit_default(self, node):\n        return 'Visited default ' + str(node.type)"",
+            ""node = Node(1)"",
+            ""token = Token()"",
+            ""self = Visitor()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, Callable"",
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class Node:  # Mock for the Node class\n    def __init__(self, n_type: int):\n        self.type = n_type\n\nnode = Node(42)  # Example node with type 42"",
+            ""class Token:  # Mock for the Token class\n    tok_name = {42: 'simple_stmt'}\n\n token = Token()"",
+            ""def type_repr(n_type: int) -> str:\n    return f'Type<{n_type}>'  # Mock for type_repr function\n\ntype_repr = type_repr"",
+            ""class MockSelf:\n    def visit_default(self, node: Any) -> str:\n        return 'Visited default'\n\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, node_type):\n        self.type = node_type\n\nnode = MockNode(130)"",
+            ""class MockToken:\n    tok_name = {130: 'NAME', 256: 'INDENT'}\n\ntoken = MockToken()"",
+            ""def mock_type_repr(node_type):\n    return f'NodeType({node_type})'\n\ntype_repr = mock_type_repr"",
+            ""class MockSelf:\n    def visit_default(self, node):\n        return 'default visit'\n\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, Dict, Callable, Optional""
+        ],
+        ""initialization"": [
+            ""class MockNode: pass"",
+            ""node = MockNode()"",
+            ""node.type = 257"",
+            ""class MockToken: pass"",
+            ""token = MockToken()"",
+            ""token.tok_name = {0: 'ENDMARKER', 1: 'NAME', 2: 'NUMBER', 257: 'NEWTYPE'}"",
+            ""def mock_visit_default(self, node): return 'default visited'"",
+            ""self = type('MockSelf', (), {'visit_default': mock_visit_default})()"",
+            ""def type_repr(value): return f'Type-{value}'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any # pragma: no cover"",
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode(type=257) # pragma: no cover"",
+            ""class MockToken:# pragma: no cover"",
+            ""    def __init__(self, tok_name):# pragma: no cover"",
+            ""        self.tok_name = tok_name# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""token = MockToken(tok_name={257: 'INDENT'}) # pragma: no cover"",
+            ""def mock_type_repr(val):# pragma: no cover"",
+            ""    return f'Type({val})'# pragma: no cover"",
+            ""type_repr = mock_type_repr # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42) # pragma: no cover"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'}) # pragma: no cover"",
+            ""type_repr = lambda x: f'Type({x})' # pragma: no cover"",
+            ""self = type('Mock', (), {'visit_default': lambda x: 'default_visit'})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover"",
+            ""from typing import Callable, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'default visit' # pragma: no cover"",
+            ""node = type('Node', (object,), {'type': 42})() # pragma: no cover"",
+            ""token.tok_name = {42: 'SIMPLE_STMT'} # pragma: no cover"",
+            ""self = MockVisitor() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""token = type('MockToken', (), {'tok_name': {0: 'NUMBER', 1: 'STRING', 2: 'NAME'}})() # pragma: no cover"",
+            ""class MockNode: pass # pragma: no cover"",
+            ""node = MockNode() # pragma: no cover"",
+            ""node.type = 1 # pragma: no cover"",
+            ""type_repr = lambda x: f'Type({x})' # pragma: no cover"",
+            ""class MockSelf: pass # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover"",
+            ""self.visit_default = lambda node: 'default_visit' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover"",
+            ""from typing import Callable, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode: type = 1 # pragma: no cover"",
+            ""node = MockNode() # pragma: no cover"",
+            ""token.tok_name = {1: 'NAME', 2: 'NUMBER'} # pragma: no cover"",
+            ""def type_repr(type_value: int) -> str: return f'Type-{type_value}' # pragma: no cover"",
+            ""self = type('MockSelf', (), {'visit_default': lambda self, node: f'Default visit for node type {node.type}'})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable # pragma: no cover"",
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = Node(42) # pragma: no cover"",
+            ""class Token:# pragma: no cover"",
+            ""    tok_name = {42: 'simple_stmt'}# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""token = Token() # pragma: no cover"",
+            ""def type_repr(value):# pragma: no cover"",
+            ""    return f'NodeType({value})'# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class Mock:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'default visit'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = Mock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type # pragma: no cover"",
+            ""class Token:# pragma: no cover"",
+            ""    tok_name = {0: 'END', 1: 'NAME', 2: 'NUMBER'} # pragma: no cover"",
+            ""def type_repr(type):# pragma: no cover"",
+            ""    return f'TokenType({type})' # pragma: no cover"",
+            ""class Visitor:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default ' + str(node.type) # pragma: no cover"",
+            ""node = Node(1) # pragma: no cover"",
+            ""token = Token() # pragma: no cover"",
+            ""self = Visitor() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, Callable # pragma: no cover"",
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""# pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, node_type):# pragma: no cover"",
+            ""        self.type = node_type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode(130) # pragma: no cover"",
+            ""class MockToken:# pragma: no cover"",
+            ""    tok_name = {130: 'NAME', 256: 'INDENT'}# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""token = MockToken() # pragma: no cover"",
+            ""def mock_type_repr(node_type):# pragma: no cover"",
+            ""    return f'NodeType({node_type})'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""type_repr = mock_type_repr # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'default visit'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, Dict, Callable, Optional # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode: pass # pragma: no cover"",
+            ""node = MockNode() # pragma: no cover"",
+            ""node.type = 257 # pragma: no cover"",
+            ""class MockToken: pass # pragma: no cover"",
+            ""token = MockToken() # pragma: no cover"",
+            ""token.tok_name = {0: 'ENDMARKER', 1: 'NAME', 2: 'NUMBER', 257: 'NEWTYPE'} # pragma: no cover"",
+            ""def mock_visit_default(self, node): return 'default visited' # pragma: no cover"",
+            ""self = type('MockSelf', (), {'visit_default': mock_visit_default})() # pragma: no cover"",
+            ""def type_repr(value): return f'Type-{value}' # pragma: no cover""
+        ]
+    }
+]",1,510,0.000255,1453,0.0021795,0.0024345
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+Visited default node
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any"",
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, type):\n        self.type = type\n\nnode = MockNode(type=257)"",
+            ""class MockToken:\n    def __init__(self, tok_name):\n        self.tok_name = tok_name\n\ntoken = MockToken(tok_name={257: 'INDENT'})"",
+            ""def mock_type_repr(val):\n    return f'Type({val})'\ntype_repr = mock_type_repr"",
+            ""class MockSelf:\n    def visit_INDENT(self, node):\n        return 'Visited INDENT node'\n    def visit_default(self, node):\n        return 'Visited default node'\n\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any"",
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, type):\n        self.type = type\n\nnode = MockNode(type=257)"",
+            ""class MockToken:\n    def __init__(self, tok_name):\n        self.tok_name = tok_name\n\ntoken = MockToken(tok_name={257: 'INDENT'})"",
+            ""def mock_type_repr(val):\n    return f'Type({val})'\ntype_repr = mock_type_repr"",
+            ""class MockSelf:\n    def visit_INDENT(self, node):\n        return 'Visited INDENT node'\n    def visit_default(self, node):\n        return 'Visited default node'\n\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any"",
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, type):\n        self.type = type\n\nnode = MockNode(type=257)"",
+            ""class MockToken:\n    def __init__(self, tok_name):\n        self.tok_name = tok_name\n\ntoken = MockToken(tok_name={257: 'INDENT', 256: 'NEWLINE'})"",
+            ""def mock_type_repr(val):\n    return f'Type({val})'\ntype_repr = mock_type_repr"",
+            ""class MockSelf:\n    def visit_default(self, node):\n        return 'Visited default node'\n    def visit_INDENT(self, node):\n        return 'Visited indent node'\n\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any"",
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, type):\n        self.type = type\n\nnode = MockNode(type=257)"",
+            ""class MockToken:\n    def __init__(self, tok_name):\n        self.tok_name = tok_name\n\ntoken = MockToken(tok_name={257: 'INDENT', 1: 'NEWLINE'})"",
+            ""def mock_type_repr(val):\n    return f'Type({val})'\ntype_repr = mock_type_repr"",
+            ""class MockSelf:\n    def visit_INDENT(self, node):\n        return 'Visited INDENT node'\n    def visit_default(self, node):\n        return 'Visited default node'\n\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any"",
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, type):\n        self.type = type\n\nnode = MockNode(type=257)"",
+            ""class MockToken:\n    def __init__(self, tok_name):\n        self.tok_name = tok_name\n\ntoken = MockToken(tok_name={257: 'INDENT'})"",
+            ""def mock_type_repr(val):\n    return f'Type({val})'\ntype_repr = mock_type_repr"",
+            ""class MockSelf:\n    def visit_INDENT(self, node):\n        return 'Visited INDENT node'\n    def visit_default(self, node):\n        return 'Visited default node'\n\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any"",
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, type):\n        self.type = type\n\nnode = MockNode(type=257)"",
+            ""class MockToken:\n    def __init__(self, tok_name):\n        self.tok_name = tok_name\n\ntoken = MockToken(tok_name={257: 'INDENT', 256: 'NEWLINE'})"",
+            ""def mock_type_repr(val):\n    return f'Type({val})'\ntype_repr = mock_type_repr"",
+            ""class MockSelf:\n    def visit_INDENT(self, node):\n        return 'Visited indent node'\n    def visit_default(self, node):\n        return 'Visited default node'\n\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, type):\n        self.type = type\n\nnode = MockNode(type=257)"",
+            ""class MockToken:\n    def __init__(self, tok_name):\n        self.tok_name = tok_name\n\ntoken = MockToken(tok_name={257: 'INDENT', 258: 'NEWLINE'})"",
+            ""def mock_type_repr(val):\n    return f'Type({val})'\ntype_repr = mock_type_repr"",
+            ""class MockSelf:\n    def visit_INDENT(self, node):\n        return 'Visited INDENT node'\n    def visit_default(self, node):\n        return 'Visited default node'\n\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any"",
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, type):\n        self.type = type\n\nnode = MockNode(type=257)"",
+            ""class MockToken:\n    def __init__(self, tok_name):\n        self.tok_name = tok_name\n\ntoken = MockToken(tok_name={257: 'INDENT', 0: 'NEWLINE'})"",
+            ""def mock_type_repr(val):\n    return f'Type({val})'\ntype_repr = mock_type_repr"",
+            ""class MockSelf:\n    def visit_default(self, node):\n        return 'Visited default node'\n    def visit_INDENT(self, node):\n        return 'Visited INDENT node'\n\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any"",
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, type):\n        self.type = type\n\nnode = MockNode(type=257)"",
+            ""class MockToken:\n    def __init__(self, tok_name):\n        self.tok_name = tok_name\n\ntoken = MockToken(tok_name={257: 'INDENT'})"",
+            ""def mock_type_repr(val):\n    return f'Type({val})'\ntype_repr = mock_type_repr"",
+            ""class MockSelf:\n    def visit_INDENT(self, node):\n        return 'Visited INDENT node'\n    def visit_default(self, node):\n        return 'Visited default node'\n\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any"",
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, type):\n        self.type = type\n\nnode = MockNode(type=257)"",
+            ""class MockToken:\n    def __init__(self, tok_name):\n        self.tok_name = tok_name\n\ntoken = MockToken(tok_name={257: 'INDENT', 256: 'NEWLINE'})"",
+            ""def mock_type_repr(val):\n    return f'Type({val})'\ntype_repr = mock_type_repr"",
+            ""class MockSelf:\n    def visit_default(self, node):\n        return 'Visited default node'\n\n    def visit_INDENT(self, node):\n        return 'Visited indent node'\n\nself = MockSelf()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any # pragma: no cover"",
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode(type=257) # pragma: no cover"",
+            ""class MockToken:# pragma: no cover"",
+            ""    def __init__(self, tok_name):# pragma: no cover"",
+            ""        self.tok_name = tok_name# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""token = MockToken(tok_name={257: 'INDENT'}) # pragma: no cover"",
+            ""def mock_type_repr(val):# pragma: no cover"",
+            ""    return f'Type({val})'# pragma: no cover"",
+            ""type_repr = mock_type_repr # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_INDENT(self, node):# pragma: no cover"",
+            ""        return 'Visited INDENT node'# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any # pragma: no cover"",
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode(type=257) # pragma: no cover"",
+            ""class MockToken:# pragma: no cover"",
+            ""    def __init__(self, tok_name):# pragma: no cover"",
+            ""        self.tok_name = tok_name# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""token = MockToken(tok_name={257: 'INDENT'}) # pragma: no cover"",
+            ""def mock_type_repr(val):# pragma: no cover"",
+            ""    return f'Type({val})'# pragma: no cover"",
+            ""type_repr = mock_type_repr # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_INDENT(self, node):# pragma: no cover"",
+            ""        return 'Visited INDENT node'# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any # pragma: no cover"",
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode(type=257) # pragma: no cover"",
+            ""class MockToken:# pragma: no cover"",
+            ""    def __init__(self, tok_name):# pragma: no cover"",
+            ""        self.tok_name = tok_name# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""token = MockToken(tok_name={257: 'INDENT', 256: 'NEWLINE'}) # pragma: no cover"",
+            ""def mock_type_repr(val):# pragma: no cover"",
+            ""    return f'Type({val})'# pragma: no cover"",
+            ""type_repr = mock_type_repr # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""    def visit_INDENT(self, node):# pragma: no cover"",
+            ""        return 'Visited indent node'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any # pragma: no cover"",
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode(type=257) # pragma: no cover"",
+            ""class MockToken:# pragma: no cover"",
+            ""    def __init__(self, tok_name):# pragma: no cover"",
+            ""        self.tok_name = tok_name# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""token = MockToken(tok_name={257: 'INDENT', 1: 'NEWLINE'}) # pragma: no cover"",
+            ""def mock_type_repr(val):# pragma: no cover"",
+            ""    return f'Type({val})'# pragma: no cover"",
+            ""type_repr = mock_type_repr # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_INDENT(self, node):# pragma: no cover"",
+            ""        return 'Visited INDENT node'# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any # pragma: no cover"",
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode(type=257) # pragma: no cover"",
+            ""class MockToken:# pragma: no cover"",
+            ""    def __init__(self, tok_name):# pragma: no cover"",
+            ""        self.tok_name = tok_name# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""token = MockToken(tok_name={257: 'INDENT'}) # pragma: no cover"",
+            ""def mock_type_repr(val):# pragma: no cover"",
+            ""    return f'Type({val})'# pragma: no cover"",
+            ""type_repr = mock_type_repr # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_INDENT(self, node):# pragma: no cover"",
+            ""        return 'Visited INDENT node'# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any # pragma: no cover"",
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode(type=257) # pragma: no cover"",
+            ""class MockToken:# pragma: no cover"",
+            ""    def __init__(self, tok_name):# pragma: no cover"",
+            ""        self.tok_name = tok_name# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""token = MockToken(tok_name={257: 'INDENT', 256: 'NEWLINE'}) # pragma: no cover"",
+            ""def mock_type_repr(val):# pragma: no cover"",
+            ""    return f'Type({val})'# pragma: no cover"",
+            ""type_repr = mock_type_repr # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_INDENT(self, node):# pragma: no cover"",
+            ""        return 'Visited indent node'# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode(type=257) # pragma: no cover"",
+            ""class MockToken:# pragma: no cover"",
+            ""    def __init__(self, tok_name):# pragma: no cover"",
+            ""        self.tok_name = tok_name# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""token = MockToken(tok_name={257: 'INDENT', 258: 'NEWLINE'}) # pragma: no cover"",
+            ""def mock_type_repr(val):# pragma: no cover"",
+            ""    return f'Type({val})'# pragma: no cover"",
+            ""type_repr = mock_type_repr # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_INDENT(self, node):# pragma: no cover"",
+            ""        return 'Visited INDENT node'# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any # pragma: no cover"",
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode(type=257) # pragma: no cover"",
+            ""class MockToken:# pragma: no cover"",
+            ""    def __init__(self, tok_name):# pragma: no cover"",
+            ""        self.tok_name = tok_name# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""token = MockToken(tok_name={257: 'INDENT', 0: 'NEWLINE'}) # pragma: no cover"",
+            ""def mock_type_repr(val):# pragma: no cover"",
+            ""    return f'Type({val})'# pragma: no cover"",
+            ""type_repr = mock_type_repr # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""    def visit_INDENT(self, node):# pragma: no cover"",
+            ""        return 'Visited INDENT node'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any # pragma: no cover"",
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode(type=257) # pragma: no cover"",
+            ""class MockToken:# pragma: no cover"",
+            ""    def __init__(self, tok_name):# pragma: no cover"",
+            ""        self.tok_name = tok_name# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""token = MockToken(tok_name={257: 'INDENT'}) # pragma: no cover"",
+            ""def mock_type_repr(val):# pragma: no cover"",
+            ""    return f'Type({val})'# pragma: no cover"",
+            ""type_repr = mock_type_repr # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_INDENT(self, node):# pragma: no cover"",
+            ""        return 'Visited INDENT node'# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Dict, Any # pragma: no cover"",
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode(type=257) # pragma: no cover"",
+            ""class MockToken:# pragma: no cover"",
+            ""    def __init__(self, tok_name):# pragma: no cover"",
+            ""        self.tok_name = tok_name# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""token = MockToken(tok_name={257: 'INDENT', 256: 'NEWLINE'}) # pragma: no cover"",
+            ""def mock_type_repr(val):# pragma: no cover"",
+            ""    return f'Type({val})'# pragma: no cover"",
+            ""type_repr = mock_type_repr # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def visit_INDENT(self, node):# pragma: no cover"",
+            ""        return 'Visited indent node'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    }
+]",2,959,0.0004795,1975,0.0029625,0.0034419999999999
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 31:
+    exit(self.visit_default(node))
+TypeError: <lambda>() takes 1 positional argument but 2 were given
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""node = types.SimpleNamespace(type=42)"",
+            ""token = types.SimpleNamespace(tok_name={42: 'simple_stmt'})"",
+            ""type_repr = lambda x: f'Type({x})'"",
+            ""class MockSelf:\n    def visit_default(self, node):\n        return 'Visited default node'\n\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42)"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'})"",
+            ""type_repr = lambda x: f'Type({x})'"",
+            ""class Mock:\n    def visit_default(self, node):\n        return 'Visited default node'\nself = Mock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42)"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'})"",
+            ""type_repr = lambda x: f'Type({x})'"",
+            ""def visit_default_method(node):\n    return 'Visited default node'\nself = type('Mock', (), {'visit_default': visit_default_method})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42)"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'})"",
+            ""type_repr = lambda x: f'Type({x})'"",
+            ""def visit_default(node): return 'Visited default node'"",
+            ""self = type('Mock', (), {'visit_default': visit_default})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42)"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'})"",
+            ""type_repr = lambda x: f'Type({x})'"",
+            ""class Mock:\n    def visit_default(self, node):\n        return 'Visited default node'\nself = Mock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42)"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'})"",
+            ""type_repr = lambda x: f'Type({x})'"",
+            ""def visit_default(node): return 'Visited default node'"",
+            ""self = type('Mock', (), {'visit_default': visit_default})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""node = types.SimpleNamespace(type=42)"",
+            ""token = types.SimpleNamespace(tok_name={42: 'simple_stmt'})"",
+            ""def type_repr(val):\n    return f'Type({val})'\n"",
+            ""class Mock:\n    def visit_default(self, node):\n        return 'Visited default node'\n\nself = Mock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42)"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'})"",
+            ""type_repr = lambda x: f'Type({x})'"",
+            ""class MockSelf:\n    def visit_default(self, node):\n        return 'Visited default node'\n\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42)"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'})"",
+            ""type_repr = lambda x: f'Type({x})'"",
+            ""class MockSelf:\n    def visit_default(self, node):\n        return 'Visited default node'\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42)"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'})"",
+            ""type_repr = lambda x: f'Type({x})'"",
+            ""def visit_default(self, node):\n    return 'Visited default node'\nself = type('Mock', (), {'visit_default': visit_default})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = types.SimpleNamespace(type=42) # pragma: no cover"",
+            ""token = types.SimpleNamespace(tok_name={42: 'simple_stmt'}) # pragma: no cover"",
+            ""type_repr = lambda x: f'Type({x})' # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42) # pragma: no cover"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'}) # pragma: no cover"",
+            ""type_repr = lambda x: f'Type({x})' # pragma: no cover"",
+            ""class Mock:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""self = Mock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42) # pragma: no cover"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'}) # pragma: no cover"",
+            ""type_repr = lambda x: f'Type({x})' # pragma: no cover"",
+            ""def visit_default_method(node):# pragma: no cover"",
+            ""    return 'Visited default node'# pragma: no cover"",
+            ""self = type('Mock', (), {'visit_default': visit_default_method})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42) # pragma: no cover"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'}) # pragma: no cover"",
+            ""type_repr = lambda x: f'Type({x})' # pragma: no cover"",
+            ""def visit_default(node): return 'Visited default node' # pragma: no cover"",
+            ""self = type('Mock', (), {'visit_default': visit_default})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42) # pragma: no cover"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'}) # pragma: no cover"",
+            ""type_repr = lambda x: f'Type({x})' # pragma: no cover"",
+            ""class Mock:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""self = Mock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42) # pragma: no cover"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'}) # pragma: no cover"",
+            ""type_repr = lambda x: f'Type({x})' # pragma: no cover"",
+            ""def visit_default(node): return 'Visited default node' # pragma: no cover"",
+            ""self = type('Mock', (), {'visit_default': visit_default})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = types.SimpleNamespace(type=42) # pragma: no cover"",
+            ""token = types.SimpleNamespace(tok_name={42: 'simple_stmt'}) # pragma: no cover"",
+            ""def type_repr(val):# pragma: no cover"",
+            ""    return f'Type({val})'# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class Mock:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = Mock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42) # pragma: no cover"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'}) # pragma: no cover"",
+            ""type_repr = lambda x: f'Type({x})' # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42) # pragma: no cover"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'}) # pragma: no cover"",
+            ""type_repr = lambda x: f'Type({x})' # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type=42) # pragma: no cover"",
+            ""token = SimpleNamespace(tok_name={42: 'simple_stmt'}) # pragma: no cover"",
+            ""type_repr = lambda x: f'Type({x})' # pragma: no cover"",
+            ""def visit_default(self, node):# pragma: no cover"",
+            ""    return 'Visited default node'# pragma: no cover"",
+            ""self = type('Mock', (), {'visit_default': visit_default})() # pragma: no cover""
+        ]
+    }
+]",2,1354,0.000677,1063,0.0015945,0.0022715
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+default visit
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import token"",
+            ""from typing import Any, Callable""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:\n    def visit_simple_stmt(self, node):\n        return 'Visited simple statement'\n    def visit_default(self, node):\n        return 'default visit'"",
+            ""node = type('Node', (object,), {'type': 42})()"",
+            ""token.tok_name = {42: 'simple_stmt'}"",
+            ""self = MockVisitor()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, type):\n        self.type = type\n\nnode = MockNode(type=42)"",
+            ""class MockToken:\n    def __init__(self, tok_name):\n        self.tok_name = tok_name\n\ntoken = MockToken(tok_name={42: 'SIMPLE_STMT'})"",
+            ""def mock_type_repr(val):\n    return f'Type({val})'\ntype_repr = mock_type_repr"",
+            ""class MockSelf:\n    def visit_simple_stmt(self, node):\n        return 'Visited simple statement'\n    def visit_default(self, node):\n        return 'default visit'\n\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token"",
+            ""from typing import Callable, Any""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:\n    def visit_default(self, node):\n        return 'Visited default node'\n\n    def visit_SIMPLE_STMT(self, node):\n        return 'Visited simple statement'"",
+            ""node = type('Node', (object,), {'type': 42})()"",
+            ""token.tok_name = {42: 'SIMPLE_STMT'}"",
+            ""self = MockVisitor()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, type):\n        self.type = type\n\nnode = MockNode(type=42)"",
+            ""class MockToken:\n    tok_name = {42: 'SIMPLE_STMT'}\n\ntoken = MockToken()"",
+            ""def mock_type_repr(val):\n    return f'Type({val})'\ntype_repr = mock_type_repr"",
+            ""class MockSelf:\n    def visit_default(self, node):\n        return 'Visited default node'\n    def visit_SIMPLE_STMT(self, node):\n        return 'Visited simple statement'\n\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token"",
+            ""from typing import Any""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:\n    def visit_simple_stmt(self, node):\n        return 'visited simple_stmt'\n    def visit_default(self, node):\n        return 'default visit'"",
+            ""node = type('Node', (object,), {'type': 42})()"",
+            ""token.tok_name = {42: 'simple_stmt'}"",
+            ""self = MockVisitor()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token"",
+            ""from typing import Callable, Any""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:\n    def visit_simple_stmt(self, node):\n        return 'Visited simple statement'\n    def visit_default(self, node):\n        return 'default visit'"",
+            ""node = type('Node', (object,), {'type': 42})()"",
+            ""token = type('Token', (object,), {'tok_name': {42: 'SIMPLE_STMT'}})()"",
+            ""self = MockVisitor()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token"",
+            ""from typing import Callable, Any""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:\n    def visit_simple_stmt(self, node):\n        return 'Visited simple_stmt'\n    def visit_default(self, node):\n        return 'default visit'"",
+            ""node = type('Node', (object,), {'type': 42})()"",
+            ""token.tok_name = {42: 'simple_stmt'}"",
+            ""self = MockVisitor()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Any""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:\n    def visit_simple_stmt(self, node):\n        return 'Visited simple statement'\n    def visit_default(self, node):\n        return 'default visit'"",
+            ""node = type('Node', (object,), {'type': 42})()"",
+            ""token = type('Token', (object,), {'tok_name': {42: 'simple_stmt'}})()"",
+            ""self = MockVisitor()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token"",
+            ""from typing import Callable""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:\n    def visit_default(self, node):\n        return 'Visited default node'\n    \n    def visit_simple_stmt(self, node):\n        return 'Visited simple statement'"",
+            ""node = type('Node', (object,), {'type': 42})()"",
+            ""token.tok_name = {42: 'simple_stmt'}"",
+            ""self = MockVisitor()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token"",
+            ""from typing import Callable, Any""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:\n    def visit_default(self, node):\n        return 'Visited default node'\n    def visit_SIMPLE_STMT(self, node):\n        return 'Visited simple statement'"",
+            ""node = type('Node', (object,), {'type': 42})()"",
+            ""token.tok_name = {42: 'SIMPLE_STMT'}"",
+            ""self = MockVisitor()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import token # pragma: no cover"",
+            ""from typing import Any, Callable # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:# pragma: no cover"",
+            ""    def visit_simple_stmt(self, node):# pragma: no cover"",
+            ""        return 'Visited simple statement'# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'default visit' # pragma: no cover"",
+            ""node = type('Node', (object,), {'type': 42})() # pragma: no cover"",
+            ""token.tok_name = {42: 'simple_stmt'} # pragma: no cover"",
+            ""self = MockVisitor() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode(type=42) # pragma: no cover"",
+            ""class MockToken:# pragma: no cover"",
+            ""    def __init__(self, tok_name):# pragma: no cover"",
+            ""        self.tok_name = tok_name# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""token = MockToken(tok_name={42: 'SIMPLE_STMT'}) # pragma: no cover"",
+            ""def mock_type_repr(val):# pragma: no cover"",
+            ""    return f'Type({val})'# pragma: no cover"",
+            ""type_repr = mock_type_repr # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_simple_stmt(self, node):# pragma: no cover"",
+            ""        return 'Visited simple statement'# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'default visit'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover"",
+            ""from typing import Callable, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def visit_SIMPLE_STMT(self, node):# pragma: no cover"",
+            ""        return 'Visited simple statement' # pragma: no cover"",
+            ""node = type('Node', (object,), {'type': 42})() # pragma: no cover"",
+            ""token.tok_name = {42: 'SIMPLE_STMT'} # pragma: no cover"",
+            ""self = MockVisitor() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode(type=42) # pragma: no cover"",
+            ""class MockToken:# pragma: no cover"",
+            ""    tok_name = {42: 'SIMPLE_STMT'}# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""token = MockToken() # pragma: no cover"",
+            ""def mock_type_repr(val):# pragma: no cover"",
+            ""    return f'Type({val})'# pragma: no cover"",
+            ""type_repr = mock_type_repr # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""    def visit_SIMPLE_STMT(self, node):# pragma: no cover"",
+            ""        return 'Visited simple statement'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover"",
+            ""from typing import Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:# pragma: no cover"",
+            ""    def visit_simple_stmt(self, node):# pragma: no cover"",
+            ""        return 'visited simple_stmt'# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'default visit' # pragma: no cover"",
+            ""node = type('Node', (object,), {'type': 42})() # pragma: no cover"",
+            ""token.tok_name = {42: 'simple_stmt'} # pragma: no cover"",
+            ""self = MockVisitor() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover"",
+            ""from typing import Callable, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:# pragma: no cover"",
+            ""    def visit_simple_stmt(self, node):# pragma: no cover"",
+            ""        return 'Visited simple statement'# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'default visit' # pragma: no cover"",
+            ""node = type('Node', (object,), {'type': 42})() # pragma: no cover"",
+            ""token = type('Token', (object,), {'tok_name': {42: 'SIMPLE_STMT'}})() # pragma: no cover"",
+            ""self = MockVisitor() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover"",
+            ""from typing import Callable, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:# pragma: no cover"",
+            ""    def visit_simple_stmt(self, node):# pragma: no cover"",
+            ""        return 'Visited simple_stmt'# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'default visit' # pragma: no cover"",
+            ""node = type('Node', (object,), {'type': 42})() # pragma: no cover"",
+            ""token.tok_name = {42: 'simple_stmt'} # pragma: no cover"",
+            ""self = MockVisitor() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Callable, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:# pragma: no cover"",
+            ""    def visit_simple_stmt(self, node):# pragma: no cover"",
+            ""        return 'Visited simple statement'# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'default visit' # pragma: no cover"",
+            ""node = type('Node', (object,), {'type': 42})() # pragma: no cover"",
+            ""token = type('Token', (object,), {'tok_name': {42: 'simple_stmt'}})() # pragma: no cover"",
+            ""self = MockVisitor() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover"",
+            ""from typing import Callable # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def visit_simple_stmt(self, node):# pragma: no cover"",
+            ""        return 'Visited simple statement' # pragma: no cover"",
+            ""node = type('Node', (object,), {'type': 42})() # pragma: no cover"",
+            ""token.tok_name = {42: 'simple_stmt'} # pragma: no cover"",
+            ""self = MockVisitor() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover"",
+            ""from typing import Callable, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockVisitor:# pragma: no cover"",
+            ""    def visit_default(self, node):# pragma: no cover"",
+            ""        return 'Visited default node'# pragma: no cover"",
+            ""    def visit_SIMPLE_STMT(self, node):# pragma: no cover"",
+            ""        return 'Visited simple statement' # pragma: no cover"",
+            ""node = type('Node', (object,), {'type': 42})() # pragma: no cover"",
+            ""token.tok_name = {42: 'SIMPLE_STMT'} # pragma: no cover"",
+            ""self = MockVisitor() # pragma: no cover""
+        ]
+    }
+]",2,1731,0.0008655,1338,0.002007,0.0028725

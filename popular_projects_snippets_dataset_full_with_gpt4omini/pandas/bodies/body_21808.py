@@ -1,0 +1,51 @@
+# Extracted from ./data/repos/pandas/pandas/core/window/numba_.py
+result = np.empty(len(values))
+alpha = 1.0 / (1.0 + com)
+old_wt_factor = 1.0 - alpha
+new_wt = 1.0 if adjust else alpha
+
+for i in numba.prange(len(begin)):
+    start = begin[i]
+    stop = end[i]
+    window = values[start:stop]
+    sub_result = np.empty(len(window))
+
+    weighted = window[0]
+    nobs = int(not np.isnan(weighted))
+    sub_result[0] = weighted if nobs >= minimum_periods else np.nan
+    old_wt = 1.0
+
+    for j in range(1, len(window)):
+        cur = window[j]
+        is_observation = not np.isnan(cur)
+        nobs += is_observation
+        if not np.isnan(weighted):
+
+            if is_observation or not ignore_na:
+                if normalize:
+                    # note that len(deltas) = len(vals) - 1 and deltas[i]
+                    # is to be used in conjunction with vals[i+1]
+                    old_wt *= old_wt_factor ** deltas[start + j - 1]
+                else:
+                    weighted = old_wt_factor * weighted
+                if is_observation:
+                    if normalize:
+                        # avoid numerical errors on constant series
+                        if weighted != cur:
+                            weighted = old_wt * weighted + new_wt * cur
+                            if normalize:
+                                weighted = weighted / (old_wt + new_wt)
+                        if adjust:
+                            old_wt += new_wt
+                        else:
+                            old_wt = 1.0
+                    else:
+                        weighted += cur
+        elif is_observation:
+            weighted = cur
+
+        sub_result[j] = weighted if nobs >= minimum_periods else np.nan
+
+    result[start:stop] = sub_result
+
+exit(result)

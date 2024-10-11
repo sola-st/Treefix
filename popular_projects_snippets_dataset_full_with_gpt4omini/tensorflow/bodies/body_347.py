@@ -1,0 +1,10 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/tools/compatibility/tf_upgrade_v2_test.py
+for method in ["bilinear", "area", "bicubic", "nearest_neighbor"]:
+    text = "tf.image.resize_%s(i, s, a, p)" % method
+    expected_text = [
+        "tf.image.resize(i, s, ", "preserve_aspect_ratio=p, ",
+        "method=tf.image.ResizeMethod.%s)" % method.upper()
+    ]
+    _, unused_report, unused_errors, new_text = self._upgrade(text)
+    for s in expected_text:
+        self.assertIn(s, new_text)

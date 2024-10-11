@@ -1,0 +1,18 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/distributions/bernoulli_test.py
+dist = make_bernoulli([])
+self.assertEqual(dist.dtype, dtypes.int32)
+self.assertEqual(dist.dtype, dist.sample(5).dtype)
+self.assertEqual(dist.dtype, dist.mode().dtype)
+self.assertEqual(dist.probs.dtype, dist.mean().dtype)
+self.assertEqual(dist.probs.dtype, dist.variance().dtype)
+self.assertEqual(dist.probs.dtype, dist.stddev().dtype)
+self.assertEqual(dist.probs.dtype, dist.entropy().dtype)
+self.assertEqual(dist.probs.dtype, dist.prob(0).dtype)
+self.assertEqual(dist.probs.dtype, dist.prob(0.5).dtype)
+self.assertEqual(dist.probs.dtype, dist.log_prob(0).dtype)
+self.assertEqual(dist.probs.dtype, dist.log_prob(0.5).dtype)
+
+dist64 = make_bernoulli([], dtypes.int64)
+self.assertEqual(dist64.dtype, dtypes.int64)
+self.assertEqual(dist64.dtype, dist64.sample(5).dtype)
+self.assertEqual(dist64.dtype, dist64.mode().dtype)

@@ -1,0 +1,409 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Called by Twisted when the transport connection is lost.
+        No need to write anything to transport here.
+        """"""
+# Cancel the timeout if not done yet
+self.setTimeout(None)
+
+# Notify the connection pool instance such that no new requests are
+# sent over current connection
+if not reason.check(connectionDone):
+    self._conn_lost_errors.append(reason)
+
+self._conn_lost_deferred.callback(self._conn_lost_errors)
+
+for stream in self.streams.values():
+    if stream.metadata['request_sent']:
+        close_reason = StreamCloseReason.CONNECTION_LOST
+    else:
+        close_reason = StreamCloseReason.INACTIVE
+    stream.close(close_reason, self._conn_lost_errors, from_protocol=True)
+
+self.metadata['active_streams'] -= len(self.streams)
+self.streams.clear()
+self._pending_request_stream_pool.clear()
+self.conn.close_connection()
+
+# end code snippet
+
+# begin undefined variables
+self
+reason
+connectionDone
+StreamCloseReason
+# end undefined variables
+
+# begin undefined attributes and methods
+self.setTimeout
+reason.check
+self._conn_lost_errors
+self._conn_lost_deferred
+self.streams
+StreamCloseReason.CONNECTION_LOST
+StreamCloseReason.INACTIVE
+self.metadata
+self._pending_request_stream_pool
+self.conn
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import Dict, List, Any"",
+            ""class MockReason:"",
+            ""    def check(self, reason):"",
+            ""        return reason == connectionDone"",
+            ""class MockStreamCloseReason:"",
+            ""    CONNECTION_LOST = 'connection_lost'"",
+            ""    INACTIVE = 'inactive'""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {"",
+            ""    'setTimeout': lambda self, val: None,"",
+            ""    '_conn_lost_errors': [],"",
+            ""    '_conn_lost_deferred': type('MockDeferred', (object,), {"",
+            ""        'callback': lambda self, errors: None"",
+            ""    })(),"",
+            ""    'streams': {0: {'metadata': {'request_sent': True}}, 1: {'metadata': {'request_sent': False}}},"",
+            ""    'metadata': {'active_streams': 2},"",
+            ""    '_pending_request_stream_pool': [],"",
+            ""    'conn': type('MockConnection', (object,), {"",
+            ""        'close_connection': lambda self: None"",
+            ""    })()"",
+            ""})()"",
+            ""reason = MockReason()"",
+            ""connectionDone = 'connection_done'"",
+            ""StreamCloseReason = MockStreamCloseReason""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Dict, List, Any"",
+            ""from twisted.internet.defer import Deferred""
+        ],
+        ""initialization"": [
+            ""class MockConnection: pass"",
+            ""self = type('Mock', (object,), {"",
+            ""    'setTimeout': lambda self, timeout: None,"",
+            ""    '_conn_lost_errors': [],"",
+            ""    '_conn_lost_deferred': Deferred(),"",
+            ""    'streams': {},"",
+            ""    'metadata': {'active_streams': 0},"",
+            ""    '_pending_request_stream_pool': [],"",
+            ""    'conn': MockConnection()"",
+            ""})()"",
+            ""reason = type('MockReason', (object,), {'check': lambda self, conn_done: False})()"",
+            ""connectionDone = object()"",
+            ""class StreamCloseReason: pass"",
+            ""StreamCloseReason.CONNECTION_LOST = 'connection_lost'"",
+            ""StreamCloseReason.INACTIVE = 'inactive'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import defer""
+        ],
+        ""initialization"": [
+            ""class MockConnection: pass"",
+            ""class MockStream: pass"",
+            ""class MockReason: def check(self, error): return False"",
+            ""StreamCloseReason = type('StreamCloseReason', (), {'CONNECTION_LOST': 'connection_lost', 'INACTIVE': 'inactive'})()"",
+            ""self = type('Mock', (object,), { 'setTimeout': lambda x: None, '_conn_lost_errors': [], '_conn_lost_deferred': defer.Deferred(), 'streams': {}, 'metadata': {'active_streams': 0}, '_pending_request_stream_pool': [], 'conn': MockConnection() })()"",
+            ""reason = MockReason()"",
+            ""connectionDone = object()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import defer"",
+            ""from twisted.internet.protocol import Protocol""
+        ],
+        ""initialization"": [
+            ""self = type('MockConnection', (object,), {"",
+            ""  'setTimeout': lambda self, timeout: None,"",
+            ""  '_conn_lost_errors': [],"",
+            ""  '_conn_lost_deferred': defer.Deferred(),"",
+            ""  'streams': {1: type('Stream', (object,), {"",
+            ""      'metadata': {'request_sent': True},"",
+            ""      'close': lambda self, reason, errors, from_protocol: None"",
+            ""    })(),"",
+            ""   2: type('Stream', (object,), {"",
+            ""      'metadata': {'request_sent': False},"",
+            ""      'close': lambda self, reason, errors, from_protocol: None"",
+            ""    })()"",
+            ""  },"",
+            ""  'metadata': {'active_streams': 2},"",
+            ""  '_pending_request_stream_pool': [],"",
+            ""  'conn': type('MockConn', (object,), {"",
+            ""      'close_connection': lambda self: None"",
+            ""    })()"",
+            ""})()"",
+            ""reason = type('MockReason', (object,), {"",
+            ""  'check': lambda self, item: False"",
+            ""})()"",
+            ""connectionDone = object()"",
+            ""StreamCloseReason = type('StreamCloseReason', (object,), {"",
+            ""  'CONNECTION_LOST': 'Connection Lost',"",
+            ""  'INACTIVE': 'Inactive'"",
+            ""})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet.defer import Deferred"",
+            ""from twisted.internet.error import ConnectionDone"",
+            ""from enum import Enum""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'setTimeout': lambda self, timeout: None, '_conn_lost_errors': [], '_conn_lost_deferred': Deferred(), 'streams': {}, 'metadata': {'active_streams': 0}, '_pending_request_stream_pool': [], 'conn': type('MockConn', (), {'close_connection': lambda self: None})()})()"",
+            ""reason = type('MockReason', (), {'check': lambda self, value: False})()"",
+            ""connectionDone = ConnectionDone()"",
+            ""class StreamCloseReason(Enum): CONNECTION_LOST = 1; INACTIVE = 2""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet.defer import Deferred"",
+            ""from twisted.internet import reactor""
+        ],
+        ""initialization"": [
+            ""class MockReason: def check(self, reason): return False\nreason = MockReason()"",
+            ""connectionDone = object()"",
+            ""class StreamCloseReason: CONNECTION_LOST = 'connection_lost'; INACTIVE = 'inactive'"",
+            ""self = type('Mock', (object,), { 'setTimeout': lambda x: None, '_conn_lost_errors': [], '_conn_lost_deferred': Deferred(), 'streams': {}, 'metadata': {'active_streams': 0}, '_pending_request_stream_pool': [], 'conn': type('MockConnection', (object,), { 'close_connection': lambda self: None })() })()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet.defer import Deferred"",
+            ""from twisted.internet.protocol import Protocol"",
+            ""from enum import Enum""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('MockConnection', (Mock,), { 'setTimeout': lambda self, x: None, '_conn_lost_errors': [], '_conn_lost_deferred': Deferred(), 'streams': {}, 'metadata': {'active_streams': 0}, '_pending_request_stream_pool': [], 'conn': type('MockConn', (Mock,), { 'close_connection': lambda self: None })() })()"",
+            ""reason = type('MockReason', (Mock,), { 'check': lambda self, x: False })()"",
+            ""connectionDone = object()"",
+            ""class StreamCloseReason(Enum): CONNECTION_LOST = 'connection_lost'; INACTIVE = 'inactive'"",
+            ""StreamCloseReason = StreamCloseReason""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet.defer import Deferred"",
+            ""from typing import Dict, Any, List""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'setTimeout': lambda self, x: None, '_conn_lost_errors': [], '_conn_lost_deferred': Deferred(), 'streams': {}, 'metadata': { 'active_streams': 0 }, '_pending_request_stream_pool': [], 'conn': type('MockConnection', (object,), { 'close_connection': lambda self: None })() })()"",
+            ""reason = type('MockReason', (object,), { 'check': lambda self, x: False })()"",
+            ""connectionDone = object()"",
+            ""StreamCloseReason = type('MockStreamCloseReason', (object,), { 'CONNECTION_LOST': 'connection_lost', 'INACTIVE': 'inactive' })""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import defer"",
+            ""from typing import List, Dict, Any""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'setTimeout': lambda self, timeout: None, '_conn_lost_errors': [], '_conn_lost_deferred': defer.Deferred(), 'streams': {}, 'metadata': {'active_streams': 0}, '_pending_request_stream_pool': [], 'conn': type('MockConnection', (object,), {'close_connection': lambda self: None})()})()"",
+            ""reason = type('MockReason', (object,), {'check': lambda self, state: False})()"",
+            ""connectionDone = object()"",
+            ""StreamCloseReason = type('StreamCloseReason', (object,), {'CONNECTION_LOST': 1, 'INACTIVE': 2})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet.defer import Deferred"",
+            ""from typing import Dict, List, Any""
+        ],
+        ""initialization"": [
+            ""self = type('MockConnection', (object,), { 'setTimeout': lambda x: None, '_conn_lost_errors': [], '_conn_lost_deferred': Deferred(), 'streams': {}, 'metadata': {'active_streams': 0}, '_pending_request_stream_pool': [], 'conn': type('MockConn', (object,), { 'close_connection': lambda self: None })() })()"",
+            ""reason = type('MockReason', (object,), { 'check': lambda self, x: False })()"",
+            ""connectionDone = object()"",
+            ""StreamCloseReason = type('StreamCloseReason', (object,), { 'CONNECTION_LOST': 'Connection Lost', 'INACTIVE': 'Inactive' })""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import Dict, List, Any # pragma: no cover"",
+            ""class MockReason: # pragma: no cover"",
+            ""    def check(self, reason): # pragma: no cover"",
+            ""        return reason == connectionDone # pragma: no cover"",
+            ""class MockStreamCloseReason: # pragma: no cover"",
+            ""    CONNECTION_LOST = 'connection_lost' # pragma: no cover"",
+            ""    INACTIVE = 'inactive' # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { # pragma: no cover"",
+            ""    'setTimeout': lambda self, val: None, # pragma: no cover"",
+            ""    '_conn_lost_errors': [], # pragma: no cover"",
+            ""    '_conn_lost_deferred': type('MockDeferred', (object,), { # pragma: no cover"",
+            ""        'callback': lambda self, errors: None # pragma: no cover"",
+            ""    })(), # pragma: no cover"",
+            ""    'streams': {0: {'metadata': {'request_sent': True}}, 1: {'metadata': {'request_sent': False}}}, # pragma: no cover"",
+            ""    'metadata': {'active_streams': 2}, # pragma: no cover"",
+            ""    '_pending_request_stream_pool': [], # pragma: no cover"",
+            ""    'conn': type('MockConnection', (object,), { # pragma: no cover"",
+            ""        'close_connection': lambda self: None # pragma: no cover"",
+            ""    })() # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""reason = MockReason() # pragma: no cover"",
+            ""connectionDone = 'connection_done' # pragma: no cover"",
+            ""StreamCloseReason = MockStreamCloseReason # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Dict, List, Any # pragma: no cover"",
+            ""from twisted.internet.defer import Deferred # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockConnection: pass # pragma: no cover"",
+            ""self = type('Mock', (object,), { # pragma: no cover"",
+            ""    'setTimeout': lambda self, timeout: None, # pragma: no cover"",
+            ""    '_conn_lost_errors': [], # pragma: no cover"",
+            ""    '_conn_lost_deferred': Deferred(), # pragma: no cover"",
+            ""    'streams': {}, # pragma: no cover"",
+            ""    'metadata': {'active_streams': 0}, # pragma: no cover"",
+            ""    '_pending_request_stream_pool': [], # pragma: no cover"",
+            ""    'conn': MockConnection() # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""reason = type('MockReason', (object,), {'check': lambda self, conn_done: False})() # pragma: no cover"",
+            ""connectionDone = object() # pragma: no cover"",
+            ""class StreamCloseReason: pass # pragma: no cover"",
+            ""StreamCloseReason.CONNECTION_LOST = 'connection_lost' # pragma: no cover"",
+            ""StreamCloseReason.INACTIVE = 'inactive' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import defer # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockConnection: pass # pragma: no cover"",
+            ""class MockStream: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import defer # pragma: no cover"",
+            ""from twisted.internet.protocol import Protocol # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('MockConnection', (object,), { # pragma: no cover"",
+            ""  'setTimeout': lambda self, timeout: None, # pragma: no cover"",
+            ""  '_conn_lost_errors': [], # pragma: no cover"",
+            ""  '_conn_lost_deferred': defer.Deferred(), # pragma: no cover"",
+            ""  'streams': {1: type('Stream', (object,), { # pragma: no cover"",
+            ""      'metadata': {'request_sent': True}, # pragma: no cover"",
+            ""      'close': lambda self, reason, errors, from_protocol: None # pragma: no cover"",
+            ""    })(), # pragma: no cover"",
+            ""   2: type('Stream', (object,), { # pragma: no cover"",
+            ""      'metadata': {'request_sent': False}, # pragma: no cover"",
+            ""      'close': lambda self, reason, errors, from_protocol: None # pragma: no cover"",
+            ""    })() # pragma: no cover"",
+            ""  }, # pragma: no cover"",
+            ""  'metadata': {'active_streams': 2}, # pragma: no cover"",
+            ""  '_pending_request_stream_pool': [], # pragma: no cover"",
+            ""  'conn': type('MockConn', (object,), { # pragma: no cover"",
+            ""      'close_connection': lambda self: None # pragma: no cover"",
+            ""    })() # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""reason = type('MockReason', (object,), { # pragma: no cover"",
+            ""  'check': lambda self, item: False # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""connectionDone = object() # pragma: no cover"",
+            ""StreamCloseReason = type('StreamCloseReason', (object,), { # pragma: no cover"",
+            ""  'CONNECTION_LOST': 'Connection Lost', # pragma: no cover"",
+            ""  'INACTIVE': 'Inactive' # pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet.defer import Deferred # pragma: no cover"",
+            ""from twisted.internet.error import ConnectionDone # pragma: no cover"",
+            ""from enum import Enum # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'setTimeout': lambda self, timeout: None, '_conn_lost_errors': [], '_conn_lost_deferred': Deferred(), 'streams': {}, 'metadata': {'active_streams': 0}, '_pending_request_stream_pool': [], 'conn': type('MockConn', (), {'close_connection': lambda self: None})()})() # pragma: no cover"",
+            ""reason = type('MockReason', (), {'check': lambda self, value: False})() # pragma: no cover"",
+            ""connectionDone = ConnectionDone() # pragma: no cover"",
+            ""class StreamCloseReason(Enum): CONNECTION_LOST = 1; INACTIVE = 2 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet.defer import Deferred # pragma: no cover"",
+            ""from twisted.internet import reactor # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet.defer import Deferred # pragma: no cover"",
+            ""from twisted.internet.protocol import Protocol # pragma: no cover"",
+            ""from enum import Enum # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('MockConnection', (Mock,), { 'setTimeout': lambda self, x: None, '_conn_lost_errors': [], '_conn_lost_deferred': Deferred(), 'streams': {}, 'metadata': {'active_streams': 0}, '_pending_request_stream_pool': [], 'conn': type('MockConn', (Mock,), { 'close_connection': lambda self: None })() })() # pragma: no cover"",
+            ""reason = type('MockReason', (Mock,), { 'check': lambda self, x: False })() # pragma: no cover"",
+            ""connectionDone = object() # pragma: no cover"",
+            ""class StreamCloseReason(Enum): CONNECTION_LOST = 'connection_lost'; INACTIVE = 'inactive' # pragma: no cover"",
+            ""StreamCloseReason = StreamCloseReason # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet.defer import Deferred # pragma: no cover"",
+            ""from typing import Dict, Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'setTimeout': lambda self, x: None, '_conn_lost_errors': [], '_conn_lost_deferred': Deferred(), 'streams': {}, 'metadata': { 'active_streams': 0 }, '_pending_request_stream_pool': [], 'conn': type('MockConnection', (object,), { 'close_connection': lambda self: None })() })() # pragma: no cover"",
+            ""reason = type('MockReason', (object,), { 'check': lambda self, x: False })() # pragma: no cover"",
+            ""connectionDone = object() # pragma: no cover"",
+            ""StreamCloseReason = type('MockStreamCloseReason', (object,), { 'CONNECTION_LOST': 'connection_lost', 'INACTIVE': 'inactive' }) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import defer # pragma: no cover"",
+            ""from typing import List, Dict, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'setTimeout': lambda self, timeout: None, '_conn_lost_errors': [], '_conn_lost_deferred': defer.Deferred(), 'streams': {}, 'metadata': {'active_streams': 0}, '_pending_request_stream_pool': [], 'conn': type('MockConnection', (object,), {'close_connection': lambda self: None})()})() # pragma: no cover"",
+            ""reason = type('MockReason', (object,), {'check': lambda self, state: False})() # pragma: no cover"",
+            ""connectionDone = object() # pragma: no cover"",
+            ""StreamCloseReason = type('StreamCloseReason', (object,), {'CONNECTION_LOST': 1, 'INACTIVE': 2}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet.defer import Deferred # pragma: no cover"",
+            ""from typing import Dict, List, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('MockConnection', (object,), { 'setTimeout': lambda x: None, '_conn_lost_errors': [], '_conn_lost_deferred': Deferred(), 'streams': {}, 'metadata': {'active_streams': 0}, '_pending_request_stream_pool': [], 'conn': type('MockConn', (object,), { 'close_connection': lambda self: None })() })() # pragma: no cover"",
+            ""reason = type('MockReason', (object,), { 'check': lambda self, x: False })() # pragma: no cover"",
+            ""connectionDone = object() # pragma: no cover"",
+            ""StreamCloseReason = type('StreamCloseReason', (object,), { 'CONNECTION_LOST': 'Connection Lost', 'INACTIVE': 'Inactive' }) # pragma: no cover""
+        ]
+    }
+]",1,527,0.0002635,2214,0.003321,0.0035845

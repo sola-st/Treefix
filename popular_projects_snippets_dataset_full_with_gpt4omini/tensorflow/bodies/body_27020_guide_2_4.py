@@ -1,0 +1,19 @@
+import os # pragma: no cover
+
+self = type('Mock', (object,), {'_test_dir': './test_dir', 'evaluate': lambda x: x, 'assertEqual': lambda x, y: x == y})() # pragma: no cover
+def mock_save(dataset, path): pass # pragma: no cover
+def mock_load(path, element_spec): return Dataset.range(42) # pragma: no cover
+io = type('MockIo', (object,), {'save': mock_save, 'load': mock_load})() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/data/experimental/kernel_tests/io_test.py
+from l3.Runtime import _l_
+dataset = dataset_ops.Dataset.range(42)
+_l_(8837)
+io.save(dataset, self._test_dir)
+_l_(8838)
+dataset2 = io.load(self._test_dir, dataset.element_spec)
+_l_(8839)
+self.assertEqual(self.evaluate(dataset2.cardinality()), 42)
+_l_(8840)

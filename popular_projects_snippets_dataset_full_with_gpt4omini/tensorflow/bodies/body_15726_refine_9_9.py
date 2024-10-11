@@ -1,0 +1,66 @@
+import numpy as np # pragma: no cover
+
+EXAMPLE_RAGGED_TENSOR_3D_VALUES = [[[1, 2], [3]], [[4, 5, 6]], [[7]]]  # Example 3D values for a ragged tensor # pragma: no cover
+EXAMPLE_RAGGED_TENSOR_3D_SPLITS = [0, 2, 3, 4]  # Row splits for the ragged tensor # pragma: no cover
+EXAMPLE_RAGGED_TENSOR_3D_ROWLEN = 3  # Specify a uniform row length # pragma: no cover
+slice_spec = slice(None, None, None)  # Full slice specification # pragma: no cover
+expected_shape = (3, 2, 3)  # Expected shape for the resulting tensor # pragma: no cover
+class MockSelf:  # Mock object to simulate `self` with required methods # pragma: no cover
+    def assertAllEqual(self, a, b): # pragma: no cover
+        np.testing.assert_array_equal(a, b) # pragma: no cover
+    def assertIsNot(self, a, b): # pragma: no cover
+        assert a is not b # pragma: no cover
+    def _TestGetItem(self, rt, slice_spec, expected, expected_shape): # pragma: no cover
+        actual = rt[slice_spec] # pragma: no cover
+        self.assertAllEqual(actual, expected) # pragma: no cover
+self = MockSelf() # pragma: no cover
+
+import numpy as np # pragma: no cover
+
+class MockRaggedTensor:  # A mock class to simulate RaggedTensor behavior # pragma: no cover
+    def __init__(self, values, ragged_splits): # pragma: no cover
+        self.values = values # pragma: no cover
+        self.ragged_splits = ragged_splits # pragma: no cover
+    @classmethod # pragma: no cover
+    def from_uniform_row_length(cls, values, row_length): # pragma: no cover
+        # Mock behavior for to simulate from_uniform_row_length # pragma: no cover
+        return cls(values, None) # pragma: no cover
+    @classmethod # pragma: no cover
+    def from_row_splits(cls, values, splits): # pragma: no cover
+        # Mock behavior to simulate from_row_splits # pragma: no cover
+        return cls(values, splits) # pragma: no cover
+    def __getitem__(self, key): # pragma: no cover
+        # Simulated behavior for indexing # pragma: no cover
+        return np.array(self.values)[key] # pragma: no cover
+RaggedTensor = MockRaggedTensor # pragma: no cover
+EXAMPLE_RAGGED_TENSOR_3D_VALUES = [[[1, 2], [3]], [[4, 5, 6]], [[7]]]  # Simulated 3D values # pragma: no cover
+EXAMPLE_RAGGED_TENSOR_3D_SPLITS = [0, 2, 3, 4]  # Simulated splits # pragma: no cover
+EXAMPLE_RAGGED_TENSOR_3D_ROWLEN = 3  # Defined row length # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/ragged/ragged_getitem_test.py
+from l3.Runtime import _l_
+"""Test that rt.__getitem__(slice_spec) == expected."""
+rt = RaggedTensor.from_uniform_row_length(
+    RaggedTensor.from_row_splits(EXAMPLE_RAGGED_TENSOR_3D_VALUES,
+                                 EXAMPLE_RAGGED_TENSOR_3D_SPLITS),
+    EXAMPLE_RAGGED_TENSOR_3D_ROWLEN)
+_l_(6072)
+self.assertAllEqual(rt, EXAMPLE_RAGGED_TENSOR_3D)
+_l_(6073)
+self.assertIsNot(rt.uniform_row_length, None)
+_l_(6074)
+self._TestGetItem(rt, slice_spec, expected, expected_shape)
+_l_(6075)
+
+# If the result is 3D, then check that it still has a uniform row length:
+actual = rt.__getitem__(slice_spec)  # pylint: disable=assignment-from-no-return
+_l_(6076)  # pylint: disable=assignment-from-no-return
+if actual.shape.rank == 3:
+    _l_(6079)
+
+    self.assertIsNot(actual.uniform_row_length, None)
+    _l_(6077)
+    self.assertAllEqual(actual.uniform_row_length, expected_shape[1])
+    _l_(6078)

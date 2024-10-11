@@ -1,0 +1,440 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+indent = "" "" * (2 * self.tree_depth)
+if isinstance(node, Node):
+    _type = type_repr(node.type)
+    out(f""{indent}{_type}"", fg=""yellow"")
+    self.tree_depth += 1
+    for child in node.children:
+        exit(self.visit(child))
+
+    self.tree_depth -= 1
+    out(f""{indent}/{_type}"", fg=""yellow"", bold=False)
+else:
+    _type = token.tok_name.get(node.type, str(node.type))
+    out(f""{indent}{_type}"", fg=""blue"", nl=False)
+    if node.prefix:
+        # We don't have to handle prefixes for `Node` objects since
+        # that delegates to the first child anyway.
+        out(f"" {node.prefix!r}"", fg=""green"", bold=False, nl=False)
+    out(f"" {node.value!r}"", fg=""blue"", bold=False)
+
+# end code snippet
+
+# begin undefined variables
+self
+node
+Node
+type_repr
+out
+token
+# end undefined variables
+
+# begin undefined attributes and methods
+self.tree_depth
+node.type
+node.children
+self.visit
+token.tok_name
+node.prefix
+node.value
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Dict"",
+            ""from dataclasses import dataclass""
+        ],
+        ""initialization"": [
+            ""class Node:\n    def __init__(self, node_type, children=None, prefix=None, value=None):\n        self.type = node_type\n        self.children = children if children is not None else []\n        self.prefix = prefix\n        self.value = value"",
+            ""def type_repr(node_type):\n    return str(node_type)"",
+            ""def out(message, fg=None, bold=False, nl=True):\n    print(message)"",
+            ""class Token:\n    tok_name = {1: 'TYPE_A', 2: 'TYPE_B'}"",
+            ""node = Node(node_type=1, children=[Node(node_type=2, value='child_value')], prefix='child_prefix', value='node_value')"",
+            ""self = type('Mock', (object,), {'tree_depth': 0, 'visit': lambda self, n: n.value})()"",
+            ""token = Token()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""class Node:\n    def __init__(self, node_type, children=None, prefix=None, value=None):\n        self.type = node_type\n        self.children = children if children is not None else []\n        self.prefix = prefix\n        self.value = value"",
+            ""node = Node(node_type=1, children=[], prefix='example', value='value')"",
+            ""type_repr = lambda x: f'Type-{x}'"",
+            ""def out(message, fg='', bold=True, nl=True):\n    print(f'[{fg}] {message} (bold={bold}, nl={nl})')"",
+            ""token = Mock()\ntoken.tok_name = {1: 'TOKEN_TYPE_1', 2: 'TOKEN_TYPE_2'}"",
+            ""self = Mock(tree_depth=0, visit=lambda x: None)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union, Callable"",
+            ""class Node:"",
+            ""    def __init__(self, type: int, children: List['Node'], prefix: str = None, value: Union[str, int, float] = ''):"",
+            ""        self.type = type"",
+            ""        self.children = children"",
+            ""        self.prefix = prefix"",
+            ""        self.value = value"",
+            ""class Token:"",
+            ""    tok_name = {0: 'NEWLINE', 1: 'STRING', 2: 'NUMBER'}""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'tree_depth': 0, 'visit': lambda self, x: None})()"",
+            ""node = Node(type=1, children=[], prefix='prefix_example', value='value_example')"",
+            ""Node = type('Node', (), {})"",
+            ""type_repr = lambda x: 'NodeType' if x == 1 else 'UnknownType'"",
+            ""out = lambda msg, fg='', bold=False, nl=True: print(msg.rstrip() + ('\\n' if nl else ''))"",
+            ""token = Token()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Optional, Dict""
+        ],
+        ""initialization"": [
+            ""class Node:\n    def __init__(self, type_: int, children: Optional[List['Node']] = None, prefix: Optional[str] = None, value: Optional[Any] = None):\n        self.type = type_\n        self.children = children if children is not None else []\n        self.prefix = prefix\n        self.value = value"",
+            ""def type_repr(type_: int) -> str:\n    return f'Type{type_}'"",
+            ""def out(message: str, fg: str = 'white', bold: bool = False, nl: bool = True):\n    print(message)"",
+            ""import token\n_token_names = {i: name for i, name in enumerate(token.tok_name) if name}\ntoken.tok_name = _token_names"",
+            ""class Mock:\n    tree_depth = 0\n    def visit(self, child: Node) -> None:\n        pass  # Example implementation\nself = Mock()"",
+            ""node = Node(type_=1, children=[], prefix='example', value='some_value')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Dict"",
+            ""import token""
+        ],
+        ""initialization"": [
+            ""class Node:\n    def __init__(self, node_type, children=None, prefix=None, value=None):\n        self.type = node_type\n        self.children = children if children is not None else []\n        self.prefix = prefix\n        self.value = value"",
+            ""def type_repr(node_type):\n    return f'Type({node_type})'"",
+            ""def out(message, fg=None, bold=None, nl=True):\n    print(message)"",
+            ""class Mock:\n    tree_depth = 0\n    def visit(self, child):\n        return 0\n\nself = Mock()"",
+            ""node = Node(node_type=1, children=[], prefix='prefix_example', value='value_example')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Dict""
+        ],
+        ""initialization"": [
+            ""class Node:\n    def __init__(self, node_type: int, children: Optional[List['Node']] = None, prefix: Optional[str] = None, value: Optional[str] = None):\n        self.type = node_type\n        self.children = children or []\n        self.prefix = prefix\n        self.value = value"",
+            ""def type_repr(node_type: int) -> str:\n    return 'NodeType' + str(node_type)"",
+            ""def out(message: str, fg: str = '', bold: bool = False, nl: bool = True):\n    prefix = '' if not bold else 'Bold: '\n    suffix = '\\n' if nl else ''\n    print(f'{prefix}{message} - Color: {fg}{suffix}')"",
+            ""token = type('Mock', (object,), {'tok_name': {1: 'TOKEN_ONE', 2: 'TOKEN_TWO'}})()"",
+            ""self = type('Mock', (object,), {'tree_depth': 0, 'visit': lambda self, child: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Union""
+        ],
+        ""initialization"": [
+            ""class Node:\n    def __init__(self, type, value, prefix=None, children=None):\n        self.type = type\n        self.value = value\n        self.prefix = prefix\n        self.children = children or []"",
+            ""def type_repr(type_):\n    return str(type_)"",
+            ""def out(message: str, fg: Optional[str] = None, bold: Optional[bool] = None, nl: Optional[bool] = True):\n    print(message)"",
+            ""class Token:\n    tok_name = {0: 'TOKEN_TYPE_0', 1: 'TOKEN_TYPE_1'}"",
+            ""token = Token()"",
+            ""class Mock:\n    tree_depth = 0\n    def visit(self, child):\n        return 0\nself = Mock()"",
+            ""node = Node(type=0, value='some_value', prefix='some_prefix', children=[Node(type=1, value='child_value')])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Dict""
+        ],
+        ""initialization"": [
+            ""class Node:\n    def __init__(self, type: int, children: Optional[List['Node']] = None, prefix: Optional[str] = None, value: Optional[str] = None):\n        self.type = type\n        self.children = children if children is not None else []\n        self.prefix = prefix\n        self.value = value"",
+            ""class Mock:\n    def __init__(self):\n        self.tree_depth = 0\n    def visit(self, node):\n        return 0"",
+            ""self = Mock()"",
+            ""node = Node(type=1, children=[Node(type=2, value='child_1'), Node(type=3, value='child_2')], prefix='prefix', value='value')"",
+            ""def type_repr(type):\n    return f'Type({type})'"",
+            ""def out(message: str, fg: str, bold: bool = False, nl: bool = True):\n    end = '\\n' if nl else ''\n    print(f'\\033[{convert_color(fg)}m{{message}}\\033[0m', end=end)"",
+            ""def convert_color(color: str) -> str:\n    mapping = {'yellow': '33', 'blue': '34', 'green': '32'}\n    return mapping.get(color, '0')"",
+            ""import token; token.tok_name = {1: 'NAME', 2: 'NUMBER', 3: 'STRING'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional"",
+            ""from dataclasses import dataclass""
+        ],
+        ""initialization"": [
+            ""class Node:\n    def __init__(self, type_, value, children=None, prefix=None):\n        self.type = type_\n        self.value = value\n        self.children = children if children is not None else []\n        self.prefix = prefix"",
+            ""def type_repr(x):\n    return str(x)"",
+            ""def out(message, fg=None, bold=None, nl=True):\n    print(message)\n    if nl:\n        print()"",
+            ""class MockToken:\n    tok_name = {1: 'INTEGER', 2: 'FLOAT'}"",
+            ""node = Node(type_=1, value=42, children=[], prefix='val')"",
+            ""self = type('Mock', (object,), {'tree_depth': 0, 'visit': lambda self, child: 0})()"",
+            ""token = MockToken()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Dict""
+        ],
+        ""initialization"": [
+            ""class Node:\n    def __init__(self, node_type, children=None, prefix=None, value=None):\n        self.type = node_type\n        self.children = children or []\n        self.prefix = prefix\n        self.value = value"",
+            ""def type_repr(node_type):\n    return str(node_type)"",
+            ""def out(message, fg=None, bold=None, nl=True):\n    print(message, end='' if not nl else '\\n')"",
+            ""class MockToken:\n    tok_name = {1: 'TOKEN_TYPE_1', 2: 'TOKEN_TYPE_2'}\n\n    def __init__(self):\n        pass"",
+            ""self = type('MockSelf', (), {'tree_depth': 0, 'visit': lambda self, n: None})()"",
+            ""node = Node(1, [Node(2), Node(1)])""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Dict # pragma: no cover"",
+            ""from dataclasses import dataclass # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, node_type, children=None, prefix=None, value=None):# pragma: no cover"",
+            ""        self.type = node_type# pragma: no cover"",
+            ""        self.children = children if children is not None else []# pragma: no cover"",
+            ""        self.prefix = prefix# pragma: no cover"",
+            ""        self.value = value # pragma: no cover"",
+            ""def type_repr(node_type):# pragma: no cover"",
+            ""    return str(node_type) # pragma: no cover"",
+            ""def out(message, fg=None, bold=False, nl=True):# pragma: no cover"",
+            ""    print(message) # pragma: no cover"",
+            ""class Token:# pragma: no cover"",
+            ""    tok_name = {1: 'TYPE_A', 2: 'TYPE_B'} # pragma: no cover"",
+            ""node = Node(node_type=1, children=[Node(node_type=2, value='child_value')], prefix='child_prefix', value='node_value') # pragma: no cover"",
+            ""self = type('Mock', (object,), {'tree_depth': 0, 'visit': lambda self, n: n.value})() # pragma: no cover"",
+            ""token = Token() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, node_type, children=None, prefix=None, value=None):# pragma: no cover"",
+            ""        self.type = node_type# pragma: no cover"",
+            ""        self.children = children if children is not None else []# pragma: no cover"",
+            ""        self.prefix = prefix# pragma: no cover"",
+            ""        self.value = value # pragma: no cover"",
+            ""node = Node(node_type=1, children=[], prefix='example', value='value') # pragma: no cover"",
+            ""type_repr = lambda x: f'Type-{x}' # pragma: no cover"",
+            ""def out(message, fg='', bold=True, nl=True):# pragma: no cover"",
+            ""    print(f'[{fg}] {message} (bold={bold}, nl={nl})') # pragma: no cover"",
+            ""token = Mock()# pragma: no cover"",
+            ""token.tok_name = {1: 'TOKEN_TYPE_1', 2: 'TOKEN_TYPE_2'} # pragma: no cover"",
+            ""self = Mock(tree_depth=0, visit=lambda x: None) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union, Callable # pragma: no cover"",
+            ""class Node: # pragma: no cover"",
+            ""    def __init__(self, type: int, children: List['Node'], prefix: str = None, value: Union[str, int, float] = ''): # pragma: no cover"",
+            ""        self.type = type # pragma: no cover"",
+            ""        self.children = children # pragma: no cover"",
+            ""        self.prefix = prefix # pragma: no cover"",
+            ""        self.value = value # pragma: no cover"",
+            ""class Token: # pragma: no cover"",
+            ""    tok_name = {0: 'NEWLINE', 1: 'STRING', 2: 'NUMBER'} # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'tree_depth': 0, 'visit': lambda self, x: None})() # pragma: no cover"",
+            ""node = Node(type=1, children=[], prefix='prefix_example', value='value_example') # pragma: no cover"",
+            ""Node = type('Node', (), {}) # pragma: no cover"",
+            ""type_repr = lambda x: 'NodeType' if x == 1 else 'UnknownType' # pragma: no cover"",
+            ""out = lambda msg, fg='', bold=False, nl=True: print(msg.rstrip() + ('\\n' if nl else '')) # pragma: no cover"",
+            ""token = Token() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Optional, Dict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, type_: int, children: Optional[List['Node']] = None, prefix: Optional[str] = None, value: Optional[Any] = None):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children if children is not None else []# pragma: no cover"",
+            ""        self.prefix = prefix# pragma: no cover"",
+            ""        self.value = value # pragma: no cover"",
+            ""def type_repr(type_: int) -> str:# pragma: no cover"",
+            ""    return f'Type{type_}' # pragma: no cover"",
+            ""def out(message: str, fg: str = 'white', bold: bool = False, nl: bool = True):# pragma: no cover"",
+            ""    print(message) # pragma: no cover"",
+            ""_token_names = {i: name for i, name in enumerate(token.tok_name) if name}# pragma: no cover"",
+            ""token.tok_name = _token_names # pragma: no cover"",
+            ""class Mock:# pragma: no cover"",
+            ""    tree_depth = 0# pragma: no cover"",
+            ""    def visit(self, child: Node) -> None:# pragma: no cover"",
+            ""        pass  # Example implementation# pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""node = Node(type_=1, children=[], prefix='example', value='some_value') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Dict # pragma: no cover"",
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, node_type, children=None, prefix=None, value=None):# pragma: no cover"",
+            ""        self.type = node_type# pragma: no cover"",
+            ""        self.children = children if children is not None else []# pragma: no cover"",
+            ""        self.prefix = prefix# pragma: no cover"",
+            ""        self.value = value # pragma: no cover"",
+            ""def type_repr(node_type):# pragma: no cover"",
+            ""    return f'Type({node_type})' # pragma: no cover"",
+            ""def out(message, fg=None, bold=None, nl=True):# pragma: no cover"",
+            ""    print(message) # pragma: no cover"",
+            ""class Mock:# pragma: no cover"",
+            ""    tree_depth = 0# pragma: no cover"",
+            ""    def visit(self, child):# pragma: no cover"",
+            ""        return 0# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""node = Node(node_type=1, children=[], prefix='prefix_example', value='value_example') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Dict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, node_type: int, children: Optional[List['Node']] = None, prefix: Optional[str] = None, value: Optional[str] = None):# pragma: no cover"",
+            ""        self.type = node_type# pragma: no cover"",
+            ""        self.children = children or []# pragma: no cover"",
+            ""        self.prefix = prefix# pragma: no cover"",
+            ""        self.value = value # pragma: no cover"",
+            ""def type_repr(node_type: int) -> str:# pragma: no cover"",
+            ""    return 'NodeType' + str(node_type) # pragma: no cover"",
+            ""def out(message: str, fg: str = '', bold: bool = False, nl: bool = True):# pragma: no cover"",
+            ""    prefix = '' if not bold else 'Bold: '# pragma: no cover"",
+            ""    suffix = '\\n' if nl else ''# pragma: no cover"",
+            ""    print(f'{prefix}{message} - Color: {fg}{suffix}') # pragma: no cover"",
+            ""token = type('Mock', (object,), {'tok_name': {1: 'TOKEN_ONE', 2: 'TOKEN_TWO'}})() # pragma: no cover"",
+            ""self = type('Mock', (object,), {'tree_depth': 0, 'visit': lambda self, child: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, type, value, prefix=None, children=None):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""        self.value = value# pragma: no cover"",
+            ""        self.prefix = prefix# pragma: no cover"",
+            ""        self.children = children or [] # pragma: no cover"",
+            ""def type_repr(type_):# pragma: no cover"",
+            ""    return str(type_) # pragma: no cover"",
+            ""def out(message: str, fg: Optional[str] = None, bold: Optional[bool] = None, nl: Optional[bool] = True):# pragma: no cover"",
+            ""    print(message) # pragma: no cover"",
+            ""class Token:# pragma: no cover"",
+            ""    tok_name = {0: 'TOKEN_TYPE_0', 1: 'TOKEN_TYPE_1'} # pragma: no cover"",
+            ""token = Token() # pragma: no cover"",
+            ""class Mock:# pragma: no cover"",
+            ""    tree_depth = 0# pragma: no cover"",
+            ""    def visit(self, child):# pragma: no cover"",
+            ""        return 0# pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""node = Node(type=0, value='some_value', prefix='some_prefix', children=[Node(type=1, value='child_value')]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Dict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, type: int, children: Optional[List['Node']] = None, prefix: Optional[str] = None, value: Optional[str] = None):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""        self.children = children if children is not None else []# pragma: no cover"",
+            ""        self.prefix = prefix# pragma: no cover"",
+            ""        self.value = value # pragma: no cover"",
+            ""class Mock:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.tree_depth = 0# pragma: no cover"",
+            ""    def visit(self, node):# pragma: no cover"",
+            ""        return 0 # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""node = Node(type=1, children=[Node(type=2, value='child_1'), Node(type=3, value='child_2')], prefix='prefix', value='value') # pragma: no cover"",
+            ""def type_repr(type):# pragma: no cover"",
+            ""    return f'Type({type})' # pragma: no cover"",
+            ""def out(message: str, fg: str, bold: bool = False, nl: bool = True):# pragma: no cover"",
+            ""    end = '\\n' if nl else ''# pragma: no cover"",
+            ""    print(f'\\033[{convert_color(fg)}m{{message}}\\033[0m', end=end) # pragma: no cover"",
+            ""def convert_color(color: str) -> str:# pragma: no cover"",
+            ""    mapping = {'yellow': '33', 'blue': '34', 'green': '32'}# pragma: no cover"",
+            ""    return mapping.get(color, '0') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover"",
+            ""from dataclasses import dataclass # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, type_, value, children=None, prefix=None):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.value = value# pragma: no cover"",
+            ""        self.children = children if children is not None else []# pragma: no cover"",
+            ""        self.prefix = prefix # pragma: no cover"",
+            ""def type_repr(x):# pragma: no cover"",
+            ""    return str(x) # pragma: no cover"",
+            ""def out(message, fg=None, bold=None, nl=True):# pragma: no cover"",
+            ""    print(message)# pragma: no cover"",
+            ""    if nl:# pragma: no cover"",
+            ""        print() # pragma: no cover"",
+            ""class MockToken:# pragma: no cover"",
+            ""    tok_name = {1: 'INTEGER', 2: 'FLOAT'} # pragma: no cover"",
+            ""node = Node(type_=1, value=42, children=[], prefix='val') # pragma: no cover"",
+            ""self = type('Mock', (object,), {'tree_depth': 0, 'visit': lambda self, child: 0})() # pragma: no cover"",
+            ""token = MockToken() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Dict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, node_type, children=None, prefix=None, value=None):# pragma: no cover"",
+            ""        self.type = node_type# pragma: no cover"",
+            ""        self.children = children or []# pragma: no cover"",
+            ""        self.prefix = prefix# pragma: no cover"",
+            ""        self.value = value # pragma: no cover"",
+            ""def type_repr(node_type):# pragma: no cover"",
+            ""    return str(node_type) # pragma: no cover"",
+            ""def out(message, fg=None, bold=None, nl=True):# pragma: no cover"",
+            ""    print(message, end='' if not nl else '\\n') # pragma: no cover"",
+            ""class MockToken:# pragma: no cover"",
+            ""    tok_name = {1: 'TOKEN_TYPE_1', 2: 'TOKEN_TYPE_2'}# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = type('MockSelf', (), {'tree_depth': 0, 'visit': lambda self, n: None})() # pragma: no cover"",
+            ""node = Node(1, [Node(2), Node(1)]) # pragma: no cover""
+        ]
+    }
+]",1,508,0.000254,2484,0.003726,0.00398

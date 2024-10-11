@@ -1,0 +1,881 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+r""""""Return a dictionary mapping interpolation tokens to values.
+
+  Args:
+    op: op.Operation object.
+
+  Returns:
+    A dictionary mapping string tokens to string values.  The keys are shown
+    below along with example values.
+    {
+      ""file"": ""tool_utils.py"",
+      ""lineno"": ""124"",
+      ""line"": ""  source code line"",
+      ""defined_at"": "" (defined at tool_utils.py:124)"",
+      ""colocations"":
+          '''Node-device colocations active during op creation:
+               with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27>
+               with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>'''
+      ""devices"":
+          '''Device assignments active during op 'foo' creation:
+               with tf.device(/cpu:0): <test_1.py:27>
+               with tf.device(some_func<foo.py, 123>): <test_2.py:38>'''
+      ""devs_and_colocs"": A concatenation of colocations and devices, e.g.
+          '''Node-device colocations active during op creation:
+               with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27>
+               with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>'''
+             Device assignments active during op 'foo' creation:
+               with tf.device(/cpu:0): <test_1.py:27>
+               with tf.device(some_func<foo.py, 123>): <test_2.py:38>'''
+    }
+  """"""
+# TODO(xjun): colocation and device info are not displayed. Consider
+# removing them or using vlog.
+colocation_summary = _compute_colocation_summary_from_op(op)
+device_summary = _compute_device_assignment_summary_from_op(op)
+combined_summary = ""\n"".join([colocation_summary, device_summary])
+
+if op.traceback is None:
+    # Some ops synthesized on as part of function or control flow definition
+    # do not have tracebacks.
+    filename = ""<unknown>""
+    definition_traceback = """"
+    lineno = 0
+    line = """"
+    defined_at = ""<unknown>""
+else:
+    frame = op.traceback.last_user_frame()
+    filename = frame.filename
+    definition_traceback = traceback.format_list(op.traceback.get_user_frames())
+    lineno = frame.lineno
+    line = frame.line
+    defined_at = f""{filename}:{lineno:d}""
+
+field_dict = {
+    ""colocations"": colocation_summary,
+    ""devices"": device_summary,
+    ""devs_and_colocs"": combined_summary,
+    ""defined_at"": defined_at,
+    ""file"": filename,
+    ""lineno"": lineno,
+    ""line"": line,
+    ""definition_traceback"": definition_traceback,
+}
+exit(field_dict)
+
+# end code snippet
+
+# begin undefined variables
+_compute_colocation_summary_from_op
+op
+_compute_device_assignment_summary_from_op
+traceback
+# end undefined variables
+
+# begin undefined attributes and methods
+op.traceback
+traceback.format_list
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOp: \n    def __init__(self): \n        self.traceback = None \n    def last_user_frame(self): \n        return MockFrame() \n"",
+            ""class MockFrame: \n    def __init__(self): \n        self.filename = 'tool_utils.py' \n        self.lineno = 124 \n        self.line = '  source code line' \n"",
+            ""def _compute_colocation_summary_from_op(op): \n    return '''Node-device colocations active during op creation: \n         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> \n         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' \n"",
+            ""def _compute_device_assignment_summary_from_op(op): \n    return '''Device assignments active during op 'foo' creation: \n         with tf.device(/cpu:0): <test_1.py:27> \n         with tf.device(some_func<foo.py, 123>): <test_2.py:38>''' \n"",
+            ""op = MockOp()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""class MockOp: def __init__(self): self.traceback = None"",
+            ""def _compute_colocation_summary_from_op(op): return 'Colocation summary'"",
+            ""def _compute_device_assignment_summary_from_op(op): return 'Device assignment summary'""
+        ],
+        ""initialization"": [
+            ""op = MockOp()"",
+            ""traceback = type('Mock', (object,), {'format_list': staticmethod(lambda x: x)})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""class MockOperation: pass"",
+            ""def _compute_colocation_summary_from_op(op): return 'Colocation summary'"",
+            ""def _compute_device_assignment_summary_from_op(op): return 'Device assignment summary'""
+        ],
+        ""initialization"": [
+            ""op = MockOperation()"",
+            ""op.traceback = None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""def _compute_colocation_summary_from_op(op): return 'Node-device colocations active during op creation: with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27>'"",
+            ""def _compute_device_assignment_summary_from_op(op): return 'Device assignments active during op foo creation: with tf.device(/cpu:0): <test_1.py:27>'"",
+            ""class MockOp: def __init__(self): self.traceback = None; self.name = 'foo'"",
+            ""op = MockOp()"",
+            ""MockTraceback = type('MockTraceback', (object,), {'last_user_frame': lambda self: type('MockFrame', (object,), {'filename': 'tool_utils.py', 'lineno': 124, 'line': '  source code line'})()})"",
+            ""traceback = MockTraceback()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""def _compute_colocation_summary_from_op(op): return 'Node-device colocations active during op creation: \\n' + 'with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27>'"",
+            ""def _compute_device_assignment_summary_from_op(op): return 'Device assignments active during op creation: \\n' + 'with tf.device(/cpu:0): <test_1.py:27>'"",
+            ""class MockOp: \n    def __init__(self): \n        self.traceback = None \n    def set_traceback(self, tb): \n        self.traceback = tb\nop = MockOp()"",
+            ""def mock_format_list(frames): return ['File \""<test_file>\"", line 1, in <module>']"",
+            ""traceback.format_list = mock_format_list""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""def _compute_colocation_summary_from_op(op): return '''Node-device colocations active during op creation:  with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27>  with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>'''"",
+            ""def _compute_device_assignment_summary_from_op(op): return '''Device assignments active during op 'foo' creation:  with tf.device(/cpu:0): <test_1.py:27>  with tf.device(some_func<foo.py, 123>): <test_2.py:38>'''"",
+            ""class MockOp:  def __init__(self): self.traceback = type('MockTraceback', (object,), {'last_user_frame': lambda self: MockFrame()})()"",
+            ""class MockFrame:  def __init__(self): self.filename = 'tool_utils.py'; self.lineno = 124; self.line = '  source code line'"",
+            ""op = MockOp()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""class MockOp: pass"",
+            ""def _compute_colocation_summary_from_op(op): return 'Colocation summary here.'"",
+            ""def _compute_device_assignment_summary_from_op(op): return 'Device assignment summary here.'""
+        ],
+        ""initialization"": [
+            ""op = MockOp()"",
+            ""op.traceback = None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""import tensorflow as tf"",
+            ""from collections import namedtuple""
+        ],
+        ""initialization"": [
+            ""def _compute_colocation_summary_from_op(op): return '''Node-device colocations active during op creation: with tf.compat.v1.colocate_with(mock_node): <mock_file.py:1>'''"",
+            ""op = type('MockOp', (object,), {'traceback': type('MockTraceback', (object,), {'last_user_frame': lambda: type('MockFrame', (object,), {'filename': 'tool_utils.py', 'lineno': 124, 'line': '  source code line'})()})()})()"",
+            ""def _compute_device_assignment_summary_from_op(op): return '''Device assignments active during op 'foo' creation: with tf.device(/cpu:0): <mock_file.py:1>'''"",
+            ""traceback.format_list = lambda tb: ['Traceback (most recent call last):'] + [f'  File \""{frame.filename}\"", line {frame.lineno}, in <module>' for frame in [op.traceback.last_user_frame()]]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""op = Mock()"",
+            ""op.traceback = Mock()"",
+            ""op.traceback.last_user_frame = Mock(return_value=Mock(filename='tool_utils.py', lineno=124, line='  source code line'))"",
+            ""op.traceback.get_user_frames = Mock(return_value=[])"",
+            ""_compute_colocation_summary_from_op = Mock(return_value='Node-device colocations active during op creation:\n with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27>')"",
+            ""_compute_device_assignment_summary_from_op = Mock(return_value='Device assignments active during op foo creation:\n with tf.device(/cpu:0): <test_1.py:27>')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""class MockOperation: pass"",
+            ""def _compute_colocation_summary_from_op(op): return 'Colocation summary'"",
+            ""def _compute_device_assignment_summary_from_op(op): return 'Device assignment summary'"",
+            ""def create_mock_operation(): return MockOperation()""
+        ],
+        ""initialization"": [
+            ""op = create_mock_operation()"",
+            ""traceback = Mock()"",
+            ""traceback.format_list = lambda x: ['<traceback line>']""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockOp: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.traceback = None # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return MockFrame() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockFrame: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.filename = 'tool_utils.py' # pragma: no cover"",
+            ""        self.lineno = 124 # pragma: no cover"",
+            ""        self.line = '  source code line' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_colocation_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Node-device colocations active during op creation: # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Device assignments active during op 'foo' creation: # pragma: no cover"",
+            ""         with tf.device(/cpu:0): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.device(some_func<foo.py, 123>): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""op = MockOp() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""traceback = type('Mock', (object,), {'format_list': staticmethod(lambda x: x)}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover"",
+            ""class MockOperation: pass # pragma: no cover"",
+            ""def _compute_colocation_summary_from_op(op): return 'Colocation summary' # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): return 'Device assignment summary' # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""op = MockOperation() # pragma: no cover"",
+            ""op.traceback = None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def _compute_colocation_summary_from_op(op): return 'Node-device colocations active during op creation: with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27>' # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): return 'Device assignments active during op foo creation: with tf.device(/cpu:0): <test_1.py:27>' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def _compute_colocation_summary_from_op(op): return 'Node-device colocations active during op creation: \\n' + 'with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27>' # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): return 'Device assignments active during op creation: \\n' + 'with tf.device(/cpu:0): <test_1.py:27>' # pragma: no cover"",
+            ""class MockOp: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.traceback = None # pragma: no cover"",
+            ""    def set_traceback(self, tb): # pragma: no cover"",
+            ""        self.traceback = tb# pragma: no cover"",
+            ""op = MockOp() # pragma: no cover"",
+            ""def mock_format_list(frames): return ['File \""<test_file>\"", line 1, in <module>'] # pragma: no cover"",
+            ""traceback.format_list = mock_format_list # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def _compute_colocation_summary_from_op(op): return '''Node-device colocations active during op creation:  with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27>  with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): return '''Device assignments active during op 'foo' creation:  with tf.device(/cpu:0): <test_1.py:27>  with tf.device(some_func<foo.py, 123>): <test_2.py:38>''' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover"",
+            ""class MockOp: pass # pragma: no cover"",
+            ""def _compute_colocation_summary_from_op(op): return 'Colocation summary here.' # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): return 'Device assignment summary here.' # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""op = MockOp() # pragma: no cover"",
+            ""op.traceback = None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover"",
+            ""from collections import namedtuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def _compute_colocation_summary_from_op(op): return '''Node-device colocations active during op creation: with tf.compat.v1.colocate_with(mock_node): <mock_file.py:1>''' # pragma: no cover"",
+            ""op = type('MockOp', (object,), {'traceback': type('MockTraceback', (object,), {'last_user_frame': lambda: type('MockFrame', (object,), {'filename': 'tool_utils.py', 'lineno': 124, 'line': '  source code line'})()})()})() # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): return '''Device assignments active during op 'foo' creation: with tf.device(/cpu:0): <mock_file.py:1>''' # pragma: no cover"",
+            ""traceback.format_list = lambda tb: ['Traceback (most recent call last):'] + [f'  File \""{frame.filename}\"", line {frame.lineno}, in <module>' for frame in [op.traceback.last_user_frame()]] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover"",
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover"",
+            ""class MockOperation: pass # pragma: no cover"",
+            ""def _compute_colocation_summary_from_op(op): return 'Colocation summary' # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): return 'Device assignment summary' # pragma: no cover"",
+            ""def create_mock_operation(): return MockOperation() # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""op = create_mock_operation() # pragma: no cover"",
+            ""traceback.format_list = lambda x: ['<traceback line>'] # pragma: no cover""
+        ]
+    }
+]",1,908,0.000454,1818,0.002727,0.003181
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+{'colocations': 'Node-device colocations active during op creation: # pragma: no cover\n         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> # pragma: no cover\n         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>', 'devices': ""Device assignments active during op 'foo' creation: # pragma: no cover\n         with tf.device(/cpu:0): <test_1.py:27> # pragma: no cover\n         with tf.device(some_func<foo.py, 123>): <test_2.py:38>"", 'devs_and_colocs': ""Node-device colocations active during op creation: # pragma: no cover\n         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> # pragma: no cover\n         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>\nDevice assignments active during op 'foo' creation: # pragma: no cover\n         with tf.device(/cpu:0): <test_1.py:27> # pragma: no cover\n         with tf.device(some_func<foo.py, 123>): <test_2.py:38>"", 'defined_at': '<unknown>', 'file': '<unknown>', 'lineno': 0, 'line': '', 'definition_traceback': ''}
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOp: \n    def __init__(self): \n        self.traceback = MockTraceback() \n    def last_user_frame(self): \n        return MockFrame() \n"",
+            ""class MockFrame: \n    def __init__(self): \n        self.filename = 'tool_utils.py' \n        self.lineno = 124 \n        self.line = '  source code line' \n"",
+            ""class MockTraceback: \n    def __init__(self): \n        pass \n    def last_user_frame(self): \n        return MockFrame() \n    def get_user_frames(self): \n        return [('tool_utils.py', 124, '  source code line')] \n"",
+            ""def _compute_colocation_summary_from_op(op): \n    return '''Node-device colocations active during op creation: \n         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> \n         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' \n"",
+            ""def _compute_device_assignment_summary_from_op(op): \n    return '''Device assignments active during op 'foo' creation: \n         with tf.device('/cpu:0'): <test_1.py:27> \n         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' \n"",
+            ""op = MockOp()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOp: \n    def __init__(self): \n        self.traceback = MockTraceback() \n    def last_user_frame(self): \n        return MockFrame() \n"",
+            ""class MockTraceback: \n    def __init__(self): \n        self.frames = [MockFrame()] \n    def last_user_frame(self): \n        return self.frames[0] \n    def get_user_frames(self): \n        return self.frames \n"",
+            ""class MockFrame: \n    def __init__(self): \n        self.filename = 'tool_utils.py' \n        self.lineno = 124 \n        self.line = '  source code line' \n"",
+            ""def _compute_colocation_summary_from_op(op): \n    return '''Node-device colocations active during op creation: \n         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> \n         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' \n"",
+            ""def _compute_device_assignment_summary_from_op(op): \n    return '''Device assignments active during op 'foo' creation: \n         with tf.device('/cpu:0'): <test_1.py:27> \n         with tf.device(some_func<foo.py, 123>): <test_2.py:38>''' \n"",
+            ""op = MockOp()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOp: \n    def __init__(self): \n        self.traceback = MockTraceback() \n    def last_user_frame(self): \n        return MockFrame() \n"",
+            ""class MockFrame: \n    def __init__(self): \n        self.filename = 'tool_utils.py' \n        self.lineno = 124 \n        self.line = '  source code line' \n"",
+            ""class MockTraceback: \n    def __init__(self): \n        self.frames = [MockFrame()] \n    def last_user_frame(self): \n        return self.frames[0] \n    def get_user_frames(self): \n        return self.frames \n"",
+            ""def _compute_colocation_summary_from_op(op): \n    return '''Node-device colocations active during op creation: \n         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> \n         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' \n"",
+            ""def _compute_device_assignment_summary_from_op(op): \n    return '''Device assignments active during op 'foo' creation: \n         with tf.device('/cpu:0'): <test_1.py:27> \n         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' \n"",
+            ""op = MockOp()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOp: \n    def __init__(self): \n        self.traceback = MockTraceback() \n    def last_user_frame(self): \n        return MockFrame() \n"",
+            ""class MockFrame: \n    def __init__(self): \n        self.filename = 'tool_utils.py' \n        self.lineno = 124 \n        self.line = '  source code line' \n"",
+            ""class MockTraceback: \n    def __init__(self): \n        self.frames = [MockFrame()] \n    def last_user_frame(self): \n        return self.frames[-1] \n    def get_user_frames(self): \n        return self.frames \n"",
+            ""def _compute_colocation_summary_from_op(op): \n    return '''Node-device colocations active during op creation: \n         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> \n         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' \n"",
+            ""def _compute_device_assignment_summary_from_op(op): \n    return '''Device assignments active during op 'foo' creation: \n         with tf.device('/cpu:0'): <test_1.py:27> \n         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' \n"",
+            ""op = MockOp()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOp: \n    def __init__(self): \n        self.traceback = MockTraceback() \n    def last_user_frame(self): \n        return MockFrame() \n"",
+            ""class MockFrame: \n    def __init__(self): \n        self.filename = 'tool_utils.py' \n        self.lineno = 124 \n        self.line = '  source code line' \n"",
+            ""class MockTraceback: \n    def __init__(self): \n        self.frames = [MockFrame()] \n    def last_user_frame(self): \n        return self.frames[0] \n    def get_user_frames(self): \n        return self.frames \n"",
+            ""def _compute_colocation_summary_from_op(op): \n    return '''Node-device colocations active during op creation: \n         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> \n         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' \n"",
+            ""def _compute_device_assignment_summary_from_op(op): \n    return '''Device assignments active during op 'foo' creation: \n         with tf.device('/cpu:0'): <test_1.py:27> \n         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' \n"",
+            ""op = MockOp()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOp: \n    def __init__(self): \n        self.traceback = self.MockTraceback() \n    def last_user_frame(self): \n        return MockFrame() \n    class MockTraceback: \n        def __init__(self): \n            self.frames = [MockFrame()] \n        def last_user_frame(self): \n            return self.frames[0] \n        def get_user_frames(self): \n            return self.frames \n"",
+            ""class MockFrame: \n    def __init__(self): \n        self.filename = 'tool_utils.py' \n        self.lineno = 124 \n        self.line = '  source code line' \n"",
+            ""def _compute_colocation_summary_from_op(op): \n    return '''Node-device colocations active during op creation: \n         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> \n         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' \n"",
+            ""def _compute_device_assignment_summary_from_op(op): \n    return '''Device assignments active during op 'foo' creation: \n         with tf.device('/cpu:0'): <test_1.py:27> \n         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' \n"",
+            ""op = MockOp()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOp: \n    def __init__(self): \n        self.traceback = self.MockTraceback() \n    class MockTraceback: \n        def __init__(self): \n            self.frames = [MockFrame()] \n        def last_user_frame(self): \n            return self.frames[-1] \n        def get_user_frames(self): \n            return self.frames \n"",
+            ""class MockFrame: \n    def __init__(self): \n        self.filename = 'tool_utils.py' \n        self.lineno = 124 \n        self.line = '  source code line' \n"",
+            ""def _compute_colocation_summary_from_op(op): \n    return '''Node-device colocations active during op creation: \n         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> \n         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' \n"",
+            ""def _compute_device_assignment_summary_from_op(op): \n    return '''Device assignments active during op 'foo' creation: \n         with tf.device('/cpu:0'): <test_1.py:27> \n         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' \n"",
+            ""op = MockOp()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOp: \n    def __init__(self): \n        self.traceback = MockTraceback() \n    def last_user_frame(self): \n        return MockFrame() \n"",
+            ""class MockFrame: \n    def __init__(self): \n        self.filename = 'tool_utils.py' \n        self.lineno = 124 \n        self.line = '  source code line' \n"",
+            ""class MockTraceback: \n    def __init__(self): \n        pass \n    def last_user_frame(self): \n        return MockFrame() \n    def get_user_frames(self): \n        return [(MockFrame().filename, MockFrame().lineno, MockFrame().line)] \n"",
+            ""def _compute_colocation_summary_from_op(op): \n    return '''Node-device colocations active during op creation: \n         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> \n         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' \n"",
+            ""def _compute_device_assignment_summary_from_op(op): \n    return '''Device assignments active during op 'foo' creation: \n         with tf.device('/cpu:0'): <test_1.py:27> \n         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' \n"",
+            ""op = MockOp()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOp: \n    def __init__(self): \n        self.traceback = MockTraceback() \n    def last_user_frame(self): \n        return MockFrame() \n"",
+            ""class MockFrame: \n    def __init__(self): \n        self.filename = 'tool_utils.py' \n        self.lineno = 124 \n        self.line = '  source code line' \n"",
+            ""class MockTraceback: \n    def __init__(self): \n        self.frames = [MockFrame()] \n    def last_user_frame(self): \n        return self.frames[-1] \n    def get_user_frames(self): \n        return self.frames \n"",
+            ""def _compute_colocation_summary_from_op(op): \n    return '''Node-device colocations active during op creation: \n         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> \n         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' \n"",
+            ""def _compute_device_assignment_summary_from_op(op): \n    return '''Device assignments active during op 'foo' creation: \n         with tf.device('/cpu:0'): <test_1.py:27> \n         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' \n"",
+            ""op = MockOp()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback"",
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOp: \n    def __init__(self): \n        self.traceback = self \n    def last_user_frame(self): \n        return MockFrame() \n    def get_user_frames(self): \n        return [] \n"",
+            ""class MockFrame: \n    def __init__(self): \n        self.filename = 'tool_utils.py' \n        self.lineno = 124 \n        self.line = '  source code line' \n"",
+            ""def _compute_colocation_summary_from_op(op): \n    return '''Node-device colocations active during op creation: \n         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> \n         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' \n"",
+            ""def _compute_device_assignment_summary_from_op(op): \n    return '''Device assignments active during op 'foo' creation: \n         with tf.device('/cpu:0'): <test_1.py:27> \n         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' \n"",
+            ""op = MockOp()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockOp: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.traceback = MockTraceback() # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return MockFrame() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockFrame: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.filename = 'tool_utils.py' # pragma: no cover"",
+            ""        self.lineno = 124 # pragma: no cover"",
+            ""        self.line = '  source code line' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockTraceback: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return MockFrame() # pragma: no cover"",
+            ""    def get_user_frames(self): # pragma: no cover"",
+            ""        return [('tool_utils.py', 124, '  source code line')] # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_colocation_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Node-device colocations active during op creation: # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Device assignments active during op 'foo' creation: # pragma: no cover"",
+            ""         with tf.device('/cpu:0'): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""op = MockOp() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockOp: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.traceback = MockTraceback() # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return MockFrame() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockTraceback: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.frames = [MockFrame()] # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return self.frames[0] # pragma: no cover"",
+            ""    def get_user_frames(self): # pragma: no cover"",
+            ""        return self.frames # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockFrame: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.filename = 'tool_utils.py' # pragma: no cover"",
+            ""        self.lineno = 124 # pragma: no cover"",
+            ""        self.line = '  source code line' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_colocation_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Node-device colocations active during op creation: # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Device assignments active during op 'foo' creation: # pragma: no cover"",
+            ""         with tf.device('/cpu:0'): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.device(some_func<foo.py, 123>): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""op = MockOp() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockOp: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.traceback = MockTraceback() # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return MockFrame() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockFrame: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.filename = 'tool_utils.py' # pragma: no cover"",
+            ""        self.lineno = 124 # pragma: no cover"",
+            ""        self.line = '  source code line' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockTraceback: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.frames = [MockFrame()] # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return self.frames[0] # pragma: no cover"",
+            ""    def get_user_frames(self): # pragma: no cover"",
+            ""        return self.frames # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_colocation_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Node-device colocations active during op creation: # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Device assignments active during op 'foo' creation: # pragma: no cover"",
+            ""         with tf.device('/cpu:0'): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""op = MockOp() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockOp: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.traceback = MockTraceback() # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return MockFrame() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockFrame: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.filename = 'tool_utils.py' # pragma: no cover"",
+            ""        self.lineno = 124 # pragma: no cover"",
+            ""        self.line = '  source code line' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockTraceback: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.frames = [MockFrame()] # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return self.frames[-1] # pragma: no cover"",
+            ""    def get_user_frames(self): # pragma: no cover"",
+            ""        return self.frames # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_colocation_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Node-device colocations active during op creation: # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Device assignments active during op 'foo' creation: # pragma: no cover"",
+            ""         with tf.device('/cpu:0'): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""op = MockOp() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockOp: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.traceback = MockTraceback() # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return MockFrame() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockFrame: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.filename = 'tool_utils.py' # pragma: no cover"",
+            ""        self.lineno = 124 # pragma: no cover"",
+            ""        self.line = '  source code line' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockTraceback: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.frames = [MockFrame()] # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return self.frames[0] # pragma: no cover"",
+            ""    def get_user_frames(self): # pragma: no cover"",
+            ""        return self.frames # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_colocation_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Node-device colocations active during op creation: # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Device assignments active during op 'foo' creation: # pragma: no cover"",
+            ""         with tf.device('/cpu:0'): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""op = MockOp() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockOp: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.traceback = self.MockTraceback() # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return MockFrame() # pragma: no cover"",
+            ""    class MockTraceback: # pragma: no cover"",
+            ""        def __init__(self): # pragma: no cover"",
+            ""            self.frames = [MockFrame()] # pragma: no cover"",
+            ""        def last_user_frame(self): # pragma: no cover"",
+            ""            return self.frames[0] # pragma: no cover"",
+            ""        def get_user_frames(self): # pragma: no cover"",
+            ""            return self.frames # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockFrame: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.filename = 'tool_utils.py' # pragma: no cover"",
+            ""        self.lineno = 124 # pragma: no cover"",
+            ""        self.line = '  source code line' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_colocation_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Node-device colocations active during op creation: # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Device assignments active during op 'foo' creation: # pragma: no cover"",
+            ""         with tf.device('/cpu:0'): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""op = MockOp() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockOp: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.traceback = self.MockTraceback() # pragma: no cover"",
+            ""    class MockTraceback: # pragma: no cover"",
+            ""        def __init__(self): # pragma: no cover"",
+            ""            self.frames = [MockFrame()] # pragma: no cover"",
+            ""        def last_user_frame(self): # pragma: no cover"",
+            ""            return self.frames[-1] # pragma: no cover"",
+            ""        def get_user_frames(self): # pragma: no cover"",
+            ""            return self.frames # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockFrame: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.filename = 'tool_utils.py' # pragma: no cover"",
+            ""        self.lineno = 124 # pragma: no cover"",
+            ""        self.line = '  source code line' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_colocation_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Node-device colocations active during op creation: # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Device assignments active during op 'foo' creation: # pragma: no cover"",
+            ""         with tf.device('/cpu:0'): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""op = MockOp() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockOp: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.traceback = MockTraceback() # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return MockFrame() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockFrame: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.filename = 'tool_utils.py' # pragma: no cover"",
+            ""        self.lineno = 124 # pragma: no cover"",
+            ""        self.line = '  source code line' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockTraceback: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return MockFrame() # pragma: no cover"",
+            ""    def get_user_frames(self): # pragma: no cover"",
+            ""        return [(MockFrame().filename, MockFrame().lineno, MockFrame().line)] # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_colocation_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Node-device colocations active during op creation: # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Device assignments active during op 'foo' creation: # pragma: no cover"",
+            ""         with tf.device('/cpu:0'): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""op = MockOp() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockOp: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.traceback = MockTraceback() # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return MockFrame() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockFrame: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.filename = 'tool_utils.py' # pragma: no cover"",
+            ""        self.lineno = 124 # pragma: no cover"",
+            ""        self.line = '  source code line' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockTraceback: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.frames = [MockFrame()] # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return self.frames[-1] # pragma: no cover"",
+            ""    def get_user_frames(self): # pragma: no cover"",
+            ""        return self.frames # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_colocation_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Node-device colocations active during op creation: # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Device assignments active during op 'foo' creation: # pragma: no cover"",
+            ""         with tf.device('/cpu:0'): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""op = MockOp() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import traceback # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockOp: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.traceback = self # pragma: no cover"",
+            ""    def last_user_frame(self): # pragma: no cover"",
+            ""        return MockFrame() # pragma: no cover"",
+            ""    def get_user_frames(self): # pragma: no cover"",
+            ""        return [] # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockFrame: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.filename = 'tool_utils.py' # pragma: no cover"",
+            ""        self.lineno = 124 # pragma: no cover"",
+            ""        self.line = '  source code line' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_colocation_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Node-device colocations active during op creation: # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_1): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.compat.v1.colocate_with(test_node_2): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def _compute_device_assignment_summary_from_op(op): # pragma: no cover"",
+            ""    return '''Device assignments active during op 'foo' creation: # pragma: no cover"",
+            ""         with tf.device('/cpu:0'): <test_1.py:27> # pragma: no cover"",
+            ""         with tf.device('some_func<foo.py, 123>'): <test_2.py:38>''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""op = MockOp() # pragma: no cover""
+        ]
+    }
+]",2,1765,0.0008825,3461,0.0051915,0.0060739999999999995

@@ -1,0 +1,17 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/lib/io/file_io_test.py
+file_path = file_io.join(self._base_dir, "temp_file")
+with file_io.FileIO(file_path, mode="r+") as f:
+    f.write("testing1\ntesting2\ntesting3\n\ntesting5")
+self.assertEqual(0, f.tell())
+self.assertEqual("testing1\n", f.readline())
+self.assertEqual(9, f.tell())
+self.assertEqual("testing2\n", f.readline())
+self.assertEqual(18, f.tell())
+self.assertEqual("testing3\n", f.readline())
+self.assertEqual(27, f.tell())
+self.assertEqual("\n", f.readline())
+self.assertEqual(28, f.tell())
+self.assertEqual("testing5", f.readline())
+self.assertEqual(36, f.tell())
+self.assertEqual("", f.readline())
+self.assertEqual(36, f.tell())

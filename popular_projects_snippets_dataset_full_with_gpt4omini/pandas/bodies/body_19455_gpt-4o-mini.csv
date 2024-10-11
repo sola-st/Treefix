@@ -1,0 +1,253 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""
+    Check if we should use nested_data_to_arrays.
+    """"""
+exit((
+    len(data) > 0
+    and is_list_like(data[0])
+    and getattr(data[0], ""ndim"", 1) == 1
+    and not (isinstance(data, ExtensionArray) and data.ndim == 2)
+))
+
+# end code snippet
+
+# begin undefined variables
+data
+is_list_like
+ExtensionArray
+# end undefined variables
+
+# begin undefined attributes and methods
+data.ndim
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from pandas import ExtensionArray"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""data = [np.array([1, 2, 3]), np.array([4, 5, 6])]"",
+            ""def is_list_like(obj): return isinstance(obj, (list, np.ndarray))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pandas import ExtensionArray"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""data = [[1, 2, 3], [4, 5, 6]]"",
+            ""def is_list_like(x): return isinstance(x, (list, np.ndarray))"",
+            ""data = np.array(data)"",
+            ""data.ndim = 2""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pandas import ExtensionArray""
+        ],
+        ""initialization"": [
+            ""data = [[1, 2, 3], [4, 5, 6]]"",
+            ""def is_list_like(obj): return isinstance(obj, (list, tuple))"",
+            ""ExtensionArray = type('MockExtensionArray', (object,), {'ndim': 1})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pandas import ExtensionArray""
+        ],
+        ""initialization"": [
+            ""data = [[1, 2, 3], [4, 5, 6]]"",
+            ""def is_list_like(obj): return isinstance(obj, (list, tuple, set))"",
+            ""ExtensionArray = type('MockExtensionArray', (object,), {'ndim': 2})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pandas.api.extensions import ExtensionArray"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""data = [[1, 2, 3], [4, 5, 6]]"",
+            ""def is_list_like(obj): return isinstance(obj, (list, np.ndarray))"",
+            ""class MockExtensionArray(ExtensionArray):\n    def __init__(self, data):\n        self.data = data\n    @property\n    def ndim(self): return 1\n    def __array__(self): return np.array(self.data)\n\nExtensionArray = MockExtensionArray\n\n# Example initialization: recreating an ExtensionArray\ndata = ExtensionArray(data)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pandas import ExtensionArray"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""data = [[1, 2, 3], [4, 5, 6]]"",
+            ""def is_list_like(obj): return isinstance(obj, (list, np.ndarray))"",
+            ""class MockExtensionArray(ExtensionArray):\n    ndim = 2\n\n    def __init__(self, data):\n        self.data = data\n        self.ndim = 1\n\n    def __getitem__(self, item):\n        return self.data[item]\n\n    @property\n    def shape(self):\n        return (len(self.data),) if self.ndim == 1 else (len(self.data), 1)"",
+            ""ExtensionArray = MockExtensionArray""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pandas.api.extensions import ExtensionArray"",
+            ""from collections.abc import Iterable""
+        ],
+        ""initialization"": [
+            ""data = [[1, 2, 3], [4, 5, 6]]"",
+            ""def is_list_like(obj): return isinstance(obj, Iterable) and not isinstance(obj, (str, bytes))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pandas import ExtensionArray"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""data = [np.array([1, 2, 3]), np.array([4, 5, 6])]"",
+            ""def is_list_like(obj): return isinstance(obj, (list, np.ndarray))"",
+            ""ExtensionArray = type('MockExtensionArray', (ExtensionArray,), {'ndim': 2})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pandas import ExtensionArray""
+        ],
+        ""initialization"": [
+            ""data = [[1, 2, 3], [4, 5, 6]]"",
+            ""def is_list_like(obj): return isinstance(obj, list) or isinstance(obj, tuple)"",
+            ""data = type('MockData', (object,), {'__getitem__': lambda self, i: self.data[i], 'ndim': 2, 'data': [[1, 2, 3], [4, 5, 6]]})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pandas import ExtensionArray""
+        ],
+        ""initialization"": [
+            ""data = [[1, 2, 3], [4, 5, 6]]"",
+            ""def is_list_like(obj):\n    return isinstance(obj, (list, tuple))"",
+            ""ExtensionArray = type('MockExtensionArray', (object,), {'ndim': 2})""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""data = [np.array([1, 2, 3]), np.array([4, 5, 6])] # pragma: no cover"",
+            ""def is_list_like(obj): return isinstance(obj, (list, np.ndarray)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""data = [[1, 2, 3], [4, 5, 6]] # pragma: no cover"",
+            ""def is_list_like(x): return isinstance(x, (list, np.ndarray)) # pragma: no cover"",
+            ""data = np.array(data) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""data = [[1, 2, 3], [4, 5, 6]] # pragma: no cover"",
+            ""def is_list_like(obj): return isinstance(obj, (list, tuple)) # pragma: no cover"",
+            ""ExtensionArray = type('MockExtensionArray', (object,), {'ndim': 1})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""data = [[1, 2, 3], [4, 5, 6]] # pragma: no cover"",
+            ""def is_list_like(obj): return isinstance(obj, (list, tuple, set)) # pragma: no cover"",
+            ""ExtensionArray = type('MockExtensionArray', (object,), {'ndim': 2})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pandas.api.extensions import ExtensionArray # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""data = [[1, 2, 3], [4, 5, 6]] # pragma: no cover"",
+            ""def is_list_like(obj): return isinstance(obj, (list, np.ndarray)) # pragma: no cover"",
+            ""class MockExtensionArray(ExtensionArray):# pragma: no cover"",
+            ""    def __init__(self, data):# pragma: no cover"",
+            ""        self.data = data# pragma: no cover"",
+            ""    @property# pragma: no cover"",
+            ""    def ndim(self): return 1# pragma: no cover"",
+            ""    def __array__(self): return np.array(self.data)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""ExtensionArray = MockExtensionArray# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""# Example initialization: recreating an ExtensionArray# pragma: no cover"",
+            ""data = ExtensionArray(data) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""data = [[1, 2, 3], [4, 5, 6]] # pragma: no cover"",
+            ""def is_list_like(obj): return isinstance(obj, (list, np.ndarray)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pandas.api.extensions import ExtensionArray # pragma: no cover"",
+            ""from collections.abc import Iterable # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""data = [[1, 2, 3], [4, 5, 6]] # pragma: no cover"",
+            ""def is_list_like(obj): return isinstance(obj, Iterable) and not isinstance(obj, (str, bytes)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""data = [np.array([1, 2, 3]), np.array([4, 5, 6])] # pragma: no cover"",
+            ""def is_list_like(obj): return isinstance(obj, (list, np.ndarray)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""data = [[1, 2, 3], [4, 5, 6]] # pragma: no cover"",
+            ""def is_list_like(obj): return isinstance(obj, list) or isinstance(obj, tuple) # pragma: no cover"",
+            ""data = type('MockData', (object,), {'__getitem__': lambda self, i: self.data[i], 'ndim': 2, 'data': [[1, 2, 3], [4, 5, 6]]})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""data = [[1, 2, 3], [4, 5, 6]] # pragma: no cover"",
+            ""def is_list_like(obj):# pragma: no cover"",
+            ""    return isinstance(obj, (list, tuple)) # pragma: no cover"",
+            ""ExtensionArray = type('MockExtensionArray', (object,), {'ndim': 2}) # pragma: no cover""
+        ]
+    }
+]",1,370,0.000185,1143,0.0017145,0.0018995000000000001

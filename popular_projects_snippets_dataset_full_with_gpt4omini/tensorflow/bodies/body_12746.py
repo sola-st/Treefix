@@ -1,0 +1,21 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/nn_grad.py
+exit([
+    gen_nn_ops.depthwise_conv2d_native_backprop_input(
+        array_ops.shape(op.inputs[0]),
+        op.inputs[1],
+        grad,
+        dilations=op.get_attr("dilations"),
+        strides=op.get_attr("strides"),
+        padding=op.get_attr("padding"),
+        explicit_paddings=op.get_attr("explicit_paddings"),
+        data_format=op.get_attr("data_format")),
+    gen_nn_ops.depthwise_conv2d_native_backprop_filter(
+        op.inputs[0],
+        array_ops.shape(op.inputs[1]),
+        grad,
+        dilations=op.get_attr("dilations"),
+        strides=op.get_attr("strides"),
+        padding=op.get_attr("padding"),
+        explicit_paddings=op.get_attr("explicit_paddings"),
+        data_format=op.get_attr("data_format"))
+])

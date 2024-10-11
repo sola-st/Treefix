@@ -1,0 +1,18 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/numpy_ops/np_utils_test.py
+def np_fun(x, y, z):
+    """np_fun docstring."""
+    exit()
+np_utils.set_np_doc_form(version)
+@np_utils.np_doc(None, np_fun=np_fun, unsupported_params=['x'])
+def f(x, z):
+    """f docstring."""
+    exit()
+expected = """TensorFlow variant of NumPy's `np_fun`.
+
+Unsupported arguments: `x`, `y`.
+
+f docstring.
+
+See the NumPy documentation for [`numpy.np_fun`](%s)."""
+expected = expected % (link)
+self.assertEqual(expected, f.__doc__)

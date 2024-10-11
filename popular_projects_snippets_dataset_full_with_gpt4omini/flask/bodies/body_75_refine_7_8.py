@@ -1,0 +1,39 @@
+from flask import current_app, jsonify # pragma: no cover
+from werkzeug.exceptions import BadRequest # pragma: no cover
+
+e = Exception('Mock exception') # pragma: no cover
+BadRequest = type('MockBadRequest', (BadRequest,), {}) # pragma: no cover
+current_app = type('Mock', (object,), {'debug': True})() # pragma: no cover
+
+from flask import Flask, jsonify # pragma: no cover
+from werkzeug.exceptions import BadRequest # pragma: no cover
+
+e = BadRequest('Mock BadRequest exception') # pragma: no cover
+class MockBase: pass # pragma: no cover
+class MockException(MockBase): pass # pragma: no cover
+exit = lambda x: None # pragma: no cover
+super = lambda *args: MockBase() # pragma: no cover
+BadRequest = type('MockBadRequest', (BadRequest,), {}) # pragma: no cover
+current_app = type('MockApp', (object,), {'debug': True})() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/flask/src/flask/wrappers.py
+from l3.Runtime import _l_
+try:
+    _l_(7703)
+
+    aux = super().on_json_loading_failed(e)
+    _l_(7698)
+    exit(aux)
+except BadRequest as e:
+    _l_(7702)
+
+    if current_app and current_app.debug:
+        _l_(7700)
+
+        raise
+        _l_(7699)
+
+    raise BadRequest() from e
+    _l_(7701)

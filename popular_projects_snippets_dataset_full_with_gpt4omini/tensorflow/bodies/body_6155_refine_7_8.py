@@ -1,0 +1,98 @@
+group = False # pragma: no cover
+def regroup(updates, make_grouped): return [make_grouped(update) for update in updates] # pragma: no cover
+class ValuesLib:  # pragma: no cover
+    class Mirrored:  # pragma: no cover
+        def __init__(self, values): self.values = values # pragma: no cover
+values_lib = ValuesLib() # pragma: no cover
+extended = type('Extended', (object,), {'_local_results': lambda: []})() # pragma: no cover
+class ControlFlowOps:  # pragma: no cover
+    @staticmethod  # pragma: no cover
+    def group(values): return tf.group(values) # pragma: no cover
+control_flow_ops = ControlFlowOps() # pragma: no cover
+class Ops:  # pragma: no cover
+    @staticmethod  # pragma: no cover
+    def device(device_name): return tf.device(device_name) # pragma: no cover
+    @staticmethod  # pragma: no cover
+    def control_dependencies(control_inputs): return tf.control_dependencies(control_inputs) # pragma: no cover
+ops = Ops() # pragma: no cover
+class ArrayOps:  # pragma: no cover
+    @staticmethod  # pragma: no cover
+    def identity(x): return tf.identity(x) # pragma: no cover
+array_ops = ArrayOps() # pragma: no cover
+class TensorUtil:  # pragma: no cover
+    @staticmethod  # pragma: no cover
+    def is_tf_type(value): return isinstance(value, tf.Tensor) # pragma: no cover
+tensor_util = TensorUtil() # pragma: no cover
+
+group = False # pragma: no cover
+def regroup(updates, make_grouped): return updates # pragma: no cover
+class ValuesLib:  # pragma: no cover
+    class Mirrored:  # pragma: no cover
+        def __init__(self, values): self.values = values # pragma: no cover
+values_lib = ValuesLib() # pragma: no cover
+extended = type('Extended', (object,), {'_local_results': lambda x: 'local results'})() # pragma: no cover
+control_flow_ops = type('MockControlFlowOps', (object,), {'group': lambda x: x})() # pragma: no cover
+ops = type('MockOps', (object,), {'device': lambda x: None, 'control_dependencies': lambda x: x})() # pragma: no cover
+array_ops = type('MockArrayOps', (object,), {'identity': lambda x: x})() # pragma: no cover
+tensor_util = type('MockTensorUtil', (object,), {'is_tf_type': lambda x: isinstance(x, tf.Tensor)})() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/distribute/distribute_utils.py
+from l3.Runtime import _l_
+"""Regroup for an update, with dependencies to ensure all updates execute."""
+if not group:
+    _l_(5920)
+
+    regrouped = regroup(updates, values_lib.Mirrored)
+    _l_(5918)
+    aux = nest.map_structure(extended._local_results, regrouped)  # pylint: disable=protected-access
+    _l_(5919)  # pylint: disable=protected-access
+    exit(aux)  # pylint: disable=protected-access
+
+def _make_grouped_mirrored(values):
+    _l_(5931)
+
+    """Convert per-replica list `values` into Mirrored type with grouping."""
+    if len(values) == 1:
+        _l_(5922)
+
+        aux = values_lib.Mirrored(values)
+        _l_(5921)
+        exit(aux)
+
+    # Make sure we run all updates. Without this, something like
+    # session.run(extended.update(...)) may only update one replica.
+    g = control_flow_ops.group(values)
+    _l_(5923)
+
+    # If values is just ops, the grouping is enough. Everything in values
+    # should have the same type, since we expect every replica to be performing
+    # the same computation.
+    if not all(tensor_util.is_tf_type(v) for v in values):
+        _l_(5925)
+
+        aux = g
+        _l_(5924)
+        exit(aux)
+
+    # Otherwise we need tensors with the same values as `values`, but
+    # that have a dependency on `g`.
+    with_dep = []
+    _l_(5926)
+    for v in values:
+        _l_(5929)
+
+        with ops.device(v.device), ops.control_dependencies([g]):
+            _l_(5928)
+
+            with_dep.append(array_ops.identity(v))
+            _l_(5927)
+    aux = values_lib.Mirrored(with_dep)
+    _l_(5930)
+
+    exit(aux)
+aux = regroup(updates, _make_grouped_mirrored)
+_l_(5932)
+
+exit(aux)

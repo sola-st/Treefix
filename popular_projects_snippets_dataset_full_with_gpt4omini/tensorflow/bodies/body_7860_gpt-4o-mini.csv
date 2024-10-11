@@ -1,0 +1,802 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+with ops.device(""/gpu:0""):
+    self.assertEqual(
+        device_util.resolve(""/job:worker/task:1/cpu:0""),
+        ""/job:worker/replica:0/task:1/device:CPU:0"")
+    self.assertEqual(
+        device_util.resolve(""/job:worker/task:1""),
+        ""/job:worker/replica:0/task:1/device:GPU:0"")
+with ops.device(""/job:worker""):
+    self.assertEqual(
+        device_util.resolve(""/cpu:0""),
+        ""/job:worker/replica:0/task:0/device:CPU:0"")
+
+# end code snippet
+
+# begin undefined variables
+ops
+self
+device_util
+# end undefined variables
+
+# begin undefined attributes and methods
+ops.device
+self.assertEqual
+device_util.resolve
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockSelf: def assertEqual(self, a, b): assert a == b\nself = MockSelf()"",
+            ""class MockOps: def device(self, device_string): return device_string\nops = MockOps()"",
+            ""class MockDeviceUtil: @staticmethod\n    def resolve(device_string):\n        return f'/job:worker/replica:0/task:0/device:{device_string.split(':')[-1].upper()}' if 'cpu' in device_string else f'/job:worker/replica:0/task:1/device:GPU:0'\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class Mock: pass\nops = Mock()\nops.device = lambda x: None\nself = Mock()\nself.assertEqual = lambda x, y: print(f'Assertion: {{x}} == {{y}}')\ndevice_util = Mock()\ndevice_util.resolve = lambda x: { '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0' }[x]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOps: def device(self, device_string): return device_string\nops = MockOps()"",
+            ""class MockSelf: def assertEqual(self, a, b): assert a == b\nself = MockSelf()"",
+            ""class MockDeviceUtil: def resolve(self, device_string): return device_string.replace('/cpu:0', '/job:worker/replica:0/task:0/device:CPU:0').replace('/task:1', '/replica:0/task:1/device:GPU:0')\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf"",
+            ""tensorflow.python.platform.dev as ops""
+        ],
+        ""initialization"": [
+            ""class Mock: pass\nself = Mock()"",
+            ""class DeviceUtil:\n    @staticmethod\n    def resolve(device):\n        return device\n\ndevice_util = DeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOps: pass\nops = MockOps()"",
+            ""class MockSelf:\n    def assertEqual(self, a, b):\n        assert a == b\nself = MockSelf()"",
+            ""class MockDeviceUtil:\n    @staticmethod\n    def resolve(device):\n        mapping = {\n            '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0',\n            '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0',\n            '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0'\n        }\n        return mapping.get(device, device)\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOps: def device(self, name): return self\nops = MockOps()"",
+            ""class MockSelf: def assertEqual(self, a, b): assert a == b\nself = MockSelf()"",
+            ""class MockDeviceUtil: def resolve(self, device): return device.replace('/cpu:', '/job:worker/replica:0/task:0/device:CPU:') if '/cpu:' in device else device.replace('/job:worker/task:1', '/job:worker/replica:0/task:1/device:GPU:')\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class Mock: pass\nops = Mock()\nops.device = lambda x: x\nself = Mock()\nself.assertEqual = lambda x, y: print(f'AssertEqual: {x} == {y}')\ndevice_util = Mock()\ndevice_util.resolve = lambda x: x.replace('/job:worker/task:1', '/job:worker/replica:0/task:1/device:GPU:0').replace('/job:worker', '/job:worker/replica:0/task:0/device:CPU:0')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOps:\n    def device(self, name):\n        return self\n\nops = MockOps()"",
+            ""class MockSelf:\n    def assertEqual(self, a, b):\n        assert a == b, f'{a} != {b}'\n\nself = MockSelf()"",
+            ""class MockDeviceUtil:\n    @staticmethod\n    def resolve(device):\n        mappings = {\n            '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0',\n            '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0',\n            '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0'\n        }\n        return mappings.get(device, device)\n\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOps: \n    @staticmethod\n    def device(device_name):\n        return tf.device(device_name)\n\nops = MockOps()"",
+            ""class MockSelf:\n    def assertEqual(self, a, b):\n        assert a == b, f'Expected {a} to equal {b}'\n\nself = MockSelf()"",
+            ""class MockDeviceUtil:\n    @staticmethod\n    def resolve(device_string):\n        resolution_map = {\n            '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0',\n            '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0',\n            '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0'\n        }\n        return resolution_map.get(device_string, device_string)\n\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""ops = tf.compat.v1"",
+            ""self = type('Mock', (object,), {'assertEqual': lambda self, a, b: print('Passed' if a == b else f'Failed: {a} != {b}')})())"",
+            ""device_util = type('Mock', (object,), {'resolve': lambda x: '/job:worker/replica:0/task:1/device:GPU:0' if 'GPU' in x else '/job:worker/replica:0/task:1/device:CPU:0'})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass# pragma: no cover"",
+            ""ops = Mock()# pragma: no cover"",
+            ""ops.device = lambda x: None# pragma: no cover"",
+            ""self = Mock()# pragma: no cover"",
+            ""self.assertEqual = lambda x, y: print(f'Assertion: {{x}} == {{y}}')# pragma: no cover"",
+            ""device_util = Mock()# pragma: no cover"",
+            ""device_util.resolve = lambda x: { '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0' }[x] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass# pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""class DeviceUtil:# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def resolve(device):# pragma: no cover"",
+            ""        return device# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""device_util = DeviceUtil() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockOps: pass# pragma: no cover"",
+            ""ops = MockOps() # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def assertEqual(self, a, b):# pragma: no cover"",
+            ""        assert a == b# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover"",
+            ""class MockDeviceUtil:# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def resolve(device):# pragma: no cover"",
+            ""        mapping = {# pragma: no cover"",
+            ""            '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0',# pragma: no cover"",
+            ""            '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0',# pragma: no cover"",
+            ""            '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0'# pragma: no cover"",
+            ""        }# pragma: no cover"",
+            ""        return mapping.get(device, device)# pragma: no cover"",
+            ""device_util = MockDeviceUtil() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass# pragma: no cover"",
+            ""ops = Mock()# pragma: no cover"",
+            ""ops.device = lambda x: x# pragma: no cover"",
+            ""self = Mock()# pragma: no cover"",
+            ""self.assertEqual = lambda x, y: print(f'AssertEqual: {x} == {y}')# pragma: no cover"",
+            ""device_util = Mock()# pragma: no cover"",
+            ""device_util.resolve = lambda x: x.replace('/job:worker/task:1', '/job:worker/replica:0/task:1/device:GPU:0').replace('/job:worker', '/job:worker/replica:0/task:0/device:CPU:0') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockOps:# pragma: no cover"",
+            ""    def device(self, name):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""ops = MockOps() # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def assertEqual(self, a, b):# pragma: no cover"",
+            ""        assert a == b, f'{a} != {b}'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover"",
+            ""class MockDeviceUtil:# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def resolve(device):# pragma: no cover"",
+            ""        mappings = {# pragma: no cover"",
+            ""            '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0',# pragma: no cover"",
+            ""            '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0',# pragma: no cover"",
+            ""            '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0'# pragma: no cover"",
+            ""        }# pragma: no cover"",
+            ""        return mappings.get(device, device)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""device_util = MockDeviceUtil() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockOps: # pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def device(device_name):# pragma: no cover"",
+            ""        return tf.device(device_name)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""ops = MockOps() # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def assertEqual(self, a, b):# pragma: no cover"",
+            ""        assert a == b, f'Expected {a} to equal {b}'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover"",
+            ""class MockDeviceUtil:# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def resolve(device_string):# pragma: no cover"",
+            ""        resolution_map = {# pragma: no cover"",
+            ""            '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0',# pragma: no cover"",
+            ""            '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0',# pragma: no cover"",
+            ""            '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0'# pragma: no cover"",
+            ""        }# pragma: no cover"",
+            ""        return resolution_map.get(device_string, device_string)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""device_util = MockDeviceUtil() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""device_util = type('Mock', (object,), {'resolve': lambda x: '/job:worker/replica:0/task:1/device:GPU:0' if 'GPU' in x else '/job:worker/replica:0/task:1/device:CPU:0'})() # pragma: no cover""
+        ]
+    }
+]",1,428,0.000214,1685,0.0025275,0.0027415
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 2:
+    with ops.device(""/gpu:0""):
+NameError: name 'ops' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockSelf: def assertEqual(self, a, b): assert a == b\nself = MockSelf()"",
+            ""class MockDevice: def __enter__(self): return self\n    def __exit__(self, exc_type, exc_val, exc_tb): pass\n    def device(self, device_string): return self\nops = MockDevice()"",
+            ""class MockDeviceUtil: @staticmethod\n    def resolve(device_string):\n        if 'cpu' in device_string:\n            return f'/job:worker/replica:0/task:1/device:CPU:0'\n        else:\n            return f'/job:worker/replica:0/task:1/device:GPU:0'\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockSelf: def assertEqual(self, a, b): assert a == b\nself = MockSelf()"",
+            ""class MockDevice:\n    def __enter__(self): return self\n    def __exit__(self, exc_type, exc_value, traceback): pass\n    def device(self, device_string): return device_string\nops = type('MockOps', (object,), {'device': MockDevice()})()"",
+            ""class MockDeviceUtil: @staticmethod\n    def resolve(device_string):\n        if 'cpu' in device_string:\n            return '/job:worker/replica:0/task:0/device:CPU:0'\n        return '/job:worker/replica:0/task:1/device:GPU:0'\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockSelf: def assertEqual(self, a, b): assert a == b\nself = MockSelf()"",
+            ""class MockDevice: def __enter__(self): return self\n    def __exit__(self, exc_type, exc_val, exc_tb): pass\n    def device(self, device_string): return self\nops = MockDevice()"",
+            ""class MockDeviceUtil: @staticmethod\n    def resolve(device_string):\n        if 'cpu' in device_string:\n            return '/job:worker/replica:0/task:0/device:CPU:0'\n        else:\n            return '/job:worker/replica:0/task:1/device:GPU:0'\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockSelf: def assertEqual(self, a, b): assert a == b\nself = MockSelf()"",
+            ""class MockDevice:\n    def __enter__(self): return self\n    def __exit__(self, exc_type, exc_value, traceback): pass\n    def device(self, device_string): return device_string\nops = type('MockOps', (object,), {'device': lambda self, device_string: MockDevice()})()"",
+            ""class MockDeviceUtil: @staticmethod\n    def resolve(device_string):\n        return f'/job:worker/replica:0/task:0/device:{device_string.split(':')[-1].upper()}' if 'cpu' in device_string else f'/job:worker/replica:0/task:1/device:GPU:0'\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockSelf: def assertEqual(self, a, b): assert a == b\nself = MockSelf()"",
+            ""class MockDevice: def __enter__(self): return self\n    def __exit__(self, exc_type, exc_value, traceback): pass\n    def device(self, device_string): return self\nops = MockDevice()"",
+            ""class MockDeviceUtil: @staticmethod\n    def resolve(device_string):\n        if 'cpu' in device_string:\n            return '/job:worker/replica:0/task:0/device:CPU:0'\n        elif 'gpu' in device_string:\n            return '/job:worker/replica:0/task:1/device:GPU:0'\n        return device_string\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockSelf: def assertEqual(self, a, b): assert a == b\nself = MockSelf()"",
+            ""class MockDevice: def __enter__(self): return self\n    def __exit__(self, exc_type, exc_val, exc_tb): pass\n    def device(self, device_string): return device_string\nops = type('MockOps', (object,), {'device': MockDevice})()"",
+            ""class MockDeviceUtil: @staticmethod\n    def resolve(device_string):\n        if 'cpu' in device_string:\n            return f'/job:worker/replica:0/task:1/device:CPU:0'\n        else:\n            return f'/job:worker/replica:0/task:0/device:GPU:0'\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockSelf: \n    def assertEqual(self, a, b): \n        assert a == b\nself = MockSelf()"",
+            ""class MockDeviceContext: \n    def __enter__(self): pass\n    def __exit__(self, exc_type, exc_val, exc_tb): pass\nclass MockOps: \n    def device(self, device_string): \n        return MockDeviceContext()\nops = MockOps()"",
+            ""class MockDeviceUtil: \n    @staticmethod\n    def resolve(device_string): \n        if 'gpu' in device_string:\n            return '/job:worker/replica:0/task:1/device:GPU:0'\n        else:\n            return '/job:worker/replica:0/task:0/device:CPU:0'\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockSelf: def assertEqual(self, a, b): assert a == b\nself = MockSelf()"",
+            ""class MockDevice: def __enter__(self): return self\n    def __exit__(self, exc_type, exc_val, exc_tb): pass\n    def device(self, device_string): return self\nops = type('MockOps', (object,), {'device': MockDevice()})()"",
+            ""class MockDeviceUtil: @staticmethod\n    def resolve(device_string):\n        return f'/job:worker/replica:0/task:0/device:CPU:0' if 'cpu' in device_string else f'/job:worker/replica:0/task:1/device:GPU:0'\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockSelf: \n    def assertEqual(self, a, b): \n        assert a == b\nself = MockSelf()"",
+            ""class MockDevice:\n    def __enter__(self):\n        return self\n    def __exit__(self, exc_type, exc_value, traceback):\n        pass\n    def device(self, device_string):\n        return self\nclass MockOps:\n    def device(self, device_string):\n        return MockDevice()\nops = MockOps()"",
+            ""class MockDeviceUtil:\n    @staticmethod\n    def resolve(device_string):\n        if 'cpu' in device_string:\n            return '/job:worker/replica:0/task:0/device:CPU:0'\n        else:\n            return '/job:worker/replica:0/task:1/device:GPU:0'\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockOps: def __init__(self): pass\n    def device(self, device_string): return self\n    def __enter__(self): return self\n    def __exit__(self, exc_type, exc_value, traceback): pass\nops = MockOps()"",
+            ""class MockSelf: def assertEqual(self, a, b): assert a == b\nself = MockSelf()"",
+            ""class MockDeviceUtil: @staticmethod\n    def resolve(device_string):\n        if 'cpu' in device_string:\n            return '/job:worker/replica:0/task:1/device:CPU:0'\n        else:\n            return '/job:worker/replica:0/task:1/device:GPU:0'\ndevice_util = MockDeviceUtil()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockSelf: # pragma: no cover"",
+            ""    def assertEqual(self, a, b): # pragma: no cover"",
+            ""        assert a == b# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover"",
+            ""class MockDeviceContext: # pragma: no cover"",
+            ""    def __enter__(self): pass# pragma: no cover"",
+            ""    def __exit__(self, exc_type, exc_val, exc_tb): pass# pragma: no cover"",
+            ""class MockOps: # pragma: no cover"",
+            ""    def device(self, device_string): # pragma: no cover"",
+            ""        return MockDeviceContext()# pragma: no cover"",
+            ""ops = MockOps() # pragma: no cover"",
+            ""class MockDeviceUtil: # pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def resolve(device_string): # pragma: no cover"",
+            ""        if 'gpu' in device_string:# pragma: no cover"",
+            ""            return '/job:worker/replica:0/task:1/device:GPU:0'# pragma: no cover"",
+            ""        else:# pragma: no cover"",
+            ""            return '/job:worker/replica:0/task:0/device:CPU:0'# pragma: no cover"",
+            ""device_util = MockDeviceUtil() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockSelf: # pragma: no cover"",
+            ""    def assertEqual(self, a, b): # pragma: no cover"",
+            ""        assert a == b# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover"",
+            ""class MockDevice:# pragma: no cover"",
+            ""    def __enter__(self):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""    def __exit__(self, exc_type, exc_value, traceback):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    def device(self, device_string):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""class MockOps:# pragma: no cover"",
+            ""    def device(self, device_string):# pragma: no cover"",
+            ""        return MockDevice()# pragma: no cover"",
+            ""ops = MockOps() # pragma: no cover"",
+            ""class MockDeviceUtil:# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def resolve(device_string):# pragma: no cover"",
+            ""        if 'cpu' in device_string:# pragma: no cover"",
+            ""            return '/job:worker/replica:0/task:0/device:CPU:0'# pragma: no cover"",
+            ""        else:# pragma: no cover"",
+            ""            return '/job:worker/replica:0/task:1/device:GPU:0'# pragma: no cover"",
+            ""device_util = MockDeviceUtil() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",2,880,0.00044,1997,0.0029955,0.0034354999999999
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 10:
+    with ops.device(""/gpu:0""):
+AttributeError: __enter__
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class Mock: pass\nops = Mock()\nops.device = lambda x: type('ContextManager', (object,), {'__enter__': lambda self: None, '__exit__': lambda self, exc_type, exc_value, traceback: None})()\nself = Mock()\nself.assertEqual = lambda x, y: print(f'Assertion: {{x}} == {{y}}')\ndevice_util = Mock()\ndevice_util.resolve = lambda x: { '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0' }[x]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockContextManager:\n    def __enter__(self):\n        return self\n    def __exit__(self, exc_type, exc_value, traceback):\n        pass\n\nclass Mock:\n    def device(self, device_string):\n        return MockContextManager()\n\nops = Mock()"",
+            ""class MockSelf:\n    def assertEqual(self, a, b):\n        assert a == b\nself = MockSelf()"",
+            ""class MockDeviceUtil:\n    @staticmethod\n    def resolve(device_string):\n        return '/job:worker/replica:0/task:0/device:CPU:0' if 'cpu' in device_string else '/job:worker/replica:0/task:1/device:GPU:0'\n\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockContextManager: def __enter__(self): return self\n    def __exit__(self, exc_type, exc_value, traceback): pass\n    def device(self, device_string): return MockContextManager()\nops = MockContextManager()"",
+            ""class Mock: pass\nself = Mock()\nself.assertEqual = lambda a, b: print(f'Assertion: {{a}} == {{b}}')\ndevice_util = Mock()\ndevice_util.resolve = lambda x: { '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0' }[x]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class Mock: pass\nops = Mock()\nops.device = lambda x: context_manager()\nself = Mock()\nself.assertEqual = lambda x, y: print(f'Assertion: {{x}} == {{y}}')\ndevice_util = Mock()\ndevice_util.resolve = lambda x: { '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0' }[x]\nclass context_manager:\n    def __enter__(self):\n        pass\n    def __exit__(self, exc_type, exc_value, traceback):\n        pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockContextManager:\n    def __enter__(self):\n        return self\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        pass\nops = type('MockOps', (), {})()\nops.device = lambda device_string: MockContextManager()\nself = type('MockSelf', (), {})()\nself.assertEqual = lambda x, y: print(f'Assertion: {{x}} == {{y}}')\ndevice_util = type('MockDeviceUtil', (), {})()\ndef resolve(device_string):\n    return { '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0' }[device_string]\ndevice_util.resolve = staticmethod(resolve)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class Mock: pass\nops = Mock()\nclass MockDevice:\n    def __init__(self, device_string):\n        self.device_string = device_string\n    def __enter__(self):\n        return self\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        pass\nops.device = lambda x: MockDevice(x)\nself = Mock()\nself.assertEqual = lambda x, y: print(f'Assertion: {{x}} == {{y}}')\ndevice_util = Mock()\ndevice_util.resolve = lambda x: { '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0' }[x]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class Mock: pass\nops = Mock()\nclass MockDevice:\n    def __enter__(self): return self\n    def __exit__(self, exc_type, exc_val, exc_tb): pass\nops.device = lambda x: MockDevice()\nself = Mock()\nself.assertEqual = lambda x, y: print(f'Assertion: {{x}} == {{y}}')\ndevice_util = Mock()\ndevice_util.resolve = lambda x: { '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0' }[x]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockContext: def __enter__(self): pass\n    def __exit__(self, exc_type, exc_value, traceback): pass\nclass Mock: pass\nops = Mock()\nops.device = lambda x: MockContext()\nself = Mock()\nself.assertEqual = lambda x, y: print(f'Assertion: {{x}} == {{y}}')\ndevice_util = Mock()\ndevice_util.resolve = lambda x: { '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0' }[x]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockContextManager:\n    def __enter__(self):\n        pass\n    def __exit__(self, exc_type, exc_value, traceback):\n        pass\nops = type('MockOps', (), {'device': lambda self, x: MockContextManager()})()"",
+            ""class Mock: pass\nself = Mock()\nself.assertEqual = lambda x, y: print(f'Assertion: {{x}} == {{y}}')"",
+            ""class MockDeviceUtil:\n    @staticmethod\n    def resolve(device_string):\n        return {'/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0'}[device_string]\ndevice_util = MockDeviceUtil()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""class MockContextManager: def __enter__(self): return self\n    def __exit__(self, exc_type, exc_val, exc_tb): pass\nclass Mock: pass\nops = Mock()\nops.device = lambda x: MockContextManager()\nself = Mock()\nself.assertEqual = lambda x, y: print(f'Assertion: {{x}} == {{y}}')\ndevice_util = Mock()\ndevice_util.resolve = lambda x: { '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0' }[x]""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass# pragma: no cover"",
+            ""ops = Mock()# pragma: no cover"",
+            ""ops.device = lambda x: type('ContextManager', (object,), {'__enter__': lambda self: None, '__exit__': lambda self, exc_type, exc_value, traceback: None})()# pragma: no cover"",
+            ""self = Mock()# pragma: no cover"",
+            ""self.assertEqual = lambda x, y: print(f'Assertion: {{x}} == {{y}}')# pragma: no cover"",
+            ""device_util = Mock()# pragma: no cover"",
+            ""device_util.resolve = lambda x: { '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0' }[x] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockContextManager:# pragma: no cover"",
+            ""    def __enter__(self):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""    def __exit__(self, exc_type, exc_value, traceback):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class Mock:# pragma: no cover"",
+            ""    def device(self, device_string):# pragma: no cover"",
+            ""        return MockContextManager()# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""ops = Mock() # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def assertEqual(self, a, b):# pragma: no cover"",
+            ""        assert a == b# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover"",
+            ""class MockDeviceUtil:# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def resolve(device_string):# pragma: no cover"",
+            ""        return '/job:worker/replica:0/task:0/device:CPU:0' if 'cpu' in device_string else '/job:worker/replica:0/task:1/device:GPU:0'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""device_util = MockDeviceUtil() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass# pragma: no cover"",
+            ""ops = Mock()# pragma: no cover"",
+            ""ops.device = lambda x: context_manager()# pragma: no cover"",
+            ""self = Mock()# pragma: no cover"",
+            ""self.assertEqual = lambda x, y: print(f'Assertion: {{x}} == {{y}}')# pragma: no cover"",
+            ""device_util = Mock()# pragma: no cover"",
+            ""device_util.resolve = lambda x: { '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0' }[x]# pragma: no cover"",
+            ""class context_manager:# pragma: no cover"",
+            ""    def __enter__(self):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    def __exit__(self, exc_type, exc_value, traceback):# pragma: no cover"",
+            ""        pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockContextManager:# pragma: no cover"",
+            ""    def __enter__(self):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""    def __exit__(self, exc_type, exc_val, exc_tb):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""ops = type('MockOps', (), {})()# pragma: no cover"",
+            ""ops.device = lambda device_string: MockContextManager()# pragma: no cover"",
+            ""self = type('MockSelf', (), {})()# pragma: no cover"",
+            ""self.assertEqual = lambda x, y: print(f'Assertion: {{x}} == {{y}}')# pragma: no cover"",
+            ""device_util = type('MockDeviceUtil', (), {})()# pragma: no cover"",
+            ""def resolve(device_string):# pragma: no cover"",
+            ""    return { '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0' }[device_string]# pragma: no cover"",
+            ""device_util.resolve = staticmethod(resolve) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass# pragma: no cover"",
+            ""ops = Mock()# pragma: no cover"",
+            ""class MockDevice:# pragma: no cover"",
+            ""    def __init__(self, device_string):# pragma: no cover"",
+            ""        self.device_string = device_string# pragma: no cover"",
+            ""    def __enter__(self):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""    def __exit__(self, exc_type, exc_val, exc_tb):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""ops.device = lambda x: MockDevice(x)# pragma: no cover"",
+            ""self = Mock()# pragma: no cover"",
+            ""self.assertEqual = lambda x, y: print(f'Assertion: {{x}} == {{y}}')# pragma: no cover"",
+            ""device_util = Mock()# pragma: no cover"",
+            ""device_util.resolve = lambda x: { '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0' }[x] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass# pragma: no cover"",
+            ""ops = Mock()# pragma: no cover"",
+            ""class MockDevice:# pragma: no cover"",
+            ""    def __enter__(self): return self# pragma: no cover"",
+            ""    def __exit__(self, exc_type, exc_val, exc_tb): pass# pragma: no cover"",
+            ""ops.device = lambda x: MockDevice()# pragma: no cover"",
+            ""self = Mock()# pragma: no cover"",
+            ""self.assertEqual = lambda x, y: print(f'Assertion: {{x}} == {{y}}')# pragma: no cover"",
+            ""device_util = Mock()# pragma: no cover"",
+            ""device_util.resolve = lambda x: { '/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0' }[x] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockContextManager:# pragma: no cover"",
+            ""    def __enter__(self):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    def __exit__(self, exc_type, exc_value, traceback):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""ops = type('MockOps', (), {'device': lambda self, x: MockContextManager()})() # pragma: no cover"",
+            ""class Mock: pass# pragma: no cover"",
+            ""self = Mock()# pragma: no cover"",
+            ""self.assertEqual = lambda x, y: print(f'Assertion: {{x}} == {{y}}') # pragma: no cover"",
+            ""class MockDeviceUtil:# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def resolve(device_string):# pragma: no cover"",
+            ""        return {'/job:worker/task:1/cpu:0': '/job:worker/replica:0/task:1/device:CPU:0', '/job:worker/task:1': '/job:worker/replica:0/task:1/device:GPU:0', '/cpu:0': '/job:worker/replica:0/task:0/device:CPU:0'}[device_string]# pragma: no cover"",
+            ""device_util = MockDeviceUtil() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",2,1342,0.000671,2186,0.003279,0.0039499999999999995

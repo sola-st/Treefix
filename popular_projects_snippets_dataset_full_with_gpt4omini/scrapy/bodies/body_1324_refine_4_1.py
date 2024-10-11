@@ -1,0 +1,90 @@
+from scrapy.exceptions import IgnoreRequest # pragma: no cover
+from scrapy.http import Request # pragma: no cover
+from collections import deque # pragma: no cover
+
+request = Request(url='http://example.com', meta={'dont_cache': False}) # pragma: no cover
+
+from scrapy.exceptions import IgnoreRequest # pragma: no cover
+from scrapy.http import Request # pragma: no cover
+from scrapy.statscollectors import StatsCollector # pragma: no cover
+
+request = Request(url='http://example.com', meta={'dont_cache': False}) # pragma: no cover
+class MockPolicy: # pragma: no cover
+    def should_cache_request(self, req): # pragma: no cover
+        return True # pragma: no cover
+    def is_cached_response_fresh(self, cached_response, req): # pragma: no cover
+        return True # pragma: no cover
+policy = MockPolicy() # pragma: no cover
+class MockStorage: # pragma: no cover
+    def retrieve_response(self, spider, req): # pragma: no cover
+        return None# pragma: no cover
+storage = MockStorage() # pragma: no cover
+class MockStats: # pragma: no cover
+    def __init__(self): # pragma: no cover
+        self.values = {} # pragma: no cover
+    def inc_value(self, key, spider=None): # pragma: no cover
+        self.values[key] = self.values.get(key, 0) + 1# pragma: no cover
+stats = MockStats() # pragma: no cover
+self = type('MockSelf', (object,), {'policy': policy, 'storage': storage, 'stats': stats, 'ignore_missing': True})() # pragma: no cover
+spider = 'example_spider' # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/scrapy/scrapy/downloadermiddlewares/httpcache.py
+from l3.Runtime import _l_
+if request.meta.get('dont_cache', False):
+    _l_(9642)
+
+    aux = None
+    _l_(9641)
+    exit(aux)
+
+# Skip uncacheable requests
+if not self.policy.should_cache_request(request):
+    _l_(9645)
+
+    request.meta['_dont_cache'] = True  # flag as uncacheable
+    _l_(9643)  # flag as uncacheable
+    aux = None
+    _l_(9644)
+    exit(aux)
+
+# Look for cached response and check if expired
+cachedresponse = self.storage.retrieve_response(spider, request)
+_l_(9646)
+if cachedresponse is None:
+    _l_(9652)
+
+    self.stats.inc_value('httpcache/miss', spider=spider)
+    _l_(9647)
+    if self.ignore_missing:
+        _l_(9650)
+
+        self.stats.inc_value('httpcache/ignore', spider=spider)
+        _l_(9648)
+        raise IgnoreRequest(f"Ignored request not in cache: {request}")
+        _l_(9649)
+    aux = None  # first time request
+    _l_(9651)  # first time request
+    exit(aux)  # first time request
+
+# Return cached response only if not expired
+cachedresponse.flags.append('cached')
+_l_(9653)
+if self.policy.is_cached_response_fresh(cachedresponse, request):
+    _l_(9656)
+
+    self.stats.inc_value('httpcache/hit', spider=spider)
+    _l_(9654)
+    aux = cachedresponse
+    _l_(9655)
+    exit(aux)
+
+# Keep a reference to cached response to avoid a second cache lookup on
+# process_response hook
+request.meta['cached_response'] = cachedresponse
+_l_(9657)
+aux = None
+_l_(9658)
+
+exit(aux)

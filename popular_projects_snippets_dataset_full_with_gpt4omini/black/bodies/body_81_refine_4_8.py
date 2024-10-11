@@ -1,0 +1,104 @@
+from typing import List, Dict, Optional, Any, Union # pragma: no cover
+import token # pragma: no cover
+
+line = type('MockLine', (object,), { 'leaves': [], 'comments': {} })() # pragma: no cover
+string_idx = 0 # pragma: no cover
+self = type('MockSelf', (object,), { '_get_max_string_length': lambda self, line, idx: 100 })() # pragma: no cover
+TErr = type('TErr', (Exception,), {}) # pragma: no cover
+contains_pragma_comment = lambda comment: False # pragma: no cover
+has_triple_quotes = lambda string: '"""' in string or "'" in string # pragma: no cover
+Ok = lambda value: value # pragma: no cover
+
+from typing import List, Dict, Optional, Any # pragma: no cover
+import token # pragma: no cover
+
+class MockLeaf:# pragma: no cover
+    def __init__(self, value, parent=None):# pragma: no cover
+        self.value = value# pragma: no cover
+        self.parent = parent # pragma: no cover
+class MockLine:# pragma: no cover
+    def __init__(self, leaves, comments):# pragma: no cover
+        self.leaves = leaves# pragma: no cover
+        self.comments = comments # pragma: no cover
+def contains_pragma_comment(comment):# pragma: no cover
+    return 'pragma' in comment # pragma: no cover
+def has_triple_quotes(string):# pragma: no cover
+    return '"""' in string or "'" in string # pragma: no cover
+class Ok:# pragma: no cover
+    def __init__(self, value):# pragma: no cover
+        self.value = value # pragma: no cover
+class TErr(Exception):# pragma: no cover
+    pass # pragma: no cover
+line = MockLine(# pragma: no cover
+    leaves=[MockLeaf('example string', None)],# pragma: no cover
+    comments={id(MockLeaf('example string', None)): 'Some comment with pragma.'}# pragma: no cover
+) # pragma: no cover
+string_idx = 0 # pragma: no cover
+self = type('MockSelf', (), {'_get_max_string_length': lambda self, line, idx: 100})() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/black/src/black/trans.py
+from l3.Runtime import _l_
+"""
+        Checks that @line meets all of the requirements listed in this classes'
+        docstring. Refer to `help(BaseStringSplitter)` for a detailed
+        description of those requirements.
+
+        Returns:
+            * Ok(None), if ALL of the requirements are met.
+                OR
+            * Err(CannotTransform), if ANY of the requirements are NOT met.
+        """
+LL = line.leaves
+_l_(8041)
+
+string_leaf = LL[string_idx]
+_l_(8042)
+
+max_string_length = self._get_max_string_length(line, string_idx)
+_l_(8043)
+if len(string_leaf.value) <= max_string_length:
+    _l_(8045)
+
+    aux = TErr(
+        "The string itself is not what is causing this line to be too long."
+    )
+    _l_(8044)
+    exit(aux)
+
+if not string_leaf.parent or [L.type for L in string_leaf.parent.children] == [
+    token.STRING,
+    token.NEWLINE,
+]:
+    _l_(8047)
+
+    aux = TErr(
+        f"This string ({string_leaf.value}) appears to be pointless (i.e. has"
+        " no parent)."
+    )
+    _l_(8046)
+    exit(aux)
+
+if id(line.leaves[string_idx]) in line.comments and contains_pragma_comment(
+    line.comments[id(line.leaves[string_idx])]
+):
+    _l_(8049)
+
+    aux = TErr(
+        "Line appears to end with an inline pragma comment. Splitting the line"
+        " could modify the pragma's behavior."
+    )
+    _l_(8048)
+    exit(aux)
+
+if has_triple_quotes(string_leaf.value):
+    _l_(8051)
+
+    aux = TErr("We cannot split multiline strings.")
+    _l_(8050)
+    exit(aux)
+aux = Ok(None)
+_l_(8052)
+
+exit(aux)

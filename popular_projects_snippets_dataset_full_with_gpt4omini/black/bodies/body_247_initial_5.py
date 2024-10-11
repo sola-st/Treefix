@@ -1,0 +1,30 @@
+import token # pragma: no cover
+class Mock: pass # pragma: no cover
+
+leaf = Mock() # pragma: no cover
+leaf.type = token.NAME # pragma: no cover
+leaf.value = 'lambda' # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/black/src/black/brackets.py
+from l3.Runtime import _l_
+"""In a lambda expression, there might be more than one argument.
+
+        To avoid splitting on the comma in this situation, increase the depth of
+        tokens between `lambda` and `:`.
+        """
+if leaf.type == token.NAME and leaf.value == "lambda":
+    _l_(4600)
+
+    self.depth += 1
+    _l_(4597)
+    self._lambda_argument_depths.append(self.depth)
+    _l_(4598)
+    aux = True
+    _l_(4599)
+    exit(aux)
+aux = False
+_l_(4601)
+
+exit(aux)

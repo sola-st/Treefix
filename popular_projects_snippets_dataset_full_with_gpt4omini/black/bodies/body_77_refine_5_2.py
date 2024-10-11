@@ -1,0 +1,116 @@
+from typing import List, Any # pragma: no cover
+from dataclasses import dataclass # pragma: no cover
+
+class MockLine:# pragma: no cover
+    def __init__(self):# pragma: no cover
+        self.leaves = ['a', 'b', '(', 'c', ')']# pragma: no cover
+# pragma: no cover
+    def comments_after(self, leaf: Any) -> bool:# pragma: no cover
+        return False # pragma: no cover
+line = MockLine() # pragma: no cover
+string_indices = [2] # pragma: no cover
+class StringParser:# pragma: no cover
+    def parse(self, LL, index):# pragma: no cover
+        return LL.index(')') # pragma: no cover
+StringParser = StringParser # pragma: no cover
+class Ok:# pragma: no cover
+    def __init__(self, value):# pragma: no cover
+        self.value = value # pragma: no cover
+Ok = Ok # pragma: no cover
+class Err:# pragma: no cover
+    def __init__(self, value):# pragma: no cover
+        self.value = value # pragma: no cover
+Err = Err # pragma: no cover
+class CannotTransform:# pragma: no cover
+    def __init__(self, message):# pragma: no cover
+        self.message = message # pragma: no cover
+CannotTransform = CannotTransform # pragma: no cover
+class MockSelf:# pragma: no cover
+    def _transform_to_new_line(self, line, indices):# pragma: no cover
+        return 'Transformed line' # pragma: no cover
+self = MockSelf() # pragma: no cover
+
+from typing import List # pragma: no cover
+
+class MockLine:# pragma: no cover
+    def __init__(self):# pragma: no cover
+        self.leaves = [1, 2, 3, '(', 4, 5, ')']# pragma: no cover
+    def comments_after(self, leaf):# pragma: no cover
+        return False  # Assume no comments for simplicity # pragma: no cover
+line = MockLine() # pragma: no cover
+string_indices = [3, 6] # pragma: no cover
+# Example indices for parentheses # pragma: no cover
+class StringParser:# pragma: no cover
+    def parse(self, leaves, index):# pragma: no cover
+        # Mock parse behavior# pragma: no cover
+        return index + 1  # Assuming the next index is the one we want # pragma: no cover
+string_parser = StringParser() # pragma: no cover
+class Ok:# pragma: no cover
+    def __init__(self, value):# pragma: no cover
+        self.value = value# pragma: no cover
+    def __repr__(self):# pragma: no cover
+        return f'Ok: {self.value}' # pragma: no cover
+class Err:# pragma: no cover
+    def __init__(self, value):# pragma: no cover
+        self.value = value# pragma: no cover
+    def __repr__(self):# pragma: no cover
+        return f'Err: {self.value}' # pragma: no cover
+class CannotTransform(Exception):# pragma: no cover
+    def __init__(self, message):# pragma: no cover
+        self.message = message# pragma: no cover
+    def __repr__(self):# pragma: no cover
+        return self.message # pragma: no cover
+class MockSelf:# pragma: no cover
+    def _transform_to_new_line(self, line, indices):# pragma: no cover
+        return 'Transformed line'  # Mock transformation # pragma: no cover
+self = MockSelf() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/black/src/black/trans.py
+from l3.Runtime import _l_
+LL = line.leaves
+_l_(5887)
+
+string_and_rpar_indices: List[int] = []
+_l_(5888)
+for string_idx in string_indices:
+    _l_(5898)
+
+    string_parser = StringParser()
+    _l_(5889)
+    rpar_idx = string_parser.parse(LL, string_idx)
+    _l_(5890)
+
+    should_transform = True
+    _l_(5891)
+    for leaf in (LL[string_idx - 1], LL[rpar_idx]):
+        _l_(5895)
+
+        if line.comments_after(leaf):
+            _l_(5894)
+
+            # Should not strip parentheses which have comments attached
+            # to them.
+            should_transform = False
+            _l_(5892)
+            break
+            _l_(5893)
+    if should_transform:
+        _l_(5897)
+
+        string_and_rpar_indices.extend((string_idx, rpar_idx))
+        _l_(5896)
+
+if string_and_rpar_indices:
+    _l_(5901)
+
+    aux = Ok(self._transform_to_new_line(line, string_and_rpar_indices))
+    _l_(5899)
+    exit(aux)
+else:
+    aux = Err(
+        CannotTransform("All string groups have comments attached to them.")
+    )
+    _l_(5900)
+    exit(aux)

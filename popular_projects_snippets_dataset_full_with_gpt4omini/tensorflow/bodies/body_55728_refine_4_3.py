@@ -1,0 +1,49 @@
+import timeit # pragma: no cover
+
+num_iters = 1000 # pragma: no cover
+num_ops = 10 # pragma: no cover
+resource_variable_ops = type('MockResourceVariableOps', (object,), {'var_handle_op': lambda dtype, shape: 'mock_handle', 'assign_variable_op': lambda handle, value: None})() # pragma: no cover
+dtypes = type('MockDTypes', (object,), {'int32': 'mock_int32'})() # pragma: no cover
+constant_op = type('MockConstantOp', (object,), {'constant': lambda value, dtype: 'mock_constant'})() # pragma: no cover
+gen_resource_variable_ops = type('MockGenResourceVariableOps', (object,), {'read_variable_op': lambda handle, dtype: None})() # pragma: no cover
+timeit = type('MockTimeit', (object,), {'repeat': lambda stmt, repeat, number: [0.1] * repeat})() # pragma: no cover
+
+import timeit # pragma: no cover
+
+num_iters = 1000 # pragma: no cover
+num_ops = 10 # pragma: no cover
+func_graph = type('MockFuncGraph', (object,), {'FuncGraph': lambda name: type('MockGraph', (object,), {'as_default': lambda self: self})()})() # pragma: no cover
+resource_variable_ops = type('MockResourceVariableOps', (object,), {'var_handle_op': lambda dtype, shape: 'mock_handle', 'assign_variable_op': lambda handle, value: None})() # pragma: no cover
+dtypes = type('MockDTypes', (object,), {'int32': 'mock_int32'})() # pragma: no cover
+constant_op = type('MockConstantOp', (object,), {'constant': lambda value, dtype: 'mock_constant'})() # pragma: no cover
+gen_resource_variable_ops = type('MockGenResourceVariableOps', (object,), {'read_variable_op': lambda handle, dtype: None})() # pragma: no cover
+timeit = type('MockTimeit', (object,), {'repeat': staticmethod(lambda stmt, repeat=10, number=1: [0.1 for _ in range(repeat)])})() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/framework/experimental/graph_building_test.py
+from l3.Runtime import _l_
+def add_op_to_graph(num_ops):
+    _l_(5756)
+
+    with func_graph.FuncGraph("resource").as_default():
+        _l_(5755)
+
+        handle = resource_variable_ops.var_handle_op(
+            dtype=dtypes.int32, shape=[])
+        _l_(5751)
+        resource_variable_ops.assign_variable_op(
+            handle, constant_op.constant(1, dtype=dtypes.int32))
+        _l_(5752)
+        for _ in range(num_ops):
+            _l_(5754)
+
+            gen_resource_variable_ops.read_variable_op(handle, dtype=dtypes.int32)
+            _l_(5753)
+
+runtimes = timeit.repeat(
+    lambda: add_op_to_graph(num_ops), repeat=10, number=num_iters)
+_l_(5757)
+aux = min(runtimes) / num_iters
+_l_(5758)
+exit(aux)

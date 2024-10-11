@@ -1,0 +1,2921 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Finds the filename of latest saved checkpoint file.
+
+  Gets the checkpoint state given the provided checkpoint_dir and looks for a
+  corresponding TensorFlow 2 (preferred) or TensorFlow 1.x checkpoint path.
+  The latest_filename argument is only applicable if you are saving checkpoint
+  using `v1.train.Saver.save`
+
+
+  See the [Training Checkpoints
+  Guide](https://www.tensorflow.org/guide/checkpoint) for more details and
+  examples.`
+
+  Args:
+    checkpoint_dir: Directory where the variables were saved.
+    latest_filename: Optional name for the protocol buffer file that
+      contains the list of most recent checkpoint filenames.
+      See the corresponding argument to `v1.train.Saver.save`.
+
+  Returns:
+    The full path to the latest checkpoint or `None` if no checkpoint was found.
+  """"""
+# Pick the latest checkpoint based on checkpoint state.
+ckpt = get_checkpoint_state(checkpoint_dir, latest_filename)
+if ckpt and ckpt.model_checkpoint_path:
+    # Look for either a V2 path or a V1 path, with priority for V2.
+    v2_path = _prefix_to_checkpoint_path(ckpt.model_checkpoint_path,
+                                         saver_pb2.SaverDef.V2)
+    v1_path = _prefix_to_checkpoint_path(ckpt.model_checkpoint_path,
+                                         saver_pb2.SaverDef.V1)
+    if file_io.get_matching_files(v2_path) or file_io.get_matching_files(
+        v1_path):
+        exit(ckpt.model_checkpoint_path)
+    else:
+        logging.error(""Couldn't match files for checkpoint %s"",
+                      ckpt.model_checkpoint_path)
+exit(None)
+
+# end code snippet
+
+# begin undefined variables
+get_checkpoint_state
+checkpoint_dir
+latest_filename
+_prefix_to_checkpoint_path
+saver_pb2
+file_io
+logging
+# end undefined variables
+
+# begin undefined attributes and methods
+saver_pb2.SaverDef
+file_io.get_matching_files
+logging.error
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})()"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training.saver import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint_state.pb'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})()"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint_state.proto'"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.data-' + str(version)"",
+            ""saver_pb2.SaverDef = type('SaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io.get_matching_files = lambda path: [path] if 'model.ckpt' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}')"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})"",
+            ""import logging; logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from tensorflow.python.training.saver import SaverDef"",
+            ""from tensorflow.python.training.checkpoint_state import get_checkpoint_state"",
+            ""from tensorflow.python.framework import errors"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint'  # Optional filename for the checkpoint file"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}'"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: ['dummy_file'] if 'dummy' in path else []})()"",
+            ""logging = type('Mock', (object,), {'error': print})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training.saver import SaverDef"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""get_checkpoint_state = lambda dir, filename: type('CheckpointState', (object,), {'model_checkpoint_path': dir + '/model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.v' + str(version)"",
+            ""saver_pb2 = type('Mock', (), {'SaverDef': SaverDef})()"",
+            ""file_io.get_matching_files = lambda path: [] if 'empty' in path else [path]"",
+            ""logging = type('Mock', (), {'error': print})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf"",
+            ""tensorflow.python.training import saver_pb2"",
+            ""tensorflow.python.lib.io import file_io"",
+            ""tensorflow import logging""
+        ],
+        ""initialization"": [
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""checkpoint_dir = '/path/to/checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_v' + str(version)"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})"",
+            ""file_io.get_matching_files = lambda path: ['dummy_file_1', 'dummy_file_2'] if 'v2' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf"",
+            ""tensorflow.python.training import saver_pb2"",
+            ""tensorflow.python.lib.io import file_io"",
+            ""tensorflow.python.platform import tf_logging as logging""
+        ],
+        ""initialization"": [
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def _prefix_to_checkpoint_path(checkpoint_path, saver_def): return checkpoint_path"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 'V1', 'V2': 'V2'})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if 'latest_checkpoint' in path else []})"",
+            ""logging = type('Mock', (object,), {'error': print})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging"",
+            ""import os""
+        ],
+        ""initialization"": [
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('Mock', (object,), {'model_checkpoint_path': os.path.join(checkpoint_dir, 'checkpoint'), 'all_model_checkpoint_paths': []})()"",
+            ""checkpoint_dir = '/path/to/checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + ('.index' if version == saver_pb2.SaverDef.V2 else '.data-00000-of-00001')"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 1, 'V1': 0})})"",
+            ""file_io.get_matching_files = lambda path: [path] if os.path.exists(path) else []"",
+            ""logging.error = lambda msg, *args: print('ERROR:', msg % args)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from tensorflow.python.training import checkpoint as checkpoint_lib"",
+            ""from tensorflow.python.saved_model import tag_constants"",
+            ""from tensorflow.python.training import saver as saver_lib"",
+            ""from tensorflow.python.platform import gfile"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/dir'"",
+            ""latest_filename = 'checkpoint'"",
+            ""get_checkpoint_state = checkpoint_lib.get_checkpoint_state"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.index' if version == saver_lib.SaverDef.V2 else f'{path}.meta'"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if gfile.Exists(path) else []})"",
+            ""logging = type('MockLogging', (object,), {'error': print})""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.pb' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})() # pragma: no cover"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2}) # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.proto' # pragma: no cover"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.data-' + str(version) # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}') # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint'  # Optional filename for the checkpoint file # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}' # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: ['dummy_file'] if 'dummy' in path else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': print})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""get_checkpoint_state = lambda dir, filename: type('CheckpointState', (object,), {'model_checkpoint_path': dir + '/model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.v' + str(version) # pragma: no cover"",
+            ""logging = type('Mock', (), {'error': print})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""checkpoint_dir = '/path/to/checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_v' + str(version) # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(checkpoint_path, saver_def): return checkpoint_path # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 'V1', 'V2': 'V2'})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if 'latest_checkpoint' in path else []}) # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': print}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover"",
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('Mock', (object,), {'model_checkpoint_path': os.path.join(checkpoint_dir, 'checkpoint'), 'all_model_checkpoint_paths': []})() # pragma: no cover"",
+            ""checkpoint_dir = '/path/to/checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + ('.index' if version == saver_pb2.SaverDef.V2 else '.data-00000-of-00001') # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 1, 'V1': 0})}) # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print('ERROR:', msg % args) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.index' if version == saver_lib.SaverDef.V2 else f'{path}.meta' # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if gfile.Exists(path) else []}) # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': print}) # pragma: no cover""
+        ]
+    }
+]",1,666,0.000333,2168,0.003252,0.003585
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 5:
+    def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover
+NameError: name 'tf' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})()"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})()"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})()"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})()"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})()"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})()"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})()"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})()"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})()"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})()"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    }
+]",2,1159,0.0005795,1810,0.002715,0.0032945
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 5:
+    def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover
+NameError: name 'tf' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint_state.pb'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})()"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path]})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training.saver import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint_state.pb'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) if checkpoint_dir else None"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path + '_prefix'"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})()"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training.saver import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint_state.pb'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) if checkpoint_dir else None"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})()"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if path else []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training.saver import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint_state.pb'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})()"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint_state.txt'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path + ('.index' if saver_def_type == saver_pb2.SaverDef.V2 else '')"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if path else []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print('ERROR:', msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training.saver import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint_state.pb'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) if tf.io.gfile.exists(checkpoint_dir) else None"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})()"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training.saver import SaverDef"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint_state.pb'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('CheckpointState', (object,), {'model_checkpoint_path': '/path/to/checkpoint'})()"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {'SaverDef': SaverDef})()"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training.saver import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint_state.pb'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) if checkpoint_dir else None"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})()"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow.compat.v1 as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint_state.pb'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})()"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training.saver import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint_state' + tf.train.get_checkpoint_state(checkpoint_dir).model_checkpoint_path.split('/')[-1]"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})()"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: ['mock_file'] if path else []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.pb' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})() # pragma: no cover"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2}) # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path]})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.pb' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) if checkpoint_dir else None # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path + '_prefix' # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})() # pragma: no cover"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2}) # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.pb' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) if checkpoint_dir else None # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})() # pragma: no cover"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2}) # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if path else []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.pb' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})() # pragma: no cover"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2}) # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.txt' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path + ('.index' if saver_def_type == saver_pb2.SaverDef.V2 else '') # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if path else []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print('ERROR:', msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.pb' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) if tf.io.gfile.exists(checkpoint_dir) else None # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})() # pragma: no cover"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2}) # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.pb' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('CheckpointState', (object,), {'model_checkpoint_path': '/path/to/checkpoint'})() # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.pb' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) if checkpoint_dir else None # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})() # pragma: no cover"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2}) # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.pb' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})() # pragma: no cover"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2}) # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(model_checkpoint_path, saver_def_type): return model_checkpoint_path # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})() # pragma: no cover"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2}) # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: ['mock_file'] if path else []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(msg % args)})() # pragma: no cover""
+        ]
+    }
+]",2,1704,0.000852,2391,0.0035865,0.0044385
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 36:
+    saver_pb2.SaverDef.V2)
+NameError: name 'saver_pb2' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint_state.pb'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == 2 else path"",
+            ""saver_pb2.SaverDef = type('SaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io.get_matching_files = lambda path: [path] if 'model.ckpt' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint_state.proto'"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + ('.data-' + str(version) if version == 2 else '')"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})()"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io.get_matching_files = lambda path: [path] if 'model.ckpt' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint_state.proto'"",
+            ""class MockCheckpointState: pass"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): state = MockCheckpointState(); state.model_checkpoint_path = 'model.ckpt'; return state"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.data-' + str(version)"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {'SaverDef': type('SaverDef', (object,), {'V1': 1, 'V2': 2})})())"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver_pb2""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint_state.proto'"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_prefix' if version == saver_pb2.SaverDef.V2 else path"",
+            ""saver_pb2.SaverDef = type('SaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint_state.proto'"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.data-' + str(version)"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})()"",
+            ""saver_pb2.SaverDef = type('SaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io.get_matching_files = lambda path: [path] if 'model.ckpt' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint_state.proto'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + ('_v2' if version == 2 else '_v1')"",
+            ""saver_pb2.SaverDef = type('SaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint_state.proto'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda model_checkpoint_path, saver_def_type: model_checkpoint_path + ('.data-' + str(saver_def_type) if saver_def_type == 2 else '')"",
+            ""saver.SaverDef = type('SaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io.get_matching_files = lambda path: [path] if 'model.ckpt' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint_state.proto'"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + ('_v2' if version == 2 else '_v1')"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})())"",
+            ""file_io.get_matching_files = lambda path: [path] if path.endswith('.ckpt') else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training.saver import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint_state.proto'"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})()"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io.get_matching_files = lambda path: [path] if 'model.ckpt' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver_pb2""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint_state.proto'"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_suffix' if version == saver_pb2.SaverDef.V2 else path"",
+            ""saver_pb2.SaverDef = type('SaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})()"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.pb' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == 2 else path # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.proto' # pragma: no cover"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + ('.data-' + str(version) if version == 2 else '') # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})() # pragma: no cover"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2}) # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.proto' # pragma: no cover"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_prefix' if version == saver_pb2.SaverDef.V2 else path # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.proto' # pragma: no cover"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.data-' + str(version) # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})() # pragma: no cover"",
+            ""saver_pb2.SaverDef = type('SaverDef', (object,), {'V1': 1, 'V2': 2}) # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.proto' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + ('_v2' if version == 2 else '_v1') # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.proto' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda model_checkpoint_path, saver_def_type: model_checkpoint_path + ('.data-' + str(saver_def_type) if saver_def_type == 2 else '') # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.proto' # pragma: no cover"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == saver_pb2.SaverDef.V2 else path # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {})() # pragma: no cover"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2}) # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.proto' # pragma: no cover"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_suffix' if version == saver_pb2.SaverDef.V2 else path # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})() # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    }
+]",2,2215,0.0011075,2375,0.0035625,0.00467
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 31:
+    ckpt = get_checkpoint_state(checkpoint_dir, latest_filename)
+TypeError: get_checkpoint_state() takes 1 positional argument but 2 were given
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}')"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}')"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('MockCheckpoint', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""def _prefix_to_checkpoint_path(path, version): return f'{path}_v{version}'"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpoint', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}')"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints'"",
+            ""latest_filename = 'checkpoint_latest'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir)"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}')"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})()"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}')"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}')"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}')"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})"",
+            ""import logging; logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}')"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpoint', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}')"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})"",
+            ""import logging; logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}') # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []}) # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}') # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []}) # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('MockCheckpoint', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(path, version): return f'{path}_v{version}' # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []}) # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpoint', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}') # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []}) # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}') # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}') # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []}) # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}') # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []}) # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}') # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}') # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []}) # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpoint', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(path, version): return path.replace('checkpoint', f'checkpoint_v{version}') # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []}) # pragma: no cover""
+        ]
+    }
+]",2,2726,0.001363,2186,0.003279,0.004642
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 33:
+    ckpt = get_checkpoint_state(checkpoint_dir, latest_filename)
+NameError: name 'get_checkpoint_state' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver"",
+            ""from tensorflow.python.training.checkpoint_state import get_checkpoint_state"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint_model'"",
+            ""class MockCheckpointState:\n    model_checkpoint_path = 'model.ckpt'"",
+            ""get_checkpoint_state = lambda dir: MockCheckpointState()  # Mocked to return a checkpoint state"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}'"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path.endswith('.ckpt') else []})()"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training.saver import SaverDef"",
+            ""from tensorflow.python.training.checkpoint_state import get_checkpoint_state"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint'  # Optional name for the latest checkpoint file"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}'"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if path else []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training.saver import SaverDef""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""def _prefix_to_checkpoint_path(path, version): return f'{path}_v{version}'"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path]})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""import logging"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints'"",
+            ""latest_filename = 'checkpoint_state.proto'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt'"",
+            ""saver_pb2.SaverDef = type('SaverDef', (object,), {'V1': 1, 'V2': 2})()"",
+            ""file_io.get_matching_files = lambda path: [path] if 'model.ckpt' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoints'"",
+            ""latest_filename = 'checkpoint_state.json'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + f'_v{version}'"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training.saver import SaverDef"",
+            ""from tensorflow.python.training.checkpoint_state import get_checkpoint_state"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint.proto'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == SaverDef.V2 else path"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V1': 1, 'V2': 2})})"",
+            ""file_io.get_matching_files = lambda path: [path] if 'model.ckpt' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + f'_{version}'"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io.get_matching_files = lambda path: [path] if path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint_state.proto'"",
+            ""class MockCheckpointState: pass"",
+            ""def get_checkpoint_state(checkpoint_dir): ckpt = MockCheckpointState(); ckpt.model_checkpoint_path = 'model.ckpt'; return ckpt"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}'"",
+            ""saver_pb2.SaverDef = type('SaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint_latest'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'checkpoint'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}'"",
+            ""saver_pb2.SaverDef = type('Mock', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io.get_matching_files = lambda path: [path] if 'checkpoint' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('CheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}'"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if path == 'model.ckpt' else []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_model' # pragma: no cover"",
+            ""class MockCheckpointState:# pragma: no cover"",
+            ""    model_checkpoint_path = 'model.ckpt' # pragma: no cover"",
+            ""get_checkpoint_state = lambda dir: MockCheckpointState()  # Mocked to return a checkpoint state # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}' # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path.endswith('.ckpt') else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint'  # Optional name for the latest checkpoint file # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}' # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if path else []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""def _prefix_to_checkpoint_path(path, version): return f'{path}_v{version}' # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path]})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.proto' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.json' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + f'_v{version}' # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.proto' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_ckpt' if version == SaverDef.V2 else path # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('Mock', (object,), {'V1': 1, 'V2': 2})}) # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + f'_{version}' # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_state.proto' # pragma: no cover"",
+            ""class MockCheckpointState: pass # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): ckpt = MockCheckpointState(); ckpt.model_checkpoint_path = 'model.ckpt'; return ckpt # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}' # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'checkpoint'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}' # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('CheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}' # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})}) # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if path == 'model.ckpt' else []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    }
+]",2,3234,0.001617,2299,0.0034485,0.0050655
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 36:
+    saver_pb2.SaverDef.V2)
+NameError: name 'saver_pb2' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoints'"",
+            ""latest_filename = 'checkpoint_latest'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('CheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_v' + str(version)"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io.get_matching_files = lambda path: [path] if path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training.saver import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""get_checkpoint_state = lambda dir, filename: type('CheckpointState', (object,), {'model_checkpoint_path': f'{dir}/model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.ckpt-v{version}'"",
+            ""file_io.get_matching_files = lambda path: [path] if 'model.ckpt' in path else []"",
+            ""logging = type('MockLogging', (object,), {'error': print})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.data-' + str(version)"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io.get_matching_files = lambda path: [path] if 'model.ckpt' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver as saver_pb2""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint_placeholder'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + ('.data-' + str(version) if version == saver_pb2.SaverDef.V2 else '')"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})()"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver"",
+            ""import logging"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('CheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}'"",
+            ""saver_pb2 = type('MockSaverProtobuf', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})()"",
+            ""file_io.get_matching_files = lambda path: ['model.ckpt'] if 'model.ckpt' in path else []"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + ('.data-' + str(version) if version == 1 else '.index')"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if path.endswith('model.ckpt') else []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('Mock', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + f'.data-{version}'"",
+            ""saver_pb2 = type('MockSaver', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})()"",
+            ""file_io.get_matching_files = lambda path: [path] if path else []"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""class MockSaverDef: V1 = 1; V2 = 2"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': MockSaverDef})()"",
+            ""get_checkpoint_state = lambda dir, filename: type('CheckpointState', (object,), {'model_checkpoint_path': f'{dir}/model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}'"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})()"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + f'.data-{version}'"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V2': 2, 'V1': 1})})()"",
+            ""file_io.get_matching_files = lambda path: [path] if path else []"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('CheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}'"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V2': 2, 'V1': 1})})"",
+            ""file_io.get_matching_files = lambda path: [path] if path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('CheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_v' + str(version) # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""get_checkpoint_state = lambda dir, filename: type('CheckpointState', (object,), {'model_checkpoint_path': f'{dir}/model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.ckpt-v{version}' # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': print})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.data-' + str(version) # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_placeholder' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + ('.data-' + str(version) if version == saver_pb2.SaverDef.V2 else '') # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if path else []})() # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('CheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}' # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtobuf', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + ('.data-' + str(version) if version == 1 else '.index') # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if path.endswith('model.ckpt') else []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = './checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('Mock', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + f'.data-{version}' # pragma: no cover"",
+            ""saver_pb2 = type('MockSaver', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""class MockSaverDef: V1 = 1; V2 = 2 # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': MockSaverDef})() # pragma: no cover"",
+            ""get_checkpoint_state = lambda dir, filename: type('CheckpointState', (object,), {'model_checkpoint_path': f'{dir}/model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}' # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + f'.data-{version}' # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V2': 2, 'V1': 1})})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('CheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}' # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverProtoBuf', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V2': 2, 'V1': 1})}) # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    }
+]",2,3723,0.0018615,2195,0.0032925,0.005154
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 37:
+    if file_io.get_matching_files(v2_path) or file_io.get_matching_files(
+NameError: name 'file_io' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': f'{checkpoint_dir}/model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.data-' + str(version)"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V2': 2, 'V1': 1})})()"",
+            ""file_io.get_matching_files = lambda path: ['dummy_file'] if 'model.ckpt' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoints'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_v' + str(version)"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})"",
+            ""file_io.get_matching_files = lambda path: [path] if 'model.ckpt' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoints'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('CheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}'"",
+            ""saver_pb2.SaverDef = type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})"",
+            ""file_io.get_matching_files = lambda path: [path] if path == '/path/to/checkpoints/model.ckpt_v2' else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""def file_io_get_matching_files(path): return [path] if 'model.ckpt' in path else []"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': file_io_get_matching_files})()"",
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint'"",
+            ""get_checkpoint_state = lambda dir, filename: type('CheckpointState', (object,), {'model_checkpoint_path': dir + '/model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.data-' + str(version)"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_v' + str(version)"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})"",
+            ""file_io.get_matching_files = lambda path: ['dummy_file_1', 'dummy_file_2'] if 'model.ckpt' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.v{version}'"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})"",
+            ""file_io.get_matching_files = lambda path: ['model.ckpt'] if 'model.ckpt' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': f'{checkpoint_dir}/model.ckpt'})()"",
+            ""checkpoint_dir = '/path/to/checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}'"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})"",
+            ""file_io.get_matching_files = lambda path: [path] if 'model.ckpt' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.v' + str(version)"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})"",
+            ""file_io.get_matching_files = lambda path: ['model.ckpt'] if 'model.ckpt' in path else []"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""checkpoint_dir = '/path/to/checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.v{version}'"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})()"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})()"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoints'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}'"",
+            ""saver_pb2 = type('Mock', (), {'SaverDef': type('MockSaverDef', (), {'V1': 1, 'V2': 2})})()"",
+            ""file_io.get_matching_files = lambda path: [path] if 'model' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': f'{checkpoint_dir}/model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.data-' + str(version) # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V2': 2, 'V1': 1})})() # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_v' + str(version) # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})}) # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('CheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}' # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def file_io_get_matching_files(path): return [path] if 'model.ckpt' in path else [] # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': file_io_get_matching_files})() # pragma: no cover"",
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""get_checkpoint_state = lambda dir, filename: type('CheckpointState', (object,), {'model_checkpoint_path': dir + '/model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.data-' + str(version) # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '_v' + str(version) # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})}) # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.v{version}' # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})}) # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': f'{checkpoint_dir}/model.ckpt'})() # pragma: no cover"",
+            ""checkpoint_dir = '/path/to/checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}' # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})}) # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""get_checkpoint_state = lambda dir, filename: type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.v' + str(version) # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})}) # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""checkpoint_dir = '/path/to/checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.v{version}' # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})() # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})() # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoints' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}' # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (), {'SaverDef': type('MockSaverDef', (), {'V1': 1, 'V2': 2})})() # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    }
+]",2,4257,0.0021285,2252,0.003378,0.0055065
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 1:
+    def get_checkpoint_state(checkpoint_dir, latest_filename=None): return tf.train.get_checkpoint_state(checkpoint_dir) # pragma: no cover
+NameError: name 'tf' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + f'_v{version}'"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})"",
+            ""logging = type('MockLogging', (object,), {'error': print})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import logging"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint_cache'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': f'{checkpoint_dir}/model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}'"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})"",
+            ""file_io.get_matching_files = lambda path: ['dummy_file'] if 'dummy_file' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint'"",
+            ""latest_filename = 'checkpoint.meta'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}'"",
+            ""saver_pb2 = type('Mock', (), {'SaverDef': type('MockSaverDef', (), {'V1': 1, 'V2': 2})})()"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})()"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': f'{checkpoint_dir}/model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}'"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})()"",
+            ""file_io.get_matching_files = lambda path: [path] if 'model.ckpt' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})()"",
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint'"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}'"",
+            ""saver_pb2 = type('Mock', (), {'SaverDef': type('MockSaverDef', (), {'V1': 1, 'V2': 2})})()"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})()"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver as saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.v' + str(version)"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})"",
+            ""file_io.get_matching_files = lambda path: [path] if 'model.ckpt' in path else []"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': f'{checkpoint_dir}/model.ckpt'})()"",
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint.latest'"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}'"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: ['file1', 'file2'] if 'model.ckpt' in path else []})()"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}'"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})()"",
+            ""logging = type('Mock', (object,), {'error': print})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""checkpoint_dir = '/path/to/checkpoint_directory'"",
+            ""latest_filename = 'checkpoint'"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}'"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('Mock', (object,), {'V1': 1, 'V2': 2})})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})()"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.training import saver_pb2"",
+            ""from tensorflow.python.lib.io import file_io"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory'"",
+            ""latest_filename = 'checkpoint'"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('CheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})()"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}'"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'ckpt' in path else []})()"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + f'_v{version}' # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []}) # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': print}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint_cache' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': f'{checkpoint_dir}/model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}' # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})}) # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.meta' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}' # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (), {'SaverDef': type('MockSaverDef', (), {'V1': 1, 'V2': 2})})() # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': f'{checkpoint_dir}/model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}' # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})})() # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})() # pragma: no cover"",
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}' # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (), {'SaverDef': type('MockSaverDef', (), {'V1': 1, 'V2': 2})})() # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})() # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: path + '.v' + str(version) # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})}) # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': f'{checkpoint_dir}/model.ckpt'})() # pragma: no cover"",
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint.latest' # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}' # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: ['file1', 'file2'] if 'model.ckpt' in path else []})() # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint_dir' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir): return type('MockCheckpointState', (object,), {'model_checkpoint_path': checkpoint_dir + '/model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}' # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})}) # pragma: no cover"",
+            ""file_io = type('Mock', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})() # pragma: no cover"",
+            ""logging = type('Mock', (object,), {'error': print})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('MockCheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""checkpoint_dir = '/path/to/checkpoint_directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}_v{version}' # pragma: no cover"",
+            ""saver_pb2 = type('MockSaverPB2', (object,), {'SaverDef': type('Mock', (object,), {'V1': 1, 'V2': 2})}) # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'model.ckpt' in path else []})() # pragma: no cover"",
+            ""logging = type('MockLogging', (object,), {'error': lambda msg, *args: print(f'ERROR: {msg % args}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""checkpoint_dir = '/path/to/checkpoint/directory' # pragma: no cover"",
+            ""latest_filename = 'checkpoint' # pragma: no cover"",
+            ""def get_checkpoint_state(checkpoint_dir, latest_filename=None): return type('CheckpointState', (object,), {'model_checkpoint_path': 'model.ckpt'})() # pragma: no cover"",
+            ""_prefix_to_checkpoint_path = lambda path, version: f'{path}.data-{version}' # pragma: no cover"",
+            ""saver_pb2 = type('Mock', (object,), {'SaverDef': type('MockSaverDef', (object,), {'V1': 1, 'V2': 2})}) # pragma: no cover"",
+            ""file_io = type('MockFileIO', (object,), {'get_matching_files': lambda path: [path] if 'ckpt' in path else []})() # pragma: no cover"",
+            ""logging.error = lambda msg, *args: print(f'ERROR: {msg % args}') # pragma: no cover""
+        ]
+    }
+]",2,4788,0.002394,2350,0.003525,0.005919

@@ -1,0 +1,959 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+real_ops = [
+    math_ops.neg,
+    math_ops.negative,
+    math_ops.reciprocal,
+    math_ops.rint,
+    math_ops.round,
+    math_ops.rsqrt,
+    math_ops.sigmoid,
+    math_ops.sign,
+    math_ops.sin,
+    math_ops.sinh,
+    math_ops.sqrt,
+    math_ops.square,
+    math_ops.tan,
+    math_ops.tanh,
+    nn.elu,
+    nn.relu,
+    nn.relu6,
+    lambda t: nn.leaky_relu(t, alpha=0.1),
+    nn.selu,
+    nn.softplus,
+    nn.softsign,
+]
+self._test_unary_cwise_ops(real_ops, False)
+
+# end code snippet
+
+# begin undefined variables
+math_ops
+nn
+self
+# end undefined variables
+
+# begin undefined attributes and methods
+math_ops.neg
+math_ops.negative
+math_ops.reciprocal
+math_ops.rint
+math_ops.round
+math_ops.rsqrt
+math_ops.sigmoid
+math_ops.sign
+math_ops.sin
+math_ops.sinh
+math_ops.sqrt
+math_ops.square
+math_ops.tan
+math_ops.tanh
+nn.elu
+nn.relu
+nn.relu6
+nn.leaky_relu
+nn.selu
+nn.softplus
+nn.softsign
+self._test_unary_cwise_ops
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import math"",
+            ""import torch.nn as nn""
+        ],
+        ""initialization"": [
+            ""math_ops = type('MockMathOps', (), { 'neg': lambda x: -x, 'negative': lambda x: -x, 'reciprocal': lambda x: 1/x, 'rint': lambda x: round(x), 'round': lambda x: round(x), 'rsqrt': lambda x: 1 / (x ** 0.5), 'sigmoid': lambda x: 1 / (1 + math.exp(-x)), 'sign': lambda x: (x > 0) - (x < 0), 'sin': math.sin, 'sinh': math.sinh, 'sqrt': math.sqrt, 'square': lambda x: x * x, 'tan': math.tan, 'tanh': math.tanh })()"",
+            ""nn = type('MockNN', (), { 'elu': lambda x: nn.functional.elu(x), 'relu': lambda x: nn.functional.relu(x), 'relu6': lambda x: nn.functional.relu6(x), 'leaky_relu': lambda x, alpha=0.01: nn.functional.leaky_relu(x, negative_slope=alpha), 'selu': lambda x: nn.functional.selu(x), 'softplus': lambda x: nn.functional.softplus(x), 'softsign': lambda x: nn.functional.softsign(x) })()"",
+            ""self = type('MockSelf', (), { '_test_unary_cwise_ops': lambda ops, flag: print('Testing unary ops:', ops, 'with flag:', flag) })()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow import math as math_ops"",
+            ""from tensorflow.keras import layers as nn""
+        ],
+        ""initialization"": [
+            ""math_ops = tf.math"",
+            ""nn = tf.keras.layers"",
+            ""self = type('Mock', (object,), {'_test_unary_cwise_ops': lambda self, ops, flag: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.keras import layers""
+        ],
+        ""initialization"": [
+            ""math_ops = type('MockMathOps', (), { 'neg': tf.negative, 'negative': tf.negative, 'reciprocal': lambda x: tf.reciprocal(x), 'rint': tf.round, 'round': tf.round, 'rsqrt': tf.math.rsqrt, 'sigmoid': tf.sigmoid, 'sign': tf.sign, 'sin': tf.sin, 'sinh': tf.sinh, 'sqrt': tf.sqrt, 'square': tf.square, 'tan': tf.tan, 'tanh': tf.tanh })()"",
+            ""nn = type('MockNN', (), { 'elu': layers.ELU(), 'relu': layers.ReLU(), 'relu6': layers.ReLU(max_value=6), 'leaky_relu': layers.LeakyReLU(alpha=0.1), 'selu': layers.SELU(), 'softplus': layers.Softplus(), 'softsign': layers.Softsign() })()"",
+            ""self = type('MockSelf', (), { '_test_unary_cwise_ops': lambda ops, flag: print('Testing operations:', ops, 'with flag:', flag) })()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow import math as math_ops"",
+            ""from tensorflow.keras import layers as nn""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = Mock()"",
+            ""self._test_unary_cwise_ops = lambda ops, flag: None"",
+            ""math_ops.neg = lambda x: -x"",
+            ""math_ops.negative = lambda x: -x"",
+            ""math_ops.reciprocal = lambda x: 1 / x"",
+            ""math_ops.rint = lambda x: round(x)"",
+            ""math_ops.round = round"",
+            ""math_ops.rsqrt = lambda x: 1 / (x ** 0.5)"",
+            ""math_ops.sigmoid = lambda x: 1 / (1 + math_ops.exp(-x))"",
+            ""math_ops.sign = lambda x: (x > 0) - (x < 0)"",
+            ""math_ops.sin = lambda x: x * (3.14159 / 180)"",
+            ""math_ops.sinh = lambda x: (math_ops.exp(x) - math_ops.exp(-x)) / 2"",
+            ""math_ops.sqrt = lambda x: x ** 0.5"",
+            ""math_ops.square = lambda x: x ** 2"",
+            ""math_ops.tan = lambda x: math_ops.sin(x) / math_ops.cos(x)"",
+            ""math_ops.tanh = lambda x: (math_ops.exp(x) - math_ops.exp(-x)) / (math_ops.exp(x) + math_ops.exp(-x))"",
+            ""nn.elu = lambda x: x if x > 0 else math_ops.exp(x) - 1"",
+            ""nn.relu = lambda x: max(0, x)"",
+            ""nn.relu6 = lambda x: min(max(0, x), 6)"",
+            ""nn.leaky_relu = lambda x, alpha: x if x > 0 else alpha * x"",
+            ""nn.selu = lambda x: 1.0507 * (x if x > 0 else 1.6733 * (math_ops.exp(x) - 1))"",
+            ""nn.softplus = lambda x: math_ops.log(1 + math_ops.exp(x))"",
+            ""nn.softsign = lambda x: x / (1 + math_ops.abs(x))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.keras import layers""
+        ],
+        ""initialization"": [
+            ""math_ops = tf.math"",
+            ""nn = layers"",
+            ""class Mock: def _test_unary_cwise_ops(self, ops, arg): pass; self = Mock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow import keras"",
+            ""from tensorflow.keras import layers""
+        ],
+        ""initialization"": [
+            ""math_ops = tf.math"",
+            ""nn = keras.activations"",
+            ""class Mock: pass"",
+            ""self = Mock()"",
+            ""self._test_unary_cwise_ops = lambda ops, flag: print(f'Testing ops: {ops}, Flag: {flag}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow import math as math_ops"",
+            ""from tensorflow.keras import layers as nn""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = Mock()"",
+            ""self._test_unary_cwise_ops = lambda ops, flag: None"",
+            ""math_ops.neg = lambda x: -x"",
+            ""math_ops.negative = lambda x: -x"",
+            ""math_ops.reciprocal = lambda x: 1 / x"",
+            ""math_ops.rint = lambda x: tf.round(x)"",
+            ""math_ops.round = lambda x: tf.round(x)"",
+            ""math_ops.rsqrt = lambda x: tf.math.rsqrt(x)"",
+            ""math_ops.sigmoid = lambda x: 1 / (1 + tf.exp(-x))"",
+            ""math_ops.sign = lambda x: tf.sign(x)"",
+            ""math_ops.sin = lambda x: tf.sin(x)"",
+            ""math_ops.sinh = lambda x: tf.sinh(x)"",
+            ""math_ops.sqrt = lambda x: tf.sqrt(x)"",
+            ""math_ops.square = lambda x: tf.square(x)"",
+            ""math_ops.tan = lambda x: tf.tan(x)"",
+            ""math_ops.tanh = lambda x: tf.tanh(x)"",
+            ""nn.elu = lambda x: tf.nn.elu(x)"",
+            ""nn.relu = lambda x: tf.nn.relu(x)"",
+            ""nn.relu6 = lambda x: tf.nn.relu6(x)"",
+            ""nn.leaky_relu = lambda t, alpha: tf.nn.leaky_relu(t, alpha=alpha)"",
+            ""nn.selu = lambda x: tf.nn.selu(x)"",
+            ""nn.softplus = lambda x: tf.nn.softplus(x)"",
+            ""nn.softsign = lambda x: tf.nn.softsign(x)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.keras import layers""
+        ],
+        ""initialization"": [
+            ""math_ops = tf.math"",
+            ""nn = layers"",
+            ""class Mock: pass; self = Mock(); self._test_unary_cwise_ops = lambda ops, flag: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.keras import backend as K""
+        ],
+        ""initialization"": [
+            ""math_ops = tf.math"",
+            ""nn = tf.keras.activations"",
+            ""class Mock: pass\nself = Mock()\nself._test_unary_cwise_ops = lambda ops, test: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import tensorflow as tf"",
+            ""from tensorflow import math as math_ops"",
+            ""from tensorflow.keras import layers as nn""
+        ],
+        ""initialization"": [
+            ""math_ops = tf.math"",
+            ""nn = tf.keras.layers"",
+            ""self = type('Mock', (object,), {'_test_unary_cwise_ops': lambda self, ops, flag: None})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import math # pragma: no cover"",
+            ""import torch.nn as nn # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""math_ops = type('MockMathOps', (), { 'neg': lambda x: -x, 'negative': lambda x: -x, 'reciprocal': lambda x: 1/x, 'rint': lambda x: round(x), 'round': lambda x: round(x), 'rsqrt': lambda x: 1 / (x ** 0.5), 'sigmoid': lambda x: 1 / (1 + math.exp(-x)), 'sign': lambda x: (x > 0) - (x < 0), 'sin': math.sin, 'sinh': math.sinh, 'sqrt': math.sqrt, 'square': lambda x: x * x, 'tan': math.tan, 'tanh': math.tanh })() # pragma: no cover"",
+            ""nn = type('MockNN', (), { 'elu': lambda x: nn.functional.elu(x), 'relu': lambda x: nn.functional.relu(x), 'relu6': lambda x: nn.functional.relu6(x), 'leaky_relu': lambda x, alpha=0.01: nn.functional.leaky_relu(x, negative_slope=alpha), 'selu': lambda x: nn.functional.selu(x), 'softplus': lambda x: nn.functional.softplus(x), 'softsign': lambda x: nn.functional.softsign(x) })() # pragma: no cover"",
+            ""self = type('MockSelf', (), { '_test_unary_cwise_ops': lambda ops, flag: print('Testing unary ops:', ops, 'with flag:', flag) })() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_test_unary_cwise_ops': lambda self, ops, flag: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), { '_test_unary_cwise_ops': lambda ops, flag: print('Testing operations:', ops, 'with flag:', flag) })() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""self._test_unary_cwise_ops = lambda ops, flag: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""self._test_unary_cwise_ops = lambda ops, flag: print(f'Testing ops: {ops}, Flag: {flag}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""self._test_unary_cwise_ops = lambda ops, flag: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass# pragma: no cover"",
+            ""self = Mock()# pragma: no cover"",
+            ""self._test_unary_cwise_ops = lambda ops, test: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_test_unary_cwise_ops': lambda self, ops, flag: None})() # pragma: no cover""
+        ]
+    }
+]",1,538,0.000269,2085,0.0031275,0.0033965
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 32:
+    self._test_unary_cwise_ops(real_ops, False)
+TypeError: <lambda>() takes 2 positional arguments but 3 were given
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import math"",
+            ""import torch.nn as nn"",
+            ""import torch""
+        ],
+        ""initialization"": [
+            ""class MockMathOps: "",
+            ""    @staticmethod"",
+            ""    def neg(x): return -x"",
+            ""    @staticmethod"",
+            ""    def negative(x): return -x"",
+            ""    @staticmethod"",
+            ""    def reciprocal(x): return 1 / x"",
+            ""    @staticmethod"",
+            ""    def rint(x): return round(x)"",
+            ""    @staticmethod"",
+            ""    def round(x): return round(x)"",
+            ""    @staticmethod"",
+            ""    def rsqrt(x): return 1 / (x ** 0.5)"",
+            ""    @staticmethod"",
+            ""    def sigmoid(x): return 1 / (1 + math.exp(-x))"",
+            ""    @staticmethod"",
+            ""    def sign(x): return (x > 0) - (x < 0)"",
+            ""    @staticmethod"",
+            ""    def sin(x): return math.sin(x)"",
+            ""    @staticmethod"",
+            ""    def sinh(x): return math.sinh(x)"",
+            ""    @staticmethod"",
+            ""    def sqrt(x): return math.sqrt(x)"",
+            ""    @staticmethod"",
+            ""    def square(x): return x * x"",
+            ""    @staticmethod"",
+            ""    def tan(x): return math.tan(x)"",
+            ""    @staticmethod"",
+            ""    def tanh(x): return math.tanh(x)"",
+            ""math_ops = MockMathOps()"",
+            ""class MockNN: "",
+            ""    @staticmethod"",
+            ""    def elu(x): return nn.functional.elu(x)"",
+            ""    @staticmethod"",
+            ""    def relu(x): return nn.functional.relu(x)"",
+            ""    @staticmethod"",
+            ""    def relu6(x): return nn.functional.relu6(x)"",
+            ""    @staticmethod"",
+            ""    def leaky_relu(x, alpha=0.01): return nn.functional.leaky_relu(x, negative_slope=alpha)"",
+            ""    @staticmethod"",
+            ""    def selu(x): return nn.functional.selu(x)"",
+            ""    @staticmethod"",
+            ""    def softplus(x): return nn.functional.softplus(x)"",
+            ""    @staticmethod"",
+            ""    def softsign(x): return nn.functional.softsign(x)"",
+            ""nn = MockNN()"",
+            ""class MockSelf: "",
+            ""    def _test_unary_cwise_ops(self, ops, flag): "",
+            ""        print('Testing unary ops:', ops, 'with flag:', flag)"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math"",
+            ""import torch.nn as nn"",
+            ""import torch""
+        ],
+        ""initialization"": [
+            ""class MockMathOps: \n    @staticmethod\n    def neg(x): return -x\n    @staticmethod\n    def negative(x): return -x\n    @staticmethod\n    def reciprocal(x): return 1 / x\n    @staticmethod\n    def rint(x): return round(x)\n    @staticmethod\n    def round(x): return round(x)\n    @staticmethod\n    def rsqrt(x): return 1 / (x ** 0.5) if x > 0 else float('inf')\n    @staticmethod\n    def sigmoid(x): return 1 / (1 + math.exp(-x))\n    @staticmethod\n    def sign(x): return (x > 0) - (x < 0)\n    @staticmethod\n    def sin(x): return math.sin(x)\n    @staticmethod\n    def sinh(x): return math.sinh(x)\n    @staticmethod\n    def sqrt(x): return math.sqrt(x)\n    @staticmethod\n    def square(x): return x * x\n    @staticmethod\n    def tan(x): return math.tan(x)\n    @staticmethod\n    def tanh(x): return math.tanh(x)\nmath_ops = MockMathOps()"",
+            ""class MockNN: \n    @staticmethod\n    def elu(x): return nn.functional.elu(x)\n    @staticmethod\n    def relu(x): return nn.functional.relu(x)\n    @staticmethod\n    def relu6(x): return nn.functional.relu6(x)\n    @staticmethod\n    def leaky_relu(x, alpha=0.01): return nn.functional.leaky_relu(x, negative_slope=alpha)\n    @staticmethod\n    def selu(x): return nn.functional.selu(x)\n    @staticmethod\n    def softplus(x): return nn.functional.softplus(x)\n    @staticmethod\n    def softsign(x): return nn.functional.softsign(x)\nn = MockNN()"",
+            ""class MockSelf: \n    def _test_unary_cwise_ops(self, ops, flag):\n        print('Testing unary ops:', ops, 'with flag:', flag)\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math"",
+            ""import torch.nn as nn"",
+            ""import torch""
+        ],
+        ""initialization"": [
+            ""class MockMathOps: "",
+            ""    @staticmethod"",
+            ""    def neg(x): return -x"",
+            ""    @staticmethod"",
+            ""    def negative(x): return -x"",
+            ""    @staticmethod"",
+            ""    def reciprocal(x): return 1 / x"",
+            ""    @staticmethod"",
+            ""    def rint(x): return round(x)"",
+            ""    @staticmethod"",
+            ""    def round(x): return round(x)"",
+            ""    @staticmethod"",
+            ""    def rsqrt(x): return 1 / (x ** 0.5)"",
+            ""    @staticmethod"",
+            ""    def sigmoid(x): return 1 / (1 + math.exp(-x))"",
+            ""    @staticmethod"",
+            ""    def sign(x): return (x > 0) - (x < 0)"",
+            ""    @staticmethod"",
+            ""    def sin(x): return math.sin(x)"",
+            ""    @staticmethod"",
+            ""    def sinh(x): return math.sinh(x)"",
+            ""    @staticmethod"",
+            ""    def sqrt(x): return math.sqrt(x)"",
+            ""    @staticmethod"",
+            ""    def square(x): return x * x"",
+            ""    @staticmethod"",
+            ""    def tan(x): return math.tan(x)"",
+            ""    @staticmethod"",
+            ""    def tanh(x): return math.tanh(x)"",
+            ""math_ops = MockMathOps()"",
+            ""class MockNN: "",
+            ""    @staticmethod"",
+            ""    def elu(x): return nn.functional.elu(x)"",
+            ""    @staticmethod"",
+            ""    def relu(x): return nn.functional.relu(x)"",
+            ""    @staticmethod"",
+            ""    def relu6(x): return nn.functional.relu6(x)"",
+            ""    @staticmethod"",
+            ""    def leaky_relu(x, alpha=0.01): return nn.functional.leaky_relu(x, negative_slope=alpha)"",
+            ""    @staticmethod"",
+            ""    def selu(x): return nn.functional.selu(x)"",
+            ""    @staticmethod"",
+            ""    def softplus(x): return nn.functional.softplus(x)"",
+            ""    @staticmethod"",
+            ""    def softsign(x): return nn.functional.softsign(x)"",
+            ""nn = MockNN()"",
+            ""class MockSelf: "",
+            ""    def _test_unary_cwise_ops(self, ops, flag): "",
+            ""        print('Testing unary ops:', ops, 'with flag:', flag)"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math"",
+            ""import torch.nn as nn""
+        ],
+        ""initialization"": [
+            ""class MockMathOps:\n    @staticmethod\n    def neg(x): return -x\n    @staticmethod\n    def negative(x): return -x\n    @staticmethod\n    def reciprocal(x): return 1 / x\n    @staticmethod\n    def rint(x): return round(x)\n    @staticmethod\n    def round(x): return round(x)\n    @staticmethod\n    def rsqrt(x): return 1 / (x ** 0.5)\n    @staticmethod\n    def sigmoid(x): return 1 / (1 + math.exp(-x))\n    @staticmethod\n    def sign(x): return (x > 0) - (x < 0)\n    @staticmethod\n    def sin(x): return math.sin(x)\n    @staticmethod\n    def sinh(x): return math.sinh(x)\n    @staticmethod\n    def sqrt(x): return math.sqrt(x)\n    @staticmethod\n    def square(x): return x * x\n    @staticmethod\n    def tan(x): return math.tan(x)\n    @staticmethod\n    def tanh(x): return math.tanh(x)\n\nmath_ops = MockMathOps()"",
+            ""class MockNN:\n    @staticmethod\n    def elu(x): return nn.functional.elu(x)\n    @staticmethod\n    def relu(x): return nn.functional.relu(x)\n    @staticmethod\n    def relu6(x): return nn.functional.relu6(x)\n    @staticmethod\n    def leaky_relu(x, alpha=0.01): return nn.functional.leaky_relu(x, negative_slope=alpha)\n    @staticmethod\n    def selu(x): return nn.functional.selu(x)\n    @staticmethod\n    def softplus(x): return nn.functional.softplus(x)\n    @staticmethod\n    def softsign(x): return nn.functional.softsign(x)\n\nnn = MockNN()"",
+            ""class MockSelf:\n    def _test_unary_cwise_ops(self, ops, flag):\n        print('Testing unary ops:', ops, 'with flag:', flag)\nself = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math"",
+            ""import torch.nn.functional as nn""
+        ],
+        ""initialization"": [
+            ""math_ops = type('MockMathOps', (), { 'neg': lambda x: -x, 'negative': lambda x: -x, 'reciprocal': lambda x: 1/x, 'rint': lambda x: round(x), 'round': lambda x: round(x), 'rsqrt': lambda x: 1 / (x ** 0.5), 'sigmoid': lambda x: 1 / (1 + math.exp(-x)), 'sign': lambda x: (x > 0) - (x < 0), 'sin': math.sin, 'sinh': math.sinh, 'sqrt': math.sqrt, 'square': lambda x: x * x, 'tan': math.tan, 'tanh': math.tanh })()"",
+            ""nn = type('MockNN', (), { 'elu': lambda x: nn.elu(x), 'relu': lambda x: nn.relu(x), 'relu6': lambda x: nn.relu6(x), 'leaky_relu': lambda x, alpha=0.01: nn.leaky_relu(x, negative_slope=alpha), 'selu': lambda x: nn.selu(x), 'softplus': lambda x: nn.softplus(x), 'softsign': lambda x: nn.softsign(x) })()"",
+            ""self = type('MockSelf', (), { '_test_unary_cwise_ops': lambda self, ops, flag: print('Testing unary ops:', ops, 'with flag:', flag) })()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math"",
+            ""import torch.nn as nn""
+        ],
+        ""initialization"": [
+            ""class MockMathOps: \n    @staticmethod \n    def neg(x): return -x \n    @staticmethod \n    def negative(x): return -x \n    @staticmethod \n    def reciprocal(x): return 1/x \n    @staticmethod \n    def rint(x): return round(x) \n    @staticmethod \n    def round(x): return round(x) \n    @staticmethod \n    def rsqrt(x): return 1 / (x ** 0.5) \n    @staticmethod \n    def sigmoid(x): return 1 / (1 + math.exp(-x)) \n    @staticmethod \n    def sign(x): return (x > 0) - (x < 0) \n    @staticmethod \n    def sin(x): return math.sin(x) \n    @staticmethod \n    def sinh(x): return math.sinh(x) \n    @staticmethod \n    def sqrt(x): return math.sqrt(x) \n    @staticmethod \n    def square(x): return x * x \n    @staticmethod \n    def tan(x): return math.tan(x) \n    @staticmethod \n    def tanh(x): return math.tanh(x) \n"",
+            ""math_ops = MockMathOps()"",
+            ""class MockNN: \n    @staticmethod \n    def elu(x): return nn.functional.elu(x) \n    @staticmethod \n    def relu(x): return nn.functional.relu(x) \n    @staticmethod \n    def relu6(x): return nn.functional.relu6(x) \n    @staticmethod \n    def leaky_relu(x, alpha=0.01): return nn.functional.leaky_relu(x, negative_slope=alpha) \n    @staticmethod \n    def selu(x): return nn.functional.selu(x) \n    @staticmethod \n    def softplus(x): return nn.functional.softplus(x) \n    @staticmethod \n    def softsign(x): return nn.functional.softsign(x) \n"",
+            ""nn = MockNN()"",
+            ""class MockSelf: \n    def _test_unary_cwise_ops(self, ops, flag): \n        print('Testing unary ops:', ops, 'with flag:', flag) \n"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math"",
+            ""import torch.nn as nn"",
+            ""import torch.nn.functional as F""
+        ],
+        ""initialization"": [
+            ""math_ops = type('MockMathOps', (), { 'neg': lambda x: -x, 'negative': lambda x: -x, 'reciprocal': lambda x: 1/x, 'rint': lambda x: round(x), 'round': lambda x: round(x), 'rsqrt': lambda x: 1 / (x ** 0.5), 'sigmoid': lambda x: 1 / (1 + math.exp(-x)), 'sign': lambda x: (x > 0) - (x < 0), 'sin': math.sin, 'sinh': math.sinh, 'sqrt': math.sqrt, 'square': lambda x: x * x, 'tan': math.tan, 'tanh': math.tanh })()"",
+            ""nn = type('MockNN', (), { 'elu': lambda x: F.elu(x, alpha=1.0), 'relu': F.relu, 'relu6': F.relu6, 'leaky_relu': lambda x, alpha=0.01: F.leaky_relu(x, negative_slope=alpha), 'selu': F.selu, 'softplus': F.softplus, 'softsign': F.softsign })()"",
+            ""self = type('MockSelf', (), { '_test_unary_cwise_ops': lambda self, ops, flag: print('Testing unary ops:', ops, 'with flag:', flag) })()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math"",
+            ""import torch.nn as nn"",
+            ""import torch""
+        ],
+        ""initialization"": [
+            ""math_ops = type('MockMathOps', (), { 'neg': lambda x: -x, 'negative': lambda x: -x, 'reciprocal': lambda x: 1/x if x != 0 else float('inf'), 'rint': lambda x: round(x), 'round': lambda x: round(x), 'rsqrt': lambda x: 1 / (x ** 0.5) if x > 0 else float('inf'), 'sigmoid': lambda x: 1 / (1 + math.exp(-x)), 'sign': lambda x: (x > 0) - (x < 0), 'sin': math.sin, 'sinh': math.sinh, 'sqrt': lambda x: math.sqrt(x) if x >= 0 else float('nan'), 'square': lambda x: x * x, 'tan': math.tan, 'tanh': math.tanh })()"",
+            ""nn = type('MockNN', (), { 'elu': nn.ELU(), 'relu': nn.ReLU(), 'relu6': nn.ReLU6(), 'leaky_relu': nn.LeakyReLU(0.01), 'selu': nn.SELU(), 'softplus': nn.Softplus(), 'softsign': nn.Softsign() })()"",
+            ""self = type('MockSelf', (), { '_test_unary_cwise_ops': lambda ops, flag: print('Testing unary ops:', ops, 'with flag:', flag) })()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math"",
+            ""import torch.nn as nn""
+        ],
+        ""initialization"": [
+            ""math_ops = type('MockMathOps', (), { 'neg': lambda x: -x, 'negative': lambda x: -x, 'reciprocal': lambda x: 1/x, 'rint': lambda x: round(x), 'round': lambda x: round(x), 'rsqrt': lambda x: 1 / (x ** 0.5), 'sigmoid': lambda x: 1 / (1 + math.exp(-x)), 'sign': lambda x: (x > 0) - (x < 0), 'sin': math.sin, 'sinh': math.sinh, 'sqrt': math.sqrt, 'square': lambda x: x * x, 'tan': math.tan, 'tanh': math.tanh })()"",
+            ""nn = type('MockNN', (), { 'elu': lambda x: nn.functional.elu(x), 'relu': lambda x: nn.functional.relu(x), 'relu6': lambda x: nn.functional.relu6(x), 'leaky_relu': lambda x, alpha=0.01: nn.functional.leaky_relu(x, negative_slope=alpha), 'selu': lambda x: nn.functional.selu(x), 'softplus': lambda x: nn.functional.softplus(x), 'softsign': lambda x: nn.functional.softsign(x) })()"",
+            ""self = type('MockSelf', (), { '_test_unary_cwise_ops': lambda self, ops, flag: print('Testing unary ops:', ops, 'with flag:', flag) })()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math"",
+            ""import torch.nn as nn""
+        ],
+        ""initialization"": [
+            ""class MockMathOps:\n    @staticmethod\n    def neg(x): return -x\n    @staticmethod\n    def negative(x): return -x\n    @staticmethod\n    def reciprocal(x): return 1.0 / x\n    @staticmethod\n    def rint(x): return round(x)\n    @staticmethod\n    def round(x): return round(x)\n    @staticmethod\n    def rsqrt(x): return 1.0 / math.sqrt(x)\n    @staticmethod\n    def sigmoid(x): return 1.0 / (1.0 + math.exp(-x))\n    @staticmethod\n    def sign(x): return (x > 0) - (x < 0)\n    @staticmethod\n    def sin(x): return math.sin(x)\n    @staticmethod\n    def sinh(x): return math.sinh(x)\n    @staticmethod\n    def sqrt(x): return math.sqrt(x)\n    @staticmethod\n    def square(x): return x * x\n    @staticmethod\n    def tan(x): return math.tan(x)\n    @staticmethod\n    def tanh(x): return math.tanh(x)\nmath_ops = MockMathOps()"",
+            ""class MockNN:\n    @staticmethod\n    def elu(x): return nn.functional.elu(x)\n    @staticmethod\n    def relu(x): return nn.functional.relu(x)\n    @staticmethod\n    def relu6(x): return nn.functional.relu6(x)\n    @staticmethod\n    def leaky_relu(x, alpha=0.01): return nn.functional.leaky_relu(x, negative_slope=alpha)\n    @staticmethod\n    def selu(x): return nn.functional.selu(x)\n    @staticmethod\n    def softplus(x): return nn.functional.softplus(x)\n    @staticmethod\n    def softsign(x): return nn.functional.softsign(x)\nn = MockNN()"",
+            ""class MockSelf:\n    def _test_unary_cwise_ops(self, ops, flag):\n        print('Testing unary ops:', ops, 'with flag:', flag)\nself = MockSelf()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import math # pragma: no cover"",
+            ""import torch.nn as nn # pragma: no cover"",
+            ""import torch # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockMathOps:  # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def neg(x): return -x # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def negative(x): return -x # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def reciprocal(x): return 1 / x # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def rint(x): return round(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def round(x): return round(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def rsqrt(x): return 1 / (x ** 0.5) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def sigmoid(x): return 1 / (1 + math.exp(-x)) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def sign(x): return (x > 0) - (x < 0) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def sin(x): return math.sin(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def sinh(x): return math.sinh(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def sqrt(x): return math.sqrt(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def square(x): return x * x # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def tan(x): return math.tan(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def tanh(x): return math.tanh(x) # pragma: no cover"",
+            ""math_ops = MockMathOps() # pragma: no cover"",
+            ""class MockNN:  # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def elu(x): return nn.functional.elu(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def relu(x): return nn.functional.relu(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def relu6(x): return nn.functional.relu6(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def leaky_relu(x, alpha=0.01): return nn.functional.leaky_relu(x, negative_slope=alpha) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def selu(x): return nn.functional.selu(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def softplus(x): return nn.functional.softplus(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def softsign(x): return nn.functional.softsign(x) # pragma: no cover"",
+            ""nn = MockNN() # pragma: no cover"",
+            ""class MockSelf:  # pragma: no cover"",
+            ""    def _test_unary_cwise_ops(self, ops, flag):  # pragma: no cover"",
+            ""        print('Testing unary ops:', ops, 'with flag:', flag) # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math # pragma: no cover"",
+            ""import torch.nn as nn # pragma: no cover"",
+            ""import torch # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockMathOps: # pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def neg(x): return -x# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def negative(x): return -x# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def reciprocal(x): return 1 / x# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def rint(x): return round(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def round(x): return round(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def rsqrt(x): return 1 / (x ** 0.5) if x > 0 else float('inf')# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def sigmoid(x): return 1 / (1 + math.exp(-x))# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def sign(x): return (x > 0) - (x < 0)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def sin(x): return math.sin(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def sinh(x): return math.sinh(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def sqrt(x): return math.sqrt(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def square(x): return x * x# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def tan(x): return math.tan(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def tanh(x): return math.tanh(x)# pragma: no cover"",
+            ""math_ops = MockMathOps() # pragma: no cover"",
+            ""class MockNN: # pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def elu(x): return nn.functional.elu(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def relu(x): return nn.functional.relu(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def relu6(x): return nn.functional.relu6(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def leaky_relu(x, alpha=0.01): return nn.functional.leaky_relu(x, negative_slope=alpha)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def selu(x): return nn.functional.selu(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def softplus(x): return nn.functional.softplus(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def softsign(x): return nn.functional.softsign(x)# pragma: no cover"",
+            ""n = MockNN() # pragma: no cover"",
+            ""class MockSelf: # pragma: no cover"",
+            ""    def _test_unary_cwise_ops(self, ops, flag):# pragma: no cover"",
+            ""        print('Testing unary ops:', ops, 'with flag:', flag)# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math # pragma: no cover"",
+            ""import torch.nn as nn # pragma: no cover"",
+            ""import torch # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockMathOps:  # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def neg(x): return -x # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def negative(x): return -x # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def reciprocal(x): return 1 / x # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def rint(x): return round(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def round(x): return round(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def rsqrt(x): return 1 / (x ** 0.5) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def sigmoid(x): return 1 / (1 + math.exp(-x)) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def sign(x): return (x > 0) - (x < 0) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def sin(x): return math.sin(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def sinh(x): return math.sinh(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def sqrt(x): return math.sqrt(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def square(x): return x * x # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def tan(x): return math.tan(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def tanh(x): return math.tanh(x) # pragma: no cover"",
+            ""math_ops = MockMathOps() # pragma: no cover"",
+            ""class MockNN:  # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def elu(x): return nn.functional.elu(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def relu(x): return nn.functional.relu(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def relu6(x): return nn.functional.relu6(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def leaky_relu(x, alpha=0.01): return nn.functional.leaky_relu(x, negative_slope=alpha) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def selu(x): return nn.functional.selu(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def softplus(x): return nn.functional.softplus(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def softsign(x): return nn.functional.softsign(x) # pragma: no cover"",
+            ""nn = MockNN() # pragma: no cover"",
+            ""class MockSelf:  # pragma: no cover"",
+            ""    def _test_unary_cwise_ops(self, ops, flag):  # pragma: no cover"",
+            ""        print('Testing unary ops:', ops, 'with flag:', flag) # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math # pragma: no cover"",
+            ""import torch.nn as nn # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockMathOps:# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def neg(x): return -x# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def negative(x): return -x# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def reciprocal(x): return 1 / x# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def rint(x): return round(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def round(x): return round(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def rsqrt(x): return 1 / (x ** 0.5)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def sigmoid(x): return 1 / (1 + math.exp(-x))# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def sign(x): return (x > 0) - (x < 0)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def sin(x): return math.sin(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def sinh(x): return math.sinh(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def sqrt(x): return math.sqrt(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def square(x): return x * x# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def tan(x): return math.tan(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def tanh(x): return math.tanh(x)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""math_ops = MockMathOps() # pragma: no cover"",
+            ""class MockNN:# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def elu(x): return nn.functional.elu(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def relu(x): return nn.functional.relu(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def relu6(x): return nn.functional.relu6(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def leaky_relu(x, alpha=0.01): return nn.functional.leaky_relu(x, negative_slope=alpha)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def selu(x): return nn.functional.selu(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def softplus(x): return nn.functional.softplus(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def softsign(x): return nn.functional.softsign(x)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""nn = MockNN() # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def _test_unary_cwise_ops(self, ops, flag):# pragma: no cover"",
+            ""        print('Testing unary ops:', ops, 'with flag:', flag)# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math # pragma: no cover"",
+            ""import torch.nn.functional as nn # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""math_ops = type('MockMathOps', (), { 'neg': lambda x: -x, 'negative': lambda x: -x, 'reciprocal': lambda x: 1/x, 'rint': lambda x: round(x), 'round': lambda x: round(x), 'rsqrt': lambda x: 1 / (x ** 0.5), 'sigmoid': lambda x: 1 / (1 + math.exp(-x)), 'sign': lambda x: (x > 0) - (x < 0), 'sin': math.sin, 'sinh': math.sinh, 'sqrt': math.sqrt, 'square': lambda x: x * x, 'tan': math.tan, 'tanh': math.tanh })() # pragma: no cover"",
+            ""nn = type('MockNN', (), { 'elu': lambda x: nn.elu(x), 'relu': lambda x: nn.relu(x), 'relu6': lambda x: nn.relu6(x), 'leaky_relu': lambda x, alpha=0.01: nn.leaky_relu(x, negative_slope=alpha), 'selu': lambda x: nn.selu(x), 'softplus': lambda x: nn.softplus(x), 'softsign': lambda x: nn.softsign(x) })() # pragma: no cover"",
+            ""self = type('MockSelf', (), { '_test_unary_cwise_ops': lambda self, ops, flag: print('Testing unary ops:', ops, 'with flag:', flag) })() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math # pragma: no cover"",
+            ""import torch.nn as nn # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockMathOps: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def neg(x): return -x # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def negative(x): return -x # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def reciprocal(x): return 1/x # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def rint(x): return round(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def round(x): return round(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def rsqrt(x): return 1 / (x ** 0.5) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def sigmoid(x): return 1 / (1 + math.exp(-x)) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def sign(x): return (x > 0) - (x < 0) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def sin(x): return math.sin(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def sinh(x): return math.sinh(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def sqrt(x): return math.sqrt(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def square(x): return x * x # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def tan(x): return math.tan(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def tanh(x): return math.tanh(x) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""math_ops = MockMathOps() # pragma: no cover"",
+            ""class MockNN: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def elu(x): return nn.functional.elu(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def relu(x): return nn.functional.relu(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def relu6(x): return nn.functional.relu6(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def leaky_relu(x, alpha=0.01): return nn.functional.leaky_relu(x, negative_slope=alpha) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def selu(x): return nn.functional.selu(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def softplus(x): return nn.functional.softplus(x) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def softsign(x): return nn.functional.softsign(x) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""nn = MockNN() # pragma: no cover"",
+            ""class MockSelf: # pragma: no cover"",
+            ""    def _test_unary_cwise_ops(self, ops, flag): # pragma: no cover"",
+            ""        print('Testing unary ops:', ops, 'with flag:', flag) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math # pragma: no cover"",
+            ""import torch.nn as nn # pragma: no cover"",
+            ""import torch.nn.functional as F # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""math_ops = type('MockMathOps', (), { 'neg': lambda x: -x, 'negative': lambda x: -x, 'reciprocal': lambda x: 1/x, 'rint': lambda x: round(x), 'round': lambda x: round(x), 'rsqrt': lambda x: 1 / (x ** 0.5), 'sigmoid': lambda x: 1 / (1 + math.exp(-x)), 'sign': lambda x: (x > 0) - (x < 0), 'sin': math.sin, 'sinh': math.sinh, 'sqrt': math.sqrt, 'square': lambda x: x * x, 'tan': math.tan, 'tanh': math.tanh })() # pragma: no cover"",
+            ""nn = type('MockNN', (), { 'elu': lambda x: F.elu(x, alpha=1.0), 'relu': F.relu, 'relu6': F.relu6, 'leaky_relu': lambda x, alpha=0.01: F.leaky_relu(x, negative_slope=alpha), 'selu': F.selu, 'softplus': F.softplus, 'softsign': F.softsign })() # pragma: no cover"",
+            ""self = type('MockSelf', (), { '_test_unary_cwise_ops': lambda self, ops, flag: print('Testing unary ops:', ops, 'with flag:', flag) })() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math # pragma: no cover"",
+            ""import torch.nn as nn # pragma: no cover"",
+            ""import torch # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""math_ops = type('MockMathOps', (), { 'neg': lambda x: -x, 'negative': lambda x: -x, 'reciprocal': lambda x: 1/x if x != 0 else float('inf'), 'rint': lambda x: round(x), 'round': lambda x: round(x), 'rsqrt': lambda x: 1 / (x ** 0.5) if x > 0 else float('inf'), 'sigmoid': lambda x: 1 / (1 + math.exp(-x)), 'sign': lambda x: (x > 0) - (x < 0), 'sin': math.sin, 'sinh': math.sinh, 'sqrt': lambda x: math.sqrt(x) if x >= 0 else float('nan'), 'square': lambda x: x * x, 'tan': math.tan, 'tanh': math.tanh })() # pragma: no cover"",
+            ""nn = type('MockNN', (), { 'elu': nn.ELU(), 'relu': nn.ReLU(), 'relu6': nn.ReLU6(), 'leaky_relu': nn.LeakyReLU(0.01), 'selu': nn.SELU(), 'softplus': nn.Softplus(), 'softsign': nn.Softsign() })() # pragma: no cover"",
+            ""self = type('MockSelf', (), { '_test_unary_cwise_ops': lambda ops, flag: print('Testing unary ops:', ops, 'with flag:', flag) })() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math # pragma: no cover"",
+            ""import torch.nn as nn # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""math_ops = type('MockMathOps', (), { 'neg': lambda x: -x, 'negative': lambda x: -x, 'reciprocal': lambda x: 1/x, 'rint': lambda x: round(x), 'round': lambda x: round(x), 'rsqrt': lambda x: 1 / (x ** 0.5), 'sigmoid': lambda x: 1 / (1 + math.exp(-x)), 'sign': lambda x: (x > 0) - (x < 0), 'sin': math.sin, 'sinh': math.sinh, 'sqrt': math.sqrt, 'square': lambda x: x * x, 'tan': math.tan, 'tanh': math.tanh })() # pragma: no cover"",
+            ""nn = type('MockNN', (), { 'elu': lambda x: nn.functional.elu(x), 'relu': lambda x: nn.functional.relu(x), 'relu6': lambda x: nn.functional.relu6(x), 'leaky_relu': lambda x, alpha=0.01: nn.functional.leaky_relu(x, negative_slope=alpha), 'selu': lambda x: nn.functional.selu(x), 'softplus': lambda x: nn.functional.softplus(x), 'softsign': lambda x: nn.functional.softsign(x) })() # pragma: no cover"",
+            ""self = type('MockSelf', (), { '_test_unary_cwise_ops': lambda self, ops, flag: print('Testing unary ops:', ops, 'with flag:', flag) })() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import math # pragma: no cover"",
+            ""import torch.nn as nn # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockMathOps:# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def neg(x): return -x# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def negative(x): return -x# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def reciprocal(x): return 1.0 / x# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def rint(x): return round(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def round(x): return round(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def rsqrt(x): return 1.0 / math.sqrt(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def sigmoid(x): return 1.0 / (1.0 + math.exp(-x))# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def sign(x): return (x > 0) - (x < 0)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def sin(x): return math.sin(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def sinh(x): return math.sinh(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def sqrt(x): return math.sqrt(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def square(x): return x * x# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def tan(x): return math.tan(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def tanh(x): return math.tanh(x)# pragma: no cover"",
+            ""math_ops = MockMathOps() # pragma: no cover"",
+            ""class MockNN:# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def elu(x): return nn.functional.elu(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def relu(x): return nn.functional.relu(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def relu6(x): return nn.functional.relu6(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def leaky_relu(x, alpha=0.01): return nn.functional.leaky_relu(x, negative_slope=alpha)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def selu(x): return nn.functional.selu(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def softplus(x): return nn.functional.softplus(x)# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def softsign(x): return nn.functional.softsign(x)# pragma: no cover"",
+            ""n = MockNN() # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def _test_unary_cwise_ops(self, ops, flag):# pragma: no cover"",
+            ""        print('Testing unary ops:', ops, 'with flag:', flag)# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    }
+]",2,1198,0.000599,4636,0.006954,0.007553

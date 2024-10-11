@@ -1,0 +1,28 @@
+def get_string_prefix(s: str) -> str:# pragma: no cover
+    return s.split()[0] if s else '' # pragma: no cover
+
+def get_string_prefix(s: str) -> str:# pragma: no cover
+    return s.split()[0] if s else '' # pragma: no cover
+string = 'focusing on f-expressions and other text' # pragma: no cover
+def iter_fexpr_spans(s: str):# pragma: no cover
+    for i in range(len(s)):# pragma: no cover
+        yield (i, i+1) if 'f' in s[i:i+1] else None # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/black/src/black/trans.py
+from l3.Runtime import _l_
+"""
+        Yields:
+            All ranges of @string which, if @string were to be split there,
+            would result in the splitting of an f-expression (which is NOT
+            allowed).
+        """
+if "f" not in get_string_prefix(string).lower():
+    _l_(6855)
+
+    exit()
+    _l_(6854)
+aux = iter_fexpr_spans(string)
+_l_(6856)
+exit(aux)

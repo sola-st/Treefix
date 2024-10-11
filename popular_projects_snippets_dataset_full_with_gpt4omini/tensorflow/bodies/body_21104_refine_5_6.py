@@ -1,0 +1,43 @@
+self = type('MockSelf', (), {'assertRaises': staticmethod(lambda exc: (yield None)), 'assertEqual': staticmethod(lambda x, y: x == y)})() # pragma: no cover
+
+self = type('MockSelf', (), {'assertRaises': staticmethod(lambda exc_type, func: None), 'assertEqual': staticmethod(lambda a, b: a == b)})() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/training/monitored_session_test.py
+from l3.Runtime import _l_
+with ops.Graph().as_default():
+    _l_(9348)
+
+    gstep = training_util.get_or_create_global_step()
+    _l_(9338)
+
+    class _RaiseAbortedHook(session_run_hook.SessionRunHook):
+        _l_(9341)
+
+
+        def before_run(self, run_context):
+            _l_(9340)
+
+            raise errors_impl.AbortedError(None, None, 'Abort')
+            _l_(9339)
+
+    with monitored_session.SingularMonitoredSession(
+        hooks=[_RaiseAbortedHook()]) as session:
+        _l_(9344)
+
+        with self.assertRaises(errors_impl.AbortedError):
+            _l_(9343)
+
+            self.assertEqual(0, session.run(gstep))
+            _l_(9342)
+
+    with self.assertRaises(errors_impl.AbortedError):
+        _l_(9347)
+
+        with monitored_session.SingularMonitoredSession(
+            hooks=[_RaiseAbortedHook()]) as session:
+            _l_(9346)
+
+            self.assertEqual(0, session.run(gstep))
+            _l_(9345)

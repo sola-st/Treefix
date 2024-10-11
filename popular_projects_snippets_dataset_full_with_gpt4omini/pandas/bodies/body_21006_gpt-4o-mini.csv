@@ -1,0 +1,3730 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""
+        Map categories using an input mapping or function.
+
+        Maps the categories to new categories. If the mapping correspondence is
+        one-to-one the result is a :class:`~pandas.Categorical` which has the
+        same order property as the original, otherwise a :class:`~pandas.Index`
+        is returned. NaN values are unaffected.
+
+        If a `dict` or :class:`~pandas.Series` is used any unmapped category is
+        mapped to `NaN`. Note that if this happens an :class:`~pandas.Index`
+        will be returned.
+
+        Parameters
+        ----------
+        mapper : function, dict, or Series
+            Mapping correspondence.
+
+        Returns
+        -------
+        pandas.Categorical or pandas.Index
+            Mapped categorical.
+
+        See Also
+        --------
+        CategoricalIndex.map : Apply a mapping correspondence on a
+            :class:`~pandas.CategoricalIndex`.
+        Index.map : Apply a mapping correspondence on an
+            :class:`~pandas.Index`.
+        Series.map : Apply a mapping correspondence on a
+            :class:`~pandas.Series`.
+        Series.apply : Apply more complex functions on a
+            :class:`~pandas.Series`.
+
+        Examples
+        --------
+        >>> cat = pd.Categorical(['a', 'b', 'c'])
+        >>> cat
+        ['a', 'b', 'c']
+        Categories (3, object): ['a', 'b', 'c']
+        >>> cat.map(lambda x: x.upper())
+        ['A', 'B', 'C']
+        Categories (3, object): ['A', 'B', 'C']
+        >>> cat.map({'a': 'first', 'b': 'second', 'c': 'third'})
+        ['first', 'second', 'third']
+        Categories (3, object): ['first', 'second', 'third']
+
+        If the mapping is one-to-one the ordering of the categories is
+        preserved:
+
+        >>> cat = pd.Categorical(['a', 'b', 'c'], ordered=True)
+        >>> cat
+        ['a', 'b', 'c']
+        Categories (3, object): ['a' < 'b' < 'c']
+        >>> cat.map({'a': 3, 'b': 2, 'c': 1})
+        [3, 2, 1]
+        Categories (3, int64): [3 < 2 < 1]
+
+        If the mapping is not one-to-one an :class:`~pandas.Index` is returned:
+
+        >>> cat.map({'a': 'first', 'b': 'second', 'c': 'first'})
+        Index(['first', 'second', 'first'], dtype='object')
+
+        If a `dict` is used, all unmapped categories are mapped to `NaN` and
+        the result is an :class:`~pandas.Index`:
+
+        >>> cat.map({'a': 'first', 'b': 'second'})
+        Index(['first', 'second', nan], dtype='object')
+        """"""
+new_categories = self.categories.map(mapper)
+try:
+    exit(self.from_codes(
+        self._codes.copy(), categories=new_categories, ordered=self.ordered
+    ))
+except ValueError:
+    # NA values are represented in self._codes with -1
+    # np.take causes NA values to take final element in new_categories
+    if np.any(self._codes == -1):
+        new_categories = new_categories.insert(len(new_categories), np.nan)
+    exit(np.take(new_categories, self._codes))
+
+# end code snippet
+
+# begin undefined variables
+self
+mapper
+np
+# end undefined variables
+
+# begin undefined attributes and methods
+self.categories
+self.from_codes
+self._codes
+self.ordered
+np.any
+np.nan
+np.take
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': pd.Series([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = lambda x: x.upper()"",
+            ""np = __import__('numpy')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': [0, 1, 2], 'ordered': False })()"",
+            ""mapper = lambda x: x.upper()"",
+            ""np = __import__('numpy')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()"",
+            ""np = __import__('numpy')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': [0, 1, 2], 'ordered': False})()"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x]"",
+            ""np = __import__('numpy')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = Mock()"",
+            ""self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""self._codes = np.array([0, 1, 2])"",
+            ""self.ordered = False"",
+            ""self.from_codes = lambda codes, categories, ordered: categories[codes]"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': pd.Series, '_codes': [0, 1, 2], 'ordered': False})()"",
+            ""mapper = lambda x: x.upper()"",
+            ""np = type('Mock', (object,), {'any': np.any, 'nan': np.nan, 'take': np.take})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""self.from_codes = lambda codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            ""self._codes = np.array([0, 1, 2])"",
+            ""self.ordered = False"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, -1]), 'ordered': False})()"",
+            ""mapper = lambda x: x.upper()"",
+            ""np = __import__('numpy')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': pd.Series([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': [0, 1, 2], 'ordered': False })() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': [0, 1, 2], 'ordered': False})() # pragma: no cover"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""self.ordered = False # pragma: no cover"",
+            ""self.from_codes = lambda codes, categories, ordered: categories[codes] # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': pd.Series, '_codes': [0, 1, 2], 'ordered': False})() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover"",
+            ""np = type('Mock', (object,), {'any': np.any, 'nan': np.nan, 'take': np.take})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""self.from_codes = lambda codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            ""self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""self.ordered = False # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, -1]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    }
+]",1,1049,0.0005245,1302,0.001953,0.0024775
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+['A', 'B', 'C']
+Categories (3, object): ['A', 'B', 'C']
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: (categories[codes] if ordered else categories[codes]), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical(categories[codes], categories=categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: (categories[codes] if ordered else categories[codes]), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical(categories[codes], categories=categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    }
+]",2,1455,0.0007275,1225,0.0018375,0.002565
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+['A', 'B', 'C']
+Categories (3, object): ['A', 'B', 'C']
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}"",
+            ""np = __import__('numpy')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}"",
+            ""np = __import__('numpy')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    }
+]",2,1879,0.0009395,1272,0.001908,0.0028475
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+['A', 'B', 'C']
+Categories (3, object): ['A', 'B', 'C']
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories=categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories=categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    }
+]",2,2295,0.0011475,1300,0.00195,0.0030975
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+['A', 'B', 'C']
+Categories (3, object): ['A', 'B', 'C']
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}"",
+            ""np.nan = float('nan')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: categories[codes], '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover"",
+            ""np.nan = float('nan') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    }
+]",2,2720,0.00136,1339,0.0020085,0.0033685
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+['A', 'B', 'C']
+Categories (3, object): ['A', 'B', 'C']
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self):"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self.ordered = False"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""    def from_codes(self, codes, categories, ordered):"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False)"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {"",
+            ""    'categories': pd.Categorical(['a', 'b', 'c']),"",
+            ""    'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered),"",
+            ""    '_codes': np.array([0, 1, 2]),"",
+            ""    'ordered': False"",
+            ""})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False)"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered): # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { # pragma: no cover"",
+            ""    'categories': pd.Categorical(['a', 'b', 'c']), # pragma: no cover"",
+            ""    'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), # pragma: no cover"",
+            ""    '_codes': np.array([0, 1, 2]), # pragma: no cover"",
+            ""    'ordered': False # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    }
+]",2,3175,0.0015875,1601,0.0024015,0.0039889999999999
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+['first', 'second', 'third']
+Categories (3, object): ['first', 'second', 'third']
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}"",
+            ""np = __import__('numpy')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['first', 'second', 'third'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x]"",
+            ""np = __import__('numpy')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': [0, 1, 2], 'ordered': False})()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}"",
+            ""np.nan = float('nan')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], categories=['a', 'b', 'c'], ordered=False)"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['first', 'second', 'third'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock:"",
+            ""    def __init__(self):"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered):"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}"",
+            ""np = __import__('numpy')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock:"",
+            ""    def __init__(self):"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered):"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}"",
+            ""np = __import__('numpy')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['first', 'second', 'third']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': [0, 1, 2], 'ordered': False})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover"",
+            ""np.nan = float('nan') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], categories=['a', 'b', 'c'], ordered=False) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['first', 'second', 'third']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered): # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered): # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { 'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False })() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    }
+]",2,3616,0.001808,1608,0.002412,0.00422
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+['A', 'B', 'C']
+Categories (3, object): ['A', 'B', 'C']
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self):"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False)"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered):"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return categories[codes]"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}.get(x, np.nan)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock:"",
+            ""    def __init__(self):"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered):"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {"",
+            ""    'categories': pd.Categorical(['a', 'b', 'c']),"",
+            ""    'from_codes': lambda self, codes, categories, ordered: categories[codes],"",
+            ""    '_codes': np.array([0, 1, 2]),"",
+            ""    'ordered': False"",
+            ""})()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False)"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False)"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x]""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered): # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return categories[codes] # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}.get(x, np.nan) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered): # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { # pragma: no cover"",
+            ""    'categories': pd.Categorical(['a', 'b', 'c']), # pragma: no cover"",
+            ""    'from_codes': lambda self, codes, categories, ordered: categories[codes], # pragma: no cover"",
+            ""    '_codes': np.array([0, 1, 2]), # pragma: no cover"",
+            ""    'ordered': False # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x] # pragma: no cover""
+        ]
+    }
+]",2,4033,0.0020165,1540,0.00231,0.0043265
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 79:
+    exit(self.from_codes(
+TypeError: __init__() got an unexpected keyword argument 'categories'
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {"",
+            ""    'categories': pd.Categorical(['a', 'b', 'c']),"",
+            ""    'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered),"",
+            ""    '_codes': np.array([0, 1, 2]),"",
+            ""    'ordered': False"",
+            ""})()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) "",
+            ""        self._codes = np.array([0, 1, 2]) "",
+            ""        self.ordered = False "",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self):"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered):"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self):"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered):"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered):"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            ""self = Mock()"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x]"",
+            ""np.any = np.any"",
+            ""np.nan = np.nan"",
+            ""np.take = np.take""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x]""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { # pragma: no cover"",
+            ""    'categories': pd.Categorical(['a', 'b', 'c']), # pragma: no cover"",
+            ""    'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), # pragma: no cover"",
+            ""    '_codes': np.array([0, 1, 2]), # pragma: no cover"",
+            ""    'ordered': False # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])  # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2])  # pragma: no cover"",
+            ""        self.ordered = False  # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered): # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered): # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered): # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x] # pragma: no cover"",
+            ""np.any = np.any # pragma: no cover"",
+            ""np.nan = np.nan # pragma: no cover"",
+            ""np.take = np.take # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x] # pragma: no cover""
+        ]
+    }
+]",2,4457,0.0022285,1580,0.00237,0.0045985
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+['A', 'B', 'C']
+Categories (3, object): ['A', 'B', 'C']
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()"",
+            ""np = __import__('numpy')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}.get(x, np.nan)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False)"",
+            ""self._codes = np.array([0, 1, 2])"",
+            ""self.ordered = False"",
+            ""self.from_codes = lambda codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c'], ordered=False), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self):"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}.get(x, np.nan) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False) # pragma: no cover"",
+            ""self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""self.ordered = False # pragma: no cover"",
+            ""self.from_codes = lambda codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c'], ordered=False), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), '_codes': np.array([0, 1, 2]), 'ordered': False})() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    }
+]",2,4884,0.002442,1474,0.002211,0.004653
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+['A', 'B', 'C']
+Categories (3, object): ['A', 'B', 'C']
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered):"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""self._codes = np.array([0, 1, -1])"",
+            ""self.ordered = False"",
+            ""self.from_codes = lambda codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False)"",
+            ""        self._codes = np.array([0, 1, -1])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x]"",
+            ""np = __import__('numpy')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {"",
+            ""    'categories': pd.Categorical(['a', 'b', 'c']),"",
+            ""    'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered),"",
+            ""    '_codes': np.array([0, 1, -1]),"",
+            ""    'ordered': False"",
+            ""})()"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}.get(x, np.nan)"",
+            ""np = __import__('numpy')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False)"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock:"",
+            ""    def __init__(self):"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False)"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""    def from_codes(self, codes, categories, ordered):"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: "",
+            ""    def __init__(self): "",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False)"",
+            ""        self._codes = np.array([0, 1, 2])"",
+            ""        self.ordered = False"",
+            ""    def from_codes(self, codes, categories, ordered): "",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered)"",
+            """",
+            ""self = Mock()"",
+            ""mapper = lambda x: x.upper()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered): # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""self._codes = np.array([0, 1, -1]) # pragma: no cover"",
+            ""self.ordered = False # pragma: no cover"",
+            ""self.from_codes = lambda codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, -1]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}[x] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { # pragma: no cover"",
+            ""    'categories': pd.Categorical(['a', 'b', 'c']), # pragma: no cover"",
+            ""    'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), # pragma: no cover"",
+            ""    '_codes': np.array([0, 1, -1]), # pragma: no cover"",
+            ""    'ordered': False # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""mapper = lambda x: {'a': 'first', 'b': 'second', 'c': 'third'}.get(x, np.nan) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second', 'c': 'third'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered): # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock:  # pragma: no cover"",
+            ""    def __init__(self):  # pragma: no cover"",
+            ""        self.categories = pd.Categorical(['a', 'b', 'c'], ordered=False) # pragma: no cover"",
+            ""        self._codes = np.array([0, 1, 2]) # pragma: no cover"",
+            ""        self.ordered = False # pragma: no cover"",
+            ""    def from_codes(self, codes, categories, ordered):  # pragma: no cover"",
+            ""        return pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""mapper = lambda x: x.upper() # pragma: no cover""
+        ]
+    }
+]",2,5300,0.00265,1570,0.002355,0.005005
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""
+        Map categories using an input mapping or function.
+        Maps the categories to new categories. If the mapping correspondence is
+        one-to-one the result is a :class:`~pandas.Categorical` which has the
+        same order property as the original, otherwise a :class:`~pandas.Index`
+        is returned. NaN values are unaffected.
+        If a `dict` or :class:`~pandas.Series` is used any unmapped category is
+        mapped to `NaN`. Note that if this happens an :class:`~pandas.Index`
+        will be returned.
+        Parameters
+        ----------
+        mapper : function, dict, or Series
+            Mapping correspondence.
+        Returns
+        -------
+        pandas.Categorical or pandas.Index
+            Mapped categorical.
+        See Also
+        --------
+        CategoricalIndex.map : Apply a mapping correspondence on a
+            :class:`~pandas.CategoricalIndex`.
+        Index.map : Apply a mapping correspondence on an
+            :class:`~pandas.Index`.
+        Series.map : Apply a mapping correspondence on a
+            :class:`~pandas.Series`.
+        Series.apply : Apply more complex functions on a
+            :class:`~pandas.Series`.
+        Examples
+        --------
+        >>> cat = pd.Categorical(['a', 'b', 'c'])
+        >>> cat
+        ['a', 'b', 'c']
+        Categories (3, object): ['a', 'b', 'c']
+        >>> cat.map(lambda x: x.upper())
+        ['A', 'B', 'C']
+        Categories (3, object): ['A', 'B', 'C']
+        >>> cat.map({'a': 'first', 'b': 'second', 'c': 'third'})
+        ['first', 'second', 'third']
+        Categories (3, object): ['first', 'second', 'third']
+        If the mapping is one-to-one the ordering of the categories is
+        preserved:
+        >>> cat = pd.Categorical(['a', 'b', 'c'], ordered=True)
+        >>> cat
+        ['a', 'b', 'c']
+        Categories (3, object): ['a' < 'b' < 'c']
+        >>> cat.map({'a': 3, 'b': 2, 'c': 1})
+        [3, 2, 1]
+        Categories (3, int64): [3 < 2 < 1]
+        If the mapping is not one-to-one an :class:`~pandas.Index` is returned:
+        >>> cat.map({'a': 'first', 'b': 'second', 'c': 'first'})
+        Index(['first', 'second', 'first'], dtype='object')
+        If a `dict` is used, all unmapped categories are mapped to `NaN` and
+        the result is an :class:`~pandas.Index`:
+        >>> cat.map({'a': 'first', 'b': 'second'})
+        Index(['first', 'second', nan], dtype='object')
+        """"""
+new_categories = self.categories.map(mapper)
+try:
+    aux = self.from_codes( # uncovered
+        self._codes.copy(), categories=new_categories, ordered=self.ordered # uncovered
+    )
+    exit(aux) # uncovered
+except ValueError: # uncovered
+    # NA values are represented in self._codes with -1
+    # np.take causes NA values to take final element in new_categories
+    if np.any(self._codes == -1): # uncovered
+        new_categories = new_categories.insert(len(new_categories), np.nan) # uncovered
+    aux = np.take(new_categories, self._codes) # uncovered
+    exit(aux) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""mapper = {'a': 'first', 'b': 'second'}"",
+            ""self = type('Mock', (object,), {})()"",
+            ""self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""self._codes = np.array([0, 1, -1])"",
+            ""self.ordered = False"",
+            ""self.from_codes = lambda codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""mapper = {'a': 'first', 'b': 'second'}"",
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered), '_codes': np.array([0, 1, -1]), 'ordered': False})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('Mock', (object,), {})()"",
+            ""self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""self._codes = np.array([0, 1, -1])"",
+            ""self.ordered = False"",
+            ""mapper = {'a': 'first', 'b': 'second'}"",
+            ""self.from_codes = lambda codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""mapper = {'a': 'first', 'b': 'second'}"",
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), '_codes': np.array([0, 1, -1]), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered), 'ordered': False})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""mapper = {'a': 'first', 'b': 'second'}"",
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered), '_codes': np.array([0, 1, -1]), 'ordered': False})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""mapper = {'a': 1, 'b': 2, 'c': 3}"",
+            ""self = type('Mock', (object,), {})()"",
+            ""self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""self._codes = np.array([0, 1, -1])"",
+            ""self.ordered = False"",
+            ""self.from_codes = lambda codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), 'ordered': False, '_codes': np.array([0, 1, -1])})()"",
+            ""mapper = {'a': 'first', 'b': 'second'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self.categories = pd.Categorical(['a', 'b', 'c'])"",
+            ""self._codes = np.array([0, 1, -1])"",
+            ""self.ordered = False"",
+            ""mapper = {'a': 'first', 'b': 'second'}"",
+            ""self.from_codes = lambda codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""mapper = {'a': 'first', 'b': 'second'}"",
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'ordered': False, 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories), '_codes': np.array([0, 1, -1])})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""mapper = {'a': 'first', 'b': 'second'}"",
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered), 'ordered': False, '_codes': np.array([0, 1, -1])})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mapper = {'a': 'first', 'b': 'second'} # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""self._codes = np.array([0, 1, -1]) # pragma: no cover"",
+            ""self.ordered = False # pragma: no cover"",
+            ""self.from_codes = lambda codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mapper = {'a': 'first', 'b': 'second'} # pragma: no cover"",
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered), '_codes': np.array([0, 1, -1]), 'ordered': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""self._codes = np.array([0, 1, -1]) # pragma: no cover"",
+            ""self.ordered = False # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second'} # pragma: no cover"",
+            ""self.from_codes = lambda codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mapper = {'a': 'first', 'b': 'second'} # pragma: no cover"",
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), '_codes': np.array([0, 1, -1]), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered), 'ordered': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mapper = {'a': 'first', 'b': 'second'} # pragma: no cover"",
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered), '_codes': np.array([0, 1, -1]), 'ordered': False})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mapper = {'a': 1, 'b': 2, 'c': 3} # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""self._codes = np.array([0, 1, -1]) # pragma: no cover"",
+            ""self.ordered = False # pragma: no cover"",
+            ""self.from_codes = lambda codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered), 'ordered': False, '_codes': np.array([0, 1, -1])})() # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.categories = pd.Categorical(['a', 'b', 'c']) # pragma: no cover"",
+            ""self._codes = np.array([0, 1, -1]) # pragma: no cover"",
+            ""self.ordered = False # pragma: no cover"",
+            ""mapper = {'a': 'first', 'b': 'second'} # pragma: no cover"",
+            ""self.from_codes = lambda codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered=ordered) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mapper = {'a': 'first', 'b': 'second'} # pragma: no cover"",
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'ordered': False, 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories), '_codes': np.array([0, 1, -1])})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mapper = {'a': 'first', 'b': 'second'} # pragma: no cover"",
+            ""self = type('Mock', (object,), {'categories': pd.Categorical(['a', 'b', 'c']), 'from_codes': lambda self, codes, categories, ordered: pd.Categorical.from_codes(codes, categories, ordered), 'ordered': False, '_codes': np.array([0, 1, -1])})() # pragma: no cover""
+        ]
+    }
+]",3,1061,0.0005305,1318,0.001977,0.0025075

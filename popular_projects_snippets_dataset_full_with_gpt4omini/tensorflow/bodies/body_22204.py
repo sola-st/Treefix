@@ -1,0 +1,3 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/training/experimental/mixed_precision_global_state.py
+global _mixed_precision_graph_rewrite_is_enabled
+_mixed_precision_graph_rewrite_is_enabled = enabled

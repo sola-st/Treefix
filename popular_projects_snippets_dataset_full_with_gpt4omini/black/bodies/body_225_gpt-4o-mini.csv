@@ -1,0 +1,4437 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Cancel all pending tasks on `loop`, wait for them, and close the loop.""""""
+try:
+    # This part is borrowed from asyncio/runners.py in Python 3.7b2.
+    to_cancel = [task for task in asyncio.all_tasks(loop) if not task.done()]
+    if not to_cancel:
+        exit()
+
+    for task in to_cancel:
+        task.cancel()
+    loop.run_until_complete(asyncio.gather(*to_cancel, return_exceptions=True))
+finally:
+    # `concurrent.futures.Future` objects cannot be cancelled once they
+    # are already running. There might be some when the `shutdown()` happened.
+    # Silence their logger's spew about the event loop being closed.
+    cf_logger = logging.getLogger(""concurrent.futures"")
+    cf_logger.setLevel(logging.CRITICAL)
+    loop.close()
+
+# end code snippet
+
+# begin undefined variables
+asyncio
+loop
+logging
+# end undefined variables
+
+# begin undefined attributes and methods
+asyncio.all_tasks
+loop.run_until_complete
+asyncio.gather
+logging.getLogger
+logging.CRITICAL
+loop.close
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""asyncio = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.Task() for _ in range(2)])})"",
+            ""logging = type('Mock', (object,), {'getLogger': staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None}))),'CRITICAL': 50})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': lambda self, loop: [loop.create_task(asyncio.sleep(1))]})())"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None"",
+            ""logging.getLogger = lambda name: type('Mock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1))])})())"",
+            ""logging.getLogger = type('Mock', (object,), {'getLogger': staticmethod(lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})())})())"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': lambda self, loop: [type('Task', (object,), {'done': lambda self: False, 'cancel': lambda self: None})() for _ in range(2)]})())"",
+            ""logging.getLogger = lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1))])}) )()"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""asyncio.gather = staticmethod(asyncio.gather)"",
+            ""logging.getLogger = staticmethod(lambda name: logging.getLogger(name))"",
+            ""logging.CRITICAL = logging.CRITICAL"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover""
+        ]
+    }
+]",1,491,0.0002455,959,0.0014385,0.001684
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 21:
+    loop.close()
+NameError: name 'loop' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [type('MockTask', (object,), {'done': lambda self: False, 'cancel': lambda self: None})() for _ in range(2)])})"",
+            ""logging = type('Mock', (object,), {'getLogger': staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None}))),'CRITICAL': 50})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.Future() for _ in range(2)])})"",
+            ""logging = type('Mock', (object,), {'getLogger': staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None}))),'CRITICAL': 50})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.Task(loop) for _ in range(2)])})"",
+            ""logging = type('Mock', (object,), {'getLogger': staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None}))),'CRITICAL': 50})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.Future(loop=loop) for _ in range(2)])})"",
+            ""logging = type('Mock', (object,), {'getLogger': staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None}))),'CRITICAL': 50})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.Task(loop) for _ in range(2)])})"",
+            ""logging = type('Mock', (object,), {'getLogger': staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None}))),'CRITICAL': 50})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(0)) for _ in range(2)])})"",
+            ""logging = type('Mock', (object,), {'getLogger': staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None}))),'CRITICAL': 50})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.Task(loop) for _ in range(2)])})"",
+            ""logging = type('Mock', (object,), {'getLogger': staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None}))),'CRITICAL': 50})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: []), 'Task': type('Task', (object,), {'done': lambda self: False, 'cancel': lambda self: None})})"",
+            ""logging = type('Mock', (object,), {'getLogger': staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None}))),'CRITICAL': 50})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.Future(loop) for _ in range(2)])})"",
+            ""logging = type('Mock', (object,), {'getLogger': staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None}))),'CRITICAL': 50})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.Task(loop) for _ in range(2)])})"",
+            ""logging = type('Mock', (object,), {'getLogger': staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None}))),'CRITICAL': 50})""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",2,903,0.0004515,1291,0.0019365,0.002388
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 21:
+    loop.close()
+NameError: name 'loop' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': lambda self, loop: [asyncio.Task(loop=loop) for _ in range(2)]})()"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None"",
+            ""logging.getLogger = lambda name: type('Mock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': lambda self, loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)]})()"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None"",
+            ""logging.getLogger = lambda name: type('Mock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': lambda self, loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)]})())"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None"",
+            ""logging.getLogger = lambda name: type('Mock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.all_tasks = lambda loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)]"",
+            ""loop.run_until_complete = loop.run_until_complete"",
+            ""loop.close = lambda: None"",
+            ""logging.getLogger = lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': lambda self, loop: [loop.create_task(asyncio.sleep(1))]})())"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None"",
+            ""logging.getLogger = lambda name: type('Mock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.all_tasks = lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)]"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None"",
+            ""logging.getLogger = lambda name: type('Mock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': staticmethod(lambda loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)])})())"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None"",
+            ""logging.getLogger = lambda name: type('Mock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': staticmethod(lambda loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)])})())"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None"",
+            ""logging.getLogger = lambda name: type('Mock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': lambda self, loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)]})())"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None"",
+            ""logging.getLogger = lambda name: type('Mock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': lambda self, loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)]})())"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None"",
+            ""logging.getLogger = lambda name: type('Mock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': lambda self, loop: [asyncio.Task(loop=loop) for _ in range(2)]})() # pragma: no cover"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro) # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover"",
+            ""logging.getLogger = lambda name: type('Mock', (object,), {'setLevel': lambda self, level: None})() # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': lambda self, loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)]})() # pragma: no cover"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro) # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover"",
+            ""logging.getLogger = lambda name: type('Mock', (object,), {'setLevel': lambda self, level: None})() # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.all_tasks = lambda loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)] # pragma: no cover"",
+            ""loop.run_until_complete = loop.run_until_complete # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover"",
+            ""logging.getLogger = lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})() # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.all_tasks = lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)] # pragma: no cover"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro) # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover"",
+            ""logging.getLogger = lambda name: type('Mock', (object,), {'setLevel': lambda self, level: None})() # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",2,1333,0.0006665,1511,0.0022665,0.002933
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 21:
+    loop.close()
+NameError: name 'loop' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)])"",
+            ""logging.getLogger = staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})())"",
+            ""logging.CRITICAL = 50"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1))])"",
+            ""logging.getLogger = staticmethod(lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})())"",
+            ""logging.CRITICAL = 50"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)])})())"",
+            ""loop.run_until_complete = type('Mock', (object,), {'run_until_complete': lambda self, coro: asyncio.run(coro)})()"",
+            ""logging.getLogger = lambda name: type('Mock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)])"",
+            ""logging.getLogger = staticmethod(lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None}))()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [loop.create_task(asyncio.sleep(0.1)) for _ in range(2)])"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None"",
+            ""logging.getLogger = lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)])"",
+            ""logging.getLogger = lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.run_until_complete = loop.run_until_complete if hasattr(loop, 'run_until_complete') else lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [loop.create_task(asyncio.sleep(1))])"",
+            ""logging.getLogger = lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)])})())"",
+            ""logging.getLogger = staticmethod(lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})())"",
+            ""logging.CRITICAL = 50"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""asyncio.all_tasks = lambda loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)]"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None"",
+            ""logging.getLogger = lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""async def mock_sleep(duration): pass"",
+            ""asyncio.create_task = lambda coro: coro"",
+            ""asyncio.sleep = mock_sleep"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)])"",
+            ""loop.run_until_complete = lambda coro: None"",
+            ""logging.getLogger = lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop() # pragma: no cover"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)]) # pragma: no cover"",
+            ""logging.getLogger = staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})()) # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro) # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1))]) # pragma: no cover"",
+            ""logging.getLogger = staticmethod(lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})()) # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro) # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)]) # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro) # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop() # pragma: no cover"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [loop.create_task(asyncio.sleep(0.1)) for _ in range(2)]) # pragma: no cover"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro) # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover"",
+            ""logging.getLogger = lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})() # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)]) # pragma: no cover"",
+            ""logging.getLogger = lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})() # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover"",
+            ""loop.run_until_complete = loop.run_until_complete if hasattr(loop, 'run_until_complete') else lambda coro: asyncio.run(coro) # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [loop.create_task(asyncio.sleep(1))]) # pragma: no cover"",
+            ""logging.getLogger = lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})() # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro) # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop() # pragma: no cover"",
+            ""asyncio.all_tasks = lambda loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)] # pragma: no cover"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro) # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover"",
+            ""logging.getLogger = lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})() # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop() # pragma: no cover"",
+            ""async def mock_sleep(duration): pass # pragma: no cover"",
+            ""asyncio.create_task = lambda coro: coro # pragma: no cover"",
+            ""asyncio.sleep = mock_sleep # pragma: no cover"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)]) # pragma: no cover"",
+            ""loop.run_until_complete = lambda coro: None # pragma: no cover"",
+            ""logging.getLogger = lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})() # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover""
+        ]
+    }
+]",2,1764,0.000882,1444,0.002166,0.003048
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 21:
+    loop.close()
+NameError: name 'loop' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.get_event_loop = lambda: loop"",
+            ""asyncio.all_tasks = lambda loop: [type('MockTask', (object,), {'done': lambda self: False, 'cancel': lambda self: None})() for _ in range(2)]"",
+            ""logging.getLogger = lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)])})())"",
+            ""logging.getLogger = lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': staticmethod(lambda loop: [type('Task', (object,), {'done': lambda self: False, 'cancel': lambda self: None})() for _ in range(2)])})())"",
+            ""logging.getLogger = lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = type('MockLoop', (object,), {'run_until_complete': lambda self, coro: asyncio.run(coro), 'close': lambda self: None})()"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [type('MockTask', (object,), {'done': lambda self: False, 'cancel': lambda self: None})() for _ in range(2)])"",
+            ""logging.getLogger = lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': lambda self, loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)]})()"",
+            ""logging.getLogger = lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [asyncio.Task(asyncio.sleep(1)) for _ in range(2)])"",
+            ""logging.getLogger = staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None}))()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)])})())"",
+            ""logging.getLogger = lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': lambda self, loop: [type('Task', (object,), {'done': lambda self: False, 'cancel': lambda self: None})() for _ in range(2)]})())"",
+            ""logging.getLogger = lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': lambda self, loop: [type('Task', (object,), {'done': lambda self: False, 'cancel': lambda self: None})() for _ in range(2)]})())"",
+            ""logging.getLogger = lambda name: type('Mock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)])})()"",
+            ""logging.getLogger = lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.get_event_loop = lambda: loop # pragma: no cover"",
+            ""asyncio.all_tasks = lambda loop: [type('MockTask', (object,), {'done': lambda self: False, 'cancel': lambda self: None})() for _ in range(2)] # pragma: no cover"",
+            ""logging.getLogger = lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})() # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro) # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = type('MockLoop', (object,), {'run_until_complete': lambda self, coro: asyncio.run(coro), 'close': lambda self: None})() # pragma: no cover"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [type('MockTask', (object,), {'done': lambda self: False, 'cancel': lambda self: None})() for _ in range(2)]) # pragma: no cover"",
+            ""logging.getLogger = lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})() # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'__call__': lambda self, loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)]})() # pragma: no cover"",
+            ""logging.getLogger = lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})() # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [asyncio.Task(asyncio.sleep(1)) for _ in range(2)]) # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro) # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)])})() # pragma: no cover"",
+            ""logging.getLogger = lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})() # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover""
+        ]
+    }
+]",2,2201,0.0011005,1470,0.002205,0.0033055
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 21:
+    loop.close()
+NameError: name 'loop' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)])})())"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""asyncio.gather = staticmethod(asyncio.gather)"",
+            ""logging.getLogger = staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})())"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)])}) )()"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""asyncio.gather = staticmethod(asyncio.gather)"",
+            ""logging.getLogger = staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})())"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""class MockTask:\n    def __init__(self):\n        self._done = False\n    def done(self):\n        return self._done\n    def cancel(self):\n        self._done = True"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [MockTask(), MockTask()])"",
+            ""loop = asyncio.get_event_loop()"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""asyncio.gather = staticmethod(asyncio.gather)"",
+            ""logging.getLogger = staticmethod(lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})())"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)])})())"",
+            ""logging.getLogger = lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [])})()"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""asyncio.gather = staticmethod(lambda *args, **kwargs: None)"",
+            ""logging.getLogger = staticmethod(lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})())"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)]"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""asyncio.gather = staticmethod(lambda *args, **kwargs: asyncio.gather(*args, **kwargs))"",
+            ""logging.getLogger = staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})())"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)])}) )()"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""asyncio.gather = staticmethod(asyncio.gather)"",
+            ""logging.getLogger = staticmethod(lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})())"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)])})())"",
+            ""logging.getLogger = lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [loop.create_task(asyncio.sleep(1)) for _ in range(2)])})())"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""asyncio.gather = staticmethod(asyncio.gather)"",
+            ""logging.getLogger = staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})())"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)])"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro)"",
+            ""asyncio.gather = staticmethod(asyncio.gather)"",
+            ""logging.getLogger = staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None}))()"",
+            ""logging.CRITICAL = 50"",
+            ""loop.close = lambda: None""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockTask:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self._done = False# pragma: no cover"",
+            ""    def done(self):# pragma: no cover"",
+            ""        return self._done# pragma: no cover"",
+            ""    def cancel(self):# pragma: no cover"",
+            ""        self._done = True # pragma: no cover"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [MockTask(), MockTask()]) # pragma: no cover"",
+            ""loop = asyncio.get_event_loop() # pragma: no cover"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro) # pragma: no cover"",
+            ""asyncio.gather = staticmethod(asyncio.gather) # pragma: no cover"",
+            ""logging.getLogger = staticmethod(lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})()) # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.all_tasks = type('Mock', (object,), {'all_tasks': staticmethod(lambda loop: [])})() # pragma: no cover"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro) # pragma: no cover"",
+            ""asyncio.gather = staticmethod(lambda *args, **kwargs: None) # pragma: no cover"",
+            ""logging.getLogger = staticmethod(lambda name: type('LoggerMock', (object,), {'setLevel': lambda self, level: None})()) # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""asyncio.all_tasks = lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)] # pragma: no cover"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro) # pragma: no cover"",
+            ""asyncio.gather = staticmethod(lambda *args, **kwargs: asyncio.gather(*args, **kwargs)) # pragma: no cover"",
+            ""logging.getLogger = staticmethod(lambda name: type('MockLogger', (object,), {'setLevel': lambda self, level: None})()) # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""asyncio.all_tasks = staticmethod(lambda loop: [asyncio.create_task(asyncio.sleep(1)) for _ in range(2)]) # pragma: no cover"",
+            ""loop.run_until_complete = lambda coro: asyncio.run(coro) # pragma: no cover"",
+            ""asyncio.gather = staticmethod(asyncio.gather) # pragma: no cover"",
+            ""logging.CRITICAL = 50 # pragma: no cover"",
+            ""loop.close = lambda: None # pragma: no cover""
+        ]
+    }
+]",2,2635,0.0013175,1689,0.0025335,0.003851
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Cancel all pending tasks on `loop`, wait for them, and close the loop.""""""
+try:
+    # This part is borrowed from asyncio/runners.py in Python 3.7b2.
+    to_cancel = [task for task in asyncio.all_tasks(loop) if not task.done()]
+    if not to_cancel:
+        exit() # uncovered
+    for task in to_cancel: # uncovered
+        task.cancel() # uncovered
+    loop.run_until_complete(asyncio.gather(*to_cancel, return_exceptions=True)) # uncovered
+finally:
+    # `concurrent.futures.Future` objects cannot be cancelled once they
+    # are already running. There might be some when the `shutdown()` happened.
+    # Silence their logger's spew about the event loop being closed.
+    cf_logger = logging.getLogger(""concurrent.futures"")
+    cf_logger.setLevel(logging.CRITICAL)
+    loop.close()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(3): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""asyncio.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging"",
+            ""import concurrent.futures""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""task_future = loop.create_future()"",
+            ""loop.create_task(task_future)"",
+            ""task_future.set_result(None)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging"",
+            ""import concurrent.futures""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(3): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging"",
+            ""import concurrent.futures""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): asyncio.ensure_future(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging"",
+            ""import concurrent.futures""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop()"",
+            ""task1 = loop.create_task(asyncio.sleep(1))"",
+            ""task2 = loop.create_task(asyncio.sleep(2))""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop() # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(3): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop() # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop() # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover"",
+            ""import concurrent.futures # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop() # pragma: no cover"",
+            ""task_future = loop.create_future() # pragma: no cover"",
+            ""task_future.set_result(None) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover"",
+            ""import concurrent.futures # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop() # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(3): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover"",
+            ""import concurrent.futures # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop() # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): asyncio.ensure_future(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover"",
+            ""import concurrent.futures # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.get_event_loop() # pragma: no cover"",
+            ""task1 = loop.create_task(asyncio.sleep(1)) # pragma: no cover"",
+            ""task2 = loop.create_task(asyncio.sleep(2)) # pragma: no cover""
+        ]
+    }
+]",3,479,0.0002395,744,0.001116,0.0013555
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Cancel all pending tasks on `loop`, wait for them, and close the loop.""""""
+try:
+    # This part is borrowed from asyncio/runners.py in Python 3.7b2.
+    to_cancel = [task for task in asyncio.all_tasks(loop) if not task.done()]
+    if not to_cancel:
+        exit() # uncovered
+    for task in to_cancel:
+        task.cancel()
+    loop.run_until_complete(asyncio.gather(*to_cancel, return_exceptions=True))
+finally:
+    # `concurrent.futures.Future` objects cannot be cancelled once they
+    # are already running. There might be some when the `shutdown()` happened.
+    # Silence their logger's spew about the event loop being closed.
+    cf_logger = logging.getLogger(""concurrent.futures"")
+    cf_logger.setLevel(logging.CRITICAL)
+    loop.close()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(2)"",
+            ""loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(2)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(5)"",
+            ""asyncio.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def no_op(): await asyncio.sleep(1)"",
+            ""loop.create_task(no_op())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(2) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(2) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(5) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def no_op(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(no_op()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    }
+]",3,1670,0.000835,780,0.00117,0.002005
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Cancel all pending tasks on `loop`, wait for them, and close the loop.""""""
+try:
+    # This part is borrowed from asyncio/runners.py in Python 3.7b2.
+    to_cancel = [task for task in asyncio.all_tasks(loop) if not task.done()]
+    if not to_cancel:
+        exit() # uncovered
+    for task in to_cancel:
+        task.cancel()
+    loop.run_until_complete(asyncio.gather(*to_cancel, return_exceptions=True))
+finally:
+    # `concurrent.futures.Future` objects cannot be cancelled once they
+    # are already running. There might be some when the `shutdown()` happened.
+    # Silence their logger's spew about the event loop being closed.
+    cf_logger = logging.getLogger(""concurrent.futures"")
+    cf_logger.setLevel(logging.CRITICAL)
+    loop.close()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(2)"",
+            ""loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(3): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(3): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(3): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(2) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(3): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(3): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(3): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    }
+]",3,2897,0.0014485,786,0.001179,0.0026274999999999
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Cancel all pending tasks on `loop`, wait for them, and close the loop.""""""
+try:
+    # This part is borrowed from asyncio/runners.py in Python 3.7b2.
+    to_cancel = [task for task in asyncio.all_tasks(loop) if not task.done()]
+    if not to_cancel:
+        exit() # uncovered
+    for task in to_cancel:
+        task.cancel()
+    loop.run_until_complete(asyncio.gather(*to_cancel, return_exceptions=True))
+finally:
+    # `concurrent.futures.Future` objects cannot be cancelled once they
+    # are already running. There might be some when the `shutdown()` happened.
+    # Silence their logger's spew about the event loop being closed.
+    cf_logger = logging.getLogger(""concurrent.futures"")
+    cf_logger.setLevel(logging.CRITICAL)
+    loop.close()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(1): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(3): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(2)"",
+            ""for _ in range(3): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(1): loop.create_task(dummy_task())""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(1): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(3): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(2) # pragma: no cover"",
+            ""for _ in range(3): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(1): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    }
+]",3,4130,0.002065,786,0.001179,0.003244
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Cancel all pending tasks on `loop`, wait for them, and close the loop.""""""
+try:
+    # This part is borrowed from asyncio/runners.py in Python 3.7b2.
+    to_cancel = [task for task in asyncio.all_tasks(loop) if not task.done()]
+    if not to_cancel:
+        exit() # uncovered
+    for task in to_cancel:
+        task.cancel()
+    loop.run_until_complete(asyncio.gather(*to_cancel, return_exceptions=True))
+finally:
+    # `concurrent.futures.Future` objects cannot be cancelled once they
+    # are already running. There might be some when the `shutdown()` happened.
+    # Silence their logger's spew about the event loop being closed.
+    cf_logger = logging.getLogger(""concurrent.futures"")
+    cf_logger.setLevel(logging.CRITICAL)
+    loop.close()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(2)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): pass"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(1): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(2)"",
+            ""for _ in range(3): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(2)"",
+            ""loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(2)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def incomplete_task(): await asyncio.sleep(10)"",
+            ""for _ in range(1): loop.create_task(incomplete_task())""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(2) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): pass # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(1): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(2) # pragma: no cover"",
+            ""for _ in range(3): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(2) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(2) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def incomplete_task(): await asyncio.sleep(10) # pragma: no cover"",
+            ""for _ in range(1): loop.create_task(incomplete_task()) # pragma: no cover""
+        ]
+    }
+]",3,5363,0.0026815,776,0.001164,0.0038455
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Cancel all pending tasks on `loop`, wait for them, and close the loop.""""""
+try:
+    # This part is borrowed from asyncio/runners.py in Python 3.7b2.
+    to_cancel = [task for task in asyncio.all_tasks(loop) if not task.done()]
+    if not to_cancel:
+        exit() # uncovered
+    for task in to_cancel:
+        task.cancel()
+    loop.run_until_complete(asyncio.gather(*to_cancel, return_exceptions=True))
+finally:
+    # `concurrent.futures.Future` objects cannot be cancelled once they
+    # are already running. There might be some when the `shutdown()` happened.
+    # Silence their logger's spew about the event loop being closed.
+    cf_logger = logging.getLogger(""concurrent.futures"")
+    cf_logger.setLevel(logging.CRITICAL)
+    loop.close()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): pass"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def long_task(): await asyncio.sleep(10)"",
+            ""for _ in range(3): loop.create_task(long_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def simple_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(simple_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(3): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(2)"",
+            ""for _ in range(3): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def long_running_task(): await asyncio.sleep(5)"",
+            ""loop.create_task(long_running_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): pass # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def long_task(): await asyncio.sleep(10) # pragma: no cover"",
+            ""for _ in range(3): loop.create_task(long_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def simple_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(simple_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(3): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(2) # pragma: no cover"",
+            ""for _ in range(3): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def long_running_task(): await asyncio.sleep(5) # pragma: no cover"",
+            ""loop.create_task(long_running_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    }
+]",3,6586,0.003293,791,0.0011865,0.0044795
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Cancel all pending tasks on `loop`, wait for them, and close the loop.""""""
+try:
+    # This part is borrowed from asyncio/runners.py in Python 3.7b2.
+    to_cancel = [task for task in asyncio.all_tasks(loop) if not task.done()]
+    if not to_cancel:
+        exit() # uncovered
+    for task in to_cancel:
+        task.cancel()
+    loop.run_until_complete(asyncio.gather(*to_cancel, return_exceptions=True))
+finally:
+    # `concurrent.futures.Future` objects cannot be cancelled once they
+    # are already running. There might be some when the `shutdown()` happened.
+    # Silence their logger's spew about the event loop being closed.
+    cf_logger = logging.getLogger(""concurrent.futures"")
+    cf_logger.setLevel(logging.CRITICAL)
+    loop.close()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(2)"",
+            ""for _ in range(2): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def short_task(): await asyncio.sleep(0.1)"",
+            ""for _ in range(2): loop.create_task(short_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(3): loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(2) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def short_task(): await asyncio.sleep(0.1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(short_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(3): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    }
+]",3,7824,0.003912,859,0.0012885,0.0052004999999999
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Cancel all pending tasks on `loop`, wait for them, and close the loop.""""""
+try:
+    # This part is borrowed from asyncio/runners.py in Python 3.7b2.
+    to_cancel = [task for task in asyncio.all_tasks(loop) if not task.done()]
+    if not to_cancel:
+        exit() # uncovered
+    for task in to_cancel:
+        task.cancel()
+    loop.run_until_complete(asyncio.gather(*to_cancel, return_exceptions=True))
+finally:
+    # `concurrent.futures.Future` objects cannot be cancelled once they
+    # are already running. There might be some when the `shutdown()` happened.
+    # Silence their logger's spew about the event loop being closed.
+    cf_logger = logging.getLogger(""concurrent.futures"")
+    cf_logger.setLevel(logging.CRITICAL)
+    loop.close()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(0.1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0.2))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(1): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(1): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""asyncio.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(2)"",
+            ""loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(0.1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(0.1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0.2)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(1): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(1): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(2) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(0.1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    }
+]",3,9130,0.004565,903,0.0013545,0.0059194999999999
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Cancel all pending tasks on `loop`, wait for them, and close the loop.""""""
+try:
+    # This part is borrowed from asyncio/runners.py in Python 3.7b2.
+    to_cancel = [task for task in asyncio.all_tasks(loop) if not task.done()]
+    if not to_cancel:
+        exit() # uncovered
+    for task in to_cancel:
+        task.cancel()
+    loop.run_until_complete(asyncio.gather(*to_cancel, return_exceptions=True))
+finally:
+    # `concurrent.futures.Future` objects cannot be cancelled once they
+    # are already running. There might be some when the `shutdown()` happened.
+    # Silence their logger's spew about the event loop being closed.
+    cf_logger = logging.getLogger(""concurrent.futures"")
+    cf_logger.setLevel(logging.CRITICAL)
+    loop.close()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(3): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(0.1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""asyncio.create_task(dummy_task())"",
+            ""asyncio.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(3): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(0.1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    }
+]",3,10480,0.00524,890,0.001335,0.006575
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Cancel all pending tasks on `loop`, wait for them, and close the loop.""""""
+try:
+    # This part is borrowed from asyncio/runners.py in Python 3.7b2.
+    to_cancel = [task for task in asyncio.all_tasks(loop) if not task.done()]
+    if not to_cancel:
+        exit() # uncovered
+    for task in to_cancel:
+        task.cancel()
+    loop.run_until_complete(asyncio.gather(*to_cancel, return_exceptions=True))
+finally:
+    # `concurrent.futures.Future` objects cannot be cancelled once they
+    # are already running. There might be some when the `shutdown()` happened.
+    # Silence their logger's spew about the event loop being closed.
+    cf_logger = logging.getLogger(""concurrent.futures"")
+    cf_logger.setLevel(logging.CRITICAL)
+    loop.close()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(2)"",
+            ""for _ in range(2): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(1): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(loop.create_task(asyncio.sleep(0)))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))"",
+            ""to_cancel = [task for task in asyncio.all_tasks(loop) if not task.done()]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(0.5)"",
+            ""loop.create_task(dummy_task())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(2)"",
+            ""for _ in range(2): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(0.1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0.1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""import logging""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop()"",
+            ""asyncio.set_event_loop(loop)"",
+            ""async def dummy_task(): await asyncio.sleep(1)"",
+            ""for _ in range(2): loop.create_task(dummy_task())"",
+            ""loop.run_until_complete(asyncio.sleep(0))""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(2) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(1): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(loop.create_task(asyncio.sleep(0))) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover"",
+            ""to_cancel = [task for task in asyncio.all_tasks(loop) if not task.done()] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(0.5) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(2) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(0.1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0.1)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""import logging # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loop = asyncio.new_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop(loop) # pragma: no cover"",
+            ""async def dummy_task(): await asyncio.sleep(1) # pragma: no cover"",
+            ""for _ in range(2): loop.create_task(dummy_task()) # pragma: no cover"",
+            ""loop.run_until_complete(asyncio.sleep(0)) # pragma: no cover""
+        ]
+    }
+]",3,11817,0.0059085,899,0.0013485,0.0072569999999999996

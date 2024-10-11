@@ -1,0 +1,15 @@
+from unittest.mock import Mock # pragma: no cover
+
+counter_var = Mock() # pragma: no cover
+counter_var.assign_add = Mock() # pragma: no cover
+x = 0 # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/data/kernel_tests/map_test.py
+from l3.Runtime import _l_
+counter_var.assign_add(1)
+_l_(8560)
+aux = x
+_l_(8561)
+exit(aux)

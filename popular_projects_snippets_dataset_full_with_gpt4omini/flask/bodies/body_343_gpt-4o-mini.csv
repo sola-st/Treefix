@@ -1,0 +1,4803 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Attempt to figure out if the given name is a package or a module.
+
+    :param: loader: The loader that handled the name.
+    :param mod_name: The name of the package or module.
+    """"""
+# Use loader.is_package if it's available.
+if hasattr(loader, ""is_package""):
+    exit(loader.is_package(mod_name))
+
+cls = type(loader)
+
+# NamespaceLoader doesn't implement is_package, but all names it
+# loads must be packages.
+if cls.__module__ == ""_frozen_importlib"" and cls.__name__ == ""NamespaceLoader"":
+    exit(True)
+
+# Otherwise we need to fail with an error that explains what went
+# wrong.
+raise AttributeError(
+    f""'{cls.__name__}.is_package()' must be implemented for PEP 302""
+    f"" import hooks.""
+)
+
+# end code snippet
+
+# begin undefined variables
+loader
+mod_name
+# end undefined variables
+
+# begin undefined attributes and methods
+loader.is_package
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from types import ModuleType"",
+            ""class MockLoader: pass""
+        ],
+        ""initialization"": [
+            ""loader = type('MockLoader', (object,), {'is_package': lambda self, name: False})()"",
+            ""mod_name = 'my_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""class MockNamespaceLoader(types.Loader):"",
+            ""    def is_package(self, name):"",
+            ""        return True""
+        ],
+        ""initialization"": [
+            ""loader = MockNamespaceLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""loader = type('MockLoader', (object,), {'is_package': lambda self, name: name.endswith('.pkg')})())"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return name.endswith('-pkg')\n\nloader = MockLoader()"",
+            ""mod_name = 'example-pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import ModuleType""
+        ],
+        ""initialization"": [
+            ""loader = type('MockLoader', (object,), {'is_package': lambda self, name: name.endswith('.package')})())"",
+            ""mod_name = 'example.package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib.machinery import ModuleSpec"",
+            ""from types import module""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return name.endswith('.pkg')\n\nloader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib.machinery import NamespaceLoader""
+        ],
+        ""initialization"": [
+            ""loader = NamespaceLoader('mock_package', None)"",
+            ""mod_name = 'mock_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:  # Mock class to simulate loader behavior\n    def is_package(self, name):\n        return name.endswith('.pkg')  # Example logic for package detection\n\nloader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""loader = type('MockLoader', (object,), {'is_package': lambda self, name: name.endswith('.pkg')})()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""import _frozen_importlib""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True  # Assuming the mock loader treats everything as a package\n\nloader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from types import ModuleType # pragma: no cover"",
+            ""class MockLoader: pass # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = type('MockLoader', (object,), {'is_package': lambda self, name: False})() # pragma: no cover"",
+            ""mod_name = 'my_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name.endswith('-pkg')# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example-pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import ModuleType # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example.package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib.machinery import ModuleSpec # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name.endswith('.pkg')# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:  # Mock class to simulate loader behavior# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name.endswith('.pkg')  # Example logic for package detection# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = type('MockLoader', (object,), {'is_package': lambda self, name: name.endswith('.pkg')})() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""import _frozen_importlib # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True  # Assuming the mock loader treats everything as a package# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    }
+]",1,464,0.000232,717,0.0010755,0.0013075
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 12:
+    if hasattr(loader, ""is_package""):
+NameError: name 'loader' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import types"",
+            ""class MockLoader(types.Loader):"",
+            ""    def is_package(self, name):"",
+            ""        return name.startswith('package')""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'package_example'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""class MockLoader(types.Loader):"",
+            ""    def is_package(self, name):"",
+            ""        return name.startswith('package_')""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'package_example'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""class MockLoader(types.Loader):"",
+            ""    def __init__(self):"",
+            ""        self.is_package = lambda name: True""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""class MockLoader(types.Loader):"",
+            ""    def __init__(self):"",
+            ""        self.is_package = lambda name: True""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""class MockLoader(types.Loader):"",
+            ""    def is_package(self, name):"",
+            ""        return name.startswith('package_')""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'package_example'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""class MockLoader(types.Loader):"",
+            ""    def is_package(self, name):"",
+            ""        return name in ['example_package']""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""class MockLoader(types.Loader):"",
+            ""    def is_package(self, name):"",
+            ""        return False""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""class MockLoader(types.Loader):"",
+            ""    def is_package(self, name):"",
+            ""        return name.startswith('package_')""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'package_example'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""class MockLoader(types.Loader):"",
+            ""    def is_package(self, name):"",
+            ""        return True""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""class MockLoader(types.NullImporter):"",
+            ""    def is_package(self, name):"",
+            ""        return name in ('example_package', 'another_package')"",
+            ""class MockNamespaceLoader(types.Loader):"",
+            ""    def is_package(self):"",
+            ""        return False""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'package_example' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'package_example' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'package_example' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'package_example' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    }
+]",2,829,0.0004145,769,0.0011535,0.001568
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 12:
+    if hasattr(loader, ""is_package""):
+NameError: name 'loader' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import types"",
+            ""class MockLoader(types.Loader):"",
+            ""    def is_package(self, name):"",
+            ""        return name.endswith('.pkg')""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader(types.Loader):"",
+            ""    def is_package(self, name):"",
+            ""        return name.endswith('.pkg')"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:  # Define a mock loader class"",
+            ""    def is_package(self, name):  # Mock implementation of is_package"",
+            ""        return name == 'example.package'"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example.package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:  # Mock implementation for the loader"",
+            ""    def is_package(self, name):"",
+            ""        return name == 'example_package'"",
+            """",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return name.endswith('.pkg')"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return name.endswith('.pkg')"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return True"",
+            """",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return name.endswith('.pkg')"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return name.endswith('.pkg')"",
+            """",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:"",
+            ""    def is_package(self):"",
+            ""        return True"",
+            """",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:  # Define a mock loader class # pragma: no cover"",
+            ""    def is_package(self, name):  # Mock implementation of is_package # pragma: no cover"",
+            ""        return name == 'example.package' # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:  # Mock implementation for the loader # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return name == 'example_package' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return name.endswith('.pkg') # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return name.endswith('.pkg') # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return True # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return name.endswith('.pkg') # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return name.endswith('.pkg') # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self): # pragma: no cover"",
+            ""        return True # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    }
+]",2,1187,0.0005935,730,0.001095,0.0016885
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return name == 'example-package'\n\nloader = MockLoader()"",
+            ""mod_name = 'example-package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True\n\nloader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True  # Mock treatment for all names\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return name == 'example_package'"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return name.endswith('package')\n\nloader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name == 'example-package'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example-package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True  # Mock treatment for all names# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name == 'example_package' # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name.endswith('package')# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    }
+]",2,1528,0.000764,641,0.0009615,0.0017255
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 12:
+    if hasattr(loader, ""is_package""):
+NameError: name 'loader' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return name.startswith('pkg_')""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'pkg_example'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return name.startswith('package')""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'package_example'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True  # For testing, let's assume everything is a package\n\nloader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return name.startswith('pkg_')""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'pkg_example'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return name.endswith('.pkg')""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return name == 'example_package'"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return name == 'example.package'""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example.package'""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True\n\nloader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return True  # Mock implementation that simulates a package""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name.startswith('pkg_') # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'pkg_example' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return name.startswith('package') # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'package_example' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True  # For testing, let's assume everything is a package# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return name.startswith('pkg_') # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'pkg_example' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return name.endswith('.pkg') # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name == 'example_package' # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return name == 'example.package' # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return True  # Mock implementation that simulates a package # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    }
+]",2,1889,0.0009445,668,0.001002,0.0019465
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return name == 'example_package'"",
+            ""        ""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return True""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return name.endswith('.pkg')""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True\n\nloader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True\n\nloader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class Mock:\n    def is_package(self, name):\n        return True""
+        ],
+        ""initialization"": [
+            ""loader = Mock()"",
+            ""mod_name = 'mock_module'""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return name == 'example_package'"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return name == 'example_package' # pragma: no cover"",
+            ""         # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return True # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return name.endswith('.pkg') # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class Mock:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = Mock() # pragma: no cover"",
+            ""mod_name = 'mock_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name == 'example_package' # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    }
+]",2,2243,0.0011215,617,0.0009255,0.002047
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 10:
+    if hasattr(loader, ""is_package""):
+NameError: name 'loader' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return name == 'example_package'""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return name.endswith('.pkg')""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return name.endswith('.pkg')""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return True""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return True""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return True""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self):\n        return True\n\nloader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return name == 'example_pkg'""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_pkg'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return name == 'example_package' # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return name.endswith('.pkg') # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return name.endswith('.pkg') # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return True # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return True # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return True # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self):# pragma: no cover"",
+            ""        return True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return name == 'example_pkg' # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_pkg' # pragma: no cover""
+        ]
+    }
+]",2,2591,0.0012955,635,0.0009525,0.002248
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True  # For simplicity, this loader assumes all names are packages\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return name.startswith('example')\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True if name == 'example.pkg' else False\n\nloader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True if name == 'example_package' else False\n\nloader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True  # Simulate that all names are packages for testing\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True  # Assume it is a package for testing\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True  # Simulate that everything is a package\n\nloader = MockLoader()"",
+            ""mod_name = 'my_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True  # Mock implementation that always returns True\n\nloader = MockLoader()"",
+            ""mod_name = 'example'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:""
+        ],
+        ""initialization"": [
+            ""def is_package(self, name):\n        return name.endswith('.pkg')\n\n    # Mock implementation\n    pass\nloader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return name == 'example_package'""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True  # For simplicity, this loader assumes all names are packages# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name.startswith('example')# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True if name == 'example.pkg' else False# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True if name == 'example_package' else False# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True  # Simulate that all names are packages for testing# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True  # Assume it is a package for testing# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True  # Simulate that everything is a package# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'my_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True  # Mock implementation that always returns True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""# pragma: no cover"",
+            ""    # Mock implementation# pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name == 'example_package' # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    }
+]",2,2945,0.0014725,698,0.001047,0.0025195
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from types import ModuleType""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return name.endswith('.pkg')\n\nloader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True if name == 'example_pkg' else False\n\nloader = MockLoader()"",
+            ""mod_name = 'example_pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return name.endswith('.pkg')\n\nloader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return True""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return True""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example.module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return name.endswith('.pkg')""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import ModuleType""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return name == 'example.pkg'  # Simulating behavior for this specific case\n\nloader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True if name.endswith('.pkg') else False\n\nloader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True  # Mock implementation always returning True""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from types import ModuleType # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name.endswith('.pkg')# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True if name == 'example_pkg' else False# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name.endswith('.pkg')# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return True # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return True # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return name.endswith('.pkg') # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import ModuleType # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name == 'example.pkg'  # Simulating behavior for this specific case# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True if name.endswith('.pkg') else False# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True  # Mock implementation always returning True # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'mock_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    }
+]",2,3281,0.0016405,687,0.0010305,0.0026709999999999
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True  # Mock behavior: all names are treated as packages\n\nloader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True  # Example logic to signify it is a package\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True  # This mock loader always considers a module as a package\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return name in ['example_package', 'another_package']  # Arbitrary package name check\n\nloader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:  # Mock class to simulate loader behavior\n    def is_package(self, name):\n        return True  # Treat everything as a package\n\nloader = MockLoader()"",
+            ""mod_name = 'example'""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True  # For the purpose of this test, treat all as packages\n\nloader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return name.endswith('.pkg')\n\nloader = MockLoader()"",
+            ""mod_name = 'example.pkg'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return name.startswith('example')  # Simulated logic to identify a package\n\nloader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""import _frozen_importlib""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self, name):\n        return True  # This mock indicates that the name provided is a package\n\nloader = MockLoader()"",
+            ""mod_name = 'mock_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def is_package(self):\n        return True  # Always returning True for testing purposes\n\nloader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True  # Mock behavior: all names are treated as packages# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True  # Example logic to signify it is a package# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True  # This mock loader always considers a module as a package# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name in ['example_package', 'another_package']  # Arbitrary package name check# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:  # Mock class to simulate loader behavior# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True  # Treat everything as a package# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True  # For the purpose of this test, treat all as packages# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name.endswith('.pkg')# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example.pkg' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return name.startswith('example')  # Simulated logic to identify a package# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""import _frozen_importlib # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self, name):# pragma: no cover"",
+            ""        return True  # This mock indicates that the name provided is a package# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'mock_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def is_package(self):# pragma: no cover"",
+            ""        return True  # Always returning True for testing purposes# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    }
+]",2,3636,0.001818,754,0.001131,0.002949
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Attempt to figure out if the given name is a package or a module.
+    :param: loader: The loader that handled the name.
+    :param mod_name: The name of the package or module.
+    """"""
+# Use loader.is_package if it's available.
+if hasattr(loader, ""is_package""):
+    aux = loader.is_package(mod_name)
+    exit(aux) # uncovered
+cls = type(loader) # uncovered
+# NamespaceLoader doesn't implement is_package, but all names it
+# loads must be packages.
+if cls.__module__ == ""_frozen_importlib"" and cls.__name__ == ""NamespaceLoader"": # uncovered
+    aux = True # uncovered
+    exit(aux) # uncovered
+# Otherwise we need to fail with an error that explains what went
+# wrong.
+raise AttributeError( # uncovered
+    f""'{cls.__name__}.is_package()' must be implemented for PEP 302"" # uncovered
+    f"" import hooks."" # uncovered
+) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import importlib"",
+            ""import types""
+        ],
+        ""initialization"": [
+            ""loader = type('MockLoader', (object,), {'is_package': lambda self, name: False})()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.PathFinder):"",
+            ""    def is_package(self, name):"",
+            ""        return True"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from importlib import loaders""
+        ],
+        ""initialization"": [
+            ""class MockLoader(types.ModuleType):"",
+            ""    def is_package(self, name):"",
+            ""        return True"",
+            ""loader = MockLoader('mock_loader')"",
+            ""mod_name = 'mock_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib""
+        ],
+        ""initialization"": [
+            ""class MockLoader:  # Mock class that simulates a loader with is_package method implementation"",
+            ""    def is_package(self, name):  # Method to indicate that it's a package"",
+            ""        return True"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""loader = type(\""MockLoader\"", (object,), { 'is_package': lambda self, name: True })()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib.machinery import PathFinder, NamespaceLoader""
+        ],
+        ""initialization"": [
+            ""class MockLoader(NamespaceLoader): pass"",
+            ""loader = MockLoader('mock_path')"",
+            ""mod_name = 'mock_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""import importlib""
+        ],
+        ""initialization"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, mod_name):"",
+            ""        return True"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""loader = type('MockLoader', (object,), {'is_package': lambda self, name: False})()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""import importlib""
+        ],
+        ""initialization"": [
+            ""class MockLoader:"",
+            ""    def is_package(self, name):"",
+            ""        return True"",
+            """",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from importlib import machinery""
+        ],
+        ""initialization"": [
+            ""loader = type('MockLoader', (object,), {'is_package': lambda self, name: False})()"",
+            ""mod_name = 'some_module'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import importlib # pragma: no cover"",
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = type('MockLoader', (object,), {'is_package': lambda self, name: False})() # pragma: no cover"",
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return True # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader(types.ModuleType): # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return True # pragma: no cover"",
+            ""loader = MockLoader('mock_loader') # pragma: no cover"",
+            ""mod_name = 'mock_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:  # Mock class that simulates a loader with is_package method implementation # pragma: no cover"",
+            ""    def is_package(self, name):  # Method to indicate that it's a package # pragma: no cover"",
+            ""        return True # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'some_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = type(\""MockLoader\"", (object,), { 'is_package': lambda self, name: True })() # pragma: no cover"",
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""import importlib # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, mod_name): # pragma: no cover"",
+            ""        return True # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'some_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = type('MockLoader', (object,), {'is_package': lambda self, name: False})() # pragma: no cover"",
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""import importlib # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return True # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""from importlib import machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""loader = type('MockLoader', (object,), {'is_package': lambda self, name: False})() # pragma: no cover"",
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    }
+]",3,500,0.00025,748,0.001122,0.001372
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Attempt to figure out if the given name is a package or a module.
+    :param: loader: The loader that handled the name.
+    :param mod_name: The name of the package or module.
+    """"""
+# Use loader.is_package if it's available.
+if hasattr(loader, ""is_package""):
+    aux = loader.is_package(mod_name)
+    exit(aux) # uncovered
+cls = type(loader) # uncovered
+# NamespaceLoader doesn't implement is_package, but all names it
+# loads must be packages.
+if cls.__module__ == ""_frozen_importlib"" and cls.__name__ == ""NamespaceLoader"": # uncovered
+    aux = True # uncovered
+    exit(aux) # uncovered
+# Otherwise we need to fail with an error that explains what went
+# wrong.
+raise AttributeError( # uncovered
+    f""'{cls.__name__}.is_package()' must be implemented for PEP 302"" # uncovered
+    f"" import hooks."" # uncovered
+) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(types.ModuleType):"",
+            ""    def is_package(self, name):"",
+            ""        return True"",
+            ""loader = MockLoader('mock_loader')"",
+            ""mod_name = 'mock_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from importlib import machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(machinery.PathFinder):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def __init__(self):"",
+            ""        pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockNamespaceLoader(importlib.machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockNamespaceLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from importlib import machinery""
+        ],
+        ""initialization"": [
+            ""class MockNamespaceLoader(machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockNamespaceLoader()"",
+            ""mod_name = 'mock_namespace'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib.machinery import PathFinder, NamespaceLoader""
+        ],
+        ""initialization"": [
+            ""class MockLoader(NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from importlib import machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(machinery.PathFinder):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'sample_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from importlib import machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(machinery.NamespaceLoader): pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_namespace'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from importlib import machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(machinery.ModuleSpec):"",
+            ""    def is_package(self, name):"",
+            ""        return False  # Simulate it is not a package"",
+            ""loader = MockLoader('mock_name', None)"",
+            ""mod_name = 'some_module'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader(types.ModuleType): # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return True # pragma: no cover"",
+            ""loader = MockLoader('mock_loader') # pragma: no cover"",
+            ""mod_name = 'mock_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""from importlib import machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader(machinery.PathFinder): # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""from importlib import machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_namespace' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""from importlib import machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader(machinery.PathFinder): # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""loader = MockLoader() # pragma: no cover"",
+            ""mod_name = 'sample_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""from importlib import machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_namespace' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""from importlib import machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader(machinery.ModuleSpec): # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return False  # Simulate it is not a package # pragma: no cover"",
+            ""loader = MockLoader('mock_name', None) # pragma: no cover"",
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    }
+]",3,1725,0.0008625,733,0.0010995,0.001962
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Attempt to figure out if the given name is a package or a module.
+    :param: loader: The loader that handled the name.
+    :param mod_name: The name of the package or module.
+    """"""
+# Use loader.is_package if it's available.
+if hasattr(loader, ""is_package""):
+    aux = loader.is_package(mod_name)
+    exit(aux) # uncovered
+cls = type(loader)
+# NamespaceLoader doesn't implement is_package, but all names it
+# loads must be packages.
+if cls.__module__ == ""_frozen_importlib"" and cls.__name__ == ""NamespaceLoader"": # uncovered
+    aux = True # uncovered
+    exit(aux) # uncovered
+# Otherwise we need to fail with an error that explains what went
+# wrong.
+raise AttributeError( # uncovered
+    f""'{cls.__name__}.is_package()' must be implemented for PEP 302"" # uncovered
+    f"" import hooks."" # uncovered
+) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import types"",
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return True"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""import importlib""
+        ],
+        ""initialization"": [
+            ""class MockLoader(types.ModuleType):"",
+            ""    def is_package(self, name): return True"",
+            ""loader = MockLoader('mock_loader')"",
+            ""mod_name = 'some_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockNamespaceLoader(importlib.machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockNamespaceLoader()"",
+            ""mod_name = 'dummy_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib.machinery import NamespaceLoader""
+        ],
+        ""initialization"": [
+            ""class MockNamespaceLoader(NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockNamespaceLoader()"",
+            ""mod_name = 'some_mock_namespace'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib.machinery import NamespaceLoader""
+        ],
+        ""initialization"": [
+            ""class MockLoader(NamespaceLoader):"",
+            ""    def __init__(self):"",
+            ""        super().__init__()"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(types.ModuleType):"",
+            ""    def is_package(self, name):"",
+            ""        return False"",
+            ""loader = MockLoader('mock_loader')"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib import machinery""
+        ],
+        ""initialization"": [
+            ""class MockNamespaceLoader(machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockNamespaceLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        raise NotImplementedError()  # Simulating that is_package is not implemented"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib.machinery import NamespaceLoader""
+        ],
+        ""initialization"": [
+            ""class MockLoader(NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return True"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_package'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""import importlib # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader(types.ModuleType): # pragma: no cover"",
+            ""    def is_package(self, name): return True # pragma: no cover"",
+            ""loader = MockLoader('mock_loader') # pragma: no cover"",
+            ""mod_name = 'some_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'dummy_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_mock_namespace' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader(types.ModuleType): # pragma: no cover"",
+            ""    def is_package(self, name): # pragma: no cover"",
+            ""        return False # pragma: no cover"",
+            ""loader = MockLoader('mock_loader') # pragma: no cover"",
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib import machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_package' # pragma: no cover""
+        ]
+    }
+]",3,2932,0.001466,769,0.0011535,0.0026195
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Attempt to figure out if the given name is a package or a module.
+    :param: loader: The loader that handled the name.
+    :param mod_name: The name of the package or module.
+    """"""
+# Use loader.is_package if it's available.
+if hasattr(loader, ""is_package""):
+    aux = loader.is_package(mod_name)
+    exit(aux) # uncovered
+cls = type(loader)
+# NamespaceLoader doesn't implement is_package, but all names it
+# loads must be packages.
+if cls.__module__ == ""_frozen_importlib"" and cls.__name__ == ""NamespaceLoader"": # uncovered
+    aux = True # uncovered
+    exit(aux) # uncovered
+# Otherwise we need to fail with an error that explains what went
+# wrong.
+raise AttributeError( # uncovered
+    f""'{cls.__name__}.is_package()' must be implemented for PEP 302"" # uncovered
+    f"" import hooks."" # uncovered
+) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import types"",
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name): return False"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_namespace'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_namespace'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib.machinery import NamespaceLoader""
+        ],
+        ""initialization"": [
+            ""class MockLoader(NamespaceLoader):"",
+            ""    def is_package(self, mod_name):"",
+            ""        return False  # Simulating a situation where is_package exists but returns False"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib import machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'dummy_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockNamespaceLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        raise NotImplementedError()  # Simulate that is_package is not implemented"",
+            ""loader = MockNamespaceLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib.machinery import NamespaceLoader""
+        ],
+        ""initialization"": [
+            ""class MockLoader(NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False  # Simulate it is not a package"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib.machinery import NamespaceLoader""
+        ],
+        ""initialization"": [
+            ""class MockLoader(NamespaceLoader): pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_module'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_namespace' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_namespace' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib import machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'dummy_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_module' # pragma: no cover""
+        ]
+    }
+]",3,4175,0.0020875,764,0.001146,0.0032335
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Attempt to figure out if the given name is a package or a module.
+    :param: loader: The loader that handled the name.
+    :param mod_name: The name of the package or module.
+    """"""
+# Use loader.is_package if it's available.
+if hasattr(loader, ""is_package""):
+    aux = loader.is_package(mod_name)
+    exit(aux) # uncovered
+cls = type(loader)
+# NamespaceLoader doesn't implement is_package, but all names it
+# loads must be packages.
+if cls.__module__ == ""_frozen_importlib"" and cls.__name__ == ""NamespaceLoader"": # uncovered
+    aux = True # uncovered
+    exit(aux) # uncovered
+# Otherwise we need to fail with an error that explains what went
+# wrong.
+raise AttributeError( # uncovered
+    f""'{cls.__name__}.is_package()' must be implemented for PEP 302"" # uncovered
+    f"" import hooks."" # uncovered
+) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_namespace'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockNamespaceLoader(importlib.machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockNamespaceLoader('mock', None)"",
+            ""mod_name = 'some_namespace'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return True"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from importlib.machinery import NamespaceLoader""
+        ],
+        ""initialization"": [
+            ""class MockLoader(NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False  # Simulating it is not a package"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return True"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib import machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name): return False"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_namespace'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return True"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_package'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_namespace' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_namespace' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib import machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_namespace' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_package' # pragma: no cover""
+        ]
+    }
+]",3,5413,0.0027065,759,0.0011385,0.003845
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Attempt to figure out if the given name is a package or a module.
+    :param: loader: The loader that handled the name.
+    :param mod_name: The name of the package or module.
+    """"""
+# Use loader.is_package if it's available.
+if hasattr(loader, ""is_package""):
+    aux = loader.is_package(mod_name)
+    exit(aux) # uncovered
+cls = type(loader)
+# NamespaceLoader doesn't implement is_package, but all names it
+# loads must be packages.
+if cls.__module__ == ""_frozen_importlib"" and cls.__name__ == ""NamespaceLoader"": # uncovered
+    aux = True # uncovered
+    exit(aux) # uncovered
+# Otherwise we need to fail with an error that explains what went
+# wrong.
+raise AttributeError( # uncovered
+    f""'{cls.__name__}.is_package()' must be implemented for PEP 302"" # uncovered
+    f"" import hooks."" # uncovered
+) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name): raise NotImplementedError()"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return True"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False  # simulating that it's not a package"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockNamespaceLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        raise NotImplementedError('is_package not implemented')"",
+            ""loader = MockNamespaceLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib import machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name): return True"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_namespace'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False"",
+            ""  # Simulating that it's not a package."",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader): pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_namespace'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib import machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_namespace' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_namespace' # pragma: no cover""
+        ]
+    }
+]",3,6646,0.003323,786,0.001179,0.004502
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Attempt to figure out if the given name is a package or a module.
+    :param: loader: The loader that handled the name.
+    :param mod_name: The name of the package or module.
+    """"""
+# Use loader.is_package if it's available.
+if hasattr(loader, ""is_package""):
+    aux = loader.is_package(mod_name)
+    exit(aux) # uncovered
+cls = type(loader)
+# NamespaceLoader doesn't implement is_package, but all names it
+# loads must be packages.
+if cls.__module__ == ""_frozen_importlib"" and cls.__name__ == ""NamespaceLoader"": # uncovered
+    aux = True # uncovered
+    exit(aux) # uncovered
+# Otherwise we need to fail with an error that explains what went
+# wrong.
+raise AttributeError( # uncovered
+    f""'{cls.__name__}.is_package()' must be implemented for PEP 302"" # uncovered
+    f"" import hooks."" # uncovered
+) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        # Overriding to simulate that this module does not have is_package implemented"",
+            ""        raise NotImplementedError"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib.machinery import NamespaceLoader""
+        ],
+        ""initialization"": [
+            ""class MockLoader(NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        pass"",
+            ""  # Simulating that is_package is not implemented."",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockNamespaceLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        raise NotImplementedError('is_package() not implemented')"",
+            ""loader = MockNamespaceLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        raise NotImplementedError('is_package not implemented')"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name): raise NotImplementedError()"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        raise NotImplementedError()"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from importlib.machinery import NamespaceLoader""
+        ],
+        ""initialization"": [
+            ""class MockLoader(NamespaceLoader): pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        raise NotImplementedError('is_package not implemented')"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib.machinery import NamespaceLoader""
+        ],
+        ""initialization"": [
+            ""class MockLoader(NamespaceLoader): pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""  # Simulating that is_package is not implemented. # pragma: no cover"",
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    }
+]",3,7906,0.003953,823,0.0012345,0.0051874999999999
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Attempt to figure out if the given name is a package or a module.
+    :param: loader: The loader that handled the name.
+    :param mod_name: The name of the package or module.
+    """"""
+# Use loader.is_package if it's available.
+if hasattr(loader, ""is_package""):
+    aux = loader.is_package(mod_name)
+    exit(aux) # uncovered
+cls = type(loader)
+# NamespaceLoader doesn't implement is_package, but all names it
+# loads must be packages.
+if cls.__module__ == ""_frozen_importlib"" and cls.__name__ == ""NamespaceLoader"": # uncovered
+    aux = True # uncovered
+    exit(aux) # uncovered
+# Otherwise we need to fail with an error that explains what went
+# wrong.
+raise AttributeError( # uncovered
+    f""'{cls.__name__}.is_package()' must be implemented for PEP 302"" # uncovered
+    f"" import hooks."" # uncovered
+) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        raise NotImplementedError()"",
+            ""  # Simulating is_package is not implemented"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockNamespaceLoader(importlib.machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockNamespaceLoader()"",
+            ""mod_name = 'some_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib.machinery import NamespaceLoader""
+        ],
+        ""initialization"": [
+            ""class MockLoader(NamespaceLoader):"",
+            ""    def is_package(self, name): raise NotImplementedError()"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        raise NotImplementedError('is_package not implemented')"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name): raise NotImplementedError()"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'test_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        raise NotImplementedError('is_package not implemented')"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    # Simulating that is_package is not implemented"",
+            ""    def is_package(self, name):"",
+            ""        raise NotImplementedError('is_package not implemented')"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        pass  # Simulating lack of implementation"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return True"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'test_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    }
+]",3,9203,0.0046015,834,0.001251,0.0058525
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Attempt to figure out if the given name is a package or a module.
+    :param: loader: The loader that handled the name.
+    :param mod_name: The name of the package or module.
+    """"""
+# Use loader.is_package if it's available.
+if hasattr(loader, ""is_package""):
+    aux = loader.is_package(mod_name)
+    exit(aux) # uncovered
+cls = type(loader)
+# NamespaceLoader doesn't implement is_package, but all names it
+# loads must be packages.
+if cls.__module__ == ""_frozen_importlib"" and cls.__name__ == ""NamespaceLoader"": # uncovered
+    aux = True # uncovered
+    exit(aux) # uncovered
+# Otherwise we need to fail with an error that explains what went
+# wrong.
+raise AttributeError( # uncovered
+    f""'{cls.__name__}.is_package()' must be implemented for PEP 302"" # uncovered
+    f"" import hooks."" # uncovered
+) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False"",
+            ""  # Simulating that is_package is available but returns False."",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        pass  # Simulating that is_package method exists without implementation"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_namespace'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib.machinery import NamespaceLoader""
+        ],
+        ""initialization"": [
+            ""class MockLoader(NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False"",
+            ""  # Simulate that it's not a package."",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False"",
+            ""  # Simulating that it's not a package"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return True"",
+            ""  # Simulating that it is a package"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_namespace' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""  # Simulate that it's not a package. # pragma: no cover"",
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    }
+]",3,10511,0.0052555,804,0.001206,0.0064615
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Attempt to figure out if the given name is a package or a module.
+    :param: loader: The loader that handled the name.
+    :param mod_name: The name of the package or module.
+    """"""
+# Use loader.is_package if it's available.
+if hasattr(loader, ""is_package""):
+    aux = loader.is_package(mod_name)
+    exit(aux) # uncovered
+cls = type(loader)
+# NamespaceLoader doesn't implement is_package, but all names it
+# loads must be packages.
+if cls.__module__ == ""_frozen_importlib"" and cls.__name__ == ""NamespaceLoader"": # uncovered
+    aux = True # uncovered
+    exit(aux) # uncovered
+# Otherwise we need to fail with an error that explains what went
+# wrong.
+raise AttributeError( # uncovered
+    f""'{cls.__name__}.is_package()' must be implemented for PEP 302"" # uncovered
+    f"" import hooks."" # uncovered
+) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name): return True"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False  # Simulating it is not a package"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'dummy_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return True  # Simulating that it recognizes the name as a package"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return False"",
+            ""  # Simulating that it's not a package."",
+            ""loader = MockLoader()"",
+            ""mod_name = 'test_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        return True"",
+            ""  # Simulating that it identifies as a package"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_package'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        raise NotImplementedError()  # Simulating that is_package is not implemented"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from importlib.machinery import NamespaceLoader""
+        ],
+        ""initialization"": [
+            ""class MockLoader(NamespaceLoader): pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'some_namespace'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    pass"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'mock_module'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery""
+        ],
+        ""initialization"": [
+            ""class MockLoader(importlib.machinery.NamespaceLoader):"",
+            ""    def is_package(self, name):"",
+            ""        raise NotImplementedError('This should be implemented')"",
+            ""loader = MockLoader()"",
+            ""mod_name = 'example_module'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'dummy_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'test_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_package' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""mod_name = 'some_namespace' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'mock_module' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import importlib.machinery # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mod_name = 'example_module' # pragma: no cover""
+        ]
+    }
+]",3,11789,0.0058945,824,0.001236,0.0071305000000000006

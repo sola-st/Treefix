@@ -1,0 +1,56 @@
+class MockOp: # pragma: no cover
+    def __init__(self): # pragma: no cover
+        self.node_def = self # pragma: no cover
+        self.node_def.name = 'Q' # pragma: no cover
+        self.node_def.device = '/device:CPU:*' # pragma: no cover
+        self.node_def.op = 'FIFOQueueV2' # pragma: no cover
+        self.node_def.attr = {'component_types': { 'list': [{ 'type': dtypes_lib.int32 }, { 'type': dtypes_lib.float32 }] }, 'shapes': { 'list': [{ 'shape': [[1, 1, 2, 3]] }, { 'shape': [[5, 8]] }] }, 'capacity': { 'i': 5 }, 'container': { 's': '' }, 'shared_name': { 's': '' } } # pragma: no cover
+class MockQueueRef: # pragma: no cover
+    def __init__(self): # pragma: no cover
+        self.op = MockOp() # pragma: no cover
+class MockQueue: # pragma: no cover
+    def __init__(self): # pragma: no cover
+        self.queue_ref = MockQueueRef() # pragma: no cover
+        self.names = ['i', 'f'] # pragma: no cover
+self = type('MockSelf', (object,), { # pragma: no cover
+    'assertTrue': lambda self, x: print('assertTrue:', x), # pragma: no cover
+    'assertProtoEquals': lambda self, x, y: print('assertProtoEquals:', x == y), # pragma: no cover
+    'assertEqual': lambda self, x, y: print('assertEqual:', x == y) # pragma: no cover
+})() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/data_structures/fifo_queue_test.py
+from l3.Runtime import _l_
+with ops.Graph().as_default():
+    _l_(8094)
+
+    q = data_flow_ops.FIFOQueue(
+        5, (dtypes_lib.int32, dtypes_lib.float32),
+        names=("i", "f"),
+        shapes=(tensor_shape.TensorShape([1, 1, 2, 3]),
+                tensor_shape.TensorShape([5, 8])),
+        name="Q")
+    _l_(8093)
+self.assertTrue(isinstance(q.queue_ref, ops.Tensor))
+_l_(8095)
+self.assertProtoEquals("""
+      name:'Q' device: "/device:CPU:*" op:'FIFOQueueV2'
+      attr { key: 'component_types' value { list {
+        type: DT_INT32 type : DT_FLOAT
+      } } }
+      attr { key: 'shapes' value { list {
+        shape { dim { size: 1 }
+                dim { size: 1 }
+                dim { size: 2 }
+                dim { size: 3 } }
+        shape { dim { size: 5 }
+                dim { size: 8 } }
+      } } }
+      attr { key: 'capacity' value { i: 5 } }
+      attr { key: 'container' value { s: '' } }
+      attr { key: 'shared_name' value { s: '' } }
+      """, q.queue_ref.op.node_def)
+_l_(8096)
+self.assertEqual(["i", "f"], q.names)
+_l_(8097)

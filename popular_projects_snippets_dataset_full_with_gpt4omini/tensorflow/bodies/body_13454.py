@@ -1,0 +1,4 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/lookup_ops.py
+if self._table is not None:
+    exit(self._table.resource_handle)
+exit(None)

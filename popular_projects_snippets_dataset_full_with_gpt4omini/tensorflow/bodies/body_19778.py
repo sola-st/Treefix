@@ -1,0 +1,32 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/tpu/tpu_infeed_test.py
+"""Tests modification of the queue post-construction."""
+i = tpu_feed.InfeedQueue(number_of_tuple_elements=2)
+i.set_tuple_types([dtypes.float32, dtypes.int32])
+self.assertEqual(i.tuple_types, [dtypes.float32, dtypes.int32])
+i.set_tuple_types([dtypes.float32, dtypes.float32])
+self.assertEqual(i.tuple_types, [dtypes.float32, dtypes.float32])
+with self.assertRaises(ValueError):
+    i.set_tuple_types([dtypes.float32])
+i.set_tuple_shapes([[1], [2, 3]])
+self.assertEqual(i.tuple_shapes, [[1], [2, 3]])
+i.set_tuple_shapes([[1, 2], [3, 4]])
+self.assertEqual(i.tuple_shapes, [[1, 2], [3, 4]])
+with self.assertRaises(ValueError):
+    i.set_tuple_shapes([[1, 2]])
+i.set_number_of_shards(2)
+self.assertEqual(i.number_of_shards, 2)
+i.set_number_of_shards(3)
+self.assertEqual(i.number_of_shards, 3)
+t1 = constant_op.constant(1, dtypes.int32, shape=[6])
+t2 = constant_op.constant(2.0, dtypes.float32, shape=[3, 18])
+i.set_configuration_from_input_tensors([t1, t2])
+self.assertEqual(i.tuple_shapes, [[6], [3, 18]])
+self.assertEqual(i.tuple_types, [dtypes.int32, dtypes.float32])
+i.set_configuration_from_sharded_input_tensors([[t2, t1], [t2, t1]])
+self.assertEqual(i.number_of_shards, 2)
+self.assertEqual(i.tuple_shapes, [[6, 18], [12]])
+self.assertEqual(i.tuple_types, [dtypes.float32, dtypes.int32])
+i.set_shard_dimensions([1, 0])
+i.set_number_of_shards(3)
+with self.assertRaises(ValueError):
+    i.set_number_of_shards(4)

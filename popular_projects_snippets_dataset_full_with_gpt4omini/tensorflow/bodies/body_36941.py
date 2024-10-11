@@ -1,0 +1,3 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/control_flow/control_flow_ops_py_test.py
+with ops.control_dependencies([increment]):
+    exit(constant_op.constant(5, name="five"))

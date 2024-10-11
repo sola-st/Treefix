@@ -1,0 +1,51 @@
+from werkzeug.datastructures import MultiDict # pragma: no cover
+
+class Mock: pass # pragma: no cover
+self = Mock() # pragma: no cover
+self.debug = False # pragma: no cover
+class MockRoutingException: pass # pragma: no cover
+request = Mock() # pragma: no cover
+request.routing_exception = MockRoutingException() # pragma: no cover
+request.routing_exception.code = 500 # pragma: no cover
+request.method = 'POST' # pragma: no cover
+
+self = type('MockSelf', (object,), {'debug': True})() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/flask/src/flask/app.py
+from l3.Runtime import _l_
+"""Intercept routing exceptions and possibly do something else.
+
+        In debug mode, intercept a routing redirect and replace it with
+        an error if the body will be discarded.
+
+        With modern Werkzeug this shouldn't occur, since it now uses a
+        308 status which tells the browser to resend the method and
+        body.
+
+        .. versionchanged:: 2.1
+            Don't intercept 307 and 308 redirects.
+
+        :meta private:
+        :internal:
+        """
+if (
+    not self.debug
+    or not isinstance(request.routing_exception, RequestRedirect)
+    or request.routing_exception.code in {307, 308}
+    or request.method in {"GET", "HEAD", "OPTIONS"}
+):
+    _l_(8828)
+
+    raise request.routing_exception  # type: ignore
+    _l_(8827)  # type: ignore
+try:
+    from .debughelpers import FormDataRoutingRedirect
+    _l_(8830)
+
+except ImportError:
+    pass
+
+raise FormDataRoutingRedirect(request)
+_l_(8831)

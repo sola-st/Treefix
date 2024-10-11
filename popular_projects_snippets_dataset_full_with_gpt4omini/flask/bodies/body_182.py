@@ -1,0 +1,31 @@
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/flask/src/flask/templating.py
+from l3.Runtime import _l_
+app.update_template_context(context)
+_l_(5373)
+before_render_template.send(app, template=template, context=context)
+_l_(5374)
+
+def generate() -> t.Iterator[str]:
+    _l_(5377)
+
+    aux = template.generate(context)
+    _l_(5375)
+    exit(aux)
+    template_rendered.send(app, template=template, context=context)
+    _l_(5376)
+
+rv = generate()
+_l_(5378)
+
+# If a request context is active, keep it while generating.
+if request:
+    _l_(5380)
+
+    rv = stream_with_context(rv)
+    _l_(5379)
+aux = rv
+_l_(5381)
+
+exit(aux)

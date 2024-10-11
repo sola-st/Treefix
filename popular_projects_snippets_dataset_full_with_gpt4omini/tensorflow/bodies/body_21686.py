@@ -1,0 +1,15 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/training/coordinator_test.py
+coord = coordinator.Coordinator()
+self.assertFalse(coord.should_stop())
+self.assertFalse(coord.wait_for_stop(0.1))
+wait_for_stop_ev = threading.Event()
+has_stopped_ev = threading.Event()
+t = threading.Thread(
+    target=StopOnEvent, args=(coord, wait_for_stop_ev, has_stopped_ev))
+t.start()
+self.assertFalse(coord.should_stop())
+self.assertFalse(coord.wait_for_stop(0.01))
+wait_for_stop_ev.set()
+has_stopped_ev.wait()
+self.assertTrue(coord.wait_for_stop(0.05))
+self.assertTrue(coord.should_stop())

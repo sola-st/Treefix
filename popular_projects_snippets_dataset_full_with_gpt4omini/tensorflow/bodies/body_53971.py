@@ -1,0 +1,10 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/framework/test_util_test.py
+with ops.Graph().as_default() as g:
+    x = constant_op.constant([2, 9], name="x")
+    keys = constant_op.constant([1, 2], name="keys")
+    values = constant_op.constant([3, 4], name="values")
+    default = constant_op.constant(-1, name="default")
+    table = lookup_ops.StaticHashTable(
+        lookup_ops.KeyValueTensorInitializer(keys, values), default)
+    _ = table.lookup(x)
+exit(g.as_graph_def())

@@ -1,0 +1,3501 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""
+    Wrapper for np.percentile that skips missing values, specialized to
+    1-dimensional case.
+
+    Parameters
+    ----------
+    values : array over which to find quantiles
+    mask : ndarray[bool]
+        locations in values that should be considered missing
+    qs : np.ndarray[float64] of quantile indices to find
+    na_value : scalar
+        value to return for empty or all-null values
+    interpolation : str
+
+    Returns
+    -------
+    quantiles : scalar or array
+    """"""
+# mask is Union[ExtensionArray, ndarray]
+values = values[~mask]
+
+if len(values) == 0:
+    # Can't pass dtype=values.dtype here bc we might have na_value=np.nan
+    #  with values.dtype=int64 see test_quantile_empty
+    # equiv: 'np.array([na_value] * len(qs))' but much faster
+    exit(np.full(len(qs), na_value))
+
+exit(np.percentile(
+    values,
+    qs,
+    # error: No overload variant of ""percentile"" matches argument
+    # types ""ndarray[Any, Any]"", ""ndarray[Any, dtype[floating[_64Bit]]]""
+    # , ""Dict[str, str]""  [call-overload]
+    **{np_percentile_argname: interpolation},  # type: ignore[call-overload]
+))
+
+# end code snippet
+
+# begin undefined variables
+values
+mask
+np
+qs
+na_value
+np_percentile_argname
+interpolation
+# end undefined variables
+
+# begin undefined attributes and methods
+np.full
+np.percentile
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, True, False, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'"",
+            ""np.full = type('Mock', (object,), {'full': staticmethod(np.full)})"",
+            ""np.percentile = type('Mock', (object,), {'percentile': staticmethod(np.percentile)})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float)"",
+            ""mask = np.array([False, False, True, False, False])"",
+            ""qs = np.array([25, 50, 75], dtype=float)"",
+            ""na_value = float('nan')"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, False, False, True])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, np.nan, 4, 5])"",
+            ""mask = np.array([False, False, False, True, False, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = np.nan"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, False, False, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, True, False, True])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 3, 5, 7, 9])"",
+            ""mask = np.array([False, False, True, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = float('nan')"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, np.nan, 5])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = np.nan"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, True, False, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1.0, 2.0, 3.0, np.nan, 4.0])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = np.nan"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np.full = type('Mock', (object,), {'full': staticmethod(np.full)}) # pragma: no cover"",
+            ""np.percentile = type('Mock', (object,), {'percentile': staticmethod(np.percentile)}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75], dtype=float) # pragma: no cover"",
+            ""na_value = float('nan') # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False, True]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, np.nan, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, True]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 3, 5, 7, 9]) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = float('nan') # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, np.nan, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1.0, 2.0, 3.0, np.nan, 4.0]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    }
+]",1,594,0.000297,1237,0.0018555,0.0021525
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 40:
+    exit(np.percentile(
+TypeError: Mock() takes no arguments
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, True, False, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'"",
+            ""np.full = staticmethod(np.full)"",
+            ""np.percentile = staticmethod(np.percentile)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, True, False, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'"",
+            ""np.full = staticmethod(np.full)"",
+            ""np.percentile = staticmethod(np.percentile)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, True, False, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'"",
+            ""np.full = np.full"",
+            ""np.percentile = np.percentile""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, True, False, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'"",
+            ""np.full = staticmethod(np.full)"",
+            ""np.percentile = staticmethod(np.percentile)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, True, False, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'"",
+            ""np.full = staticmethod(np.full)"",
+            ""np.percentile = staticmethod(np.percentile)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, True, False, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'"",
+            ""np.full = staticmethod(np.full)"",
+            ""np.percentile = staticmethod(np.percentile)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, True, False, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'"",
+            ""np.full = staticmethod(np.full)"",
+            ""np.percentile = staticmethod(np.percentile)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, True, False, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'"",
+            ""np.full = staticmethod(np.full)"",
+            ""np.percentile = staticmethod(np.percentile)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, True, False, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'"",
+            ""np.full = staticmethod(np.full)"",
+            ""np.percentile = staticmethod(np.percentile)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, True, False, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'"",
+            ""np.full = np.full"",
+            ""np.percentile = np.percentile""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np.full = staticmethod(np.full) # pragma: no cover"",
+            ""np.percentile = staticmethod(np.percentile) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np.full = staticmethod(np.full) # pragma: no cover"",
+            ""np.percentile = staticmethod(np.percentile) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np.full = np.full # pragma: no cover"",
+            ""np.percentile = np.percentile # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np.full = staticmethod(np.full) # pragma: no cover"",
+            ""np.percentile = staticmethod(np.percentile) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np.full = staticmethod(np.full) # pragma: no cover"",
+            ""np.percentile = staticmethod(np.percentile) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np.full = staticmethod(np.full) # pragma: no cover"",
+            ""np.percentile = staticmethod(np.percentile) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np.full = staticmethod(np.full) # pragma: no cover"",
+            ""np.percentile = staticmethod(np.percentile) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np.full = staticmethod(np.full) # pragma: no cover"",
+            ""np.percentile = staticmethod(np.percentile) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np.full = staticmethod(np.full) # pragma: no cover"",
+            ""np.percentile = staticmethod(np.percentile) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np.full = np.full # pragma: no cover"",
+            ""np.percentile = np.percentile # pragma: no cover""
+        ]
+    }
+]",2,1047,0.0005235,1393,0.0020895,0.002613
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+  exit(np.percentile(
+[1.75 3.   4.25]
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float)"",
+            ""mask = np.array([False, False, True, False, False])"",
+            ""qs = np.array([25, 50, 75], dtype=float)"",
+            ""na_value = float('nan')"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float)"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75], dtype=float)"",
+            ""na_value = float('nan')"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float)"",
+            ""mask = np.array([False, False, False, True, True])"",
+            ""qs = np.array([25, 50, 75], dtype=float)"",
+            ""na_value = float('nan')"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float)"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75], dtype=float)"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float)"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75], dtype=float)"",
+            ""na_value = float('nan')"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float)"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75], dtype=float)"",
+            ""na_value = float('nan')"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float)"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75], dtype=float)"",
+            ""na_value = float('nan')"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float)"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75], dtype=float)"",
+            ""na_value = float('nan')"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float)"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75], dtype=float)"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float)"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75], dtype=float)"",
+            ""na_value = float('nan')"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75], dtype=float) # pragma: no cover"",
+            ""na_value = float('nan') # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75], dtype=float) # pragma: no cover"",
+            ""na_value = float('nan') # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75], dtype=float) # pragma: no cover"",
+            ""na_value = float('nan') # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75], dtype=float) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75], dtype=float) # pragma: no cover"",
+            ""na_value = float('nan') # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75], dtype=float) # pragma: no cover"",
+            ""na_value = float('nan') # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75], dtype=float) # pragma: no cover"",
+            ""na_value = float('nan') # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75], dtype=float) # pragma: no cover"",
+            ""na_value = float('nan') # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75], dtype=float) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75], dtype=float) # pragma: no cover"",
+            ""na_value = float('nan') # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    }
+]",2,1456,0.000728,1186,0.001779,0.002507
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+  exit(np.percentile(
+[2. 3. 4.]
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, True])"",
+            ""qs = np.array([0, 50, 100])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, False, False, True])"",
+            ""qs = np.array([0.25, 0.5, 0.75])"",
+            ""na_value = np.nan"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, False, False, True])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'"",
+            ""np.percentile = np.percentile""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([2, 3, 4])"",
+            ""mask = np.array([False, False, False])"",
+            ""qs = np.array([50.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, False, False, False])"",
+            ""qs = np.array([20.0, 50.0, 80.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, True])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, True, False, False])"",
+            ""qs = np.array([0, 50, 100])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1.0, 2.0, 3.0, 4.0, 5.0, np.nan])"",
+            ""mask = np.array([False, False, False, False, False, True])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = np.nan"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([50.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, False, True, True])"",
+            ""qs = np.array([0, 25, 50, 75, 100])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, True]) # pragma: no cover"",
+            ""qs = np.array([0, 50, 100]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False, True]) # pragma: no cover"",
+            ""qs = np.array([0.25, 0.5, 0.75]) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False, True]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np.percentile = np.percentile # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([2, 3, 4]) # pragma: no cover"",
+            ""mask = np.array([False, False, False]) # pragma: no cover"",
+            ""qs = np.array([50.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([20.0, 50.0, 80.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, True]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([0, 50, 100]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1.0, 2.0, 3.0, 4.0, 5.0, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False, True]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([50.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, True, True]) # pragma: no cover"",
+            ""qs = np.array([0, 25, 50, 75, 100]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    }
+]",2,1866,0.000933,1194,0.001791,0.002724
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+  exit(np.percentile(
+[2. 3. 4.]
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, True, False, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, True, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = np.nan"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = float('nan')"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = float('nan') # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    }
+]",2,2270,0.001135,1150,0.001725,0.0028599999999999
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+  exit(np.percentile(
+[2. 3. 4.]
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, True, False, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, True, False, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75], dtype=float)"",
+            ""na_value = np.nan"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float)"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = float('nan')"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, True])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, True])"",
+            ""qs = np.array([25, 50, 75], dtype=float)"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'"",
+            ""np.full = np.full""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75], dtype=float) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5], dtype=float) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = float('nan') # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, True]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75], dtype=float) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np.full = np.full # pragma: no cover""
+        ]
+    }
+]",2,2674,0.001337,1163,0.0017445,0.0030815
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+  exit(np.percentile(
+[1.5 2.  3. ]
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([True, False, False, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, True])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, 6])"",
+            ""mask = np.array([False, False, False, False, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, True, False, True])"",
+            ""qs = np.array([25, 50, 75], dtype=float)"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([True, False, True, False, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, 6])"",
+            ""mask = np.array([False, False, True, False, True, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, False, False, True])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([True, False, False, True, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, True, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([True, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, True]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, 6]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75], dtype=float) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([True, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, 6]) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False, True]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([True, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    }
+]",2,3082,0.001541,1188,0.001782,0.003323
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+  exit(np.percentile(
+[2.5 5.  7.5]
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, True])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = float('nan')"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])"",
+            ""mask = np.array([False, False, False, False, False, True, False, False, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, True])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, True, False, True])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, True])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = float('nan')"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, 6])"",
+            ""mask = np.array([False, False, False, False, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, True])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, True, False, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, True]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = float('nan') # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False, True, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, True]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, True]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, True]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = float('nan') # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, 6]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, True]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, True, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    }
+]",2,3493,0.0017465,1218,0.001827,0.0035735
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+  exit(np.percentile(
+[1.75 2.5  3.5 ]
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, True])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, True, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, 6])"",
+            ""mask = np.array([False, False, False, False, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, True])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, True, False, False, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, True, False, False, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan])"",
+            ""mask = np.array([False, False, False, True, False, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, True]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, 6]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, True]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, True, False, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, True, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5, np.nan]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    }
+]",2,3897,0.0019485,1170,0.001755,0.0037035
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+  exit(np.percentile(
+[1.75 3.   4.25]
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    }
+]",2,4300,0.00215,1142,0.001713,0.003863
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+  exit(np.percentile(
+[1.75 2.5  3.25]
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1.0, 2.0, 3.0, 4.0, 5.0])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1.0, 2.0, 3.0, 4.0, 5.0])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, True, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, True, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1.0, 2.0, 3.0, 4.0, 5.0])"",
+            ""mask = np.array([False, False, True, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1.0, 2.0, 3.0, 4.0, 5.0])"",
+            ""mask = np.array([False, False, True, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, True, False])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5])"",
+            ""mask = np.array([False, False, False, False, True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = -1"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([1.0, 2.0, 3.0, 4.0, 5.0])"",
+            ""mask = np.array([False, False, False, False, False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = -1.0"",
+            ""np_percentile_argname = 'interpolation'"",
+            ""interpolation = 'linear'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1.0, 2.0, 3.0, 4.0, 5.0]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1.0, 2.0, 3.0, 4.0, 5.0]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1.0, 2.0, 3.0, 4.0, 5.0]) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1.0, 2.0, 3.0, 4.0, 5.0]) # pragma: no cover"",
+            ""mask = np.array([False, False, True, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, True, False]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = -1 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([1.0, 2.0, 3.0, 4.0, 5.0]) # pragma: no cover"",
+            ""mask = np.array([False, False, False, False, False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = -1.0 # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover""
+        ]
+    }
+]",2,4718,0.002359,1224,0.001836,0.004195
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""
+    Wrapper for np.percentile that skips missing values, specialized to
+    1-dimensional case.
+    Parameters
+    ----------
+    values : array over which to find quantiles
+    mask : ndarray[bool]
+        locations in values that should be considered missing
+    qs : np.ndarray[float64] of quantile indices to find
+    na_value : scalar
+        value to return for empty or all-null values
+    interpolation : str
+    Returns
+    -------
+    quantiles : scalar or array
+    """"""
+# mask is Union[ExtensionArray, ndarray]
+values = values[~mask]
+if len(values) == 0: # uncovered
+    aux = np.full(len(qs), na_value) # uncovered
+    # Can't pass dtype=values.dtype here bc we might have na_value=np.nan
+    #  with values.dtype=int64 see test_quantile_empty
+    # equiv: 'np.array([na_value] * len(qs))' but much faster
+    exit(aux) # uncovered
+aux = np.percentile( # uncovered
+    values, # uncovered
+    qs, # uncovered
+    # error: No overload variant of ""percentile"" matches argument
+    # types ""ndarray[Any, Any]"", ""ndarray[Any, dtype[floating[_64Bit]]]""
+    # , ""Dict[str, str]""  [call-overload]
+    **{np_percentile_argname: interpolation},  # type: ignore[call-overload] # uncovered
+)
+exit(aux) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([])"",
+            ""mask = np.array([True])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = np.nan"",
+            ""interpolation = 'linear'"",
+            ""np_percentile_argname = 'interpolation'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""values = np.array([])"",
+            ""mask = np.array([False])"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = np.nan"",
+            ""interpolation = 'linear'"",
+            ""np_percentile_argname = 'interpolation'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([])"",
+            ""mask = np.array([], dtype=bool)"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = np.nan"",
+            ""interpolation = 'linear'"",
+            ""np_percentile_argname = 'interpolation'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([])"",
+            ""mask = np.array([])"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = np.nan"",
+            ""interpolation = 'linear'"",
+            ""np_percentile_argname = 'interpolation'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""values = np.array([])"",
+            ""mask = np.array([], dtype=bool)"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = np.nan"",
+            ""interpolation = 'linear'"",
+            ""np_percentile_argname = 'interpolation'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""values = np.array([])"",
+            ""mask = np.array([True])"",
+            ""qs = np.array([50.0])"",
+            ""na_value = np.nan"",
+            ""interpolation = 'linear'"",
+            ""np_percentile_argname = 'interpolation'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""values = np.array([])"",
+            ""mask = np.array([], dtype=bool)"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = np.nan"",
+            ""interpolation = 'linear'"",
+            ""np_percentile_argname = 'interpolation'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""values = np.array([])"",
+            ""mask = np.array([], dtype=bool)"",
+            ""qs = np.array([25, 50, 75])"",
+            ""na_value = np.nan"",
+            ""interpolation = 'linear'"",
+            ""np_percentile_argname = 'interpolation'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""values = np.array([])"",
+            ""mask = np.array([], dtype=bool)"",
+            ""qs = np.array([25, 50, 75], dtype=np.float64)"",
+            ""na_value = np.nan"",
+            ""interpolation = 'linear'"",
+            ""np_percentile_argname = 'interpolation'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""values = np.array([])"",
+            ""mask = np.array([], dtype=bool)"",
+            ""qs = np.array([25.0, 50.0, 75.0])"",
+            ""na_value = np.nan"",
+            ""interpolation = 'linear'"",
+            ""np_percentile_argname = 'interpolation'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([]) # pragma: no cover"",
+            ""mask = np.array([True]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([]) # pragma: no cover"",
+            ""mask = np.array([False]) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([]) # pragma: no cover"",
+            ""mask = np.array([], dtype=bool) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([]) # pragma: no cover"",
+            ""mask = np.array([]) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([]) # pragma: no cover"",
+            ""mask = np.array([], dtype=bool) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([]) # pragma: no cover"",
+            ""mask = np.array([True]) # pragma: no cover"",
+            ""qs = np.array([50.0]) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([]) # pragma: no cover"",
+            ""mask = np.array([], dtype=bool) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([]) # pragma: no cover"",
+            ""mask = np.array([], dtype=bool) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75]) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([]) # pragma: no cover"",
+            ""mask = np.array([], dtype=bool) # pragma: no cover"",
+            ""qs = np.array([25, 50, 75], dtype=np.float64) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""values = np.array([]) # pragma: no cover"",
+            ""mask = np.array([], dtype=bool) # pragma: no cover"",
+            ""qs = np.array([25.0, 50.0, 75.0]) # pragma: no cover"",
+            ""na_value = np.nan # pragma: no cover"",
+            ""interpolation = 'linear' # pragma: no cover"",
+            ""np_percentile_argname = 'interpolation' # pragma: no cover""
+        ]
+    }
+]",3,609,0.0003045,973,0.0014595,0.001764

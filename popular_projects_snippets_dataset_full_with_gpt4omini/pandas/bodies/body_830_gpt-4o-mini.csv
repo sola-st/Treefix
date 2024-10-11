@@ -1,0 +1,256 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+# GH#37799
+values = np.random.randn(3, 4)
+blk = new_block(values, placement=[3, 1, 6], ndim=2)
+result = blk._split()
+
+# check that we get views, not copies
+values[:] = -9999
+assert (blk.values == -9999).all()
+
+assert len(result) == 3
+expected = [
+    new_block(values[[0]], placement=[3], ndim=2),
+    new_block(values[[1]], placement=[1], ndim=2),
+    new_block(values[[2]], placement=[6], ndim=2),
+]
+for res, exp in zip(result, expected):
+    assert_block_equal(res, exp)
+
+# end code snippet
+
+# begin undefined variables
+np
+new_block
+assert_block_equal
+# end undefined variables
+
+# begin undefined attributes and methods
+np.random
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from typing import List, Any""
+        ],
+        ""initialization"": [
+            ""def new_block(values: np.ndarray, placement: List[int], ndim: int) -> Any: return values"",
+            ""def assert_block_equal(res: Any, exp: Any): assert (res == exp).all()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from some_module import new_block, assert_block_equal""
+        ],
+        ""initialization"": [
+            ""np = __import__('numpy')"",
+            ""def new_block(values, placement, ndim): return values[placement]"",
+            ""def assert_block_equal(a, b): assert (a == b).all()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from some_module import new_block, assert_block_equal""
+        ],
+        ""initialization"": [
+            ""np = __import__('numpy')"",
+            ""new_block = lambda values, placement, ndim: type('MockBlock', (object,), {'values': values, '_split': lambda self: [self]})())"",
+            ""assert_block_equal = lambda block1, block2: np.array_equal(block1.values, block2.values)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""def new_block(values: np.ndarray, placement: List[int], ndim: int) -> Any: return values.reshape((ndim, -1))"",
+            ""def assert_block_equal(block1: Any, block2: Any) -> None: assert (block1 == block2).all()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from some_module import new_block, assert_block_equal""
+        ],
+        ""initialization"": [
+            ""np = __import__('numpy')"",
+            ""new_block = type('MockBlock', (object,), {'__init__': lambda self, values, placement, ndim: None, 'values': values})"",
+            ""assert_block_equal = lambda block1, block2: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from typing import List"",
+            ""class MockBlock:"",
+            ""    def __init__(self, values: np.ndarray, placement: List[int], ndim: int):"",
+            ""        self.values = values"",
+            ""        self.placement = placement"",
+            ""        self.ndim = ndim"",
+            ""    def _split(self) -> List['MockBlock']:"",
+            ""        return [MockBlock(self.values[i:i+1], [self.placement[i]], self.ndim) for i in range(len(self.values))]""
+        ],
+        ""initialization"": [
+            ""np = __import__('numpy')"",
+            ""new_block = MockBlock"",
+            ""def assert_block_equal(block1, block2):"",
+            ""    assert (block1.values == block2.values).all() and block1.placement == block2.placement and block1.ndim == block2.ndim""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from hypothetical_module import new_block, assert_block_equal""
+        ],
+        ""initialization"": [
+            ""np = __import__('numpy')"",
+            ""new_block = lambda values, placement, ndim: type('MockBlock', (object,), {'values': values, '_split': lambda: [new_block(values[[i]], placement=[placement[i]], ndim=ndim) for i in range(len(values))]})())"",
+            ""assert_block_equal = lambda blk1, blk2: assert (blk1.values == blk2.values).all()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""def new_block(values, placement, ndim): return type('MockBlock', (object,), {'values': values})()"",
+            ""def assert_block_equal(a, b): assert (a.values == b.values).all()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from some_module import new_block, assert_block_equal""
+        ],
+        ""initialization"": [
+            ""np = __import__('numpy')"",
+            ""new_block = lambda values, placement, ndim: type('Block', (object,), {'values': values, '_split': lambda: [new_block(values[i:i+1], placement=[1], ndim=ndim) for i in range(values.shape[0])], '__init__': lambda self, values, placement, ndim: setattr(self, 'values', values)})())"",
+            ""assert_block_equal = lambda blk1, blk2: np.array_equal(blk1.values, blk2.values)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""def new_block(values, placement, ndim): return type('MockBlock', (object,), {'values': values, '_split': lambda self: [new_block(self.values[i:i+1], [placement[i]], ndim) for i in range(len(values))]})())"",
+            ""def assert_block_equal(a, b): assert (a.values == b.values).all()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from typing import List, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def new_block(values: np.ndarray, placement: List[int], ndim: int) -> Any: return values # pragma: no cover"",
+            ""def assert_block_equal(res: Any, exp: Any): assert (res == exp).all() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def new_block(values, placement, ndim): return values[placement] # pragma: no cover"",
+            ""def assert_block_equal(a, b): assert (a == b).all() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""assert_block_equal = lambda block1, block2: np.array_equal(block1.values, block2.values) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def new_block(values: np.ndarray, placement: List[int], ndim: int) -> Any: return values.reshape((ndim, -1)) # pragma: no cover"",
+            ""def assert_block_equal(block1: Any, block2: Any) -> None: assert (block1 == block2).all() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""assert_block_equal = lambda block1, block2: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from typing import List # pragma: no cover"",
+            ""class MockBlock: # pragma: no cover"",
+            ""    def __init__(self, values: np.ndarray, placement: List[int], ndim: int): # pragma: no cover"",
+            ""        self.values = values # pragma: no cover"",
+            ""        self.placement = placement # pragma: no cover"",
+            ""        self.ndim = ndim # pragma: no cover"",
+            ""    def _split(self) -> List['MockBlock']: # pragma: no cover"",
+            ""        return [MockBlock(self.values[i:i+1], [self.placement[i]], self.ndim) for i in range(len(self.values))] # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""new_block = MockBlock # pragma: no cover"",
+            ""def assert_block_equal(block1, block2): # pragma: no cover"",
+            ""    assert (block1.values == block2.values).all() and block1.placement == block2.placement and block1.ndim == block2.ndim # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def new_block(values, placement, ndim): return type('MockBlock', (object,), {'values': values})() # pragma: no cover"",
+            ""def assert_block_equal(a, b): assert (a.values == b.values).all() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""assert_block_equal = lambda blk1, blk2: np.array_equal(blk1.values, blk2.values) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def assert_block_equal(a, b): assert (a.values == b.values).all() # pragma: no cover""
+        ]
+    }
+]",1,443,0.0002215,1184,0.001776,0.0019975

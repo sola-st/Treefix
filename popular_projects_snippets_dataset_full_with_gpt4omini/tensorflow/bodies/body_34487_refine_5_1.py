@@ -1,0 +1,66 @@
+class MockSelf: # pragma: no cover
+    def assertTrue(self, condition): assert condition # pragma: no cover
+    def assertProtoEquals(self, proto1, proto2): assert proto1 == proto2 # pragma: no cover
+    def assertEqual(self, val1, val2): assert val1 == val2 # pragma: no cover
+self = MockSelf() # pragma: no cover
+
+class MockGraph:# pragma: no cover
+    def as_default(self): return self # pragma: no cover
+class MockTensor:# pragma: no cover
+    pass # pragma: no cover
+class MockFIFOQueue:# pragma: no cover
+    def __init__(self, capacity, dtypes, names, shapes, name):# pragma: no cover
+        self.queue_ref = MockTensor()# pragma: no cover
+        self.names = names # pragma: no cover
+class MockDType:# pragma: no cover
+    def __init__(self, name):# pragma: no cover
+        self.name = name # pragma: no cover
+class MockTensorShape:# pragma: no cover
+    def __init__(self, dims):# pragma: no cover
+        self.dims = dims # pragma: no cover
+class MockSelf:# pragma: no cover
+    def assertTrue(self, condition): print('assertTrue:', condition)# pragma: no cover
+    def assertProtoEquals(self, proto1, proto2): print('assertProtoEquals:', proto1 == proto2)# pragma: no cover
+    def assertEqual(self, val1, val2): print('assertEqual:', val1 == val2) # pragma: no cover
+ops = type('Mock', (object,), {'Graph': MockGraph})() # pragma: no cover
+data_flow_ops = type('Mock', (object,), {'FIFOQueue': MockFIFOQueue})() # pragma: no cover
+dtypes_lib = type('Mock', (object,), {'int32': MockDType('DT_INT32'), 'float32': MockDType('DT_FLOAT')})() # pragma: no cover
+tensor_shape = type('Mock', (object,), {'TensorShape': MockTensorShape})() # pragma: no cover
+self = MockSelf() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/data_structures/fifo_queue_test.py
+from l3.Runtime import _l_
+with ops.Graph().as_default():
+    _l_(8094)
+
+    q = data_flow_ops.FIFOQueue(
+        5, (dtypes_lib.int32, dtypes_lib.float32),
+        names=("i", "f"),
+        shapes=(tensor_shape.TensorShape([1, 1, 2, 3]),
+                tensor_shape.TensorShape([5, 8])),
+        name="Q")
+    _l_(8093)
+self.assertTrue(isinstance(q.queue_ref, ops.Tensor))
+_l_(8095)
+self.assertProtoEquals("""
+      name:'Q' device: "/device:CPU:*" op:'FIFOQueueV2'
+      attr { key: 'component_types' value { list {
+        type: DT_INT32 type : DT_FLOAT
+      } } }
+      attr { key: 'shapes' value { list {
+        shape { dim { size: 1 }
+                dim { size: 1 }
+                dim { size: 2 }
+                dim { size: 3 } }
+        shape { dim { size: 5 }
+                dim { size: 8 } }
+      } } }
+      attr { key: 'capacity' value { i: 5 } }
+      attr { key: 'container' value { s: '' } }
+      attr { key: 'shared_name' value { s: '' } }
+      """, q.queue_ref.op.node_def)
+_l_(8096)
+self.assertEqual(["i", "f"], q.names)
+_l_(8097)

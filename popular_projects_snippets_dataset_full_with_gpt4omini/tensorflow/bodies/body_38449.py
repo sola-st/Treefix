@@ -1,0 +1,13 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/math_ops/reduction_ops_test.py
+# Create a 3D array of bools and reduce across all possible
+# dimensions
+np_arr = (np.random.uniform(0, 1, 30) > 0.9).reshape([2, 3, 5])
+self._compareAll(np_arr, None)
+self._compareAll(np_arr, [])
+self._compareAll(np_arr, [0])
+self._compareAll(np_arr, [1])
+self._compareAll(np_arr, [2])
+self._compareAll(np_arr, [0, 1])
+self._compareAll(np_arr, [1, 2])
+self._compareAll(np_arr, [0, 2])
+self._compareAll(np_arr, [0, 1, 2])

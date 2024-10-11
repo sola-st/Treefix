@@ -1,0 +1,24 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/math_ops/confusion_matrix_test.py
+label_values = np.ones(shape=(2, 3, 1))
+prediction_values = np.zeros_like(label_values)
+static_labels, static_predictions = (
+    confusion_matrix.remove_squeezable_dimensions(
+        label_values, prediction_values, expected_rank_diff=0))
+
+labels_placeholder = array_ops.placeholder(dtype=dtypes.int32)
+predictions_placeholder = array_ops.placeholder(dtype=dtypes.int32)
+dynamic_labels, dynamic_predictions = (
+    confusion_matrix.remove_squeezable_dimensions(
+        labels_placeholder, predictions_placeholder, expected_rank_diff=0))
+
+with self.cached_session():
+    self.assertAllEqual(label_values, self.evaluate(static_labels))
+    self.assertAllEqual(prediction_values, self.evaluate(static_predictions))
+    feed_dict = {
+        labels_placeholder: label_values,
+        predictions_placeholder: prediction_values
+    }
+    self.assertAllEqual(
+        label_values, dynamic_labels.eval(feed_dict=feed_dict))
+    self.assertAllEqual(
+        prediction_values, dynamic_predictions.eval(feed_dict=feed_dict))

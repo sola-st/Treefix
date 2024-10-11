@@ -1,0 +1,58 @@
+import numpy as np # pragma: no cover
+
+class Mock: pass # pragma: no cover
+self = Mock() # pragma: no cover
+self.cached_session = lambda: contextlib.ExitStack() # pragma: no cover
+array_ops = type('MockOps', (object,), {'placeholder': lambda dtype: tf.placeholder(dtype)})() # pragma: no cover
+good_pairs = [('123', 123.0), ('456', 456.0)] # pragma: no cover
+bad_pairs = [('abc', 'could not convert string to float: abc')] # pragma: no cover
+self.assertAllClose = lambda x, y: np.allclose(x, y) # pragma: no cover
+self.assertRaisesOpError = lambda error_message: tf.errors.InvalidArgumentError(None, None, error_message) # pragma: no cover
+
+import numpy as np # pragma: no cover
+import contextlib # pragma: no cover
+
+class Mock: pass # pragma: no cover
+self = Mock() # pragma: no cover
+self.cached_session = lambda: contextlib.ExitStack() # pragma: no cover
+array_ops = type('MockOps', (object,), {'placeholder': staticmethod(lambda dtype: 'mock_placeholder')})() # pragma: no cover
+dtypes = type('MockDtypes', (object,), {'string': 'string'})() # pragma: no cover
+parsing_ops = type('MockParsingOps', (object,), {'string_to_number': staticmethod(lambda input_tensor, out_type: 42)})() # pragma: no cover
+tf_type = dtypes.string # pragma: no cover
+good_pairs = [('1.0', 1.0), ('2.5', 2.5), ('-3.0', -3.0)] # pragma: no cover
+bad_pairs = [('not_a_number', 'could not convert string to float: not_a_number')] # pragma: no cover
+self.assertAllClose = lambda a, b: None # pragma: no cover
+self.assertRaisesOpError = lambda error_message: print('Error:', error_message) # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/strings_ops/string_to_number_op_test.py
+from l3.Runtime import _l_
+with self.cached_session():
+    _l_(9329)
+
+    # Build a small testing graph.
+    input_string = array_ops.placeholder(dtypes.string)
+    _l_(9321)
+    output = parsing_ops.string_to_number(
+        input_string, out_type=tf_type)
+    _l_(9322)
+
+    # Check all the good input/output pairs.
+    for instr, outnum in good_pairs:
+        _l_(9325)
+
+        result, = output.eval(feed_dict={input_string: [instr]})
+        _l_(9323)
+        self.assertAllClose([outnum], [result])
+        _l_(9324)
+
+    # Check that the bad inputs produce the right errors.
+    for instr, outstr in bad_pairs:
+        _l_(9328)
+
+        with self.assertRaisesOpError(outstr):
+            _l_(9327)
+
+            output.eval(feed_dict={input_string: [instr]})
+            _l_(9326)

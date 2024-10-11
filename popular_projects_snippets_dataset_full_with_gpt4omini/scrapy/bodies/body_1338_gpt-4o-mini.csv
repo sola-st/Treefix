@@ -1,0 +1,317 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+self.stats.inc_value('downloader/response_count', spider=spider)
+self.stats.inc_value(f'downloader/response_status_count/{response.status}', spider=spider)
+reslen = len(response.body) + get_header_size(response.headers) + get_status_size(response.status) + 4
+# response.body + b""\r\n""+ response.header + b""\r\n"" + response.status
+self.stats.inc_value('downloader/response_bytes', reslen, spider=spider)
+exit(response)
+
+# end code snippet
+
+# begin undefined variables
+self
+spider
+response
+get_header_size
+get_status_size
+# end undefined variables
+
+# begin undefined attributes and methods
+self.stats
+response.status
+response.body
+response.headers
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from collections import defaultdict""
+        ],
+        ""initialization"": [
+            ""class MockStats:\n    def __init__(self):\n        self.values = defaultdict(int)\n    def inc_value(self, key, spider=None, value=1):\n        self.values[key] += value"",
+            ""self = type('Mock', (), {'stats': MockStats()})()"",
+            ""spider = 'my_spider'"",
+            ""class MockResponse:\n    def __init__(self, status, body, headers):\n        self.status = status\n        self.body = body\n        self.headers = headers\nresponse = MockResponse(200, b'This is the response body.', {'Content-Type': 'text/html'})"",
+            ""def get_header_size(headers):\n    return sum(len(f'{k}: {v}\r\n') for k, v in headers.items())"",
+            ""def get_status_size(status):\n    return len(f'HTTP/1.1 {status} OK\r\n')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'stats': SimpleNamespace(inc_value=lambda *args, **kwargs: None)})().stats"",
+            ""spider = 'test_spider'"",
+            ""response = SimpleNamespace(status=200, body=b'Test body', headers={'Content-Type': 'text/html'})"",
+            ""get_header_size = lambda headers: sum(len(f'{k}: {v}\r\n') for k, v in headers.items())"",
+            ""get_status_size = lambda status: len(f'HTTP/1.1 {status} OK\r\n')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, Dict"",
+            ""class MockStats: ..."",
+            ""class MockSpider: ..."",
+            ""class MockResponse: ...""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'stats': MockStats()})()"",
+            ""spider = MockSpider()"",
+            ""response = MockResponse()"",
+            ""def get_header_size(headers: Dict[str, Any]) -> int: return sum(len(k) + len(v) for k, v in headers.items())"",
+            ""def get_status_size(status: int) -> int: return len(str(status))"",
+            ""class MockStats: def inc_value(self, key: str, value: int = 1, spider: Any = None): pass"",
+            ""class MockSpider: pass"",
+            ""class MockResponse: __init__(self): self.status = 200; self.body = b'test body'; self.headers = {'Content-Type': 'text/html'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""self = Mock()"",
+            ""self.stats = Mock()"",
+            ""spider = 'test_spider'"",
+            ""response = Mock()"",
+            ""response.status = 200"",
+            ""response.body = b'Test response body'"",
+            ""response.headers = {'Content-Type': 'application/json'}"",
+            ""get_header_size = lambda headers: sum(len(f'{key}: {value}\\r\\n') for key, value in headers.items())"",
+            ""get_status_size = lambda status: len(f'HTTP/1.1 {status} OK\\r\\n')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import defaultdict""
+        ],
+        ""initialization"": [
+            ""class MockStats: def __init__(self): self.data = defaultdict(int) def inc_value(self, key, spider=None, value=1): self.data[key] += value"",
+            ""self = type('Mock', (object,), {'stats': MockStats()})()"",
+            ""spider = 'test_spider'"",
+            ""class MockResponse: status = 200 body = b'{'data': 'test'}' headers = {'Content-Type': 'application/json'}"",
+            ""response = MockResponse()"",
+            ""def get_header_size(headers): return sum(len(k) + len(v) + 4 for k, v in headers.items())"",
+            ""def get_status_size(status): return len(str(status)) + 2""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, Dict, List"",
+            ""class MockStats:"",
+            ""    def inc_value(self, key: str, value: Any = 1, spider: Any = None):"",
+            ""        pass"",
+            ""def get_header_size(headers: Dict[str, str]) -> int:"",
+            ""    return sum(len(k) + len(v) for k, v in headers.items())"",
+            ""def get_status_size(status: int) -> int:"",
+            ""    return len(str(status))""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'stats': MockStats()})()"",
+            ""spider = 'mock_spider'"",
+            ""response = type('MockResponse', (object,), {'status': 200, 'body': b'mock body', 'headers': {'Content-Type': 'application/json'}})()"",
+            ""get_header_size = globals()['get_header_size']"",
+            ""get_status_size = globals()['get_status_size']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import defaultdict""
+        ],
+        ""initialization"": [
+            ""class MockStats: def __init__(self): self.values = defaultdict(int) def inc_value(self, key, spider=None, count=1): self.values[key] += count"",
+            ""self = type('Mock', (), {'stats': MockStats()})()"",
+            ""spider = 'test_spider'"",
+            ""response = type('MockResponse', (), {'status': 200, 'body': b'Test body', 'headers': {'Content-Type': 'text/plain'}})()"",
+            ""def get_header_size(headers): return sum(len(k) + len(v) + 4 for k, v in headers.items())"",
+            ""def get_status_size(status): return len(str(status)) + 2""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import defaultdict"",
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""self = Mock()"",
+            ""self.stats = Mock()"",
+            ""self.stats.inc_value = Mock()"",
+            ""spider = 'mocked_spider'"",
+            ""response = Mock()"",
+            ""response.status = 200"",
+            ""response.body = b'mock response body'"",
+            ""response.headers = {'Content-Type': 'application/json'}"",
+            ""def get_header_size(headers): return sum(len(k) + len(v) for k, v in headers.items())"",
+            ""def get_status_size(status): return len(str(status))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, Dict"",
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'stats': Mock()})()"",
+            ""spider = 'test_spider'"",
+            ""response = Mock(status=200, body=b'test body', headers={'Content-Type': 'application/json'})"",
+            ""def get_header_size(headers: Dict[str, Any]) -> int:\n    return sum(len(k) + len(v) + 4 for k, v in headers.items())"",
+            ""def get_status_size(status: int) -> int:\n    return len(str(status)) + 4""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import defaultdict"",
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""self = type('MockObject', (), {'stats': Mock()})()"",
+            ""spider = 'mock_spider'"",
+            ""response = Mock(status=200, body=b'mock body', headers={'Content-Type': 'text/html'})"",
+            ""get_header_size = lambda headers: sum(len(key) + len(value) + 4 for key, value in headers.items())"",
+            ""get_status_size = lambda status: len(f'HTTP/1.1 {status} OK') + 4""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from collections import defaultdict # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, Dict # pragma: no cover"",
+            ""class MockStats: ... # pragma: no cover"",
+            ""class MockSpider: ... # pragma: no cover"",
+            ""class MockResponse: ... # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'stats': MockStats()})() # pragma: no cover"",
+            ""spider = MockSpider() # pragma: no cover"",
+            ""response = MockResponse() # pragma: no cover"",
+            ""def get_header_size(headers: Dict[str, Any]) -> int: return sum(len(k) + len(v) for k, v in headers.items()) # pragma: no cover"",
+            ""def get_status_size(status: int) -> int: return len(str(status)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = Mock() # pragma: no cover"",
+            ""self.stats = Mock() # pragma: no cover"",
+            ""spider = 'test_spider' # pragma: no cover"",
+            ""response = Mock() # pragma: no cover"",
+            ""response.status = 200 # pragma: no cover"",
+            ""response.body = b'Test response body' # pragma: no cover"",
+            ""response.headers = {'Content-Type': 'application/json'} # pragma: no cover"",
+            ""get_header_size = lambda headers: sum(len(f'{key}: {value}\\r\\n') for key, value in headers.items()) # pragma: no cover"",
+            ""get_status_size = lambda status: len(f'HTTP/1.1 {status} OK\\r\\n') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import defaultdict # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, Dict, List # pragma: no cover"",
+            ""class MockStats: # pragma: no cover"",
+            ""    def inc_value(self, key: str, value: Any = 1, spider: Any = None): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""def get_header_size(headers: Dict[str, str]) -> int: # pragma: no cover"",
+            ""    return sum(len(k) + len(v) for k, v in headers.items()) # pragma: no cover"",
+            ""def get_status_size(status: int) -> int: # pragma: no cover"",
+            ""    return len(str(status)) # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'stats': MockStats()})() # pragma: no cover"",
+            ""spider = 'mock_spider' # pragma: no cover"",
+            ""response = type('MockResponse', (object,), {'status': 200, 'body': b'mock body', 'headers': {'Content-Type': 'application/json'}})() # pragma: no cover"",
+            ""get_header_size = globals()['get_header_size'] # pragma: no cover"",
+            ""get_status_size = globals()['get_status_size'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import defaultdict # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import defaultdict # pragma: no cover"",
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = Mock() # pragma: no cover"",
+            ""self.stats = Mock() # pragma: no cover"",
+            ""self.stats.inc_value = Mock() # pragma: no cover"",
+            ""spider = 'mocked_spider' # pragma: no cover"",
+            ""response = Mock() # pragma: no cover"",
+            ""response.status = 200 # pragma: no cover"",
+            ""response.body = b'mock response body' # pragma: no cover"",
+            ""response.headers = {'Content-Type': 'application/json'} # pragma: no cover"",
+            ""def get_header_size(headers): return sum(len(k) + len(v) for k, v in headers.items()) # pragma: no cover"",
+            ""def get_status_size(status): return len(str(status)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, Dict # pragma: no cover"",
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'stats': Mock()})() # pragma: no cover"",
+            ""spider = 'test_spider' # pragma: no cover"",
+            ""response = Mock(status=200, body=b'test body', headers={'Content-Type': 'application/json'}) # pragma: no cover"",
+            ""def get_header_size(headers: Dict[str, Any]) -> int:# pragma: no cover"",
+            ""    return sum(len(k) + len(v) + 4 for k, v in headers.items()) # pragma: no cover"",
+            ""def get_status_size(status: int) -> int:# pragma: no cover"",
+            ""    return len(str(status)) + 4 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import defaultdict # pragma: no cover"",
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('MockObject', (), {'stats': Mock()})() # pragma: no cover"",
+            ""spider = 'mock_spider' # pragma: no cover"",
+            ""response = Mock(status=200, body=b'mock body', headers={'Content-Type': 'text/html'}) # pragma: no cover"",
+            ""get_header_size = lambda headers: sum(len(key) + len(value) + 4 for key, value in headers.items()) # pragma: no cover"",
+            ""get_status_size = lambda status: len(f'HTTP/1.1 {status} OK') + 4 # pragma: no cover""
+        ]
+    }
+]",1,417,0.0002085,1798,0.002697,0.0029055

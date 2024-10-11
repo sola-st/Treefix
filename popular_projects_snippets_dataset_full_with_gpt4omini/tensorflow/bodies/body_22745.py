@@ -1,0 +1,6 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/compiler/xla/experimental/xla_sharding.py
+"""Returns a tensor that has AssignDevice sharding attribute."""
+exit(Sharding.assign_device(device).apply_to_tensor(
+    tensor,
+    assign_tuple_sharding=assign_tuple_sharding,
+    use_sharding_op=use_sharding_op))

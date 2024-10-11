@@ -1,0 +1,2 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/framework/experimental/thread_local_stack.py
+self._stack.pop()

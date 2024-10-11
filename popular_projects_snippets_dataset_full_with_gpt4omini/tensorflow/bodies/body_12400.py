@@ -1,0 +1,24 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/variables.py
+"""Call on Variable class. Useful to force the signature."""
+previous_getter = lambda **kws: default_variable_creator_v2(None, **kws)
+for _, getter in ops.get_default_graph()._variable_creator_stack:  # pylint: disable=protected-access
+    previous_getter = _make_getter(getter, previous_getter)
+
+# Reset `aggregation` that is explicitly set as `None` to the enum NONE.
+if aggregation is None:
+    aggregation = VariableAggregation.NONE
+exit(previous_getter(
+    initial_value=initial_value,
+    trainable=trainable,
+    validate_shape=validate_shape,
+    caching_device=caching_device,
+    name=name,
+    variable_def=variable_def,
+    dtype=dtype,
+    import_scope=import_scope,
+    constraint=constraint,
+    synchronization=synchronization,
+    aggregation=aggregation,
+    shape=shape,
+    experimental_enable_variable_lifting=experimental_enable_variable_lifting,
+    ))

@@ -1,0 +1,27 @@
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/black/src/black/cache.py
+from l3.Runtime import _l_
+"""Split an iterable of paths in `sources` into two sets.
+
+    The first contains paths of files that modified on disk or are not in the
+    cache. The other contains paths to non-modified files.
+    """
+todo, done = set(), set()
+_l_(3814)
+for src in sources:
+    _l_(3819)
+
+    res_src = src.resolve()
+    _l_(3815)
+    if cache.get(str(res_src)) != get_cache_info(res_src):
+        _l_(3818)
+
+        todo.add(src)
+        _l_(3816)
+    else:
+        done.add(src)
+        _l_(3817)
+aux = (todo, done)
+_l_(3820)
+exit(aux)

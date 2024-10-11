@@ -1,0 +1,8 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/data_structures/list_ops_test.py
+c0 = constant_op.constant([1.0, 2.0])
+with self.assertRaisesRegex(
+    errors.InvalidArgumentError,
+    "TensorListScatter: Trying to scatter at index 3 in list with size 3"):
+    l = gen_list_ops.tensor_list_scatter_v2(
+        c0, [1, 3], list_ops._build_element_shape([]), num_elements=3)
+    self.evaluate(l)

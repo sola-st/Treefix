@@ -1,0 +1,11 @@
+import unittest # pragma: no cover
+
+self = type('Mock', (object,), {})() # pragma: no cover
+self._testMaxItersSimple = lambda: 'Test Max Iterations Simple executed' # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/compiler/tests/while_test.py
+from l3.Runtime import _l_
+self._testMaxItersSimple()
+_l_(9923)

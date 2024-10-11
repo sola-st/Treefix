@@ -1,0 +1,10 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/nn_ops/losses_test.py
+logits = constant_op.constant([[1.2, 0.4, -1.0, -1.1]] * 2)
+labels = constant_op.constant([[1.0, 0.0, 0.0, 1.0]] * 2)
+self.assertFalse(util.get_losses())
+losses.absolute_difference(logits, labels, loss_collection=None)
+losses.log_loss(logits, labels, loss_collection=None)
+losses.mean_squared_error(logits, labels, loss_collection=None)
+losses.sigmoid_cross_entropy(logits, labels, loss_collection=None)
+losses.softmax_cross_entropy(logits, labels, loss_collection=None)
+self.assertFalse(util.get_losses())

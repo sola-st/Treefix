@@ -1,0 +1,51 @@
+metrics = type('MockMetrics', (object,), {'true_positives': lambda self, labels, predictions: (tf.Variable(0, dtype=tf.int32), tf.reduce_sum(tf.cast(tf.logical_and(tf.equal(labels, 1), tf.equal(predictions, 1)), tf.int32)) )})() # pragma: no cover
+self = type('MockSelf', (object,), {'cached_session': lambda self: tf.compat.v1.Session(), 'evaluate': lambda self, x: x.eval(), 'assertAllClose': lambda self, a, b: tf.Assert(tf.reduce_all(tf.abs(a - b) < 1e-6), [a, b])})() # pragma: no cover
+variables = type('MockVariables', (object,), {'local_variables_initializer': lambda self: tf.local_variables_initializer()})() # pragma: no cover
+
+class MockMetrics: # pragma: no cover
+    def true_positives(self, labels, predictions): # pragma: no cover
+        return (7, None)  # Simulated output for the mock method # pragma: no cover
+metrics = MockMetrics() # pragma: no cover
+class MockSelf: # pragma: no cover
+    def cached_session(self): # pragma: no cover
+        return tf.compat.v1.Session() # pragma: no cover
+    def evaluate(self, x): # pragma: no cover
+        return x # pragma: no cover
+    def assertAllClose(self, a, b): # pragma: no cover
+        assert abs(a - b) < 1e-6, f'Assertion failed: {a} is not close to {b}' # pragma: no cover
+self = MockSelf() # pragma: no cover
+class MockVariables: # pragma: no cover
+    @staticmethod # pragma: no cover
+    def local_variables_initializer(): # pragma: no cover
+        return None # pragma: no cover
+variables = MockVariables() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/metrics_test.py
+from l3.Runtime import _l_
+labels = constant_op.constant(((0, 1, 0, 1, 0),
+                               (0, 0, 1, 1, 1),
+                               (1, 1, 1, 1, 0),
+                               (0, 0, 0, 0, 1)))
+_l_(5668)
+predictions = constant_op.constant(((0, 0, 1, 1, 0),
+                                    (1, 1, 1, 1, 1),
+                                    (0, 1, 0, 1, 0),
+                                    (1, 1, 1, 1, 1)))
+_l_(5669)
+tn, tn_update_op = metrics.true_positives(
+    labels=labels, predictions=predictions)
+_l_(5670)
+
+with self.cached_session():
+    _l_(5675)
+
+    self.evaluate(variables.local_variables_initializer())
+    _l_(5671)
+    self.assertAllClose(0., tn)
+    _l_(5672)
+    self.assertAllClose(7., tn_update_op)
+    _l_(5673)
+    self.assertAllClose(7., tn)
+    _l_(5674)

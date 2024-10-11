@@ -1,0 +1,43 @@
+class MockTimeout: # pragma: no cover
+    def active(self): # pragma: no cover
+        return True # pragma: no cover
+    def cancel(self): # pragma: no cover
+        pass # pragma: no cover
+ # pragma: no cover
+class MockTransport: # pragma: no cover
+    def stopProducing(self): # pragma: no cover
+        print('Stopped producing') # pragma: no cover
+ # pragma: no cover
+class MockResponse: # pragma: no cover
+    def __init__(self): # pragma: no cover
+        self._transport = MockTransport() # pragma: no cover
+
+self = type('Mock', (object,), {})() # pragma: no cover
+self._timeout_cl = MockTimeout() # pragma: no cover
+result = 'some_result' # pragma: no cover
+self._txresponse = MockResponse() # pragma: no cover
+url = 'http://example.com' # pragma: no cover
+timeout = 5 # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/scrapy/scrapy/core/downloader/handlers/http11.py
+from l3.Runtime import _l_
+if self._timeout_cl.active():
+    _l_(6321)
+
+    self._timeout_cl.cancel()
+    _l_(6319)
+    aux = result
+    _l_(6320)
+    exit(aux)
+# needed for HTTPS requests, otherwise _ResponseReader doesn't
+# receive connectionLost()
+if self._txresponse:
+    _l_(6323)
+
+    self._txresponse._transport.stopProducing()
+    _l_(6322)
+
+raise TimeoutError(f"Getting {url} took longer than {timeout} seconds.")
+_l_(6324)

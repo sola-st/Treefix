@@ -1,0 +1,95 @@
+class Mock:  # pragma: no cover
+    def shape(self, x): # pragma: no cover
+        return tf.shape(x) # pragma: no cover
+    def rank(self, x): # pragma: no cover
+        return tf.rank(x) # pragma: no cover
+array_ops = Mock() # pragma: no cover
+class ControlFlowOps:  # pragma: no cover
+    @staticmethod  # pragma: no cover
+    def Assert(condition, data): # pragma: no cover
+        return None  # pragma: no cover
+    @staticmethod  # pragma: no cover
+    def cond(pred, true_fn, false_fn): # pragma: no cover
+        return tf.cond(pred, true_fn, false_fn) # pragma: no cover
+control_flow_ops = ControlFlowOps() # pragma: no cover
+class GenStringOps:  # pragma: no cover
+    @staticmethod  # pragma: no cover
+    def string_join(inputs): # pragma: no cover
+        return tf.strings.join(inputs)  # pragma: no cover
+    @staticmethod  # pragma: no cover
+    def as_string(tensor): # pragma: no cover
+        return tf.strings.as_string(tensor) # pragma: no cover
+gen_string_ops = GenStringOps() # pragma: no cover
+class Ops:  # pragma: no cover
+    @staticmethod  # pragma: no cover
+    def control_dependencies(control_inputs): # pragma: no cover
+        return tf.control_dependencies(control_inputs) # pragma: no cover
+ops = Ops() # pragma: no cover
+class ConstantOp:  # pragma: no cover
+    @staticmethod  # pragma: no cover
+    def constant(value, dtype=None): # pragma: no cover
+        return tf.constant(value, dtype=dtype) # pragma: no cover
+constant_op = ConstantOp() # pragma: no cover
+class DTypes:  # pragma: no cover
+    @property  # pragma: no cover
+    def int32(self):  # pragma: no cover
+        return tf.int32 # pragma: no cover
+dtypes = DTypes() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/autograph/operators/py_builtins.py
+from l3.Runtime import _l_
+"""Overload of len_ for Tensor arguments."""
+# Statically shaped tensors: length is known ahead of time.
+if s.shape.ndims and s.shape.dims[0].value is not None:
+    _l_(6144)
+
+    aux = s.shape.dims[0].value
+    _l_(6143)
+    exit(aux)
+
+# Static shape of unknown dimensions: use dynamic shape but statically
+# check that it's a scalar.
+shape = array_ops.shape(s)
+_l_(6145)
+
+assert shape.shape, 'shape tensor of zero size? {}'.format(shape)
+_l_(6146)
+
+if shape.shape[0] == 0:
+    _l_(6148)
+
+    raise ValueError(
+        'len requires a non-scalar tensor, got one of shape {}'.format(shape))
+    _l_(6147)
+
+if shape.shape.dims[0].value is not None:
+    _l_(6150)
+
+    aux = array_ops.shape(s)[0]
+    _l_(6149)
+    exit(aux)
+
+# Fully dynamic shape: use ops.
+rank = array_ops.rank(s)
+_l_(6151)
+
+def raise_zero_rank_error():
+    _l_(6155)
+
+    msg = gen_string_ops.string_join(
+        ['len requires non-zero rank, got ',
+         gen_string_ops.as_string(rank)])
+    _l_(6152)
+    with ops.control_dependencies([control_flow_ops.Assert(False, [msg])]):
+        _l_(6154)
+
+        aux = constant_op.constant(0, dtype=dtypes.int32)
+        _l_(6153)
+        exit(aux)
+aux = control_flow_ops.cond(rank > 0, lambda: array_ops.shape(s)[0],
+                             raise_zero_rank_error)
+_l_(6156)
+
+exit(aux)

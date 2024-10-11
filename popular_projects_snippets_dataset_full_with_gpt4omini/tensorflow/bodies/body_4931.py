@@ -1,0 +1,10 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/distribute/sharded_variable_test.py
+v0 = variables_lib.Variable([[0, 0]])
+v1 = variables_lib.Variable([[1, 1], [2, 2]])
+v2 = variables_lib.Variable([[3, 3]])
+s = sharded_variable.ShardedVariable([v0, v1, v2])
+ret = s.assign([[4, 4], [5, 5], [6, 6], [7, 7]])
+self.assertAllEqual(self.evaluate(s.variables[0]), [[4, 4]])
+self.assertAllEqual(self.evaluate(s.variables[1]), [[5, 5], [6, 6]])
+self.assertAllEqual(self.evaluate(s.variables[2]), [[7, 7]])
+self.assertIs(ret, s)

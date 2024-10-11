@@ -1,0 +1,10 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/ragged/ragged_tensor_test.py
+rt = RaggedTensor.from_value_rowids([], [])
+rt_nrows = rt.nrows()
+self.assertEqual(rt.dtype, dtypes.float32)
+self.assertEqual(rt.shape.as_list(), [0, None])
+self.assertEqual(rt.ragged_rank, 1)
+self.assertEqual(rt.values.shape.as_list(), [0])
+self.assertEqual(rt.value_rowids().shape.as_list(), [0])
+self.assertAllEqual(rt_nrows, 0)
+self.assertAllEqual(rt, [])

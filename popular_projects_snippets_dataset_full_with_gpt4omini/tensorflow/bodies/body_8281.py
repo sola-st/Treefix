@@ -1,0 +1,11 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/distribute/metrics_v1_test.py
+def _metric_fn(x):
+    labels = x["labels"]
+    predictions = x["predictions"]
+    exit(metrics.accuracy(labels, predictions))
+
+def _expected_fn(num_batches):
+    exit([3./4, 3./8, 3./12, 4./16][num_batches - 1])
+
+self._test_metric(
+    distribution, _labeled_dataset_fn, _metric_fn, _expected_fn)

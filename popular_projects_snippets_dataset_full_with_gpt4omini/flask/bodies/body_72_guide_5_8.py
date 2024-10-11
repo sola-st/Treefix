@@ -1,0 +1,34 @@
+from typing import Optional # pragma: no cover
+
+class Mock:# pragma: no cover
+    def __init__(self, endpoint: Optional[str]):# pragma: no cover
+        self.endpoint = endpoint # pragma: no cover
+self = Mock(endpoint='test.module.function') # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/flask/src/flask/wrappers.py
+from l3.Runtime import _l_
+"""The registered name of the current blueprint.
+
+        This will be ``None`` if the endpoint is not part of a
+        blueprint, or if URL matching failed or has not been performed
+        yet.
+
+        This does not necessarily match the name the blueprint was
+        created with. It may have been nested, or registered with a
+        different name.
+        """
+endpoint = self.endpoint
+_l_(6971)
+
+if endpoint is not None and "." in endpoint:
+    _l_(6973)
+
+    aux = endpoint.rpartition(".")[0]
+    _l_(6972)
+    exit(aux)
+aux = None
+_l_(6974)
+
+exit(aux)

@@ -1,0 +1,36 @@
+import ast # pragma: no cover
+from unittest.mock import MagicMock # pragma: no cover
+
+node = MagicMock(value=MagicMock(spec=ast.Call, func=MagicMock(attr='run_cell_magic'))) # pragma: no cover
+_is_ipython_magic = MagicMock(side_effect=lambda func: func is not None) # pragma: no cover
+_get_str_args = MagicMock(side_effect=lambda args: [args[0], args[1], args[2]]) # pragma: no cover
+self = MagicMock() # pragma: no cover
+CellMagic = MagicMock() # pragma: no cover
+
+import ast # pragma: no cover
+from unittest.mock import MagicMock # pragma: no cover
+
+node = MagicMock(value=MagicMock(spec=ast.Call, func=MagicMock(attr='run_cell_magic'), args=[MagicMock(), MagicMock(), MagicMock()])) # pragma: no cover
+_is_ipython_magic = MagicMock(side_effect=lambda func: True) # pragma: no cover
+_get_str_args = MagicMock(return_value=['magic_name', 'param1', 'body_code']) # pragma: no cover
+self = MagicMock() # pragma: no cover
+CellMagic = MagicMock() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/black/src/black/handle_ipynb_magics.py
+from l3.Runtime import _l_
+"""Find cell magic, extract header and body."""
+if (
+    isinstance(node.value, ast.Call)
+    and _is_ipython_magic(node.value.func)
+    and node.value.func.attr == "run_cell_magic"
+):
+    _l_(5103)
+
+    args = _get_str_args(node.value.args)
+    _l_(5101)
+    self.cell_magic = CellMagic(name=args[0], params=args[1], body=args[2])
+    _l_(5102)
+self.generic_visit(node)
+_l_(5104)

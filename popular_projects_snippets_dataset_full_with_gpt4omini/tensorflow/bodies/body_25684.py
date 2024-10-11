@@ -1,0 +1,6 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/debug/cli/debugger_cli_common_test.py
+output = self.menu.format_as_single_line(prefix="Menu: ", divider=", ")
+self.assertEqual(["Menu: water flower, measure wavelength, "], output.lines)
+self.assertEqual((6, 18, [self.node1]), output.font_attr_segs[0][0])
+self.assertEqual((20, 38, [self.node2]), output.font_attr_segs[0][1])
+self.assertEqual({}, output.annotations)

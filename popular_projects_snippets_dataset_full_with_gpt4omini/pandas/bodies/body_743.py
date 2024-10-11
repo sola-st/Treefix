@@ -1,0 +1,12 @@
+# Extracted from ./data/repos/pandas/pandas/tests/dtypes/test_inference.py
+assert not is_scalar(Series(dtype=object))
+assert not is_scalar(Series([1]))
+assert not is_scalar(DataFrame())
+assert not is_scalar(DataFrame([[1]]))
+assert not is_scalar(Index([]))
+assert not is_scalar(Index([1]))
+assert not is_scalar(Categorical([]))
+assert not is_scalar(DatetimeIndex([])._data)
+assert not is_scalar(TimedeltaIndex([])._data)
+assert not is_scalar(DatetimeIndex([])._data.to_period("D"))
+assert not is_scalar(pd.array([1, 2, 3]))

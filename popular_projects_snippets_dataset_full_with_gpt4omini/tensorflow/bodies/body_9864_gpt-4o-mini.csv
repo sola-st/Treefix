@@ -1,0 +1,342 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+x0 = np.array([[1], [2]])
+input_path = os.path.join(test.get_temp_dir(), 'input.npz')
+np.savez(input_path, a=x0)
+input_str = 'x=' + input_path + '[a];y=' + input_path
+feed_dict = saved_model_cli.load_inputs_from_input_arg_string(
+    input_str, '', '')
+self.assertTrue(np.all(feed_dict['x'] == x0))
+self.assertTrue(np.all(feed_dict['y'] == x0))
+
+# end code snippet
+
+# begin undefined variables
+np
+os
+test
+saved_model_cli
+self
+# end undefined variables
+
+# begin undefined attributes and methods
+np.array
+os.path
+test.get_temp_dir
+np.savez
+saved_model_cli.load_inputs_from_input_arg_string
+self.assertTrue
+np.all
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import os"",
+            ""import tempfile"",
+            ""from unittest import mock""
+        ],
+        ""initialization"": [
+            ""test = mock.Mock()"",
+            ""test.get_temp_dir = mock.Mock(return_value=tempfile.gettempdir())"",
+            ""saved_model_cli = mock.Mock()"",
+            ""saved_model_cli.load_inputs_from_input_arg_string = mock.Mock(return_value={'x': np.array([[1], [2]]), 'y': np.array([[1], [2]])})"",
+            ""self = mock.Mock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import os"",
+            ""import tempfile"",
+            ""from unittest.mock import MagicMock""
+        ],
+        ""initialization"": [
+            ""test = MagicMock()"",
+            ""test.get_temp_dir = lambda: tempfile.gettempdir()"",
+            ""saved_model_cli = MagicMock()"",
+            ""saved_model_cli.load_inputs_from_input_arg_string = lambda x, y, z: {'x': np.array([[1], [2]]), 'y': np.array([[1], [2]])}"",
+            ""self = MagicMock()"",
+            ""self.assertTrue = lambda condition: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import os"",
+            ""import tempfile"",
+            ""from unittest import mock""
+        ],
+        ""initialization"": [
+            ""test = type('MockTest', (object,), {'get_temp_dir': staticmethod(lambda: tempfile.gettempdir())})()"",
+            ""saved_model_cli = type('MockSavedModelCli', (object,), {'load_inputs_from_input_arg_string': staticmethod(lambda x, y, z: {'x': np.load(x)['a'], 'y': np.load(x)})})()"",
+            ""self = mock.Mock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import os"",
+            ""import tempfile"",
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""os = Mock()"",
+            ""os.path = Mock()"",
+            ""test = Mock()"",
+            ""saved_model_cli = Mock()"",
+            ""self = Mock()"",
+            ""tempfile.gettempdir = Mock(return_value='/tmp')"",
+            ""test.get_temp_dir = Mock(return_value=tempfile.gettempdir())"",
+            ""os.path.join = Mock(side_effect=lambda *args: '/'.join(args))"",
+            ""np.savez = Mock()"",
+            ""saved_model_cli.load_inputs_from_input_arg_string = Mock(return_value={'x': x0, 'y': x0})"",
+            ""self.assertTrue = Mock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import os"",
+            ""import tempfile"",
+            ""from unittest import mock""
+        ],
+        ""initialization"": [
+            ""test = mock.Mock()"",
+            ""test.get_temp_dir = mock.Mock(return_value=tempfile.gettempdir())"",
+            ""saved_model_cli = mock.Mock()"",
+            ""saved_model_cli.load_inputs_from_input_arg_string = mock.Mock(return_value={'x': np.array([[1], [2]]), 'y': np.array([[1], [2]])})"",
+            ""self = mock.Mock()"",
+            ""self.assertTrue = mock.Mock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import os"",
+            ""import tempfile"",
+            ""import saved_model_cli""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'get_temp_dir': staticmethod(lambda: tempfile.gettempdir())})()"",
+            ""saved_model_cli = type('Mock', (object,), {'load_inputs_from_input_arg_string': staticmethod(lambda input_str, _, __: {'x': np.load(input_str.split('=')[1].split(';')[0])['a'], 'y': np.load(input_str.split('=')[2])['a']})})"",
+            ""self = type('Mock', (object,), {'assertTrue': lambda condition: print('Assert:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import os"",
+            ""import unittest"",
+            ""from tensorflow_model_analysis import saved_model_cli""
+        ],
+        ""initialization"": [
+            ""test = type('MockTest', (object,), {'get_temp_dir': lambda self: '/tmp'})()"",
+            ""self = unittest.TestCase()"",
+            ""saved_model_cli = type('MockSavedModelCLI', (object,), {'load_inputs_from_input_arg_string': lambda input_str, a, b: {'x': np.array([[1], [2]]), 'y': np.array([[1], [2]])}})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import os"",
+            ""import tempfile"",
+            ""from unittest import mock""
+        ],
+        ""initialization"": [
+            ""test = type('MockTest', (object,), {'get_temp_dir': lambda: tempfile.gettempdir()})()"",
+            ""saved_model_cli = type('MockSavedModelCLI', (object,), {'load_inputs_from_input_arg_string': lambda x, y, z: {'x': np.array([[1], [2]]), 'y': np.array([[1], [2]])}})()"",
+            ""self = mock.Mock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import os"",
+            ""import tempfile"",
+            ""from unittest import mock""
+        ],
+        ""initialization"": [
+            ""os = type('MockOS', (object,), {'path': os})()"",
+            ""test = type('MockTest', (object,), {'get_temp_dir': lambda: tempfile.gettempdir()})()"",
+            ""saved_model_cli = type('MockSavedModelCLI', (object,), {'load_inputs_from_input_arg_string': lambda x, y, z: {'x': np.array([[1], [2]]), 'y': np.array([[1], [2]])}})()"",
+            ""self = mock.Mock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import os"",
+            ""import tempfile"",
+            ""from unittest import mock""
+        ],
+        ""initialization"": [
+            ""test = mock.Mock()"",
+            ""test.get_temp_dir = lambda: tempfile.gettempdir()"",
+            ""saved_model_cli = mock.Mock()"",
+            ""saved_model_cli.load_inputs_from_input_arg_string = mock.Mock(return_value={'x': np.array([[1], [2]]), 'y': np.array([[1], [2]])})"",
+            ""self = mock.Mock()"",
+            ""self.assertTrue = lambda condition: None""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import tempfile # pragma: no cover"",
+            ""from unittest import mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = mock.Mock() # pragma: no cover"",
+            ""test.get_temp_dir = mock.Mock(return_value=tempfile.gettempdir()) # pragma: no cover"",
+            ""saved_model_cli = mock.Mock() # pragma: no cover"",
+            ""saved_model_cli.load_inputs_from_input_arg_string = mock.Mock(return_value={'x': np.array([[1], [2]]), 'y': np.array([[1], [2]])}) # pragma: no cover"",
+            ""self = mock.Mock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import tempfile # pragma: no cover"",
+            ""from unittest.mock import MagicMock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = MagicMock() # pragma: no cover"",
+            ""test.get_temp_dir = lambda: tempfile.gettempdir() # pragma: no cover"",
+            ""saved_model_cli = MagicMock() # pragma: no cover"",
+            ""saved_model_cli.load_inputs_from_input_arg_string = lambda x, y, z: {'x': np.array([[1], [2]]), 'y': np.array([[1], [2]])} # pragma: no cover"",
+            ""self = MagicMock() # pragma: no cover"",
+            ""self.assertTrue = lambda condition: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import tempfile # pragma: no cover"",
+            ""from unittest import mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('MockTest', (object,), {'get_temp_dir': staticmethod(lambda: tempfile.gettempdir())})() # pragma: no cover"",
+            ""saved_model_cli = type('MockSavedModelCli', (object,), {'load_inputs_from_input_arg_string': staticmethod(lambda x, y, z: {'x': np.load(x)['a'], 'y': np.load(x)})})() # pragma: no cover"",
+            ""self = mock.Mock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import tempfile # pragma: no cover"",
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os = Mock() # pragma: no cover"",
+            ""os.path = Mock() # pragma: no cover"",
+            ""test = Mock() # pragma: no cover"",
+            ""saved_model_cli = Mock() # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""tempfile.gettempdir = Mock(return_value='/tmp') # pragma: no cover"",
+            ""test.get_temp_dir = Mock(return_value=tempfile.gettempdir()) # pragma: no cover"",
+            ""os.path.join = Mock(side_effect=lambda *args: '/'.join(args)) # pragma: no cover"",
+            ""np.savez = Mock() # pragma: no cover"",
+            ""self.assertTrue = Mock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import tempfile # pragma: no cover"",
+            ""from unittest import mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = mock.Mock() # pragma: no cover"",
+            ""test.get_temp_dir = mock.Mock(return_value=tempfile.gettempdir()) # pragma: no cover"",
+            ""saved_model_cli = mock.Mock() # pragma: no cover"",
+            ""saved_model_cli.load_inputs_from_input_arg_string = mock.Mock(return_value={'x': np.array([[1], [2]]), 'y': np.array([[1], [2]])}) # pragma: no cover"",
+            ""self = mock.Mock() # pragma: no cover"",
+            ""self.assertTrue = mock.Mock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import tempfile # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'get_temp_dir': staticmethod(lambda: tempfile.gettempdir())})() # pragma: no cover"",
+            ""saved_model_cli = type('Mock', (object,), {'load_inputs_from_input_arg_string': staticmethod(lambda input_str, _, __: {'x': np.load(input_str.split('=')[1].split(';')[0])['a'], 'y': np.load(input_str.split('=')[2])['a']})}) # pragma: no cover"",
+            ""self = type('Mock', (object,), {'assertTrue': lambda condition: print('Assert:', condition)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import unittest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('MockTest', (object,), {'get_temp_dir': lambda self: '/tmp'})() # pragma: no cover"",
+            ""self = unittest.TestCase() # pragma: no cover"",
+            ""saved_model_cli = type('MockSavedModelCLI', (object,), {'load_inputs_from_input_arg_string': lambda input_str, a, b: {'x': np.array([[1], [2]]), 'y': np.array([[1], [2]])}})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import tempfile # pragma: no cover"",
+            ""from unittest import mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('MockTest', (object,), {'get_temp_dir': lambda: tempfile.gettempdir()})() # pragma: no cover"",
+            ""saved_model_cli = type('MockSavedModelCLI', (object,), {'load_inputs_from_input_arg_string': lambda x, y, z: {'x': np.array([[1], [2]]), 'y': np.array([[1], [2]])}})() # pragma: no cover"",
+            ""self = mock.Mock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import tempfile # pragma: no cover"",
+            ""from unittest import mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os = type('MockOS', (object,), {'path': os})() # pragma: no cover"",
+            ""test = type('MockTest', (object,), {'get_temp_dir': lambda: tempfile.gettempdir()})() # pragma: no cover"",
+            ""saved_model_cli = type('MockSavedModelCLI', (object,), {'load_inputs_from_input_arg_string': lambda x, y, z: {'x': np.array([[1], [2]]), 'y': np.array([[1], [2]])}})() # pragma: no cover"",
+            ""self = mock.Mock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import tempfile # pragma: no cover"",
+            ""from unittest import mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = mock.Mock() # pragma: no cover"",
+            ""test.get_temp_dir = lambda: tempfile.gettempdir() # pragma: no cover"",
+            ""saved_model_cli = mock.Mock() # pragma: no cover"",
+            ""saved_model_cli.load_inputs_from_input_arg_string = mock.Mock(return_value={'x': np.array([[1], [2]]), 'y': np.array([[1], [2]])}) # pragma: no cover"",
+            ""self = mock.Mock() # pragma: no cover"",
+            ""self.assertTrue = lambda condition: None # pragma: no cover""
+        ]
+    }
+]",1,432,0.000216,1483,0.0022245,0.0024405

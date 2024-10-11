@@ -1,0 +1,13 @@
+line = 'This is a sample line to test the function.' # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/black/src/black/lines.py
+from l3.Runtime import _l_
+"""Returns the string representation of @line.
+
+    WARNING: This is known to be computationally expensive.
+    """
+aux = str(line).strip("\n")
+_l_(6179)
+exit(aux)

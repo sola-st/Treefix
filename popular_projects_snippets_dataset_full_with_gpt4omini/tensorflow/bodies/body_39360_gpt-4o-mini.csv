@@ -1,0 +1,2176 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+checkpoint = util.Checkpoint()
+manager = checkpoint_management.CheckpointManager(
+    checkpoint, self.get_temp_dir(), max_to_keep=3)
+first_path = manager.save()
+second_path = manager.save()
+third_path = manager.save()
+fourth_path = manager.save()
+self.assertTrue(checkpoint_management.checkpoint_exists(fourth_path))
+self.assertTrue(checkpoint_management.checkpoint_exists(third_path))
+self.assertTrue(checkpoint_management.checkpoint_exists(second_path))
+self.assertFalse(checkpoint_management.checkpoint_exists(first_path))
+
+# end code snippet
+
+# begin undefined variables
+util
+checkpoint_management
+self
+# end undefined variables
+
+# begin undefined attributes and methods
+util.Checkpoint
+checkpoint_management.CheckpointManager
+self.get_temp_dir
+self.assertTrue
+checkpoint_management.checkpoint_exists
+self.assertFalse
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from some_module import util"",
+            ""from another_module import checkpoint_management""
+        ],
+        ""initialization"": [
+            ""class MockSelf: def get_temp_dir(self): return '/tmp/checkpoints' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""util = type('MockUtil', (), {'Checkpoint': type('MockCheckpoint', (), {})})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': type('MockCheckpointManager', (), {'save': lambda self: '/tmp/checkpoints/checkpoint' + str(id(self)), '__init__': lambda self, cp, dir, max_to_keep: None}), 'checkpoint_exists': lambda path: path in ['/tmp/checkpoints/checkpoint' + str(i) for i in range(1, 5)]})})()"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import util"",
+            ""import checkpoint_management"",
+            ""import os""
+        ],
+        ""initialization"": [
+            ""util = type('MockUtil', (), {'Checkpoint': lambda: None})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': lambda checkpoint, temp_dir, max_to_keep: type('MockManager', (), {'save': lambda self: os.path.join(temp_dir, 'checkpoint_{}.ckpt'.format(self.counter)), 'counter': 0})(), 'checkpoint_exists': lambda path: os.path.exists(path)})()"",
+            ""os.mkdir('/tmp') if not os.path.exists('/tmp') else None"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import util"",
+            ""import checkpoint_management""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda x: None, 'assertFalse': lambda x: None})()"",
+            ""util = type('Mock', (), {'Checkpoint': lambda: None})"",
+            ""checkpoint_management = type('Mock', (), {'CheckpointManager': lambda cp, dir, max_to_keep: type('Mock', (), {'save': lambda: '/tmp/checkpoints/checkpoint_' + str(id(cp)), '__init__': lambda: None})(), 'checkpoint_exists': lambda path: path in ['/tmp/checkpoints/checkpoint_1', '/tmp/checkpoints/checkpoint_2', '/tmp/checkpoints/checkpoint_3']})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import util"",
+            ""import checkpoint_management""
+        ],
+        ""initialization"": [
+            ""util = type('MockUtil', (object,), {'Checkpoint': type('MockCheckpoint', (object,), {})})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (object,), {'CheckpointManager': type('MockCheckpointManager', (object,), {'__init__': lambda self, checkpoint, temp_dir, max_to_keep: None, 'save': lambda self: 'checkpoint_path', '__class__': type('MockCheckpoint')})})})()"",
+            ""self = type('MockSelf', (object,), {'get_temp_dir': lambda self: '/tmp', 'assertTrue': lambda self, condition: None, 'assertFalse': lambda self, condition: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import util"",
+            ""import checkpoint_management"",
+            ""import os""
+        ],
+        ""initialization"": [
+            ""util = type('MockUtil', (), {'Checkpoint': type('MockCheckpoint', (), {})})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': type('MockCheckpointManager', (), {'save': lambda self: os.path.join(self.temp_dir, 'checkpoint_' + str(self.counter) + '.ckpt'), 'counter': 0, 'temp_dir': self.temp_dir})}), 'checkpoint_exists': lambda path: path in self.saved_checkpoints})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition), 'saved_checkpoints': []})()"",
+            ""checkpoint_management.CheckpointManager.temp_dir = self.get_temp_dir()"",
+            ""checkpoint_management.CheckpointManager.saved_checkpoints = []""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import util"",
+            ""import checkpoint_management""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda x: x, 'assertFalse': lambda x: not x})()"",
+            ""util.Checkpoint = type('Checkpoint', (), {})"",
+            ""checkpoint_management.CheckpointManager = type('CheckpointManager', (), {'__init__': lambda self, cp, dir, max_to_keep: None, 'save': lambda self: 'checkpoint_path_' + str(id(self))})"",
+            ""checkpoint_management.checkpoint_exists = lambda path: 'checkpoint_path_' in path""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from my_module import util"",
+            ""from my_module import checkpoint_management""
+        ],
+        ""initialization"": [
+            ""util = type('MockUtil', (object,), {'Checkpoint': type('MockCheckpoint', (object,), {})})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (object,), {'CheckpointManager': type('MockCheckpointManager', (object,), {'__init__': lambda s, c, d, k: None, 'save': lambda s: 'mock_path_' + str(id(s)), '__class__': 'MockCheckpointManager'})})})()"",
+            ""self = type('MockSelf', (object,), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda x: None, 'assertFalse': lambda x: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from some_module import util"",
+            ""from some_module import checkpoint_management""
+        ],
+        ""initialization"": [
+            ""util = type('MockUtil', (), {'Checkpoint': type('MockCheckpoint', (), {})})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': type('MockCheckpointManager', (), {'save': lambda self: 'mock_path', '__init__': lambda self, c, d, m: None})})})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda self: 'temp_directory', 'assertTrue': lambda self, x: None, 'assertFalse': lambda self, x: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import util"",
+            ""import checkpoint_management""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda x: x, 'assertFalse': lambda x: not x})()"",
+            ""util = type('MockUtil', (), {'Checkpoint': lambda: None})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': lambda checkpoint, temp_dir, max_to_keep: type('MockManager', (), {'save': lambda: '/path/to/checkpoint', '__init__': lambda self: None})(), 'checkpoint_exists': lambda path: path in ['/path/to/checkpoint', '/path/to/checkpoint', '/path/to/checkpoint']})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import util"",
+            ""import checkpoint_management"",
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""self = Mock()"",
+            ""self.get_temp_dir = lambda: os.path.join(os.getcwd(), 'temp_dir')"",
+            ""util.Checkpoint = type('Checkpoint', (object,), {})"",
+            ""checkpoint_management.CheckpointManager = type('CheckpointManager', (object,), {'__init__': lambda self, cp, dir, max_to_keep: None, 'save': lambda self: os.path.join(dir, 'checkpoint_' + str(os.urandom(4).hex()))})"",
+            ""checkpoint_management.checkpoint_exists = lambda path: os.path.exists(path)""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""util = type('MockUtil', (), {'Checkpoint': lambda: None})() # pragma: no cover"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': lambda checkpoint, temp_dir, max_to_keep: type('MockManager', (), {'save': lambda self: os.path.join(temp_dir, 'checkpoint_{}.ckpt'.format(self.counter)), 'counter': 0})(), 'checkpoint_exists': lambda path: os.path.exists(path)})() # pragma: no cover"",
+            ""os.mkdir('/tmp') if not os.path.exists('/tmp') else None # pragma: no cover"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda x: None, 'assertFalse': lambda x: None})() # pragma: no cover"",
+            ""util = type('Mock', (), {'Checkpoint': lambda: None}) # pragma: no cover"",
+            ""checkpoint_management = type('Mock', (), {'CheckpointManager': lambda cp, dir, max_to_keep: type('Mock', (), {'save': lambda: '/tmp/checkpoints/checkpoint_' + str(id(cp)), '__init__': lambda: None})(), 'checkpoint_exists': lambda path: path in ['/tmp/checkpoints/checkpoint_1', '/tmp/checkpoints/checkpoint_2', '/tmp/checkpoints/checkpoint_3']}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'get_temp_dir': lambda self: '/tmp', 'assertTrue': lambda self, condition: None, 'assertFalse': lambda self, condition: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition), 'saved_checkpoints': []})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda x: x, 'assertFalse': lambda x: not x})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda x: None, 'assertFalse': lambda x: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda self: 'temp_directory', 'assertTrue': lambda self, x: None, 'assertFalse': lambda self, x: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda x: x, 'assertFalse': lambda x: not x})() # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': lambda: None})() # pragma: no cover"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': lambda checkpoint, temp_dir, max_to_keep: type('MockManager', (), {'save': lambda: '/path/to/checkpoint', '__init__': lambda self: None})(), 'checkpoint_exists': lambda path: path in ['/path/to/checkpoint', '/path/to/checkpoint', '/path/to/checkpoint']})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""self.get_temp_dir = lambda: os.path.join(os.getcwd(), 'temp_dir') # pragma: no cover""
+        ]
+    }
+]",1,425,0.0002125,1824,0.002736,0.0029485
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 2:
+    checkpoint = util.Checkpoint()
+NameError: name 'util' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from unittest.mock import MagicMock""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, cp, dir, max_to_keep): self.cp = cp self.dir = dir self.max_to_keep = max_to_keep def save(self): return f'{self.dir}/checkpoint_{id(self)}'"",
+            ""checkpoint = MockCheckpoint()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path.startswith('/tmp/checkpoints/checkpoint_')})"",
+            ""class MockSelf: def get_temp_dir(self): return '/tmp/checkpoints' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint; self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.saved_paths = []; def save(self): path = self.temp_dir + '/checkpoint' + str(len(self.saved_paths) + 1); self.saved_paths.append(path); return path"",
+            ""def checkpoint_exists(path): return path in ['/tmp/checkpoints/checkpoint1', '/tmp/checkpoints/checkpoint2', '/tmp/checkpoints/checkpoint3']"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': checkpoint_exists})()""
+        ],
+        ""initialization"": [
+            ""class MockSelf: def get_temp_dir(self): return '/tmp/checkpoints'; def assertTrue(self, condition): assert condition; def assertFalse(self, condition): assert not condition"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""class MockSelf: def get_temp_dir(self): return '/tmp/checkpoints' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, dir, max_to_keep): self.checkpoint = checkpoint self.dir = dir self.max_to_keep = max_to_keep self.checkpoint_paths = [] def save(self): path = f'{self.dir}/checkpoint{len(self.checkpoint_paths) + 1}' self.checkpoint_paths.append(path) return path"",
+            ""def mock_checkpoint_exists(path): return path in [f'/tmp/checkpoints/checkpoint{i}' for i in range(1, 4)]"",
+            ""util = Mock()"",
+            ""util.Checkpoint = MockCheckpoint"",
+            ""checkpoint_management = Mock()"",
+            ""checkpoint_management.CheckpointManager = MockCheckpointManager"",
+            ""checkpoint_management.checkpoint_exists = mock_checkpoint_exists"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckPoint: pass"",
+            ""class MockCheckPointManager: def __init__(self, checkpoint, dir, max_to_keep): self.checkpoint = checkpoint self.dir = dir self.max_to_keep = max_to_keep self.paths = [] def save(self): path = os.path.join(self.dir, f'checkpoint_{len(self.paths) + 1}') self.paths.append(path) return path"",
+            ""def checkpoint_exists(path): return path in manager.paths"",
+            ""class MockSelf: def get_temp_dir(self): return '/tmp/checkpoints' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckPoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckPointManager, 'checkpoint_exists': checkpoint_exists})()"",
+            ""self = MockSelf()"",
+            ""checkpoint = util.Checkpoint()"",
+            ""manager = checkpoint_management.CheckpointManager(checkpoint, self.get_temp_dir(), max_to_keep=3)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class Checkpoint: pass"",
+            ""class CheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint; self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.checkpoints = [] def save(self): path = os.path.join(self.temp_dir, 'checkpoint' + str(len(self.checkpoints) + 1)); self.checkpoints.append(path); return path"",
+            ""class MockSelf: def get_temp_dir(self): return '/tmp/checkpoints' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""util = type('MockUtil', (), {'Checkpoint': Checkpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': CheckpointManager, 'checkpoint_exists': lambda path: path in ['/tmp/checkpoints/checkpoint' + str(i) for i in range(1, 5)]})()"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep def save(self): return f'{self.temp_dir}/checkpoint_' + str(id(self))"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path.startswith('/tmp/checkpoints/checkpoint_')})"",
+            ""class MockSelf: def get_temp_dir(self): return '/tmp/checkpoints' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest import TestCase"",
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint; self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.saves = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint{len(self.saves) + 1}'); self.saves.append(path); return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['/tmp/checkpoints/checkpoint1', '/tmp/checkpoints/checkpoint2', '/tmp/checkpoints/checkpoint3']})()"",
+            ""class MockSelf(TestCase): def get_temp_dir(self): return '/tmp/checkpoints' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_checkpoints = [] def save(self): path = os.path.join(self.temp_dir, 'checkpoint' + str(len(self.saved_checkpoints) + 1)) self.saved_checkpoints.append(path) return path"",
+            ""def checkpoint_exists(path): return path in [os.path.join('/tmp/checkpoints', 'checkpoint' + str(i)) for i in range(1, 5)]"",
+            ""util = Mock() util.Checkpoint = MockCheckpoint"",
+            ""checkpoint_management = Mock() checkpoint_management.CheckpointManager = MockCheckpointManager checkpoint_management.checkpoint_exists = checkpoint_exists"",
+            ""class MockSelf: def get_temp_dir(self): return '/tmp/checkpoints' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import MagicMock""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, dir, max_to_keep): self.checkpoint = checkpoint self.dir = dir self.max_to_keep = max_to_keep def save(self): return f'{self.dir}/checkpoint{(self.max_to_keep - 1) + 1}'"",
+            ""def checkpoint_exists(path): return path in ['/tmp/checkpoints/checkpoint1', '/tmp/checkpoints/checkpoint2', '/tmp/checkpoints/checkpoint3', '/tmp/checkpoints/checkpoint4']"",
+            ""class MockSelf: def get_temp_dir(self): return '/tmp/checkpoints' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': checkpoint_exists})()"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""class MockSelf: def get_temp_dir(self): return '/tmp/checkpoints' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep def save(self): return f'{self.temp_dir}/checkpoint_{id(self)}'"",
+            ""def checkpoint_exists(path): return 'checkpoint_' in path"",
+            ""util = Mock()"",
+            ""util.Checkpoint = MockCheckpoint"",
+            ""checkpoint_management = Mock()"",
+            ""checkpoint_management.CheckpointManager = MockCheckpointManager"",
+            ""checkpoint_management.checkpoint_exists = checkpoint_exists"",
+            ""self = MockSelf()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from unittest.mock import MagicMock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckPoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Checkpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest import TestCase # pragma: no cover"",
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import MagicMock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",2,916,0.000458,2297,0.0034455,0.0039035
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 9:
+    checkpoint = util.Checkpoint()
+TypeError: <lambda>() takes 0 positional arguments but 1 was given
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.counter = 0 def save(self): path = os.path.join(self.temp_dir, 'checkpoint_{}.ckpt'.format(self.counter)) self.counter += 1 return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: os.path.exists(path)})()"",
+            ""os.mkdir('/tmp') if not os.path.exists('/tmp') else None"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_checkpoints = [] self.counter = 0 def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt') self.saved_checkpoints.append(path) self.counter += 1 return path def checkpoint_exists(self, path): return path in self.saved_checkpoints"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager})()"",
+            ""os.makedirs('/tmp', exist_ok=True)"",
+            ""class MockSelf: def get_temp_dir(self): return '/tmp' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.counter = 0 def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt') self.counter += 1 return path"",
+            ""def checkpoint_exists(path): return os.path.exists(path)"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': checkpoint_exists})()"",
+            ""os.mkdir('/tmp/checkpoints', exist_ok=True)"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.counter = 0 def save(self): self.counter += 1 return os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt')"",
+            ""def checkpoint_exists(path): return os.path.exists(path)"",
+            ""class MockSelf: def get_temp_dir(self): return '/tmp' def assertTrue(self, condition): print('Assertion True:', condition) def assertFalse(self, condition): print('Assertion False:', condition)"",
+            ""os.mkdir('/tmp') if not os.path.exists('/tmp') else None"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': checkpoint_exists})()"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint; self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.save_count = 0; self.paths = [] def save(self): self.save_count += 1; path = os.path.join(self.temp_dir, 'checkpoint_{}.ckpt'.format(self.save_count)); self.paths.append(path); return path def checkpoint_exists(self, path): return path in self.paths"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager})()"",
+            ""os.makedirs('/tmp', exist_ok=True)"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.counter = 0; self.temp_dir = temp_dir def save(self): path = os.path.join(self.temp_dir, 'checkpoint_{}.ckpt'.format(self.counter)); self.counter += 1; open(path, 'w').close(); return path def checkpoint_exists(self, path): return os.path.isfile(path)"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager})()"",
+            ""if not os.path.exists('/tmp'): os.mkdir('/tmp')"",
+            ""class MockSelf: def get_temp_dir(self): return '/tmp' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_checkpoints = [] self.counter = 1 def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt') self.saved_checkpoints.append(path) self.counter += 1 return path def checkpoint_exists(self, path): return path in self.saved_checkpoints"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager})()"",
+            ""if not os.path.exists('/tmp'): os.mkdir('/tmp')"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint; self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.checkpoint_counter = 0; self.checkpoints = []; def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{self.checkpoint_counter}.ckpt'); self.checkpoints.append(path); self.checkpoint_counter += 1; return path; def checkpoint_exists(self, path): return path in self.checkpoints"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager})()"",
+            ""os.mkdir('/tmp') if not os.path.exists('/tmp') else None"",
+            ""class MockSelf: def get_temp_dir(self): return '/tmp'; def assertTrue(self, condition): print('Assertion True:', condition); def assertFalse(self, condition): print('Assertion False:', condition)"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import util"",
+            ""import checkpoint_management"",
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint; self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.counter = 0; self.checkpoints = [] def save(self): self.counter += 1; path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt'); self.checkpoints.append(path); return path def checkpoint_exists(self, path): return path in self.checkpoints"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager})()"",
+            ""os.mkdir('/tmp') if not os.path.exists('/tmp') else None"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint; self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.paths = []; self.counter = 0; def save(self): self.counter += 1; path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt'); self.paths.append(path); return path"",
+            ""def checkpoint_exists(path): return path in manager.paths"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': checkpoint_exists})()"",
+            ""os.mkdir('/tmp/checkpoints') if not os.path.exists('/tmp/checkpoints') else None"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    }
+]",2,1416,0.000708,2438,0.003657,0.004365
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 8:
+    checkpoint, self.get_temp_dir(), max_to_keep=3)
+TypeError: <lambda>() takes 0 positional arguments but 1 was given
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_checkpoints = [] def save(self): path = os.path.join(self.temp_dir, 'checkpoint_' + str(len(self.saved_checkpoints) + 1)) self.saved_checkpoints.append(path) return path"",
+            ""def checkpoint_exists(path): return path in manager.saved_checkpoints"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': checkpoint_exists})()"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True)"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_checkpoints = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{len(self.saved_checkpoints) + 1}') self.saved_checkpoints.append(path) return path def checkpoint_exists(self, path): return path in self.saved_checkpoints"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.counter = 0 def save(self): self.counter += 1 return os.path.join(self.temp_dir, f'checkpoint_{self.counter}')"",
+            ""def checkpoint_exists(path): return os.path.exists(path)"",
+            ""self = type('Mock', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': checkpoint_exists})()"",
+            ""os.mkdir('/tmp/checkpoints', exist_ok=True)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_checkpoints = [] def save(self): checkpoint_path = os.path.join(self.temp_dir, f'checkpoint_{len(self.saved_checkpoints) + 1}') self.saved_checkpoints.append(checkpoint_path) return checkpoint_path def checkpoint_exists(self, path): return path in self.saved_checkpoints"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager})()"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True)"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.counter = 0 self.temp_dir = temp_dir self.max_to_keep = max_to_keep def save(self): self.counter += 1 return os.path.join(self.temp_dir, f'checkpoint_{self.counter}')"",
+            ""def checkpoint_exists(path): return os.path.exists(path)"",
+            ""self = type('Mock', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()"",
+            ""util = type('Mock', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('Mock', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': checkpoint_exists})()"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.counter = 0 def save(self): self.counter += 1 return os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt')"",
+            ""def checkpoint_exists(path): return os.path.exists(path)"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': checkpoint_exists})()"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_checkpoints = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{len(self.saved_checkpoints) + 1}.ckpt') self.saved_checkpoints.append(path) return path"",
+            ""class MockSelf: def get_temp_dir(self): return '/tmp/checkpoints' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['/tmp/checkpoints/checkpoint_1.ckpt', '/tmp/checkpoints/checkpoint_2.ckpt', '/tmp/checkpoints/checkpoint_3.ckpt']})()"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True)"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_checkpoints = [] def save(self): checkpoint_path = os.path.join(self.temp_dir, f'checkpoint_{len(self.saved_checkpoints) + 1}.ckpt') self.saved_checkpoints.append(checkpoint_path) return checkpoint_path"",
+            ""def checkpoint_exists(path): return path in ['/tmp/checkpoints/checkpoint_1.ckpt', '/tmp/checkpoints/checkpoint_2.ckpt', '/tmp/checkpoints/checkpoint_3.ckpt']"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True)"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': checkpoint_exists})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: None, 'assertFalse': lambda condition: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, cp, temp_dir, max_to_keep): self.temp_dir = temp_dir self.counter = 0 self.max_to_keep = max_to_keep def save(self): self.counter += 1 return os.path.join(self.temp_dir, f'checkpoint_{self.counter}')"",
+            ""class MockSelf: def get_temp_dir(self): return '/tmp/checkpoints' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: os.path.exists(path)})()"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True)"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_checkpoints = [] def save(self): path = os.path.join(self.temp_dir, 'checkpoint_' + str(len(self.saved_checkpoints) + 1)) self.saved_checkpoints.append(path) return path"",
+            ""def checkpoint_exists(path): return os.path.exists(path)"",
+            ""util = type('util', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('checkpoint_management', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': checkpoint_exists})()"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True)"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Passed:', condition), 'assertFalse': lambda condition: print('Failed:', condition)})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    }
+]",2,1903,0.0009515,2397,0.0035955,0.004547
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 4:
+    checkpoint = util.Checkpoint()
+NameError: name 'util' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint; self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.saved_checkpoints = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{len(self.saved_checkpoints) + 1}.ckpt'); self.saved_checkpoints.append(path); return path def checkpoint_exists(self, path): return path in self.saved_checkpoints"",
+            ""util = type('util', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('checkpoint_management', (), {'CheckpointManager': MockCheckpointManager})()"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True)"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda self: '/tmp/checkpoints', 'assertTrue': lambda self, condition: print('Assertion True:', condition), 'assertFalse': lambda self, condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_checkpoints = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{len(self.saved_checkpoints) + 1}.ckpt') self.saved_checkpoints.append(path) return path"",
+            ""def checkpoint_exists(path): return path in manager.saved_checkpoints"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': checkpoint_exists})()"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True)"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (object,), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.paths = [] def save(self): path = os.path.join(self.temp_dir, 'checkpoint_{}.ckpt'.format(len(self.paths) + 1)) self.paths.append(path) return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (object,), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['/tmp/checkpoints/checkpoint_1.ckpt', '/tmp/checkpoints/checkpoint_2.ckpt', '/tmp/checkpoints/checkpoint_3.ckpt']})()"",
+            ""self = type('MockSelf', (object,), {'get_temp_dir': lambda self: '/tmp/checkpoints', 'assertTrue': lambda self, condition: None, 'assertFalse': lambda self, condition: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_checkpoints = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{len(self.saved_checkpoints)+1}.ckpt') self.saved_checkpoints.append(path) return path"",
+            ""def checkpoint_exists(path): return path in manager.saved_checkpoints"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': checkpoint_exists})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: None, 'assertFalse': lambda condition: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.checkpoint_count = 0 def save(self): self.checkpoint_count += 1 return os.path.join(self.temp_dir, f'checkpoint_{self.checkpoint_count}.ckpt') def checkpoint_exists(self, path): existing_checkpoints = [os.path.join(self.temp_dir, f'checkpoint_{i}.ckpt') for i in range(1, self.checkpoint_count + 1)] return path in existing_checkpoints"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: os.path.exists(path)})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assert True:', condition), 'assertFalse': lambda condition: print('Assert False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.counter = 0 def save(self): self.counter += 1 return os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt')"",
+            ""class MockSelf: def get_temp_dir(self): return '/tmp/checkpoints' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: os.path.exists(path)})()"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_checkpoints = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{len(self.saved_checkpoints) + 1}.ckpt') self.saved_checkpoints.append(path) return path"",
+            ""def checkpoint_exists(path): return path in manager.saved_checkpoints"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': checkpoint_exists})()"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True)"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda self: '/tmp/checkpoints', 'assertTrue': lambda self, condition: print('Assertion True:', condition), 'assertFalse': lambda self, condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_checkpoints = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{len(self.saved_checkpoints)+1}.ckpt') self.saved_checkpoints.append(path) return path def checkpoint_exists(self, path): return path in self.saved_checkpoints"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda self: '/tmp/checkpoints', 'assertTrue': lambda self, condition: print('Assertion True:', condition), 'assertFalse': lambda self, condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class Checkpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': Checkpoint})()"",
+            ""class CheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_checkpoints = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{len(self.saved_checkpoints) + 1}') self.saved_checkpoints.append(path) return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': CheckpointManager, 'checkpoint_exists': lambda path: path in ['/tmp/checkpoints/checkpoint_1', '/tmp/checkpoints/checkpoint_2', '/tmp/checkpoints/checkpoint_3']})()"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True)"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: None, 'assertFalse': lambda condition: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoints = [] self.temp_dir = temp_dir self.max_to_keep = max_to_keep def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{len(self.checkpoints) + 1}.ckpt') self.checkpoints.append(path) if len(self.checkpoints) > self.max_to_keep: self.checkpoints.pop(0) return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: os.path.exists(path)})()"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True)"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (object,), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Checkpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': Checkpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    }
+]",2,2371,0.0011855,2446,0.003669,0.0048544999999999
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 6:
+    checkpoint = util.Checkpoint()
+NameError: name 'util' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.checkpoint_paths = [] def save(self): path = os.path.join(self.temp_dir, 'checkpoint_{}.ckpt'.format(len(self.checkpoint_paths) + 1)) self.checkpoint_paths.append(path) return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in '/tmp/checkpoints/checkpoint_1.ckpt /tmp/checkpoints/checkpoint_2.ckpt /tmp/checkpoints/checkpoint_3.ckpt'.split()})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: None, 'assertFalse': lambda condition: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.counter = 0 self.saved_checkpoints = [] def save(self): self.counter += 1 path = os.path.join(self.temp_dir, 'checkpoint_' + str(self.counter) + '.ckpt') self.saved_checkpoints.append(path) return path def checkpoint_exists(self, path): return path in self.saved_checkpoints"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()"",
+            ""manager = checkpoint_management.CheckpointManager(util.Checkpoint(), self.get_temp_dir(), max_to_keep=3)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.counter = 0 self.saved_paths = [] def save(self): self.counter += 1 path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt') self.saved_paths.append(path) return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['/tmp/checkpoints/checkpoint_1.ckpt', '/tmp/checkpoints/checkpoint_2.ckpt', '/tmp/checkpoints/checkpoint_3.ckpt']})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda x: None, 'assertFalse': lambda x: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_checkpoints = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{len(self.saved_checkpoints) + 1}.ckpt') self.saved_checkpoints.append(path) return path def checkpoint_exists(self, path): return path in self.saved_checkpoints"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()"",
+            ""checkpoint = util.Checkpoint()"",
+            ""manager = checkpoint_management.CheckpointManager(checkpoint, self.get_temp_dir(), max_to_keep=3)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint; self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.saved = [] def save(self): path = os.path.join(self.temp_dir, 'checkpoint_' + str(len(self.saved) + 1) + '.ckpt'); self.saved.append(path); return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['/tmp/checkpoints/checkpoint_1.ckpt', '/tmp/checkpoints/checkpoint_2.ckpt', '/tmp/checkpoints/checkpoint_3.ckpt']})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint; self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.counter = 0; self.saved_checkpoints = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt'); self.saved_checkpoints.append(path); self.counter += 1; return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['checkpoint_0.ckpt', 'checkpoint_1.ckpt', 'checkpoint_2.ckpt']})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: None, 'assertFalse': lambda condition: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint; self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.saved_checkpoints = []; self.counter = 0;  def save(self): self.counter += 1; path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt'); self.saved_checkpoints.append(path); return path; def checkpoint_exists(self, path): return path in self.saved_checkpoints"",
+            ""class MockSelf: def get_temp_dir(self): return '/tmp/checkpoints'; def assertTrue(self, condition): assert condition; def assertFalse(self, condition): assert not condition"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager})()"",
+            ""self = MockSelf()"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_checkpoints = [] def save(self): checkpoint_path = os.path.join(self.temp_dir, f'checkpoint_{len(self.saved_checkpoints) + 1}.ckpt') self.saved_checkpoints.append(checkpoint_path) return checkpoint_path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in self.saved_checkpoints})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: None, 'assertFalse': lambda condition: None})()"",
+            ""checkpoint = util.Checkpoint()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.counter = 0 self.saved_checkpoints = [] def save(self): path = os.path.join(self.temp_dir, 'checkpoint_{}.ckpt'.format(self.counter + 1)) if len(self.saved_checkpoints) < self.max_to_keep: self.saved_checkpoints.append(path) self.counter += 1 return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['checkpoint_1.ckpt', 'checkpoint_2.ckpt', 'checkpoint_3.ckpt']})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()"",
+            ""if not os.path.exists('/tmp/checkpoints'): os.makedirs('/tmp/checkpoints')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint; self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.saved_checkpoints = [] def save(self): checkpoint_path = os.path.join(self.temp_dir, 'checkpoint_' + str(len(self.saved_checkpoints) + 1) + '.ckpt'); self.saved_checkpoints.append(checkpoint_path); return checkpoint_path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['checkpoint_1.ckpt', 'checkpoint_2.ckpt', 'checkpoint_3.ckpt']})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    }
+]",2,2889,0.0014445,2523,0.0037845,0.005229
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 4:
+    checkpoint = util.Checkpoint()
+NameError: name 'util' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: \n    def __init__(self, checkpoint, temp_dir, max_to_keep): \n        self.checkpoint = checkpoint \n        self.temp_dir = temp_dir \n        self.saved_checkpoints = [] \n        self.max_to_keep = max_to_keep \n        self.counter = 0 \n    def save(self): \n        checkpoint_path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt') \n        self.saved_checkpoints.append(checkpoint_path) \n        self.counter += 1 \n        return checkpoint_path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['/tmp/checkpoints/checkpoint_0.ckpt', '/tmp/checkpoints/checkpoint_1.ckpt', '/tmp/checkpoints/checkpoint_2.ckpt']})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir; self.counter = 0; self.max_to_keep = max_to_keep; self.checkpoints = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt'); self.counter += 1; if self.counter > self.max_to_keep: self.checkpoints.pop(0); self.checkpoints.append(path); return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: os.path.exists(path)})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: None, 'assertFalse': lambda condition: None})()"",
+            ""if not os.path.exists('/tmp'): os.mkdir('/tmp')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockUtil: class Checkpoint: pass"",
+            ""class MockCheckpointManagement: class CheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint; self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.saved_checkpoints = []; self.counter = 0; def save(self): path = f'{self.temp_dir}/checkpoint_{self.counter}.ckpt'; self.saved_checkpoints.append(path); self.counter += 1; return path; def checkpoint_exists(self, path): return path in self.saved_checkpoints""
+        ],
+        ""initialization"": [
+            ""util = MockUtil()"",
+            ""checkpoint_management = MockCheckpointManagement()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('util', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir; self.checkpoints = [] def save(self): path = os.path.join(self.temp_dir, 'checkpoint_{}.ckpt'.format(len(self.checkpoints) + 1)); self.checkpoints.append(path); return path"",
+            ""checkpoint_management = type('checkpoint_management', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: os.path.exists(path)})"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir self.saved_checkpoints = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{len(self.saved_checkpoints) + 1}.ckpt') self.saved_checkpoints.append(path) return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in (f'/tmp/checkpoints/checkpoint_{i}.ckpt' for i in range(1, 4))})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: None, 'assertFalse': lambda condition: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager:  \n    def __init__(self, checkpoint, temp_dir, max_to_keep):\n        self.temp_dir = temp_dir\n        self.max_to_keep = max_to_keep\n        self.checkpoints = []\n    def save(self):\n        checkpoint_path = os.path.join(self.temp_dir, f'checkpoint_{len(self.checkpoints)}.ckpt')\n        self.checkpoints.append(checkpoint_path)\n        return checkpoint_path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: os.path.exists(path)})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda self: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class Checkpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': Checkpoint})()"",
+            ""class CheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint; self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.checkpoints = []; self.counter = 0; def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt'); self.checkpoints.append(path); self.counter += 1; return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': CheckpointManager, 'checkpoint_exists': lambda path: path in ['/tmp/checkpoints/checkpoint_0.ckpt', '/tmp/checkpoints/checkpoint_1.ckpt', '/tmp/checkpoints/checkpoint_2.ckpt']})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda self: '/tmp/checkpoints', 'assertTrue': lambda condition: print('True' if condition else 'False'), 'assertFalse': lambda condition: print('True' if not condition else 'False')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.saved_checkpoints = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{len(self.saved_checkpoints) + 1}.ckpt'); self.saved_checkpoints.append(path); return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in [os.path.join('/tmp', f'checkpoint_{i}.ckpt') for i in range(1, 5)]})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint self.temp_dir = temp_dir self.max_to_keep = max_to_keep self.saved_paths = [] def save(self): path = os.path.join(self.temp_dir, 'checkpoint_' + str(len(self.saved_paths) + 1)) self.saved_paths.append(path) return path def checkpoint_exists(self, path): return path in self.saved_paths"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda x: print('Assert True:', x), 'assertFalse': lambda x: print('Assert False:', x)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir; self.saved_checkpoints = []; self.max_to_keep = max_to_keep; self.counter = 0; def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt'); self.saved_checkpoints.append(path); self.counter += 1; return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['checkpoint_0.ckpt', 'checkpoint_1.ckpt', 'checkpoint_2.ckpt']})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda x: None, 'assertFalse': lambda x: None})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover"",
+            ""class MockCheckpointManager: # pragma: no cover"",
+            ""    def __init__(self, checkpoint, temp_dir, max_to_keep): # pragma: no cover"",
+            ""        self.checkpoint = checkpoint # pragma: no cover"",
+            ""        self.temp_dir = temp_dir # pragma: no cover"",
+            ""        self.saved_checkpoints = [] # pragma: no cover"",
+            ""        self.max_to_keep = max_to_keep # pragma: no cover"",
+            ""        self.counter = 0 # pragma: no cover"",
+            ""    def save(self): # pragma: no cover"",
+            ""        checkpoint_path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt') # pragma: no cover"",
+            ""        self.saved_checkpoints.append(checkpoint_path) # pragma: no cover"",
+            ""        self.counter += 1 # pragma: no cover"",
+            ""        return checkpoint_path # pragma: no cover"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['/tmp/checkpoints/checkpoint_0.ckpt', '/tmp/checkpoints/checkpoint_1.ckpt', '/tmp/checkpoints/checkpoint_2.ckpt']})() # pragma: no cover"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('util', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover"",
+            ""class MockCheckpointManager:  # pragma: no cover"",
+            ""    def __init__(self, checkpoint, temp_dir, max_to_keep):# pragma: no cover"",
+            ""        self.temp_dir = temp_dir# pragma: no cover"",
+            ""        self.max_to_keep = max_to_keep# pragma: no cover"",
+            ""        self.checkpoints = []# pragma: no cover"",
+            ""    def save(self):# pragma: no cover"",
+            ""        checkpoint_path = os.path.join(self.temp_dir, f'checkpoint_{len(self.checkpoints)}.ckpt')# pragma: no cover"",
+            ""        self.checkpoints.append(checkpoint_path)# pragma: no cover"",
+            ""        return checkpoint_path # pragma: no cover"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: os.path.exists(path)})() # pragma: no cover"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda self: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})() # pragma: no cover"",
+            ""os.makedirs('/tmp/checkpoints', exist_ok=True) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Checkpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': Checkpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    }
+]",2,3335,0.0016675,2428,0.003642,0.0053095
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 4:
+    checkpoint = util.Checkpoint()
+NameError: name 'util' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir; self.counter = 0; self.max_to_keep = max_to_keep; self.checkpoints = [] def save(self): checkpoint_path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt'); self.checkpoints.append(checkpoint_path); self.counter += 1; return checkpoint_path"",
+            ""def checkpoint_exists(path): return path in mock_checkpoints"",
+            ""mock_checkpoints = []"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': checkpoint_exists})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda x: x, 'assertFalse': lambda x: not x})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir; self.checkpoint_paths = []; self.max_to_keep = max_to_keep; self.counter = 0; def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt'); if len(self.checkpoint_paths) < self.max_to_keep: self.checkpoint_paths.append(path); self.counter += 1; return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['/tmp/checkpoints/checkpoint_0.ckpt', '/tmp/checkpoints/checkpoint_1.ckpt', '/tmp/checkpoints/checkpoint_2.ckpt']})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda x: None, 'assertFalse': lambda x: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import util"",
+            ""import checkpoint_management""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir; self.counter = 1; self.max_to_keep = max_to_keep; self.saved_checkpoints = [] def save(self): checkpoint_path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt'); self.saved_checkpoints.append(checkpoint_path); self.counter += 1; return checkpoint_path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['mock_path_1', 'mock_path_2', 'mock_path_3', 'mock_path_4']})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir; self.counter = 0; self.max_to_keep = max_to_keep; self.saved_checkpoints = []  def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt'); self.saved_checkpoints.append(path); self.counter += 1; return path"",
+            ""util = type('util', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('checkpoint_management', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in os.listdir('/')})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda cond: print('Assertion True:', cond), 'assertFalse': lambda cond: print('Assertion False:', cond)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir self.saved_checkpoints = [] self.max_to_keep = max_to_keep def save(self): path = os.path.join(self.temp_dir, 'checkpoint_{}.ckpt'.format(len(self.saved_checkpoints))) self.saved_checkpoints.append(path) return path def checkpoint_exists(self, path): return path in self.saved_checkpoints"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir; self.checkpoints = [] def save(self): path = os.path.join(self.temp_dir, 'checkpoint_{}.ckpt'.format(len(self.checkpoints) + 1)); self.checkpoints.append(path); return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['/tmp/checkpoints/checkpoint_1.ckpt', '/tmp/checkpoints/checkpoint_2.ckpt', '/tmp/checkpoints/checkpoint_3.ckpt']})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda x: None, 'assertFalse': lambda x: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir; self.counter = 0; self.checkpoints = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt'); self.checkpoints.append(path); self.counter += 1; return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in [os.path.join('/tmp', f'checkpoint_{i}.ckpt') for i in range(3)]})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir self.checkpoints = [] def save(self): path = f'{self.temp_dir}/checkpoint_{len(self.checkpoints)+1}.ckpt' self.checkpoints.append(path) return path def checkpoint_exists(self, path): return path in self.checkpoints"",
+            ""util = type('util', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('checkpoint_management', (), {'CheckpointManager': MockCheckpointManager})()""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import util"",
+            ""import checkpoint_management""
+        ],
+        ""initialization"": [
+            ""util = type('MockUtil', (), {'Checkpoint': type('MockCheckpoint', (), {})})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': type('MockCheckpointManager', (), {'__init__': lambda self, checkpoint, temp_dir, max_to_keep: None, 'save': lambda self: f'checkpoint_{id(self)}', 'checkpoints': []})}), 'checkpoint_exists': lambda path: path in ['checkpoint_' + str(i) for i in range(1, 4)]})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.counter = 0; self.temp_dir = temp_dir; self.saved_checkpoints = [] def save(self): self.counter += 1; path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt'); self.saved_checkpoints.append(path); return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['checkpoint_1.ckpt', 'checkpoint_2.ckpt', 'checkpoint_3.ckpt']})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: assert condition, 'assertFalse': lambda condition: assert not condition})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    }
+]",2,3806,0.001903,2310,0.003465,0.005368
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 4:
+    checkpoint = util.Checkpoint()
+NameError: name 'util' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir self.counter = 0 self.checkpoints = [] def save(self): self.counter += 1 checkpoint_path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt') self.checkpoints.append(checkpoint_path) return checkpoint_path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['temp_directory/checkpoint_1.ckpt', 'temp_directory/checkpoint_2.ckpt', 'temp_directory/checkpoint_3.ckpt']})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: 'temp_directory', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir self.saved = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{len(self.saved)}.ckpt') self.saved.append(path) return path def checkpoint_exists(self, path): return path in self.saved"",
+            ""class MockSelf: def get_temp_dir(self): return '/tmp/checkpoints' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager})()"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir; self.counter = 0; self.checkpoint_paths = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{self.counter}.ckpt'); self.checkpoint_paths.append(path); self.counter += 1; return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['checkpoint_0.ckpt', 'checkpoint_1.ckpt', 'checkpoint_2.ckpt']})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda self: '/tmp', 'assertTrue': lambda condition: print('Assertion True:', condition), 'assertFalse': lambda condition: print('Assertion False:', condition)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir; self.counter = 0; self.checkpoints = [] def save(self): path = os.path.join(self.temp_dir, 'checkpoint_{}.ckpt'.format(self.counter)); self.checkpoints.append(path); self.counter += 1; return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['checkpoint_0.ckpt', 'checkpoint_1.ckpt', 'checkpoint_2.ckpt']})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda self: '/tmp', 'assertTrue': lambda condition: None, 'assertFalse': lambda condition: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir self.saved_paths = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{len(self.saved_paths)+1}.ckpt') self.saved_paths.append(path) return path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['/tmp/checkpoints/checkpoint_1.ckpt', '/tmp/checkpoints/checkpoint_2.ckpt', '/tmp/checkpoints/checkpoint_3.ckpt']})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda condition: None, 'assertFalse': lambda condition: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir self.checkpoints = [] def save(self): checkpoint_path = os.path.join(self.temp_dir, f'checkpoint_{len(self.checkpoints) + 1}.ckpt') self.checkpoints.append(checkpoint_path) return checkpoint_path"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in ['temp/checkpoint_1.ckpt', 'temp/checkpoint_2.ckpt', 'temp/checkpoint_3.ckpt']})()"",
+            ""class MockSelf: def get_temp_dir(self): return 'temp' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""util = Mock()"",
+            ""util.Checkpoint = Mock()"",
+            ""checkpoint_management = Mock()"",
+            ""checkpoint_management.CheckpointManager = Mock()"",
+            ""checkpoint_management.CheckpointManager.return_value.save.return_value = 'checkpoint_path'"",
+            ""checkpoint_management.checkpoint_exists = Mock(side_effect=lambda path: path in ['checkpoint_path'])"",
+            ""self = Mock()"",
+            ""self.get_temp_dir = Mock(return_value='/tmp')"",
+            ""self.assertTrue = Mock()"",
+            ""self.assertFalse = Mock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class util: class Checkpoint: pass"",
+            ""class checkpoint_management: class CheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.checkpoint = checkpoint; self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.counter = 0; self.saved_checkpoints = []""
+        ],
+        ""initialization"": [
+            ""checkpoint = util.Checkpoint()"",
+            ""manager = checkpoint_management.CheckpointManager(checkpoint, '/tmp/checkpoints', max_to_keep=3)"",
+            ""first_path = manager.save()"",
+            ""second_path = manager.save()"",
+            ""third_path = manager.save()"",
+            ""fourth_path = manager.save()"",
+            ""manager.saved_checkpoints.extend([first_path, second_path, third_path, fourth_path])"",
+            ""checkpoint_management.checkpoint_exists = lambda path: path in manager.saved_checkpoints"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda x: None, 'assertFalse': lambda x: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir; self.max_to_keep = max_to_keep; self.checkpoints = [] def save(self): checkpoint_path = os.path.join(self.temp_dir, f'checkpoint_{len(self.checkpoints) + 1}.ckpt'); self.checkpoints.append(checkpoint_path); return checkpoint_path"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager, 'checkpoint_exists': lambda path: path in [os.path.join('/tmp', f'checkpoint_{i}.ckpt') for i in range(1, 5)]})()"",
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda self: '/tmp', 'assertTrue': lambda x: None, 'assertFalse': lambda x: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass"",
+            ""class MockCheckpointManager: def __init__(self, checkpoint, temp_dir, max_to_keep): self.temp_dir = temp_dir self.checkpoints = [] def save(self): path = os.path.join(self.temp_dir, f'checkpoint_{len(self.checkpoints) + 1}.ckpt') self.checkpoints.append(path) return path"",
+            ""class MockSelf: def get_temp_dir(self): return '/tmp/checkpoints' def assertTrue(self, condition): assert condition def assertFalse(self, condition): assert not condition"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})()"",
+            ""checkpoint_management = type('MockCheckpointManagement', (), {'CheckpointManager': MockCheckpointManager})()"",
+            ""self = MockSelf()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover"",
+            ""util = type('MockUtil', (), {'Checkpoint': MockCheckpoint})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""util = Mock() # pragma: no cover"",
+            ""util.Checkpoint = Mock() # pragma: no cover"",
+            ""checkpoint_management = Mock() # pragma: no cover"",
+            ""checkpoint_management.CheckpointManager = Mock() # pragma: no cover"",
+            ""checkpoint_management.CheckpointManager.return_value.save.return_value = 'checkpoint_path' # pragma: no cover"",
+            ""checkpoint_management.checkpoint_exists = Mock(side_effect=lambda path: path in ['checkpoint_path']) # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""self.get_temp_dir = Mock(return_value='/tmp') # pragma: no cover"",
+            ""self.assertTrue = Mock() # pragma: no cover"",
+            ""self.assertFalse = Mock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (), {'get_temp_dir': lambda: '/tmp/checkpoints', 'assertTrue': lambda x: None, 'assertFalse': lambda x: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCheckpoint: pass # pragma: no cover""
+        ]
+    }
+]",2,4257,0.0021285,2183,0.0032745,0.005403
