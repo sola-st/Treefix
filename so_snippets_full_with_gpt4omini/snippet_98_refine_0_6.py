@@ -1,0 +1,21 @@
+import sys # pragma: no cover
+
+sys = type('Mock', (object,), {'stderr': open('/dev/stderr', 'w')})() # pragma: no cover
+
+import sys # pragma: no cover
+
+class MockStderr:  # Mocking sys.stderr object # pragma: no cover
+    def write(self, msg): # pragma: no cover
+        pass  # This can be replaced with actual logging if needed # pragma: no cover
+sys = type('Mock', (object,), {'stderr': MockStderr()})() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from https://stackoverflow.com/questions/5574702/how-do-i-print-to-stderr-in-python
+from l3.Runtime import _l_
+print >> sys.stderr, 'spam' 
+_l_(2276) 
+
+print("spam", file=sys.stderr) 
+_l_(2277) 
+

@@ -1,0 +1,55 @@
+class MockQuerySet:# pragma: no cover
+    def filter(self, **kwargs):# pragma: no cover
+        return [Book(author=User(), title='Sample Book Title')]  # Mocking the filter method # pragma: no cover
+class Book:# pragma: no cover
+    objects = MockQuerySet()# pragma: no cover
+# pragma: no cover
+    class Meta:# pragma: no cover
+        app_label = 'library' # pragma: no cover
+get_books = lambda limit=None, **filters: Book.objects.filter(**filters)[:limit]  # Mocking the get_books function # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from https://stackoverflow.com/questions/12578908/separation-of-business-logic-and-data-access-in-django
+from l3.Runtime import _l_
+class Book:
+   _l_(240)
+
+   author = models.ForeignKey(User)
+   _l_(236)
+   title = models.CharField(max_length=125)
+   _l_(237)
+
+   class Meta:
+      _l_(239)
+
+      app_label = "library"
+      _l_(238)
+try:
+   from library.models import Book
+   _l_(242)
+
+except ImportError:
+   pass
+
+def get_books(limit=None, **filters):
+   _l_(244)
+
+   """ simple service function for retrieving books can be widely extended """
+   aux = Book.objects.filter(**filters)[:limit]  # list[:None] will return the entire list
+   _l_(243)  # list[:None] will return the entire list
+   return aux  # list[:None] will return the entire list
+try:
+   from library.services import get_books
+   _l_(246)
+
+except ImportError:
+   pass
+
+class BookListView(ListView):
+   _l_(248)
+
+   """ simple view, e.g. implement a _build and _apply filters function """
+   queryset = get_books()
+   _l_(247)
+

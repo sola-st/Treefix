@@ -1,0 +1,4729 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+from __future__ import annotations  # To allow ""MinHeap.push -> MinHeap:"" # uncovered
+try: # uncovered
+    from typing import Generic, List, Optional, TypeVar
+except ImportError: # uncovered
+    pass # uncovered
+try: # uncovered
+    from heapq import heapify, heappop, heappush, heapreplace
+except ImportError: # uncovered
+    pass # uncovered
+T = TypeVar('T')
+class MinHeap(Generic[T]):
+    ''' # uncovered
+    MinHeap provides a nicer API around heapq's functionality. # uncovered
+    As it is a minimum heap, the first element of the heap is always the # uncovered
+    smallest. # uncovered
+    >>> h = MinHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    1 # uncovered
+    >>> h.peek() # uncovered
+    1 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [1, 2, 4, 3, 5] # uncovered
+    >>> h.pop() # uncovered
+    1 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.push(3).push(2) # uncovered
+    [2, 3, 4, 5] # uncovered
+    >>> h.replace(1) # uncovered
+    2 # uncovered
+    >>> h # uncovered
+    [1, 3, 4, 5] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is None: # uncovered
+            array = [] # uncovered
+        heapify(array) # uncovered
+        self.h = array # uncovered
+    def push(self, x: T) -> MinHeap: # uncovered
+        heappush(self.h, x) # uncovered
+        aux = self  # To allow chaining operations. # uncovered
+        return aux  # To allow chaining operations. # uncovered
+    def peek(self) -> T: # uncovered
+        aux = self.h[0] # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = heappop(self.h) # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = heapreplace(self.h, x) # uncovered
+        return aux # uncovered
+    def __getitem__(self, i) -> T: # uncovered
+        aux = self.h[i] # uncovered
+        return aux # uncovered
+    def __len__(self) -> int: # uncovered
+        aux = len(self.h) # uncovered
+        return aux # uncovered
+    def __str__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+    def __repr__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+class Reverse(Generic[T]):
+    ''' # uncovered
+    Wrap around the provided object, reversing the comparison operators. # uncovered
+    >>> 1 < 2 # uncovered
+    True # uncovered
+    >>> Reverse(1) < Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) < Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(1) <= Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) <= Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) <= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) == Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) > Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) > Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(2) >= Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) >= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) # uncovered
+    1 # uncovered
+    '''
+    def __init__(self, x: T) -> None: # uncovered
+        self.x = x # uncovered
+    def __lt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__lt__(self.x) # uncovered
+        return aux # uncovered
+    def __le__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__le__(self.x) # uncovered
+        return aux # uncovered
+    def __eq__(self, other) -> bool: # uncovered
+        aux = self.x == other.x # uncovered
+        return aux # uncovered
+    def __ne__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ne__(self.x) # uncovered
+        return aux # uncovered
+    def __ge__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ge__(self.x) # uncovered
+        return aux # uncovered
+    def __gt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__gt__(self.x) # uncovered
+        return aux # uncovered
+    def __str__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+    def __repr__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+class MaxHeap(MinHeap):
+    ''' # uncovered
+    MaxHeap provides an implement of a maximum-heap, as heapq does not provide # uncovered
+    it. As it is a maximum heap, the first element of the heap is always the # uncovered
+    largest. It achieves this by wrapping around elements with Reverse, # uncovered
+    which reverses the comparison operations used by heapq. # uncovered
+    >>> h = MaxHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    4 # uncovered
+    >>> h.peek() # uncovered
+    4 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [5, 4, 3, 1, 2] # uncovered
+    >>> h.pop() # uncovered
+    5 # uncovered
+    >>> h.pop() # uncovered
+    4 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.push(3).push(2).push(4) # uncovered
+    [4, 3, 2, 1] # uncovered
+    >>> h.replace(1) # uncovered
+    4 # uncovered
+    >>> h # uncovered
+    [3, 1, 2, 1] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is not None: # uncovered
+            array = [Reverse(x) for x in array]  # Wrap with Reverse. # uncovered
+        super().__init__(array) # uncovered
+    def push(self, x: T) -> MaxHeap: # uncovered
+        super().push(Reverse(x)) # uncovered
+        aux = self # uncovered
+        return aux # uncovered
+    def peek(self) -> T: # uncovered
+        aux = super().peek().x # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = super().pop().x # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = super().replace(Reverse(x)).x # uncovered
+        return aux # uncovered
+if __name__ == '__main__':
+    try: # uncovered
+        import doctest
+    except ImportError: # uncovered
+        pass # uncovered
+    doctest.testmod()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""T = TypeVar('T')"",
+            ""h = MinHeap([3, 1, 4, 2])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""h.push(5)"",
+            ""h.pop()"",
+            ""h.peek()"",
+            ""h.replace(1)"",
+            ""mock_doctest = type('Mock', (object,), {})"",
+            ""doctest = mock_doctest()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))"",
+            ""print(h)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""MinHeap = type('MockMinHeap', (object,), {'h': [], 'peek': lambda self: self.h[0], 'push': lambda self, x: heappush(self.h, x), 'pop': lambda self: heappop(self.h), '__init__': lambda self, array: (heapify(array), setattr(self, 'h', array or []))})"",
+            ""h = MinHeap([3, 1, 4, 2])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from heapq import heapify, heappop, heappush, heapreplace"",
+            ""from typing import Generic, List, Optional, TypeVar""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""T = TypeVar('T') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""mock_doctest = type('Mock', (object,), {}) # pragma: no cover"",
+            ""doctest = mock_doctest() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""MinHeap = type('MockMinHeap', (object,), {'h': [], 'peek': lambda self: self.h[0], 'push': lambda self, x: heappush(self.h, x), 'pop': lambda self: heappop(self.h), '__init__': lambda self, array: (heapify(array), setattr(self, 'h', array or []))}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",3,2036,0.001018,1024,0.001536,0.002554
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+from __future__ import annotations  # To allow ""MinHeap.push -> MinHeap:"" # uncovered
+try: # uncovered
+    from typing import Generic, List, Optional, TypeVar
+except ImportError: # uncovered
+    pass # uncovered
+try: # uncovered
+    from heapq import heapify, heappop, heappush, heapreplace
+except ImportError: # uncovered
+    pass # uncovered
+T = TypeVar('T')
+class MinHeap(Generic[T]):
+    ''' # uncovered
+    MinHeap provides a nicer API around heapq's functionality. # uncovered
+    As it is a minimum heap, the first element of the heap is always the # uncovered
+    smallest. # uncovered
+    >>> h = MinHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    1 # uncovered
+    >>> h.peek() # uncovered
+    1 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [1, 2, 4, 3, 5] # uncovered
+    >>> h.pop() # uncovered
+    1 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.push(3).push(2) # uncovered
+    [2, 3, 4, 5] # uncovered
+    >>> h.replace(1) # uncovered
+    2 # uncovered
+    >>> h # uncovered
+    [1, 3, 4, 5] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is None: # uncovered
+            array = [] # uncovered
+        heapify(array) # uncovered
+        self.h = array # uncovered
+    def push(self, x: T) -> MinHeap: # uncovered
+        heappush(self.h, x) # uncovered
+        aux = self  # To allow chaining operations. # uncovered
+        return aux  # To allow chaining operations. # uncovered
+    def peek(self) -> T: # uncovered
+        aux = self.h[0] # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = heappop(self.h) # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = heapreplace(self.h, x) # uncovered
+        return aux # uncovered
+    def __getitem__(self, i) -> T: # uncovered
+        aux = self.h[i] # uncovered
+        return aux # uncovered
+    def __len__(self) -> int: # uncovered
+        aux = len(self.h) # uncovered
+        return aux # uncovered
+    def __str__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+    def __repr__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+class Reverse(Generic[T]):
+    ''' # uncovered
+    Wrap around the provided object, reversing the comparison operators. # uncovered
+    >>> 1 < 2 # uncovered
+    True # uncovered
+    >>> Reverse(1) < Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) < Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(1) <= Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) <= Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) <= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) == Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) > Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) > Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(2) >= Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) >= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) # uncovered
+    1 # uncovered
+    '''
+    def __init__(self, x: T) -> None: # uncovered
+        self.x = x # uncovered
+    def __lt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__lt__(self.x) # uncovered
+        return aux # uncovered
+    def __le__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__le__(self.x) # uncovered
+        return aux # uncovered
+    def __eq__(self, other) -> bool: # uncovered
+        aux = self.x == other.x # uncovered
+        return aux # uncovered
+    def __ne__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ne__(self.x) # uncovered
+        return aux # uncovered
+    def __ge__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ge__(self.x) # uncovered
+        return aux # uncovered
+    def __gt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__gt__(self.x) # uncovered
+        return aux # uncovered
+    def __str__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+    def __repr__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+class MaxHeap(MinHeap):
+    ''' # uncovered
+    MaxHeap provides an implement of a maximum-heap, as heapq does not provide # uncovered
+    it. As it is a maximum heap, the first element of the heap is always the # uncovered
+    largest. It achieves this by wrapping around elements with Reverse, # uncovered
+    which reverses the comparison operations used by heapq. # uncovered
+    >>> h = MaxHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    4 # uncovered
+    >>> h.peek() # uncovered
+    4 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [5, 4, 3, 1, 2] # uncovered
+    >>> h.pop() # uncovered
+    5 # uncovered
+    >>> h.pop() # uncovered
+    4 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.push(3).push(2).push(4) # uncovered
+    [4, 3, 2, 1] # uncovered
+    >>> h.replace(1) # uncovered
+    4 # uncovered
+    >>> h # uncovered
+    [3, 1, 2, 1] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is not None: # uncovered
+            array = [Reverse(x) for x in array]  # Wrap with Reverse. # uncovered
+        super().__init__(array) # uncovered
+    def push(self, x: T) -> MaxHeap: # uncovered
+        super().push(Reverse(x)) # uncovered
+        aux = self # uncovered
+        return aux # uncovered
+    def peek(self) -> T: # uncovered
+        aux = super().peek().x # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = super().pop().x # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = super().replace(Reverse(x)).x # uncovered
+        return aux # uncovered
+if __name__ == '__main__':
+    try: # uncovered
+        import doctest
+    except ImportError: # uncovered
+        pass # uncovered
+    doctest.testmod()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))"",
+            ""print(h)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""result1 = h[0]"",
+            ""result2 = h.peek()"",
+            ""h.push(5)"",
+            ""result3 = h.pop()"",
+            ""result4 = h.pop()"",
+            ""result5 = h.push(3).push(2)"",
+            ""result6 = h.replace(1)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))"",
+            ""print(h)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))"",
+            ""print(h)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""h.push(5)"",
+            ""h.pop()"",
+            ""print(h.peek())"",
+            ""print(h[0])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))"",
+            ""print(h)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))"",
+            ""print(h)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))"",
+            ""print(h)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))"",
+            ""print(h)""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",3,5073,0.0025365,1514,0.002271,0.0048075
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+from __future__ import annotations  # To allow ""MinHeap.push -> MinHeap:"" # uncovered
+try: # uncovered
+    from typing import Generic, List, Optional, TypeVar
+except ImportError: # uncovered
+    pass # uncovered
+try: # uncovered
+    from heapq import heapify, heappop, heappush, heapreplace
+except ImportError: # uncovered
+    pass # uncovered
+T = TypeVar('T')
+class MinHeap(Generic[T]):
+    ''' # uncovered
+    MinHeap provides a nicer API around heapq's functionality. # uncovered
+    As it is a minimum heap, the first element of the heap is always the # uncovered
+    smallest. # uncovered
+    >>> h = MinHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    1 # uncovered
+    >>> h.peek() # uncovered
+    1 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [1, 2, 4, 3, 5] # uncovered
+    >>> h.pop() # uncovered
+    1 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.push(3).push(2) # uncovered
+    [2, 3, 4, 5] # uncovered
+    >>> h.replace(1) # uncovered
+    2 # uncovered
+    >>> h # uncovered
+    [1, 3, 4, 5] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is None: # uncovered
+            array = [] # uncovered
+        heapify(array) # uncovered
+        self.h = array # uncovered
+    def push(self, x: T) -> MinHeap: # uncovered
+        heappush(self.h, x) # uncovered
+        aux = self  # To allow chaining operations. # uncovered
+        return aux  # To allow chaining operations. # uncovered
+    def peek(self) -> T: # uncovered
+        aux = self.h[0] # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = heappop(self.h) # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = heapreplace(self.h, x) # uncovered
+        return aux # uncovered
+    def __getitem__(self, i) -> T: # uncovered
+        aux = self.h[i] # uncovered
+        return aux # uncovered
+    def __len__(self) -> int: # uncovered
+        aux = len(self.h) # uncovered
+        return aux # uncovered
+    def __str__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+    def __repr__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+class Reverse(Generic[T]):
+    ''' # uncovered
+    Wrap around the provided object, reversing the comparison operators. # uncovered
+    >>> 1 < 2 # uncovered
+    True # uncovered
+    >>> Reverse(1) < Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) < Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(1) <= Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) <= Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) <= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) == Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) > Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) > Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(2) >= Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) >= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) # uncovered
+    1 # uncovered
+    '''
+    def __init__(self, x: T) -> None: # uncovered
+        self.x = x # uncovered
+    def __lt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__lt__(self.x) # uncovered
+        return aux # uncovered
+    def __le__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__le__(self.x) # uncovered
+        return aux # uncovered
+    def __eq__(self, other) -> bool: # uncovered
+        aux = self.x == other.x # uncovered
+        return aux # uncovered
+    def __ne__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ne__(self.x) # uncovered
+        return aux # uncovered
+    def __ge__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ge__(self.x) # uncovered
+        return aux # uncovered
+    def __gt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__gt__(self.x) # uncovered
+        return aux # uncovered
+    def __str__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+    def __repr__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+class MaxHeap(MinHeap):
+    ''' # uncovered
+    MaxHeap provides an implement of a maximum-heap, as heapq does not provide # uncovered
+    it. As it is a maximum heap, the first element of the heap is always the # uncovered
+    largest. It achieves this by wrapping around elements with Reverse, # uncovered
+    which reverses the comparison operations used by heapq. # uncovered
+    >>> h = MaxHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    4 # uncovered
+    >>> h.peek() # uncovered
+    4 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [5, 4, 3, 1, 2] # uncovered
+    >>> h.pop() # uncovered
+    5 # uncovered
+    >>> h.pop() # uncovered
+    4 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.push(3).push(2).push(4) # uncovered
+    [4, 3, 2, 1] # uncovered
+    >>> h.replace(1) # uncovered
+    4 # uncovered
+    >>> h # uncovered
+    [3, 1, 2, 1] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is not None: # uncovered
+            array = [Reverse(x) for x in array]  # Wrap with Reverse. # uncovered
+        super().__init__(array) # uncovered
+    def push(self, x: T) -> MaxHeap: # uncovered
+        super().push(Reverse(x)) # uncovered
+        aux = self # uncovered
+        return aux # uncovered
+    def peek(self) -> T: # uncovered
+        aux = super().peek().x # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = super().pop().x # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = super().replace(Reverse(x)).x # uncovered
+        return aux # uncovered
+if __name__ == '__main__':
+    try: # uncovered
+        import doctest
+    except ImportError: # uncovered
+        pass # uncovered
+    doctest.testmod()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""result0 = h[0]"",
+            ""result1 = h.peek()"",
+            ""h.push(5)"",
+            ""result2 = h.pop()"",
+            ""result3 = h.pop()"",
+            ""h.push(3).push(2)"",
+            ""result4 = h.replace(1)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""print(h)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2).push(4)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.pop())"",
+            ""print(h.push(5))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))"",
+            ""print(h)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""print(h.pop())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""assert h.pop() == 3"",
+            ""h.push(3).push(2)"",
+            ""assert h.h == [2, 3, 4, 5]"",
+            ""assert h.replace(1) == 2"",
+            ""assert h.h == [1, 3, 4, 5]""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",3,8600,0.0043,1550,0.002325,0.006625
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+from __future__ import annotations  # To allow ""MinHeap.push -> MinHeap:"" # uncovered
+try: # uncovered
+    from typing import Generic, List, Optional, TypeVar
+except ImportError: # uncovered
+    pass # uncovered
+try: # uncovered
+    from heapq import heapify, heappop, heappush, heapreplace
+except ImportError: # uncovered
+    pass # uncovered
+T = TypeVar('T')
+class MinHeap(Generic[T]):
+    ''' # uncovered
+    MinHeap provides a nicer API around heapq's functionality. # uncovered
+    As it is a minimum heap, the first element of the heap is always the # uncovered
+    smallest. # uncovered
+    >>> h = MinHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    1 # uncovered
+    >>> h.peek() # uncovered
+    1 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [1, 2, 4, 3, 5] # uncovered
+    >>> h.pop() # uncovered
+    1 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.push(3).push(2) # uncovered
+    [2, 3, 4, 5] # uncovered
+    >>> h.replace(1) # uncovered
+    2 # uncovered
+    >>> h # uncovered
+    [1, 3, 4, 5] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is None: # uncovered
+            array = [] # uncovered
+        heapify(array) # uncovered
+        self.h = array # uncovered
+    def push(self, x: T) -> MinHeap: # uncovered
+        heappush(self.h, x) # uncovered
+        aux = self  # To allow chaining operations. # uncovered
+        return aux  # To allow chaining operations. # uncovered
+    def peek(self) -> T: # uncovered
+        aux = self.h[0] # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = heappop(self.h) # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = heapreplace(self.h, x) # uncovered
+        return aux # uncovered
+    def __getitem__(self, i) -> T: # uncovered
+        aux = self.h[i] # uncovered
+        return aux # uncovered
+    def __len__(self) -> int: # uncovered
+        aux = len(self.h) # uncovered
+        return aux # uncovered
+    def __str__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+    def __repr__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+class Reverse(Generic[T]):
+    ''' # uncovered
+    Wrap around the provided object, reversing the comparison operators. # uncovered
+    >>> 1 < 2 # uncovered
+    True # uncovered
+    >>> Reverse(1) < Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) < Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(1) <= Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) <= Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) <= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) == Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) > Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) > Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(2) >= Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) >= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) # uncovered
+    1 # uncovered
+    '''
+    def __init__(self, x: T) -> None: # uncovered
+        self.x = x # uncovered
+    def __lt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__lt__(self.x) # uncovered
+        return aux # uncovered
+    def __le__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__le__(self.x) # uncovered
+        return aux # uncovered
+    def __eq__(self, other) -> bool: # uncovered
+        aux = self.x == other.x # uncovered
+        return aux # uncovered
+    def __ne__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ne__(self.x) # uncovered
+        return aux # uncovered
+    def __ge__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ge__(self.x) # uncovered
+        return aux # uncovered
+    def __gt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__gt__(self.x) # uncovered
+        return aux # uncovered
+    def __str__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+    def __repr__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+class MaxHeap(MinHeap):
+    ''' # uncovered
+    MaxHeap provides an implement of a maximum-heap, as heapq does not provide # uncovered
+    it. As it is a maximum heap, the first element of the heap is always the # uncovered
+    largest. It achieves this by wrapping around elements with Reverse, # uncovered
+    which reverses the comparison operations used by heapq. # uncovered
+    >>> h = MaxHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    4 # uncovered
+    >>> h.peek() # uncovered
+    4 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [5, 4, 3, 1, 2] # uncovered
+    >>> h.pop() # uncovered
+    5 # uncovered
+    >>> h.pop() # uncovered
+    4 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.push(3).push(2).push(4) # uncovered
+    [4, 3, 2, 1] # uncovered
+    >>> h.replace(1) # uncovered
+    4 # uncovered
+    >>> h # uncovered
+    [3, 1, 2, 1] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is not None: # uncovered
+            array = [Reverse(x) for x in array]  # Wrap with Reverse. # uncovered
+        super().__init__(array) # uncovered
+    def push(self, x: T) -> MaxHeap: # uncovered
+        super().push(Reverse(x)) # uncovered
+        aux = self # uncovered
+        return aux # uncovered
+    def peek(self) -> T: # uncovered
+        aux = super().peek().x # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = super().pop().x # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = super().replace(Reverse(x)).x # uncovered
+        return aux # uncovered
+if __name__ == '__main__':
+    try: # uncovered
+        import doctest
+    except ImportError: # uncovered
+        pass # uncovered
+    doctest.testmod()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""result0 = h[0]"",
+            ""result1 = h.peek()"",
+            ""h.push(5)"",
+            ""result2 = h.pop()"",
+            ""result3 = h.pop()"",
+            ""h.push(3).push(2)"",
+            ""result4 = h.replace(1)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""print(h.push(5))"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""result1 = h[0]"",
+            ""result2 = h.peek()"",
+            ""h.push(5)"",
+            ""result3 = h.pop()"",
+            ""result4 = h.pop()"",
+            ""h.push(3).push(2)"",
+            ""result5 = h.replace(1)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.pop())"",
+            ""print(h.h)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2).push(4)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert h.h == [2, 3, 4, 5]""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",3,12163,0.0060815,1585,0.0023775,0.008459
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+from __future__ import annotations  # To allow ""MinHeap.push -> MinHeap:"" # uncovered
+try: # uncovered
+    from typing import Generic, List, Optional, TypeVar
+except ImportError: # uncovered
+    pass # uncovered
+try: # uncovered
+    from heapq import heapify, heappop, heappush, heapreplace
+except ImportError: # uncovered
+    pass # uncovered
+T = TypeVar('T')
+class MinHeap(Generic[T]):
+    ''' # uncovered
+    MinHeap provides a nicer API around heapq's functionality. # uncovered
+    As it is a minimum heap, the first element of the heap is always the # uncovered
+    smallest. # uncovered
+    >>> h = MinHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    1 # uncovered
+    >>> h.peek() # uncovered
+    1 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [1, 2, 4, 3, 5] # uncovered
+    >>> h.pop() # uncovered
+    1 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.push(3).push(2) # uncovered
+    [2, 3, 4, 5] # uncovered
+    >>> h.replace(1) # uncovered
+    2 # uncovered
+    >>> h # uncovered
+    [1, 3, 4, 5] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is None: # uncovered
+            array = [] # uncovered
+        heapify(array) # uncovered
+        self.h = array # uncovered
+    def push(self, x: T) -> MinHeap: # uncovered
+        heappush(self.h, x) # uncovered
+        aux = self  # To allow chaining operations. # uncovered
+        return aux  # To allow chaining operations. # uncovered
+    def peek(self) -> T: # uncovered
+        aux = self.h[0] # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = heappop(self.h) # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = heapreplace(self.h, x) # uncovered
+        return aux # uncovered
+    def __getitem__(self, i) -> T: # uncovered
+        aux = self.h[i] # uncovered
+        return aux # uncovered
+    def __len__(self) -> int: # uncovered
+        aux = len(self.h) # uncovered
+        return aux # uncovered
+    def __str__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+    def __repr__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+class Reverse(Generic[T]):
+    ''' # uncovered
+    Wrap around the provided object, reversing the comparison operators. # uncovered
+    >>> 1 < 2 # uncovered
+    True # uncovered
+    >>> Reverse(1) < Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) < Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(1) <= Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) <= Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) <= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) == Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) > Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) > Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(2) >= Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) >= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) # uncovered
+    1 # uncovered
+    '''
+    def __init__(self, x: T) -> None: # uncovered
+        self.x = x # uncovered
+    def __lt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__lt__(self.x) # uncovered
+        return aux # uncovered
+    def __le__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__le__(self.x) # uncovered
+        return aux # uncovered
+    def __eq__(self, other) -> bool: # uncovered
+        aux = self.x == other.x # uncovered
+        return aux # uncovered
+    def __ne__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ne__(self.x) # uncovered
+        return aux # uncovered
+    def __ge__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ge__(self.x) # uncovered
+        return aux # uncovered
+    def __gt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__gt__(self.x) # uncovered
+        return aux # uncovered
+    def __str__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+    def __repr__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+class MaxHeap(MinHeap):
+    ''' # uncovered
+    MaxHeap provides an implement of a maximum-heap, as heapq does not provide # uncovered
+    it. As it is a maximum heap, the first element of the heap is always the # uncovered
+    largest. It achieves this by wrapping around elements with Reverse, # uncovered
+    which reverses the comparison operations used by heapq. # uncovered
+    >>> h = MaxHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    4 # uncovered
+    >>> h.peek() # uncovered
+    4 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [5, 4, 3, 1, 2] # uncovered
+    >>> h.pop() # uncovered
+    5 # uncovered
+    >>> h.pop() # uncovered
+    4 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.push(3).push(2).push(4) # uncovered
+    [4, 3, 2, 1] # uncovered
+    >>> h.replace(1) # uncovered
+    4 # uncovered
+    >>> h # uncovered
+    [3, 1, 2, 1] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is not None: # uncovered
+            array = [Reverse(x) for x in array]  # Wrap with Reverse. # uncovered
+        super().__init__(array) # uncovered
+    def push(self, x: T) -> MaxHeap: # uncovered
+        super().push(Reverse(x)) # uncovered
+        aux = self # uncovered
+        return aux # uncovered
+    def peek(self) -> T: # uncovered
+        aux = super().peek().x # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = super().pop().x # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = super().replace(Reverse(x)).x # uncovered
+        return aux # uncovered
+if __name__ == '__main__':
+    try: # uncovered
+        import doctest
+    except ImportError: # uncovered
+        pass # uncovered
+    doctest.testmod()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""print(h.pop())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""result0 = h[0]"",
+            ""result1 = h.peek()"",
+            ""h.push(5)"",
+            ""result2 = h.pop()"",
+            ""result3 = h.pop()"",
+            ""h.push(3).push(2)"",
+            ""result4 = h.replace(1)"",
+            ""print(h)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""result0 = h[0]"",
+            ""result1 = h.peek()"",
+            ""h.push(5)"",
+            ""result2 = h.pop()"",
+            ""result3 = h.pop()"",
+            ""h.push(3).push(2)"",
+            ""result4 = h.replace(1)"",
+            ""print(h)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert h.replace(1) == 4""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",3,9197,0.0045985,1602,0.002403,0.0070015
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+from __future__ import annotations  # To allow ""MinHeap.push -> MinHeap:"" # uncovered
+try: # uncovered
+    from typing import Generic, List, Optional, TypeVar
+except ImportError: # uncovered
+    pass # uncovered
+try: # uncovered
+    from heapq import heapify, heappop, heappush, heapreplace
+except ImportError: # uncovered
+    pass # uncovered
+T = TypeVar('T')
+class MinHeap(Generic[T]):
+    ''' # uncovered
+    MinHeap provides a nicer API around heapq's functionality. # uncovered
+    As it is a minimum heap, the first element of the heap is always the # uncovered
+    smallest. # uncovered
+    >>> h = MinHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    1 # uncovered
+    >>> h.peek() # uncovered
+    1 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [1, 2, 4, 3, 5] # uncovered
+    >>> h.pop() # uncovered
+    1 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.push(3).push(2) # uncovered
+    [2, 3, 4, 5] # uncovered
+    >>> h.replace(1) # uncovered
+    2 # uncovered
+    >>> h # uncovered
+    [1, 3, 4, 5] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is None: # uncovered
+            array = [] # uncovered
+        heapify(array) # uncovered
+        self.h = array # uncovered
+    def push(self, x: T) -> MinHeap: # uncovered
+        heappush(self.h, x) # uncovered
+        aux = self  # To allow chaining operations. # uncovered
+        return aux  # To allow chaining operations. # uncovered
+    def peek(self) -> T: # uncovered
+        aux = self.h[0] # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = heappop(self.h) # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = heapreplace(self.h, x) # uncovered
+        return aux # uncovered
+    def __getitem__(self, i) -> T: # uncovered
+        aux = self.h[i] # uncovered
+        return aux # uncovered
+    def __len__(self) -> int: # uncovered
+        aux = len(self.h) # uncovered
+        return aux # uncovered
+    def __str__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+    def __repr__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+class Reverse(Generic[T]):
+    ''' # uncovered
+    Wrap around the provided object, reversing the comparison operators. # uncovered
+    >>> 1 < 2 # uncovered
+    True # uncovered
+    >>> Reverse(1) < Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) < Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(1) <= Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) <= Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) <= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) == Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) > Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) > Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(2) >= Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) >= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) # uncovered
+    1 # uncovered
+    '''
+    def __init__(self, x: T) -> None: # uncovered
+        self.x = x # uncovered
+    def __lt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__lt__(self.x) # uncovered
+        return aux # uncovered
+    def __le__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__le__(self.x) # uncovered
+        return aux # uncovered
+    def __eq__(self, other) -> bool: # uncovered
+        aux = self.x == other.x # uncovered
+        return aux # uncovered
+    def __ne__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ne__(self.x) # uncovered
+        return aux # uncovered
+    def __ge__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ge__(self.x) # uncovered
+        return aux # uncovered
+    def __gt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__gt__(self.x) # uncovered
+        return aux # uncovered
+    def __str__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+    def __repr__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+class MaxHeap(MinHeap):
+    ''' # uncovered
+    MaxHeap provides an implement of a maximum-heap, as heapq does not provide # uncovered
+    it. As it is a maximum heap, the first element of the heap is always the # uncovered
+    largest. It achieves this by wrapping around elements with Reverse, # uncovered
+    which reverses the comparison operations used by heapq. # uncovered
+    >>> h = MaxHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    4 # uncovered
+    >>> h.peek() # uncovered
+    4 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [5, 4, 3, 1, 2] # uncovered
+    >>> h.pop() # uncovered
+    5 # uncovered
+    >>> h.pop() # uncovered
+    4 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.push(3).push(2).push(4) # uncovered
+    [4, 3, 2, 1] # uncovered
+    >>> h.replace(1) # uncovered
+    4 # uncovered
+    >>> h # uncovered
+    [3, 1, 2, 1] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is not None: # uncovered
+            array = [Reverse(x) for x in array]  # Wrap with Reverse. # uncovered
+        super().__init__(array) # uncovered
+    def push(self, x: T) -> MaxHeap: # uncovered
+        super().push(Reverse(x)) # uncovered
+        aux = self # uncovered
+        return aux # uncovered
+    def peek(self) -> T: # uncovered
+        aux = super().peek().x # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = super().pop().x # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = super().replace(Reverse(x)).x # uncovered
+        return aux # uncovered
+if __name__ == '__main__':
+    try: # uncovered
+        import doctest
+    except ImportError: # uncovered
+        pass # uncovered
+    doctest.testmod()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2).push(4)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert h.replace(1) == 4""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert h.replace(1) == 4""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert h.replace(1) == 4""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""print(h.pop())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""result = h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""print(h.h)"",
+            ""assert h.replace(1) == 4""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",3,9249,0.0046245,1772,0.002658,0.0072825
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+from __future__ import annotations  # To allow ""MinHeap.push -> MinHeap:"" # uncovered
+try: # uncovered
+    from typing import Generic, List, Optional, TypeVar
+except ImportError: # uncovered
+    pass # uncovered
+try: # uncovered
+    from heapq import heapify, heappop, heappush, heapreplace
+except ImportError: # uncovered
+    pass # uncovered
+T = TypeVar('T')
+class MinHeap(Generic[T]):
+    ''' # uncovered
+    MinHeap provides a nicer API around heapq's functionality. # uncovered
+    As it is a minimum heap, the first element of the heap is always the # uncovered
+    smallest. # uncovered
+    >>> h = MinHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    1 # uncovered
+    >>> h.peek() # uncovered
+    1 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [1, 2, 4, 3, 5] # uncovered
+    >>> h.pop() # uncovered
+    1 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.push(3).push(2) # uncovered
+    [2, 3, 4, 5] # uncovered
+    >>> h.replace(1) # uncovered
+    2 # uncovered
+    >>> h # uncovered
+    [1, 3, 4, 5] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is None: # uncovered
+            array = [] # uncovered
+        heapify(array) # uncovered
+        self.h = array # uncovered
+    def push(self, x: T) -> MinHeap: # uncovered
+        heappush(self.h, x) # uncovered
+        aux = self  # To allow chaining operations. # uncovered
+        return aux  # To allow chaining operations. # uncovered
+    def peek(self) -> T: # uncovered
+        aux = self.h[0] # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = heappop(self.h) # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = heapreplace(self.h, x) # uncovered
+        return aux # uncovered
+    def __getitem__(self, i) -> T: # uncovered
+        aux = self.h[i] # uncovered
+        return aux # uncovered
+    def __len__(self) -> int: # uncovered
+        aux = len(self.h) # uncovered
+        return aux # uncovered
+    def __str__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+    def __repr__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+class Reverse(Generic[T]):
+    ''' # uncovered
+    Wrap around the provided object, reversing the comparison operators. # uncovered
+    >>> 1 < 2 # uncovered
+    True # uncovered
+    >>> Reverse(1) < Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) < Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(1) <= Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) <= Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) <= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) == Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) > Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) > Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(2) >= Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) >= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) # uncovered
+    1 # uncovered
+    '''
+    def __init__(self, x: T) -> None: # uncovered
+        self.x = x # uncovered
+    def __lt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__lt__(self.x) # uncovered
+        return aux # uncovered
+    def __le__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__le__(self.x) # uncovered
+        return aux # uncovered
+    def __eq__(self, other) -> bool: # uncovered
+        aux = self.x == other.x # uncovered
+        return aux # uncovered
+    def __ne__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ne__(self.x) # uncovered
+        return aux # uncovered
+    def __ge__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ge__(self.x) # uncovered
+        return aux # uncovered
+    def __gt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__gt__(self.x) # uncovered
+        return aux # uncovered
+    def __str__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+    def __repr__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+class MaxHeap(MinHeap):
+    ''' # uncovered
+    MaxHeap provides an implement of a maximum-heap, as heapq does not provide # uncovered
+    it. As it is a maximum heap, the first element of the heap is always the # uncovered
+    largest. It achieves this by wrapping around elements with Reverse, # uncovered
+    which reverses the comparison operations used by heapq. # uncovered
+    >>> h = MaxHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    4 # uncovered
+    >>> h.peek() # uncovered
+    4 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [5, 4, 3, 1, 2] # uncovered
+    >>> h.pop() # uncovered
+    5 # uncovered
+    >>> h.pop() # uncovered
+    4 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.push(3).push(2).push(4) # uncovered
+    [4, 3, 2, 1] # uncovered
+    >>> h.replace(1) # uncovered
+    4 # uncovered
+    >>> h # uncovered
+    [3, 1, 2, 1] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is not None: # uncovered
+            array = [Reverse(x) for x in array]  # Wrap with Reverse. # uncovered
+        super().__init__(array) # uncovered
+    def push(self, x: T) -> MaxHeap: # uncovered
+        super().push(Reverse(x)) # uncovered
+        aux = self # uncovered
+        return aux # uncovered
+    def peek(self) -> T: # uncovered
+        aux = super().peek().x # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = super().pop().x # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = super().replace(Reverse(x)).x # uncovered
+        return aux # uncovered
+if __name__ == '__main__':
+    try: # uncovered
+        import doctest
+    except ImportError: # uncovered
+        pass # uncovered
+    doctest.testmod()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.h == [2, 3, 4, 5]"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""print(h)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",3,9436,0.004718,1712,0.002568,0.007286
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+from __future__ import annotations  # To allow ""MinHeap.push -> MinHeap:"" # uncovered
+try: # uncovered
+    from typing import Generic, List, Optional, TypeVar
+except ImportError: # uncovered
+    pass # uncovered
+try: # uncovered
+    from heapq import heapify, heappop, heappush, heapreplace
+except ImportError: # uncovered
+    pass # uncovered
+T = TypeVar('T')
+class MinHeap(Generic[T]):
+    ''' # uncovered
+    MinHeap provides a nicer API around heapq's functionality. # uncovered
+    As it is a minimum heap, the first element of the heap is always the # uncovered
+    smallest. # uncovered
+    >>> h = MinHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    1 # uncovered
+    >>> h.peek() # uncovered
+    1 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [1, 2, 4, 3, 5] # uncovered
+    >>> h.pop() # uncovered
+    1 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.push(3).push(2) # uncovered
+    [2, 3, 4, 5] # uncovered
+    >>> h.replace(1) # uncovered
+    2 # uncovered
+    >>> h # uncovered
+    [1, 3, 4, 5] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is None: # uncovered
+            array = [] # uncovered
+        heapify(array) # uncovered
+        self.h = array # uncovered
+    def push(self, x: T) -> MinHeap: # uncovered
+        heappush(self.h, x) # uncovered
+        aux = self  # To allow chaining operations. # uncovered
+        return aux  # To allow chaining operations. # uncovered
+    def peek(self) -> T: # uncovered
+        aux = self.h[0] # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = heappop(self.h) # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = heapreplace(self.h, x) # uncovered
+        return aux # uncovered
+    def __getitem__(self, i) -> T: # uncovered
+        aux = self.h[i] # uncovered
+        return aux # uncovered
+    def __len__(self) -> int: # uncovered
+        aux = len(self.h) # uncovered
+        return aux # uncovered
+    def __str__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+    def __repr__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+class Reverse(Generic[T]):
+    ''' # uncovered
+    Wrap around the provided object, reversing the comparison operators. # uncovered
+    >>> 1 < 2 # uncovered
+    True # uncovered
+    >>> Reverse(1) < Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) < Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(1) <= Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) <= Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) <= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) == Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) > Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) > Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(2) >= Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) >= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) # uncovered
+    1 # uncovered
+    '''
+    def __init__(self, x: T) -> None: # uncovered
+        self.x = x # uncovered
+    def __lt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__lt__(self.x) # uncovered
+        return aux # uncovered
+    def __le__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__le__(self.x) # uncovered
+        return aux # uncovered
+    def __eq__(self, other) -> bool: # uncovered
+        aux = self.x == other.x # uncovered
+        return aux # uncovered
+    def __ne__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ne__(self.x) # uncovered
+        return aux # uncovered
+    def __ge__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ge__(self.x) # uncovered
+        return aux # uncovered
+    def __gt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__gt__(self.x) # uncovered
+        return aux # uncovered
+    def __str__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+    def __repr__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+class MaxHeap(MinHeap):
+    ''' # uncovered
+    MaxHeap provides an implement of a maximum-heap, as heapq does not provide # uncovered
+    it. As it is a maximum heap, the first element of the heap is always the # uncovered
+    largest. It achieves this by wrapping around elements with Reverse, # uncovered
+    which reverses the comparison operations used by heapq. # uncovered
+    >>> h = MaxHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    4 # uncovered
+    >>> h.peek() # uncovered
+    4 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [5, 4, 3, 1, 2] # uncovered
+    >>> h.pop() # uncovered
+    5 # uncovered
+    >>> h.pop() # uncovered
+    4 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.push(3).push(2).push(4) # uncovered
+    [4, 3, 2, 1] # uncovered
+    >>> h.replace(1) # uncovered
+    4 # uncovered
+    >>> h # uncovered
+    [3, 1, 2, 1] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is not None: # uncovered
+            array = [Reverse(x) for x in array]  # Wrap with Reverse. # uncovered
+        super().__init__(array) # uncovered
+    def push(self, x: T) -> MaxHeap: # uncovered
+        super().push(Reverse(x)) # uncovered
+        aux = self # uncovered
+        return aux # uncovered
+    def peek(self) -> T: # uncovered
+        aux = super().peek().x # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = super().pop().x # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = super().replace(Reverse(x)).x # uncovered
+        return aux # uncovered
+if __name__ == '__main__':
+    try: # uncovered
+        import doctest
+    except ImportError: # uncovered
+        pass # uncovered
+    doctest.testmod()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert str(h) == '[4, 3, 2, 1]'"",
+            ""assert h.replace(1) == 4""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert str(h) == '[4, 3, 2, 1]'"",
+            ""assert h.replace(1) == 4""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert h.replace(1) == 4"",
+            ""print(h)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2).push(4)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""print(h[0])"",
+            ""print(h.peek())"",
+            ""h.push(5)"",
+            ""print(h.h)"",
+            ""print(h.pop())"",
+            ""print(h.pop())"",
+            ""h.push(3).push(2)"",
+            ""print(h.h)"",
+            ""print(h.replace(1))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert h.replace(1) == 4""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""print(h)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",3,9546,0.004773,1900,0.00285,0.007623
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+from __future__ import annotations  # To allow ""MinHeap.push -> MinHeap:"" # uncovered
+try: # uncovered
+    from typing import Generic, List, Optional, TypeVar
+except ImportError: # uncovered
+    pass # uncovered
+try: # uncovered
+    from heapq import heapify, heappop, heappush, heapreplace
+except ImportError: # uncovered
+    pass # uncovered
+T = TypeVar('T')
+class MinHeap(Generic[T]):
+    ''' # uncovered
+    MinHeap provides a nicer API around heapq's functionality. # uncovered
+    As it is a minimum heap, the first element of the heap is always the # uncovered
+    smallest. # uncovered
+    >>> h = MinHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    1 # uncovered
+    >>> h.peek() # uncovered
+    1 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [1, 2, 4, 3, 5] # uncovered
+    >>> h.pop() # uncovered
+    1 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.push(3).push(2) # uncovered
+    [2, 3, 4, 5] # uncovered
+    >>> h.replace(1) # uncovered
+    2 # uncovered
+    >>> h # uncovered
+    [1, 3, 4, 5] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is None: # uncovered
+            array = [] # uncovered
+        heapify(array) # uncovered
+        self.h = array # uncovered
+    def push(self, x: T) -> MinHeap: # uncovered
+        heappush(self.h, x) # uncovered
+        aux = self  # To allow chaining operations. # uncovered
+        return aux  # To allow chaining operations. # uncovered
+    def peek(self) -> T: # uncovered
+        aux = self.h[0] # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = heappop(self.h) # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = heapreplace(self.h, x) # uncovered
+        return aux # uncovered
+    def __getitem__(self, i) -> T: # uncovered
+        aux = self.h[i] # uncovered
+        return aux # uncovered
+    def __len__(self) -> int: # uncovered
+        aux = len(self.h) # uncovered
+        return aux # uncovered
+    def __str__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+    def __repr__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+class Reverse(Generic[T]):
+    ''' # uncovered
+    Wrap around the provided object, reversing the comparison operators. # uncovered
+    >>> 1 < 2 # uncovered
+    True # uncovered
+    >>> Reverse(1) < Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) < Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(1) <= Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) <= Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) <= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) == Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) > Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) > Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(2) >= Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) >= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) # uncovered
+    1 # uncovered
+    '''
+    def __init__(self, x: T) -> None: # uncovered
+        self.x = x # uncovered
+    def __lt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__lt__(self.x) # uncovered
+        return aux # uncovered
+    def __le__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__le__(self.x) # uncovered
+        return aux # uncovered
+    def __eq__(self, other) -> bool: # uncovered
+        aux = self.x == other.x # uncovered
+        return aux # uncovered
+    def __ne__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ne__(self.x) # uncovered
+        return aux # uncovered
+    def __ge__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ge__(self.x) # uncovered
+        return aux # uncovered
+    def __gt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__gt__(self.x) # uncovered
+        return aux # uncovered
+    def __str__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+    def __repr__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+class MaxHeap(MinHeap):
+    ''' # uncovered
+    MaxHeap provides an implement of a maximum-heap, as heapq does not provide # uncovered
+    it. As it is a maximum heap, the first element of the heap is always the # uncovered
+    largest. It achieves this by wrapping around elements with Reverse, # uncovered
+    which reverses the comparison operations used by heapq. # uncovered
+    >>> h = MaxHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    4 # uncovered
+    >>> h.peek() # uncovered
+    4 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [5, 4, 3, 1, 2] # uncovered
+    >>> h.pop() # uncovered
+    5 # uncovered
+    >>> h.pop() # uncovered
+    4 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.push(3).push(2).push(4) # uncovered
+    [4, 3, 2, 1] # uncovered
+    >>> h.replace(1) # uncovered
+    4 # uncovered
+    >>> h # uncovered
+    [3, 1, 2, 1] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is not None: # uncovered
+            array = [Reverse(x) for x in array]  # Wrap with Reverse. # uncovered
+        super().__init__(array) # uncovered
+    def push(self, x: T) -> MaxHeap: # uncovered
+        super().push(Reverse(x)) # uncovered
+        aux = self # uncovered
+        return aux # uncovered
+    def peek(self) -> T: # uncovered
+        aux = super().peek().x # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = super().pop().x # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = super().replace(Reverse(x)).x # uncovered
+        return aux # uncovered
+if __name__ == '__main__':
+    try: # uncovered
+        import doctest
+    except ImportError: # uncovered
+        pass # uncovered
+    doctest.testmod()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.h == [2, 3, 4, 5]"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""print(h)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert str(h) == '[4, 3, 2, 1]'"",
+            ""assert h.replace(1) == 4""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",3,9674,0.004837,2002,0.003003,0.00784
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+from __future__ import annotations  # To allow ""MinHeap.push -> MinHeap:"" # uncovered
+try: # uncovered
+    from typing import Generic, List, Optional, TypeVar
+except ImportError: # uncovered
+    pass # uncovered
+try: # uncovered
+    from heapq import heapify, heappop, heappush, heapreplace
+except ImportError: # uncovered
+    pass # uncovered
+T = TypeVar('T')
+class MinHeap(Generic[T]):
+    ''' # uncovered
+    MinHeap provides a nicer API around heapq's functionality. # uncovered
+    As it is a minimum heap, the first element of the heap is always the # uncovered
+    smallest. # uncovered
+    >>> h = MinHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    1 # uncovered
+    >>> h.peek() # uncovered
+    1 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [1, 2, 4, 3, 5] # uncovered
+    >>> h.pop() # uncovered
+    1 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.push(3).push(2) # uncovered
+    [2, 3, 4, 5] # uncovered
+    >>> h.replace(1) # uncovered
+    2 # uncovered
+    >>> h # uncovered
+    [1, 3, 4, 5] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is None: # uncovered
+            array = [] # uncovered
+        heapify(array) # uncovered
+        self.h = array # uncovered
+    def push(self, x: T) -> MinHeap: # uncovered
+        heappush(self.h, x) # uncovered
+        aux = self  # To allow chaining operations. # uncovered
+        return aux  # To allow chaining operations. # uncovered
+    def peek(self) -> T: # uncovered
+        aux = self.h[0] # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = heappop(self.h) # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = heapreplace(self.h, x) # uncovered
+        return aux # uncovered
+    def __getitem__(self, i) -> T: # uncovered
+        aux = self.h[i] # uncovered
+        return aux # uncovered
+    def __len__(self) -> int: # uncovered
+        aux = len(self.h) # uncovered
+        return aux # uncovered
+    def __str__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+    def __repr__(self) -> str: # uncovered
+        aux = str(self.h) # uncovered
+        return aux # uncovered
+class Reverse(Generic[T]):
+    ''' # uncovered
+    Wrap around the provided object, reversing the comparison operators. # uncovered
+    >>> 1 < 2 # uncovered
+    True # uncovered
+    >>> Reverse(1) < Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) < Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(1) <= Reverse(2) # uncovered
+    False # uncovered
+    >>> Reverse(2) <= Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) <= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) == Reverse(1) # uncovered
+    True # uncovered
+    >>> Reverse(2) > Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) > Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(2) >= Reverse(1) # uncovered
+    False # uncovered
+    >>> Reverse(1) >= Reverse(2) # uncovered
+    True # uncovered
+    >>> Reverse(1) # uncovered
+    1 # uncovered
+    '''
+    def __init__(self, x: T) -> None: # uncovered
+        self.x = x # uncovered
+    def __lt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__lt__(self.x) # uncovered
+        return aux # uncovered
+    def __le__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__le__(self.x) # uncovered
+        return aux # uncovered
+    def __eq__(self, other) -> bool: # uncovered
+        aux = self.x == other.x # uncovered
+        return aux # uncovered
+    def __ne__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ne__(self.x) # uncovered
+        return aux # uncovered
+    def __ge__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__ge__(self.x) # uncovered
+        return aux # uncovered
+    def __gt__(self, other: Reverse) -> bool: # uncovered
+        aux = other.x.__gt__(self.x) # uncovered
+        return aux # uncovered
+    def __str__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+    def __repr__(self): # uncovered
+        aux = str(self.x) # uncovered
+        return aux # uncovered
+class MaxHeap(MinHeap):
+    ''' # uncovered
+    MaxHeap provides an implement of a maximum-heap, as heapq does not provide # uncovered
+    it. As it is a maximum heap, the first element of the heap is always the # uncovered
+    largest. It achieves this by wrapping around elements with Reverse, # uncovered
+    which reverses the comparison operations used by heapq. # uncovered
+    >>> h = MaxHeap([3, 1, 4, 2]) # uncovered
+    >>> h[0] # uncovered
+    4 # uncovered
+    >>> h.peek() # uncovered
+    4 # uncovered
+    >>> h.push(5)  # N.B.: the array isn't always fully sorted. # uncovered
+    [5, 4, 3, 1, 2] # uncovered
+    >>> h.pop() # uncovered
+    5 # uncovered
+    >>> h.pop() # uncovered
+    4 # uncovered
+    >>> h.pop() # uncovered
+    3 # uncovered
+    >>> h.pop() # uncovered
+    2 # uncovered
+    >>> h.push(3).push(2).push(4) # uncovered
+    [4, 3, 2, 1] # uncovered
+    >>> h.replace(1) # uncovered
+    4 # uncovered
+    >>> h # uncovered
+    [3, 1, 2, 1] # uncovered
+    '''
+    def __init__(self, array: Optional[List[T]] = None): # uncovered
+        if array is not None: # uncovered
+            array = [Reverse(x) for x in array]  # Wrap with Reverse. # uncovered
+        super().__init__(array) # uncovered
+    def push(self, x: T) -> MaxHeap: # uncovered
+        super().push(Reverse(x)) # uncovered
+        aux = self # uncovered
+        return aux # uncovered
+    def peek(self) -> T: # uncovered
+        aux = super().peek().x # uncovered
+        return aux # uncovered
+    def pop(self) -> T: # uncovered
+        aux = super().pop().x # uncovered
+        return aux # uncovered
+    def replace(self, x: T) -> T: # uncovered
+        aux = super().replace(Reverse(x)).x # uncovered
+        return aux # uncovered
+if __name__ == '__main__':
+    try: # uncovered
+        import doctest
+    except ImportError: # uncovered
+        pass # uncovered
+    doctest.testmod()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert str(h) == '[4, 3, 2, 1]'"",
+            ""assert h.replace(1) == 4""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert str(h) == '[4, 3, 2, 1]'"",
+            ""assert h.replace(1) == 4""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert str(h) == '[4, 3, 2, 1]'"",
+            ""assert h.replace(1) == 4""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert str(h) == '[4, 3, 2, 1]'"",
+            ""assert h.replace(1) == 4""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert str(h) == '[4, 3, 2, 1]'"",
+            ""assert h.replace(1) == 4""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert str(h) == '[4, 3, 2, 1]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MinHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 1"",
+            ""assert h.peek() == 1"",
+            ""h.push(5)"",
+            ""assert h.h == [1, 2, 4, 3, 5]"",
+            ""assert h.pop() == 1"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2)"",
+            ""assert h.replace(1) == 2"",
+            ""assert str(h) == '[2, 3, 4, 5]'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert str(h) == '[4, 3, 2, 1]'"",
+            ""assert h.replace(1) == 4""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations"",
+            ""from typing import Generic, List, Optional, TypeVar"",
+            ""from heapq import heapify, heappop, heappush, heapreplace""
+        ],
+        ""initialization"": [
+            ""h = MaxHeap([3, 1, 4, 2])"",
+            ""assert h[0] == 4"",
+            ""assert h.peek() == 4"",
+            ""h.push(5)"",
+            ""assert h.h == [5, 4, 3, 1, 2]"",
+            ""assert h.pop() == 5"",
+            ""assert h.pop() == 4"",
+            ""assert h.pop() == 3"",
+            ""assert h.pop() == 2"",
+            ""h.push(3).push(2).push(4)"",
+            ""assert str(h) == '[4, 3, 2, 1]'"",
+            ""assert h.replace(1) == 4""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from __future__ import annotations # pragma: no cover"",
+            ""from typing import Generic, List, Optional, TypeVar # pragma: no cover"",
+            ""from heapq import heapify, heappop, heappush, heapreplace # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",3,9964,0.004982,2150,0.003225,0.008207
