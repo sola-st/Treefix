@@ -1,0 +1,2 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/linalg/linear_operator_inversion.py
+exit(-1. * self.operator.log_abs_determinant())

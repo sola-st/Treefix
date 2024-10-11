@@ -1,0 +1,388 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""send notification mail with some additional useful info""""""
+stats = self.crawler.stats
+s = f""Memory usage at engine startup : {stats.get_value('memusage/startup')/1024/1024}M\r\n""
+s += f""Maximum memory usage          : {stats.get_value('memusage/max')/1024/1024}M\r\n""
+s += f""Current memory usage          : {self.get_virtual_size()/1024/1024}M\r\n""
+
+s += ""ENGINE STATUS ------------------------------------------------------- \r\n""
+s += ""\r\n""
+s += pformat(get_engine_status(self.crawler.engine))
+s += ""\r\n""
+self.mail.send(rcpts, subject, s)
+
+# end code snippet
+
+# begin undefined variables
+self
+pformat
+get_engine_status
+rcpts
+subject
+# end undefined variables
+
+# begin undefined attributes and methods
+self.crawler
+self.get_virtual_size
+self.mail
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from pprint import pformat"",
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'crawler': type('Mock', (object,), {'stats': type('Mock', (object,), {'get_value': lambda self, x: 5242880})()})(), 'get_virtual_size': lambda self: 5242880, 'mail': type('Mock', (object,), {'send': lambda self, rcpts, subject, s: None})()})()"",
+            ""get_engine_status = lambda engine: {'engine_status': 'running'}"",
+            ""rcpts = ['example@example.com']"",
+            ""subject = 'Notification: Engine Status'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat""
+        ],
+        ""initialization"": [
+            ""class MockMail:\n    def send(self, recipients, subject, body):\n        pass"",
+            ""class MockCrawlerEngine:\n    pass"",
+            ""class MockCrawler:\n    def __init__(self):\n        self.stats = {\n            'memusage/startup': 10485760,\n            'memusage/max': 20971520\n        }\n        self.engine = MockCrawlerEngine()"",
+            ""self = type('Mock', (object,), {\n    'crawler': MockCrawler(),\n    'get_virtual_size': lambda self: 31457280,\n    'mail': MockMail()\n})()"",
+            ""def get_engine_status(engine):\n    return {'status': 'running', 'item_count': 100}"",
+            ""rcpts = ['example@example.com']"",
+            ""subject = 'Crawler Memory Usage Report'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat""
+        ],
+        ""initialization"": [
+            ""class MockCrawler:\n    def __init__(self):\n        self.stats = MockStats()\n\nclass MockStats:\n    def get_value(self, key):\n        return 1024 * 1024 * 150  # 150 MB in bytes as an example value\n\nclass MockMail:\n    def send(self, rcpts, subject, s):\n        print(f\""Sent mail to: {rcpts}\"")\n        print(f\""Subject: {subject}\"")\n        print(f\""Message:\n{s}\"")\n\nself = type('Mock', (object,), {\n    'crawler': MockCrawler(),\n    'get_virtual_size': lambda: 1024 * 1024 * 100,  # 100 MB in bytes as an example value\n    'mail': MockMail()\n})\n\nrcpts = [\""example@example.com\""]\n\nsubject = \""Engine Status Report\""\n\nget_engine_status = lambda engine: {\n    'active': True,\n    'jobs': 5,\n    'requests_in_progress': 3\n}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {\n    'crawler': type('MockCrawler', (object,), {\n        'stats': type('MockStats', (object,), {\n            'get_value': lambda x: 104857600 if x == 'memusage/startup' else 209715200\n        })()\n    })(),\n    'get_virtual_size': lambda: 157286400,\n    'mail': type('MockMail', (object,), {\n        'send': lambda rcpts, subject, s: print(f\""Mail Sent\\nTo: {rcpts}\\nSubject: {subject}\\n{s}\"")\n    })()\n})()"",
+            ""def get_engine_status(engine):\n    return {'engine': 'active', 'total_requests': 120}"",
+            ""rcpts = ['user@example.com']"",
+            ""subject = 'Crawler Engine Status Update'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat""
+        ],
+        ""initialization"": [
+            ""class MockMailer:\n    def send(self, rcpts, subject, body):\n        print('Mail sent to:', rcpts)\n        print('Subject:', subject)\n        print('Body:', body)\n"",
+            ""rcpts = ['example@example.com']"",
+            ""subject = 'Crawler Stats'"",
+            ""def get_engine_status(engine):\n    return {\n        'requests': 10,\n        'responses': 8,\n        'exceptions': 2\n    }\n"",
+            ""class MockStats:\n    def get_value(self, key):\n        return {\n            'memusage/startup': 512000000,\n            'memusage/max': 1024000000\n        }.get(key, 0)\n"",
+            ""class MockEngine:\n    pass\n"",
+            ""class MockCrawler:\n    stats = MockStats()\n    engine = MockEngine()\n"",
+            ""type('Mock', (object,), {\n    'crawler': MockCrawler(),\n    'get_virtual_size': lambda self: 768000000,\n    'mail': MockMailer()\n})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat""
+        ],
+        ""initialization"": [
+            ""class MockMail:\n    def send(self, rcpts, subject, s):\n        pass\n\nclass MockStats:\n    def get_value(self, key):\n        return 10485760  # 10MB in bytes\n\nclass MockEngine:\n    pass\n\nclass MockCrawler:\n    stats = MockStats()\n    engine = MockEngine()\n\nclass Mock(self.__class__):\n    crawler = MockCrawler()\n    mail = MockMail()\n\n    def get_virtual_size(self):\n        return 5242880  # 5MB in bytes\n\nmock_self = Mock()\nself = mock_self"",
+            ""def get_engine_status(engine):\n    return {\n        'spider_name': 'example_spider',\n        'engine_status': 'running',\n        'active_requests': 5,\n        'pending_requests': 10\n    }"",
+            ""rcpts = ['example@example.com']"",
+            ""subject = 'Crawler Notification'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat""
+        ],
+        ""initialization"": [
+            ""class Mock(object):\n    def __init__(self, **kwargs):\n        self.__dict__.update(kwargs)\n    def get_value(self, key): return 104857600  # Mocked data: 100MB\n    def get_virtual_size(self): return 104857600  # Mocked data: 100MB\n    def send(self, rcpts, subject, body): print('Email sent')"",
+            ""self = Mock(crawler=Mock(stats=Mock()), get_virtual_size=lambda: 104857600, mail=Mock(send=lambda rcpts, subject, body: print('Email sent')))"",
+            ""def get_engine_status(engine): return {'status': 'running', 'uptime': '24 hours'}"",
+            ""rcpts = ['recipient@example.com']"",
+            ""subject = 'Crawler Engine Status'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'crawler': type('MockCrawler', (object,), {'stats': type('MockStats', (object,), {'get_value': lambda self, key: 104857600})()})(), 'get_virtual_size': lambda self: 104857600, 'mail': type('MockMail', (object,), {'send': lambda self, rcpts, subject, body: print(f'Mail sent to {rcpts} with subject \""{subject}\""')})()})()"",
+            ""get_engine_status = lambda engine: {'engine': 'active', 'spiders': 5}"",
+            ""rcpts = ['example@example.com', 'admin@example.com']"",
+            ""subject = 'Crawler Memory and Engine Status'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat""
+        ],
+        ""initialization"": [
+            ""class MockCrawlerStats:\n    def get_value(self, key):\n        return 1024 * 1024 * 100  # Returning fixed value for memory size in bytes\n\nclass MockCrawlerEngine:\n    pass\n\nclass MockCrawler:\n    def __init__(self):\n        self.stats = MockCrawlerStats()\n        self.engine = MockCrawlerEngine()\n\nclass MockMail:\n    def send(self, rcpts, subject, body):\n        print('Sending mail to:', rcpts)\n        print('Subject:', subject)\n        print('Body:', body)\n\nclass Mock:\n    def __init__(self):\n        self.crawler = MockCrawler()\n        self.mail = MockMail()\n    \n    def get_virtual_size(self):\n        return 1024 * 1024 * 200  # Returning fixed value for virtual size in bytes\n\nself = Mock()"",
+            ""def get_engine_status(engine):\n    return {'status': 'running'}  # Returning a sample status"",
+            ""rcpts = ['example@example.com']"",
+            ""subject = 'Crawler Status Update'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {\n    'crawler': type('MockCrawler', (object,), {\n        'stats': type('MockStats', (object,), {\n            'get_value': lambda self, key: 104857600  # 100 MB\n        })()\n    })(),\n    'get_virtual_size': lambda self: 104857600,  # 100 MB\n    'mail': type('MockMail', (object,), {\n        'send': lambda self, rcpts, subject, body: None\n    })()\n})()"",
+            ""get_engine_status = lambda engine: {'status': 'running', 'spiders': {'active': 5, 'idle': 3}}"",
+            ""rcpts = ['admin@example.com']"",
+            ""subject = 'Engine Status Update'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from pprint import pformat # pragma: no cover"",
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'crawler': type('Mock', (object,), {'stats': type('Mock', (object,), {'get_value': lambda self, x: 5242880})()})(), 'get_virtual_size': lambda self: 5242880, 'mail': type('Mock', (object,), {'send': lambda self, rcpts, subject, s: None})()})() # pragma: no cover"",
+            ""get_engine_status = lambda engine: {'engine_status': 'running'} # pragma: no cover"",
+            ""rcpts = ['example@example.com'] # pragma: no cover"",
+            ""subject = 'Notification: Engine Status' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockMail:# pragma: no cover"",
+            ""    def send(self, recipients, subject, body):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockCrawlerEngine:# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""class MockCrawler:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.stats = {# pragma: no cover"",
+            ""            'memusage/startup': 10485760,# pragma: no cover"",
+            ""            'memusage/max': 20971520# pragma: no cover"",
+            ""        }# pragma: no cover"",
+            ""        self.engine = MockCrawlerEngine() # pragma: no cover"",
+            ""self = type('Mock', (object,), {# pragma: no cover"",
+            ""    'crawler': MockCrawler(),# pragma: no cover"",
+            ""    'get_virtual_size': lambda self: 31457280,# pragma: no cover"",
+            ""    'mail': MockMail()# pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""def get_engine_status(engine):# pragma: no cover"",
+            ""    return {'status': 'running', 'item_count': 100} # pragma: no cover"",
+            ""rcpts = ['example@example.com'] # pragma: no cover"",
+            ""subject = 'Crawler Memory Usage Report' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {# pragma: no cover"",
+            ""    'crawler': type('MockCrawler', (object,), {# pragma: no cover"",
+            ""        'stats': type('MockStats', (object,), {# pragma: no cover"",
+            ""            'get_value': lambda x: 104857600 if x == 'memusage/startup' else 209715200# pragma: no cover"",
+            ""        })()# pragma: no cover"",
+            ""    })(),# pragma: no cover"",
+            ""    'get_virtual_size': lambda: 157286400,# pragma: no cover"",
+            ""    'mail': type('MockMail', (object,), {# pragma: no cover"",
+            ""        'send': lambda rcpts, subject, s: print(f\""Mail Sent\\nTo: {rcpts}\\nSubject: {subject}\\n{s}\"")# pragma: no cover"",
+            ""    })()# pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""def get_engine_status(engine):# pragma: no cover"",
+            ""    return {'engine': 'active', 'total_requests': 120} # pragma: no cover"",
+            ""rcpts = ['user@example.com'] # pragma: no cover"",
+            ""subject = 'Crawler Engine Status Update' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockMailer:# pragma: no cover"",
+            ""    def send(self, rcpts, subject, body):# pragma: no cover"",
+            ""        print('Mail sent to:', rcpts)# pragma: no cover"",
+            ""        print('Subject:', subject)# pragma: no cover"",
+            ""        print('Body:', body)# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""rcpts = ['example@example.com'] # pragma: no cover"",
+            ""subject = 'Crawler Stats' # pragma: no cover"",
+            ""def get_engine_status(engine):# pragma: no cover"",
+            ""    return {# pragma: no cover"",
+            ""        'requests': 10,# pragma: no cover"",
+            ""        'responses': 8,# pragma: no cover"",
+            ""        'exceptions': 2# pragma: no cover"",
+            ""    }# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockStats:# pragma: no cover"",
+            ""    def get_value(self, key):# pragma: no cover"",
+            ""        return {# pragma: no cover"",
+            ""            'memusage/startup': 512000000,# pragma: no cover"",
+            ""            'memusage/max': 1024000000# pragma: no cover"",
+            ""        }.get(key, 0)# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockEngine:# pragma: no cover"",
+            ""    pass# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockCrawler:# pragma: no cover"",
+            ""    stats = MockStats()# pragma: no cover"",
+            ""    engine = MockEngine()# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""type('Mock', (object,), {# pragma: no cover"",
+            ""    'crawler': MockCrawler(),# pragma: no cover"",
+            ""    'get_virtual_size': lambda self: 768000000,# pragma: no cover"",
+            ""    'mail': MockMailer()# pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockMail:# pragma: no cover"",
+            ""    def send(self, rcpts, subject, s):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockStats:# pragma: no cover"",
+            ""    def get_value(self, key):# pragma: no cover"",
+            ""        return 10485760  # 10MB in bytes# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockEngine:# pragma: no cover"",
+            ""    pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockCrawler:# pragma: no cover"",
+            ""    stats = MockStats()# pragma: no cover"",
+            ""    engine = MockEngine()# pragma: no cover"",
+            ""def get_engine_status(engine):# pragma: no cover"",
+            ""    return {# pragma: no cover"",
+            ""        'spider_name': 'example_spider',# pragma: no cover"",
+            ""        'engine_status': 'running',# pragma: no cover"",
+            ""        'active_requests': 5,# pragma: no cover"",
+            ""        'pending_requests': 10# pragma: no cover"",
+            ""    } # pragma: no cover"",
+            ""rcpts = ['example@example.com'] # pragma: no cover"",
+            ""subject = 'Crawler Notification' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock(object):# pragma: no cover"",
+            ""    def __init__(self, **kwargs):# pragma: no cover"",
+            ""        self.__dict__.update(kwargs)# pragma: no cover"",
+            ""    def get_value(self, key): return 104857600  # Mocked data: 100MB# pragma: no cover"",
+            ""    def get_virtual_size(self): return 104857600  # Mocked data: 100MB# pragma: no cover"",
+            ""    def send(self, rcpts, subject, body): print('Email sent') # pragma: no cover"",
+            ""self = Mock(crawler=Mock(stats=Mock()), get_virtual_size=lambda: 104857600, mail=Mock(send=lambda rcpts, subject, body: print('Email sent'))) # pragma: no cover"",
+            ""def get_engine_status(engine): return {'status': 'running', 'uptime': '24 hours'} # pragma: no cover"",
+            ""rcpts = ['recipient@example.com'] # pragma: no cover"",
+            ""subject = 'Crawler Engine Status' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'crawler': type('MockCrawler', (object,), {'stats': type('MockStats', (object,), {'get_value': lambda self, key: 104857600})()})(), 'get_virtual_size': lambda self: 104857600, 'mail': type('MockMail', (object,), {'send': lambda self, rcpts, subject, body: print(f'Mail sent to {rcpts} with subject \""{subject}\""')})()})() # pragma: no cover"",
+            ""get_engine_status = lambda engine: {'engine': 'active', 'spiders': 5} # pragma: no cover"",
+            ""rcpts = ['example@example.com', 'admin@example.com'] # pragma: no cover"",
+            ""subject = 'Crawler Memory and Engine Status' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCrawlerStats:# pragma: no cover"",
+            ""    def get_value(self, key):# pragma: no cover"",
+            ""        return 1024 * 1024 * 100  # Returning fixed value for memory size in bytes# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockCrawlerEngine:# pragma: no cover"",
+            ""    pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockCrawler:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.stats = MockCrawlerStats()# pragma: no cover"",
+            ""        self.engine = MockCrawlerEngine()# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockMail:# pragma: no cover"",
+            ""    def send(self, rcpts, subject, body):# pragma: no cover"",
+            ""        print('Sending mail to:', rcpts)# pragma: no cover"",
+            ""        print('Subject:', subject)# pragma: no cover"",
+            ""        print('Body:', body)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class Mock:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.crawler = MockCrawler()# pragma: no cover"",
+            ""        self.mail = MockMail()# pragma: no cover"",
+            ""    # pragma: no cover"",
+            ""    def get_virtual_size(self):# pragma: no cover"",
+            ""        return 1024 * 1024 * 200  # Returning fixed value for virtual size in bytes# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""def get_engine_status(engine):# pragma: no cover"",
+            ""    return {'status': 'running'}  # Returning a sample status # pragma: no cover"",
+            ""rcpts = ['example@example.com'] # pragma: no cover"",
+            ""subject = 'Crawler Status Update' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pprint import pformat # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {# pragma: no cover"",
+            ""    'crawler': type('MockCrawler', (object,), {# pragma: no cover"",
+            ""        'stats': type('MockStats', (object,), {# pragma: no cover"",
+            ""            'get_value': lambda self, key: 104857600  # 100 MB# pragma: no cover"",
+            ""        })()# pragma: no cover"",
+            ""    })(),# pragma: no cover"",
+            ""    'get_virtual_size': lambda self: 104857600,  # 100 MB# pragma: no cover"",
+            ""    'mail': type('MockMail', (object,), {# pragma: no cover"",
+            ""        'send': lambda self, rcpts, subject, body: None# pragma: no cover"",
+            ""    })()# pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""get_engine_status = lambda engine: {'status': 'running', 'spiders': {'active': 5, 'idle': 3}} # pragma: no cover"",
+            ""rcpts = ['admin@example.com'] # pragma: no cover"",
+            ""subject = 'Engine Status Update' # pragma: no cover""
+        ]
+    }
+]",1,458,0.000229,2283,0.0034245,0.0036535

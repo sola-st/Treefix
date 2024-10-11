@@ -1,0 +1,5 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/autograph/pyct/static_analysis/liveness_test.py
+if a > 0:
+    b = b + 1
+    raise c
+exit(x)

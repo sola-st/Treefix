@@ -1,0 +1,665 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Dispatches the request and on top of that performs request
+        pre and postprocessing as well as HTTP exception catching and
+        error handling.
+
+        .. versionadded:: 0.7
+        """"""
+# Run before_first_request functions if this is the thread's first request.
+# Inlined to avoid a method call on subsequent requests.
+# This is deprecated, will be removed in Flask 2.3.
+if not self._got_first_request:
+    with self._before_request_lock:
+        if not self._got_first_request:
+            for func in self.before_first_request_funcs:
+                self.ensure_sync(func)()
+
+            self._got_first_request = True
+
+try:
+    request_started.send(self)
+    rv = self.preprocess_request()
+    if rv is None:
+        rv = self.dispatch_request()
+except Exception as e:
+    rv = self.handle_user_exception(e)
+exit(self.finalize_request(rv))
+
+# end code snippet
+
+# begin undefined variables
+self
+request_started
+# end undefined variables
+
+# begin undefined attributes and methods
+self._got_first_request
+self._before_request_lock
+self.before_first_request_funcs
+self.ensure_sync
+request_started.send
+self.preprocess_request
+self.dispatch_request
+self.handle_user_exception
+self.finalize_request
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import threading""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self._got_first_request = False"",
+            ""self._before_request_lock = threading.Lock()"",
+            ""self.before_first_request_funcs = [lambda: print('First request function called')]"",
+            ""self.ensure_sync = lambda func: func"",
+            ""request_started = type('Mock', (object,), {'send': lambda self_instance: print('Request started')})()"",
+            ""self.preprocess_request = lambda: None"",
+            ""self.dispatch_request = lambda: 'response'"",
+            ""self.handle_user_exception = lambda e: f'Error handled: {str(e)}'"",
+            ""self.finalize_request = lambda rv: f'Finalized: {rv}'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'_got_first_request': False, '_before_request_lock': threading.Lock(), 'before_first_request_funcs': [], 'ensure_sync': lambda self, func: func, 'preprocess_request': lambda self: None, 'dispatch_request': lambda self: 'response', 'handle_user_exception': lambda self, e: f'Exception caught: {e}', 'finalize_request': lambda self, rv: f'Finalized request with: {rv}'})()"",
+            ""request_started = type('MockSignal', (object,), {'send': lambda self, *args: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self._got_first_request = False"",
+            ""self._before_request_lock = Lock()"",
+            ""self.before_first_request_funcs = [lambda: print('First request function executed')]"",
+            ""self.ensure_sync = lambda func: func"",
+            ""request_started = type('MockRequestStarted', (object,), {'send': lambda self: print('Request started')})()"",
+            ""self.preprocess_request = lambda: None"",
+            ""self.dispatch_request = lambda: 'response from dispatch_request'"",
+            ""self.handle_user_exception = lambda e: f'Exception handled: {e}'"",
+            ""self.finalize_request = lambda rv: f'Request finalized with rv: {rv}'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_got_first_request': False, '_before_request_lock': threading.Lock(), 'before_first_request_funcs': [], 'ensure_sync': lambda self, f: f, 'preprocess_request': lambda self: None, 'dispatch_request': lambda self: None, 'handle_user_exception': lambda self, e: None, 'finalize_request': lambda self, rv: None})()"",
+            ""request_started = type('MockSignal', (object,), {'send': lambda self, sender: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {\n    '_got_first_request': False,\n    '_before_request_lock': threading.Lock(),\n    'before_first_request_funcs': [],\n    'ensure_sync': lambda self, func: func,\n    'preprocess_request': lambda self: None,\n    'dispatch_request': lambda self: 'response',\n    'handle_user_exception': lambda self, e: 'error_handled_response',\n    'finalize_request': lambda self, rv: None\n})()"",
+            ""request_started = type('MockSignal', (object,), {\n    'send': lambda self, sender: None\n})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""request_started = type('MockSignal', (object,), {'send': lambda self_: None})()"",
+            ""self._got_first_request = False"",
+            ""self._before_request_lock = Lock()"",
+            ""self.before_first_request_funcs = [lambda: None]"",
+            ""self.ensure_sync = lambda func: func"",
+            ""self.preprocess_request = lambda: None"",
+            ""self.dispatch_request = lambda: 'response'"",
+            ""self.handle_user_exception = lambda e: 'error_response'"",
+            ""self.finalize_request = lambda rv: rv""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self._got_first_request = False"",
+            ""self._before_request_lock = Lock()"",
+            ""self.before_first_request_funcs = [lambda: print('First request function')]"",
+            ""self.ensure_sync = lambda func: func"",
+            ""request_started = type('MockSignal', (object,), {'send': lambda self, obj: print('Request started')})()"",
+            ""self.preprocess_request = lambda: None"",
+            ""self.dispatch_request = lambda: 'Response'"",
+            ""self.handle_user_exception = lambda e: f'Handled exception: {e}'"",
+            ""self.finalize_request = lambda rv: print(f'Finalized request with {rv}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_got_first_request': False, '_before_request_lock': threading.Lock(), 'before_first_request_funcs': [], 'ensure_sync': lambda self, func: func, 'preprocess_request': lambda self: None, 'dispatch_request': lambda self: 'response', 'handle_user_exception': lambda self, e: str(e), 'finalize_request': lambda self, rv: rv})()"",
+            ""request_started = type('Mock', (object,), {'send': lambda self: None})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock"",
+            ""from flask import Flask, request_started""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self._got_first_request = False"",
+            ""self._before_request_lock = Lock()"",
+            ""self.before_first_request_funcs = [lambda: print('Before first request function executed.')]"",
+            ""self.ensure_sync = lambda func: func"",
+            ""self.preprocess_request = lambda: None"",
+            ""self.dispatch_request = lambda: 'Dispatch request response'"",
+            ""self.handle_user_exception = lambda e: f'Exception handled: {str(e)}'"",
+            ""self.finalize_request = lambda rv: f'Request finalized with response: {rv}'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading""
+        ],
+        ""initialization"": [
+            ""self = type(\""Mock\"", (object,), {"",
+            ""    '_got_first_request': False,"",
+            ""    '_before_request_lock': threading.Lock(),"",
+            ""    'before_first_request_funcs': [],"",
+            ""    'ensure_sync': lambda self, f: f,"",
+            ""    'preprocess_request': lambda self: None,"",
+            ""    'dispatch_request': lambda self: \""response\"","",
+            ""    'handle_user_exception': lambda self, e: f\""error: {str(e)}\"","",
+            ""    'finalize_request': lambda self, rv: exit(0)"",
+            ""})()"",
+            ""request_started = type(\""MockSignal\"", (object,), {"",
+            ""    'send': lambda self, *args, **kwargs: None"",
+            ""})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import threading # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self._got_first_request = False # pragma: no cover"",
+            ""self._before_request_lock = threading.Lock() # pragma: no cover"",
+            ""self.before_first_request_funcs = [lambda: print('First request function called')] # pragma: no cover"",
+            ""self.ensure_sync = lambda func: func # pragma: no cover"",
+            ""request_started = type('Mock', (object,), {'send': lambda self_instance: print('Request started')})() # pragma: no cover"",
+            ""self.preprocess_request = lambda: None # pragma: no cover"",
+            ""self.dispatch_request = lambda: 'response' # pragma: no cover"",
+            ""self.handle_user_exception = lambda e: f'Error handled: {str(e)}' # pragma: no cover"",
+            ""self.finalize_request = lambda rv: f'Finalized: {rv}' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {'_got_first_request': False, '_before_request_lock': threading.Lock(), 'before_first_request_funcs': [], 'ensure_sync': lambda self, func: func, 'preprocess_request': lambda self: None, 'dispatch_request': lambda self: 'response', 'handle_user_exception': lambda self, e: f'Exception caught: {e}', 'finalize_request': lambda self, rv: f'Finalized request with: {rv}'})() # pragma: no cover"",
+            ""request_started = type('MockSignal', (object,), {'send': lambda self, *args: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self._got_first_request = False # pragma: no cover"",
+            ""self._before_request_lock = Lock() # pragma: no cover"",
+            ""self.before_first_request_funcs = [lambda: print('First request function executed')] # pragma: no cover"",
+            ""self.ensure_sync = lambda func: func # pragma: no cover"",
+            ""request_started = type('MockRequestStarted', (object,), {'send': lambda self: print('Request started')})() # pragma: no cover"",
+            ""self.preprocess_request = lambda: None # pragma: no cover"",
+            ""self.dispatch_request = lambda: 'response from dispatch_request' # pragma: no cover"",
+            ""self.handle_user_exception = lambda e: f'Exception handled: {e}' # pragma: no cover"",
+            ""self.finalize_request = lambda rv: f'Request finalized with rv: {rv}' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_got_first_request': False, '_before_request_lock': threading.Lock(), 'before_first_request_funcs': [], 'ensure_sync': lambda self, f: f, 'preprocess_request': lambda self: None, 'dispatch_request': lambda self: None, 'handle_user_exception': lambda self, e: None, 'finalize_request': lambda self, rv: None})() # pragma: no cover"",
+            ""request_started = type('MockSignal', (object,), {'send': lambda self, sender: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {# pragma: no cover"",
+            ""    '_got_first_request': False,# pragma: no cover"",
+            ""    '_before_request_lock': threading.Lock(),# pragma: no cover"",
+            ""    'before_first_request_funcs': [],# pragma: no cover"",
+            ""    'ensure_sync': lambda self, func: func,# pragma: no cover"",
+            ""    'preprocess_request': lambda self: None,# pragma: no cover"",
+            ""    'dispatch_request': lambda self: 'response',# pragma: no cover"",
+            ""    'handle_user_exception': lambda self, e: 'error_handled_response',# pragma: no cover"",
+            ""    'finalize_request': lambda self, rv: None# pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""request_started = type('MockSignal', (object,), {# pragma: no cover"",
+            ""    'send': lambda self, sender: None# pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""request_started = type('MockSignal', (object,), {'send': lambda self_: None})() # pragma: no cover"",
+            ""self._got_first_request = False # pragma: no cover"",
+            ""self._before_request_lock = Lock() # pragma: no cover"",
+            ""self.before_first_request_funcs = [lambda: None] # pragma: no cover"",
+            ""self.ensure_sync = lambda func: func # pragma: no cover"",
+            ""self.preprocess_request = lambda: None # pragma: no cover"",
+            ""self.dispatch_request = lambda: 'response' # pragma: no cover"",
+            ""self.handle_user_exception = lambda e: 'error_response' # pragma: no cover"",
+            ""self.finalize_request = lambda rv: rv # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self._got_first_request = False # pragma: no cover"",
+            ""self._before_request_lock = Lock() # pragma: no cover"",
+            ""self.before_first_request_funcs = [lambda: print('First request function')] # pragma: no cover"",
+            ""self.ensure_sync = lambda func: func # pragma: no cover"",
+            ""request_started = type('MockSignal', (object,), {'send': lambda self, obj: print('Request started')})() # pragma: no cover"",
+            ""self.preprocess_request = lambda: None # pragma: no cover"",
+            ""self.dispatch_request = lambda: 'Response' # pragma: no cover"",
+            ""self.handle_user_exception = lambda e: f'Handled exception: {e}' # pragma: no cover"",
+            ""self.finalize_request = lambda rv: print(f'Finalized request with {rv}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_got_first_request': False, '_before_request_lock': threading.Lock(), 'before_first_request_funcs': [], 'ensure_sync': lambda self, func: func, 'preprocess_request': lambda self: None, 'dispatch_request': lambda self: 'response', 'handle_user_exception': lambda self, e: str(e), 'finalize_request': lambda self, rv: rv})() # pragma: no cover"",
+            ""request_started = type('Mock', (object,), {'send': lambda self: None}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock # pragma: no cover"",
+            ""from flask import Flask, request_started # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self._got_first_request = False # pragma: no cover"",
+            ""self._before_request_lock = Lock() # pragma: no cover"",
+            ""self.before_first_request_funcs = [lambda: print('Before first request function executed.')] # pragma: no cover"",
+            ""self.ensure_sync = lambda func: func # pragma: no cover"",
+            ""self.preprocess_request = lambda: None # pragma: no cover"",
+            ""self.dispatch_request = lambda: 'Dispatch request response' # pragma: no cover"",
+            ""self.handle_user_exception = lambda e: f'Exception handled: {str(e)}' # pragma: no cover"",
+            ""self.finalize_request = lambda rv: f'Request finalized with response: {rv}' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type(\""Mock\"", (object,), { # pragma: no cover"",
+            ""    '_got_first_request': False, # pragma: no cover"",
+            ""    '_before_request_lock': threading.Lock(), # pragma: no cover"",
+            ""    'before_first_request_funcs': [], # pragma: no cover"",
+            ""    'ensure_sync': lambda self, f: f, # pragma: no cover"",
+            ""    'preprocess_request': lambda self: None, # pragma: no cover"",
+            ""    'dispatch_request': lambda self: \""response\"", # pragma: no cover"",
+            ""    'handle_user_exception': lambda self, e: f\""error: {str(e)}\"", # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""request_started = type(\""MockSignal\"", (object,), { # pragma: no cover"",
+            ""    'send': lambda self, *args, **kwargs: None # pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    }
+]",1,520,0.00026,1704,0.002556,0.002816
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Dispatches the request and on top of that performs request
+        pre and postprocessing as well as HTTP exception catching and
+        error handling.
+
+        .. versionadded:: 0.7
+        """"""
+# Run before_first_request functions if this is the thread's first request.
+# Inlined to avoid a method call on subsequent requests.
+# This is deprecated, will be removed in Flask 2.3.
+if not self._got_first_request:
+    with self._before_request_lock:
+        if not self._got_first_request:
+            for func in self.before_first_request_funcs:
+                self.ensure_sync(func)()
+
+            self._got_first_request = True
+
+try:
+    request_started.send(self)
+    rv = self.preprocess_request()
+    if rv is None:
+        rv = self.dispatch_request()
+except Exception as e:
+    rv = self.handle_user_exception(e)
+exit(self.finalize_request(rv))
+
+# end code snippet
+
+# begin undefined variables
+self
+request_started
+# end undefined variables
+
+# begin undefined attributes and methods
+self._got_first_request
+self._before_request_lock
+self.before_first_request_funcs
+self.ensure_sync
+request_started.send
+self.preprocess_request
+self.dispatch_request
+self.handle_user_exception
+self.finalize_request
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import threading"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), { '_got_first_request': False, '_before_request_lock': threading.Lock(), 'before_first_request_funcs': [], 'ensure_sync': lambda self, func: func, 'preprocess_request': lambda self: None, 'dispatch_request': lambda self: 'response', 'handle_user_exception': lambda self, e: 'error_response', 'finalize_request': lambda self, rv: exit(rv) })()"",
+            ""request_started = SimpleNamespace()"",
+            ""request_started.send = lambda self: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace(_got_first_request=False, _before_request_lock=Lock(), before_first_request_funcs=[], ensure_sync=lambda func: func, preprocess_request=lambda: None, dispatch_request=lambda: None, handle_user_exception=lambda e: None, finalize_request=lambda rv: None)"",
+            ""request_started = type('Mock', (object,), {'send': lambda self: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {\n    '_got_first_request': False,\n    '_before_request_lock': threading.Lock(),\n    'before_first_request_funcs': [lambda: None],\n    'ensure_sync': lambda func: func,\n    'preprocess_request': lambda: None,\n    'dispatch_request': lambda: 'response',\n    'handle_user_exception': lambda e: str(e),\n    'finalize_request': lambda rv: print(f'Final request with response: {rv}')\n})()"",
+            ""request_started = SimpleNamespace(send=lambda x: print('Request started'))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock"",
+            ""from types import MethodType""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""request_started = type('Mock', (object,), {'send': lambda s: None})()"",
+            ""self._got_first_request = False"",
+            ""self._before_request_lock = Lock()"",
+            ""self.before_first_request_funcs = [lambda: None]"",
+            ""self.ensure_sync = lambda func: func"",
+            ""self.preprocess_request = lambda: None"",
+            ""self.dispatch_request = lambda: 'response'"",
+            ""self.handle_user_exception = lambda e: f'error: {e}'"",
+            ""self.finalize_request = lambda rv: rv""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {\n    '_got_first_request': False,\n    '_before_request_lock': Lock(),\n    'before_first_request_funcs': [],\n    'ensure_sync': lambda self, func: func,\n    'preprocess_request': lambda self: None,\n    'dispatch_request': lambda self: 'response',\n    'handle_user_exception': lambda self, e: f'error: {str(e)}',\n    'finalize_request': lambda self, rv: f'finalized: {rv}'\n})()"",
+            ""request_started = type('MockRequestStarted', (object,), {\n    'send': lambda self, instance: None\n})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace()"",
+            ""self._got_first_request = False"",
+            ""self._before_request_lock = Lock()"",
+            ""self.before_first_request_funcs = [lambda: None]"",
+            ""self.ensure_sync = lambda func: func"",
+            ""request_started = SimpleNamespace()"",
+            ""request_started.send = lambda x: None"",
+            ""self.preprocess_request = lambda: None"",
+            ""self.dispatch_request = lambda: 'response'"",
+            ""self.handle_user_exception = lambda e: 'error_response'"",
+            ""self.finalize_request = lambda rv: exit(rv)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_got_first_request': False, '_before_request_lock': threading.Lock(), 'before_first_request_funcs': [], 'ensure_sync': lambda self, func: func, 'preprocess_request': lambda self: None, 'dispatch_request': lambda self: 'response', 'handle_user_exception': lambda self, e: 'error handled', 'finalize_request': lambda self, rv: 'finalizing ' + rv})()"",
+            ""request_started = type('Mock', (object,), {'send': lambda self, instance: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_got_first_request': False, '_before_request_lock': threading.Lock(), 'before_first_request_funcs': [], 'ensure_sync': lambda self, func: func, 'preprocess_request': lambda self: None, 'dispatch_request': lambda self: None, 'handle_user_exception': lambda self, e: None, 'finalize_request': lambda self, rv: None})()"",
+            ""request_started = type('MockSignal', (object,), {'send': lambda self, sender: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_got_first_request': False, '_before_request_lock': Lock(), 'before_first_request_funcs': [], 'ensure_sync': lambda self, func: func, 'preprocess_request': lambda self: None, 'dispatch_request': lambda self: 'response', 'handle_user_exception': lambda self, e: f'error: {str(e)}', 'finalize_request': lambda self, rv: f'finalized: {rv}'})()"",
+            ""request_started = SimpleNamespace(send=lambda obj: None)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock"",
+            ""from types import SimpleNamespace"",
+            ""def mock_function(*args, **kwargs): pass""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_got_first_request': False, '_before_request_lock': Lock(), 'before_first_request_funcs': [], 'ensure_sync': mock_function, 'preprocess_request': mock_function, 'dispatch_request': mock_function, 'handle_user_exception': mock_function, 'finalize_request': mock_function})()"",
+            ""request_started = SimpleNamespace(send=mock_function)""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import threading # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""request_started = SimpleNamespace() # pragma: no cover"",
+            ""request_started.send = lambda self: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace(_got_first_request=False, _before_request_lock=Lock(), before_first_request_funcs=[], ensure_sync=lambda func: func, preprocess_request=lambda: None, dispatch_request=lambda: None, handle_user_exception=lambda e: None, finalize_request=lambda rv: None) # pragma: no cover"",
+            ""request_started = type('Mock', (object,), {'send': lambda self: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {# pragma: no cover"",
+            ""    '_got_first_request': False,# pragma: no cover"",
+            ""    '_before_request_lock': threading.Lock(),# pragma: no cover"",
+            ""    'before_first_request_funcs': [lambda: None],# pragma: no cover"",
+            ""    'ensure_sync': lambda func: func,# pragma: no cover"",
+            ""    'preprocess_request': lambda: None,# pragma: no cover"",
+            ""    'dispatch_request': lambda: 'response',# pragma: no cover"",
+            ""    'handle_user_exception': lambda e: str(e),# pragma: no cover"",
+            ""    'finalize_request': lambda rv: print(f'Final request with response: {rv}')# pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""request_started = SimpleNamespace(send=lambda x: print('Request started')) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock # pragma: no cover"",
+            ""from types import MethodType # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""request_started = type('Mock', (object,), {'send': lambda s: None})() # pragma: no cover"",
+            ""self._got_first_request = False # pragma: no cover"",
+            ""self._before_request_lock = Lock() # pragma: no cover"",
+            ""self.before_first_request_funcs = [lambda: None] # pragma: no cover"",
+            ""self.ensure_sync = lambda func: func # pragma: no cover"",
+            ""self.preprocess_request = lambda: None # pragma: no cover"",
+            ""self.dispatch_request = lambda: 'response' # pragma: no cover"",
+            ""self.handle_user_exception = lambda e: f'error: {e}' # pragma: no cover"",
+            ""self.finalize_request = lambda rv: rv # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('MockSelf', (object,), {# pragma: no cover"",
+            ""    '_got_first_request': False,# pragma: no cover"",
+            ""    '_before_request_lock': Lock(),# pragma: no cover"",
+            ""    'before_first_request_funcs': [],# pragma: no cover"",
+            ""    'ensure_sync': lambda self, func: func,# pragma: no cover"",
+            ""    'preprocess_request': lambda self: None,# pragma: no cover"",
+            ""    'dispatch_request': lambda self: 'response',# pragma: no cover"",
+            ""    'handle_user_exception': lambda self, e: f'error: {str(e)}',# pragma: no cover"",
+            ""    'finalize_request': lambda self, rv: f'finalized: {rv}'# pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""request_started = type('MockRequestStarted', (object,), {# pragma: no cover"",
+            ""    'send': lambda self, instance: None# pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace() # pragma: no cover"",
+            ""self._got_first_request = False # pragma: no cover"",
+            ""self._before_request_lock = Lock() # pragma: no cover"",
+            ""self.before_first_request_funcs = [lambda: None] # pragma: no cover"",
+            ""self.ensure_sync = lambda func: func # pragma: no cover"",
+            ""request_started = SimpleNamespace() # pragma: no cover"",
+            ""request_started.send = lambda x: None # pragma: no cover"",
+            ""self.preprocess_request = lambda: None # pragma: no cover"",
+            ""self.dispatch_request = lambda: 'response' # pragma: no cover"",
+            ""self.handle_user_exception = lambda e: 'error_response' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_got_first_request': False, '_before_request_lock': threading.Lock(), 'before_first_request_funcs': [], 'ensure_sync': lambda self, func: func, 'preprocess_request': lambda self: None, 'dispatch_request': lambda self: 'response', 'handle_user_exception': lambda self, e: 'error handled', 'finalize_request': lambda self, rv: 'finalizing ' + rv})() # pragma: no cover"",
+            ""request_started = type('Mock', (object,), {'send': lambda self, instance: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_got_first_request': False, '_before_request_lock': threading.Lock(), 'before_first_request_funcs': [], 'ensure_sync': lambda self, func: func, 'preprocess_request': lambda self: None, 'dispatch_request': lambda self: None, 'handle_user_exception': lambda self, e: None, 'finalize_request': lambda self, rv: None})() # pragma: no cover"",
+            ""request_started = type('MockSignal', (object,), {'send': lambda self, sender: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_got_first_request': False, '_before_request_lock': Lock(), 'before_first_request_funcs': [], 'ensure_sync': lambda self, func: func, 'preprocess_request': lambda self: None, 'dispatch_request': lambda self: 'response', 'handle_user_exception': lambda self, e: f'error: {str(e)}', 'finalize_request': lambda self, rv: f'finalized: {rv}'})() # pragma: no cover"",
+            ""request_started = SimpleNamespace(send=lambda obj: None) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import Lock # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover"",
+            ""def mock_function(*args, **kwargs): pass # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_got_first_request': False, '_before_request_lock': Lock(), 'before_first_request_funcs': [], 'ensure_sync': mock_function, 'preprocess_request': mock_function, 'dispatch_request': mock_function, 'handle_user_exception': mock_function, 'finalize_request': mock_function})() # pragma: no cover"",
+            ""request_started = SimpleNamespace(send=mock_function) # pragma: no cover""
+        ]
+    }
+]",1,520,0.00026,1534,0.002301,0.002561

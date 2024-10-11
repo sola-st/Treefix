@@ -1,0 +1,40 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/compiler/tests/image_ops_test.py
+# Tests that a suppressed box does not itself suppress other boxes.
+
+boxes_data = [[0, 0, 1, 1], [0, 0.2, 1, 1.2], [0, 0.4, 1, 1.4],
+              [0, 0.6, 1, 1.6], [0, 0.8, 1, 1.8], [0, 2, 1, 3]]
+boxes_np = np.array(boxes_data, dtype=np.float32)
+
+scores_data = [0.9, 0.75, 0.6, 0.5, 0.4, 0.3]
+scores_np = np.array(scores_data, dtype=np.float32)
+max_output_size = 3
+iou_threshold_np = np.array(0.5, dtype=np.float32)
+score_threshold_np = np.array(0.1, dtype=np.float32)
+
+with self.session() as sess:
+    boxes = array_ops.placeholder(boxes_np.dtype, shape=boxes_np.shape)
+    scores = array_ops.placeholder(scores_np.dtype, shape=scores_np.shape)
+    iou_threshold = array_ops.placeholder(iou_threshold_np.dtype,
+                                          iou_threshold_np.shape)
+    score_threshold = array_ops.placeholder(score_threshold_np.dtype,
+                                            score_threshold_np.shape)
+    with self.test_scope():
+        selected_indices = image_ops.non_max_suppression_padded(
+            boxes=boxes,
+            scores=scores,
+            max_output_size=max_output_size,
+            iou_threshold=iou_threshold,
+            score_threshold=score_threshold,
+            pad_to_max_output_size=True)
+    inputs_feed = {
+        boxes: boxes_np,
+        scores: scores_np,
+        iou_threshold: iou_threshold_np,
+        score_threshold: score_threshold_np
+    }
+    (indices_tf, num_valid) = sess.run(
+        selected_indices, feed_dict=inputs_feed)
+
+    self.assertEqual(indices_tf.size, max_output_size)
+    self.assertEqual(num_valid, 3)
+    self.assertAllClose(indices_tf[:num_valid], [0, 2, 4])

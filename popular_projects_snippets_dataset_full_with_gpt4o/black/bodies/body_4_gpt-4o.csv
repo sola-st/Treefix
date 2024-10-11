@@ -1,0 +1,252 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Split an iterable of paths in `sources` into two sets.
+
+    The first contains paths of files that modified on disk or are not in the
+    cache. The other contains paths to non-modified files.
+    """"""
+todo, done = set(), set()
+for src in sources:
+    res_src = src.resolve()
+    if cache.get(str(res_src)) != get_cache_info(res_src):
+        todo.add(src)
+    else:
+        done.add(src)
+exit((todo, done))
+
+# end code snippet
+
+# begin undefined variables
+sources
+cache
+get_cache_info
+# end undefined variables
+
+# begin undefined attributes and methods
+cache.get
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from pathlib import Path""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1'), Path('/path/to/file2'), Path('/path/to/file3')]"",
+            ""cache = type('Mock', (object,), {'get': lambda self, key: 'cached_value'})()"",
+            ""get_cache_info = lambda path: 'cached_value'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""from typing import Dict, Callable""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/example/path1'), Path('/example/path2')]"",
+            ""cache = type('Mock', (object,), {'get': lambda self, key: None})()"",
+            ""get_cache_info = lambda res_src: 'cache_info'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1'), Path('/path/to/file2'), Path('/path/to/file3')]"",
+            ""cache = type('Mock', (object,), {'get': lambda self, key: 'cached_info'})()"",
+            ""get_cache_info = lambda path: 'actual_info'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/some/path/file1.txt'), Path('/some/path/file2.txt'), Path('/some/path/file3.txt')]"",
+            ""cache = type('Mock', (object,), {'get': lambda self, key: 'cached_info' if 'file1' in key else None})()"",
+            ""get_cache_info = lambda p: 'cached_info' if 'file1' in str(p) else 'new_info'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""from typing import Dict""
+        ],
+        ""initialization"": [
+            ""sources = [Path('file1.txt'), Path('file2.txt'), Path('file3.txt')]"",
+            ""cache = type('MockCache', (object,), {'get': lambda self, key: None})()"",
+            ""get_cache_info = lambda src: {'last_modified': src.stat().st_mtime}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1'), Path('/path/to/file2'), Path('/path/to/file3')]"",
+            ""cache = type('Mock', (object,), {'get': lambda self, key: 'cached_info'})()"",
+            ""get_cache_info = lambda path: 'current_info'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""from typing import Iterable, Dict""
+        ],
+        ""initialization"": [
+            ""sources: Iterable[Path] = [Path('/path/to/file1'), Path('/path/to/file2')]"",
+            ""cache: Dict[str, str] = {'/path/to/file1': 'info1', '/path/to/file2': 'info2'}"",
+            ""def get_cache_info(path: Path) -> str: return 'info' + path.name[-1]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1'), Path('/path/to/file2'), Path('/path/to/file3')]"",
+            ""cache = type('Mock', (object,), {'get': lambda self, k: 'cached_info'})()"",
+            ""get_cache_info = lambda x: 'cached_info'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""from typing import Dict""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1'), Path('/path/to/file2'), Path('/path/to/file3')]"",
+            ""cache = type('MockCache', (object,), {'get': lambda self, key: None if key not in {'/path/to/file1', '/path/to/file2'} else 'cache_info'})()"",
+            ""get_cache_info = lambda src: 'cache_info' if str(src) in {'/path/to/file1', '/path/to/file3'} else None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""from typing import Dict, Any""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1'), Path('/path/to/file2')]"",
+            ""cache = type('Mock', (object,), {'get': lambda self, key: 'mock_cache_info'})()"",
+            ""def get_cache_info(path: Path) -> Any: return 'actual_cache_info'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1'), Path('/path/to/file2'), Path('/path/to/file3')] # pragma: no cover"",
+            ""cache = type('Mock', (object,), {'get': lambda self, key: 'cached_value'})() # pragma: no cover"",
+            ""get_cache_info = lambda path: 'cached_value' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""from typing import Dict, Callable # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/example/path1'), Path('/example/path2')] # pragma: no cover"",
+            ""cache = type('Mock', (object,), {'get': lambda self, key: None})() # pragma: no cover"",
+            ""get_cache_info = lambda res_src: 'cache_info' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1'), Path('/path/to/file2'), Path('/path/to/file3')] # pragma: no cover"",
+            ""cache = type('Mock', (object,), {'get': lambda self, key: 'cached_info'})() # pragma: no cover"",
+            ""get_cache_info = lambda path: 'actual_info' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/some/path/file1.txt'), Path('/some/path/file2.txt'), Path('/some/path/file3.txt')] # pragma: no cover"",
+            ""cache = type('Mock', (object,), {'get': lambda self, key: 'cached_info' if 'file1' in key else None})() # pragma: no cover"",
+            ""get_cache_info = lambda p: 'cached_info' if 'file1' in str(p) else 'new_info' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""from typing import Dict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('file1.txt'), Path('file2.txt'), Path('file3.txt')] # pragma: no cover"",
+            ""cache = type('MockCache', (object,), {'get': lambda self, key: None})() # pragma: no cover"",
+            ""get_cache_info = lambda src: {'last_modified': src.stat().st_mtime} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1'), Path('/path/to/file2'), Path('/path/to/file3')] # pragma: no cover"",
+            ""cache = type('Mock', (object,), {'get': lambda self, key: 'cached_info'})() # pragma: no cover"",
+            ""get_cache_info = lambda path: 'current_info' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""from typing import Iterable, Dict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources: Iterable[Path] = [Path('/path/to/file1'), Path('/path/to/file2')] # pragma: no cover"",
+            ""cache: Dict[str, str] = {'/path/to/file1': 'info1', '/path/to/file2': 'info2'} # pragma: no cover"",
+            ""def get_cache_info(path: Path) -> str: return 'info' + path.name[-1] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1'), Path('/path/to/file2'), Path('/path/to/file3')] # pragma: no cover"",
+            ""cache = type('Mock', (object,), {'get': lambda self, k: 'cached_info'})() # pragma: no cover"",
+            ""get_cache_info = lambda x: 'cached_info' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""from typing import Dict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1'), Path('/path/to/file2'), Path('/path/to/file3')] # pragma: no cover"",
+            ""cache = type('MockCache', (object,), {'get': lambda self, key: None if key not in {'/path/to/file1', '/path/to/file2'} else 'cache_info'})() # pragma: no cover"",
+            ""get_cache_info = lambda src: 'cache_info' if str(src) in {'/path/to/file1', '/path/to/file3'} else None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""from typing import Dict, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sources = [Path('/path/to/file1'), Path('/path/to/file2')] # pragma: no cover"",
+            ""cache = type('Mock', (object,), {'get': lambda self, key: 'mock_cache_info'})() # pragma: no cover"",
+            ""def get_cache_info(path: Path) -> Any: return 'actual_cache_info' # pragma: no cover""
+        ]
+    }
+]",1,396,0.000198,1059,0.0015885,0.0017865000000000001

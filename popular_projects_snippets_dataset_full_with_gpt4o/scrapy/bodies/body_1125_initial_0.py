@@ -1,0 +1,9 @@
+self = type('Mock', (object,), {'get_full_url': lambda self: 'http://example.com'})() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/scrapy/scrapy/http/cookies.py
+from l3.Runtime import _l_
+aux = self.get_full_url()
+_l_(17563)
+exit(aux)

@@ -1,0 +1,348 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+intname = np.dtype(np.int_).name
+floatname = np.dtype(np.float_).name
+datetime64name = np.dtype(""M8[ns]"").name
+objectname = np.dtype(np.object_).name
+
+# single item
+df = DataFrame(
+    {
+        ""A"": 1,
+        ""B"": ""foo"",
+        ""C"": ""bar"",
+        ""D"": Timestamp(""20010101""),
+        ""E"": datetime(2001, 1, 2, 0, 0),
+    },
+    index=np.arange(10),
+)
+result = df.dtypes
+expected = Series(
+    [np.dtype(""int64"")]
+    + [np.dtype(objectname)] * 2
+    + [np.dtype(datetime64name)] * 2,
+    index=list(""ABCDE""),
+)
+tm.assert_series_equal(result, expected)
+
+# check with ndarray construction ndim==0 (e.g. we are passing a ndim 0
+# ndarray with a dtype specified)
+df = DataFrame(
+    {
+        ""a"": 1.0,
+        ""b"": 2,
+        ""c"": ""foo"",
+        floatname: np.array(1.0, dtype=floatname),
+        intname: np.array(1, dtype=intname),
+    },
+    index=np.arange(10),
+)
+result = df.dtypes
+expected = Series(
+    [np.dtype(""float64"")]
+    + [np.dtype(""int64"")]
+    + [np.dtype(""object"")]
+    + [np.dtype(""float64"")]
+    + [np.dtype(intname)],
+    index=[""a"", ""b"", ""c"", floatname, intname],
+)
+tm.assert_series_equal(result, expected)
+
+# check with ndarray construction ndim>0
+df = DataFrame(
+    {
+        ""a"": 1.0,
+        ""b"": 2,
+        ""c"": ""foo"",
+        floatname: np.array([1.0] * 10, dtype=floatname),
+        intname: np.array([1] * 10, dtype=intname),
+    },
+    index=np.arange(10),
+)
+result = df.dtypes
+expected = Series(
+    [np.dtype(""float64"")]
+    + [np.dtype(""int64"")]
+    + [np.dtype(""object"")]
+    + [np.dtype(""float64"")]
+    + [np.dtype(intname)],
+    index=[""a"", ""b"", ""c"", floatname, intname],
+)
+tm.assert_series_equal(result, expected)
+
+# end code snippet
+
+# begin undefined variables
+np
+DataFrame
+Timestamp
+datetime
+Series
+tm
+# end undefined variables
+
+# begin undefined attributes and methods
+np.dtype
+np.int_
+np.float_
+np.object_
+np.arange
+tm.assert_series_equal
+np.array
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas import DataFrame, Timestamp, Series"",
+            ""from datetime import datetime"",
+            ""import pandas._testing as tm""
+        ],
+        ""initialization"": []
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas import DataFrame, Timestamp, Series"",
+            ""from datetime import datetime"",
+            ""type Mock = type""
+        ],
+        ""initialization"": [
+            ""tm = Mock(object, {}, {'assert_series_equal': lambda x, y: None})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas import DataFrame, Timestamp, Series"",
+            ""from datetime import datetime""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'assert_series_equal': lambda x, y: None})"",
+            ""np.dtype = lambda x: type('Mock', (object,), {'name': str(x)})(x)"",
+            ""np.int_ = int"",
+            ""np.float_ = float"",
+            ""np.object_ = object"",
+            ""np.arange = np.arange"",
+            ""np.array = np.array""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas import DataFrame"",
+            ""from pandas import Timestamp"",
+            ""from datetime import datetime"",
+            ""from pandas import Series""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'assert_series_equal': lambda x, y: None})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas import DataFrame, Timestamp, Series"",
+            ""from datetime import datetime"",
+            ""type Mock = type('Mock', (object,), {})"",
+            ""tm = Mock()""
+        ],
+        ""initialization"": [
+            ""tm.assert_series_equal = lambda x, y: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd"",
+            ""from pandas import DataFrame, Timestamp, Series"",
+            ""from datetime import datetime""
+        ],
+        ""initialization"": [
+            ""np = np"",
+            ""DataFrame = pd.DataFrame"",
+            ""Timestamp = pd.Timestamp"",
+            ""datetime = datetime"",
+            ""Series = pd.Series"",
+            ""tm = type('Mock', (object,), {'assert_series_equal': lambda x, y: None})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas import DataFrame, Timestamp, Series"",
+            ""from datetime import datetime""
+        ],
+        ""initialization"": [
+            ""class MockTestingModule:"",
+            ""    @staticmethod"",
+            ""    def assert_series_equal(result, expected):"",
+            ""        assert result.equals(expected), f'Series are not equal!\\nResult:\\n{result}\\nExpected:\\n{expected}'"",
+            """",
+            ""tm = MockTestingModule()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas import DataFrame, Timestamp, Series"",
+            ""from datetime import datetime""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'assert_series_equal': lambda x, y: None})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas import DataFrame, Timestamp, Series"",
+            ""from datetime import datetime"",
+            ""import pandas._testing as tm""
+        ],
+        ""initialization"": []
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas import DataFrame, Timestamp, Series"",
+            ""from datetime import datetime""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'assert_series_equal': lambda x, y: None})""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import DataFrame, Timestamp, Series # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover"",
+            ""import pandas._testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import DataFrame, Timestamp, Series # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import DataFrame, Timestamp, Series # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'assert_series_equal': lambda x, y: None}) # pragma: no cover"",
+            ""np.dtype = lambda x: type('Mock', (object,), {'name': str(x)})(x) # pragma: no cover"",
+            ""np.int_ = int # pragma: no cover"",
+            ""np.float_ = float # pragma: no cover"",
+            ""np.object_ = object # pragma: no cover"",
+            ""np.arange = np.arange # pragma: no cover"",
+            ""np.array = np.array # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import DataFrame # pragma: no cover"",
+            ""from pandas import Timestamp # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover"",
+            ""from pandas import Series # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'assert_series_equal': lambda x, y: None}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import DataFrame, Timestamp, Series # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover"",
+            ""from pandas import DataFrame, Timestamp, Series # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""np = np # pragma: no cover"",
+            ""DataFrame = pd.DataFrame # pragma: no cover"",
+            ""Timestamp = pd.Timestamp # pragma: no cover"",
+            ""datetime = datetime # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'assert_series_equal': lambda x, y: None}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import DataFrame, Timestamp, Series # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockTestingModule: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def assert_series_equal(result, expected): # pragma: no cover"",
+            ""        assert result.equals(expected), f'Series are not equal!\\nResult:\\n{result}\\nExpected:\\n{expected}' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""tm = MockTestingModule() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import DataFrame, Timestamp, Series # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'assert_series_equal': lambda x, y: None}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import DataFrame, Timestamp, Series # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover"",
+            ""import pandas._testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import DataFrame, Timestamp, Series # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'assert_series_equal': lambda x, y: None}) # pragma: no cover""
+        ]
+    }
+]",1,835,0.0004175,860,0.00129,0.0017074999999999998

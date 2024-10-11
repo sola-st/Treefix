@@ -1,0 +1,280 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""We keep total two streams for client (sending data) and
+        server side (receiving data) for a single request. To be safe
+        we choose the minimum. Since this value can change in event
+        RemoteSettingsChanged we make variable a property.
+        """"""
+exit(min(
+    self.conn.local_settings.max_concurrent_streams,
+    self.conn.remote_settings.max_concurrent_streams
+))
+
+# end code snippet
+
+# begin undefined variables
+self
+# end undefined variables
+
+# begin undefined attributes and methods
+self.conn
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import NamedTuple""
+        ],
+        ""initialization"": [
+            ""class Settings(NamedTuple):"",
+            ""    max_concurrent_streams: int = 100"",
+            """",
+            ""class MockConn(NamedTuple):"",
+            ""    local_settings: Settings = Settings()"",
+            ""    remote_settings: Settings = Settings()"",
+            """",
+            ""class MockSelf(NamedTuple):"",
+            ""    conn: MockConn = MockConn()"",
+            """",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockConnectionSettings:\n    def __init__(self, max_concurrent_streams):\n        self.max_concurrent_streams = max_concurrent_streams\n\nclass MockConnection:\n    def __init__(self):\n        self.local_settings = MockConnectionSettings(100)\n        self.remote_settings = MockConnectionSettings(50)\n\nself = type('Mock', (object,), {'conn': MockConnection()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self.conn = type('Mock', (object,), {})()"",
+            ""local_settings = type('Mock', (object,), {'max_concurrent_streams': 10})()"",
+            ""remote_settings = type('Mock', (object,), {'max_concurrent_streams': 20})()"",
+            ""self.conn.local_settings = local_settings"",
+            ""self.conn.remote_settings = remote_settings""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self.conn = type('MockConn', (object,), {\n    'local_settings': type('MockLocalSettings', (object,), {'max_concurrent_streams': 10})(),\n    'remote_settings': type('MockRemoteSettings', (object,), {'max_concurrent_streams': 8})()\n})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self.conn = type('Mock', (object,), { 'local_settings': type('Mock', (object,), { 'max_concurrent_streams': 10 })(), 'remote_settings': type('Mock', (object,), { 'max_concurrent_streams': 5 })() })()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'conn': type('Mock', (object,), {'local_settings': type('Mock', (object,), {'max_concurrent_streams': 10})(), 'remote_settings': type('Mock', (object,), {'max_concurrent_streams': 8})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace()"",
+            ""self.conn = SimpleNamespace()"",
+            ""self.conn.local_settings = SimpleNamespace(max_concurrent_streams=10)"",
+            ""self.conn.remote_settings = SimpleNamespace(max_concurrent_streams=5)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""class MockConnSettings:"",
+            ""    max_concurrent_streams = 100"",
+            """",
+            ""class MockConn:"",
+            ""    local_settings = MockConnSettings()"",
+            ""    remote_settings = MockConnSettings()"",
+            """",
+            ""self = type('MockSelf', (object,), {'conn': MockConn})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Type""
+        ],
+        ""initialization"": [
+            ""MockConn = type('MockConn', (object,), {'local_settings': type('Settings', (object,), {'max_concurrent_streams': 5}), 'remote_settings': type('Settings', (object,), {'max_concurrent_streams': 3})})"",
+            ""self = type('MockSelf', (object,), {'conn': MockConn()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Type""
+        ],
+        ""initialization"": [
+            ""class MockConnectionSettings:"",
+            ""    def __init__(self, max_concurrent_streams):"",
+            ""        self.max_concurrent_streams = max_concurrent_streams"",
+            """",
+            ""class MockConnection:"",
+            ""    def __init__(self, local_max_streams, remote_max_streams):"",
+            ""        self.local_settings = MockConnectionSettings(local_max_streams)"",
+            ""        self.remote_settings = MockConnectionSettings(remote_max_streams)"",
+            """",
+            ""Mock = type('Mock', (object,), {})"",
+            """",
+            ""self = Mock()"",
+            ""self.conn = MockConnection(10, 20)""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import NamedTuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Settings(NamedTuple): # pragma: no cover"",
+            ""    max_concurrent_streams: int = 100 # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockConn(NamedTuple): # pragma: no cover"",
+            ""    local_settings: Settings = Settings() # pragma: no cover"",
+            ""    remote_settings: Settings = Settings() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockSelf(NamedTuple): # pragma: no cover"",
+            ""    conn: MockConn = MockConn() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockConnectionSettings:# pragma: no cover"",
+            ""    def __init__(self, max_concurrent_streams):# pragma: no cover"",
+            ""        self.max_concurrent_streams = max_concurrent_streams# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockConnection:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.local_settings = MockConnectionSettings(100)# pragma: no cover"",
+            ""        self.remote_settings = MockConnectionSettings(50)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = type('Mock', (object,), {'conn': MockConnection()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.conn = type('Mock', (object,), {})() # pragma: no cover"",
+            ""local_settings = type('Mock', (object,), {'max_concurrent_streams': 10})() # pragma: no cover"",
+            ""remote_settings = type('Mock', (object,), {'max_concurrent_streams': 20})() # pragma: no cover"",
+            ""self.conn.local_settings = local_settings # pragma: no cover"",
+            ""self.conn.remote_settings = remote_settings # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.conn = type('MockConn', (object,), {# pragma: no cover"",
+            ""    'local_settings': type('MockLocalSettings', (object,), {'max_concurrent_streams': 10})(),# pragma: no cover"",
+            ""    'remote_settings': type('MockRemoteSettings', (object,), {'max_concurrent_streams': 8})()# pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.conn = type('Mock', (object,), { 'local_settings': type('Mock', (object,), { 'max_concurrent_streams': 10 })(), 'remote_settings': type('Mock', (object,), { 'max_concurrent_streams': 5 })() })() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'conn': type('Mock', (object,), {'local_settings': type('Mock', (object,), {'max_concurrent_streams': 10})(), 'remote_settings': type('Mock', (object,), {'max_concurrent_streams': 8})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace() # pragma: no cover"",
+            ""self.conn = SimpleNamespace() # pragma: no cover"",
+            ""self.conn.local_settings = SimpleNamespace(max_concurrent_streams=10) # pragma: no cover"",
+            ""self.conn.remote_settings = SimpleNamespace(max_concurrent_streams=5) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockConnSettings: # pragma: no cover"",
+            ""    max_concurrent_streams = 100 # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockConn: # pragma: no cover"",
+            ""    local_settings = MockConnSettings() # pragma: no cover"",
+            ""    remote_settings = MockConnSettings() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'conn': MockConn})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Type # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""MockConn = type('MockConn', (object,), {'local_settings': type('Settings', (object,), {'max_concurrent_streams': 5}), 'remote_settings': type('Settings', (object,), {'max_concurrent_streams': 3})}) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'conn': MockConn()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Type # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockConnectionSettings: # pragma: no cover"",
+            ""    def __init__(self, max_concurrent_streams): # pragma: no cover"",
+            ""        self.max_concurrent_streams = max_concurrent_streams # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockConnection: # pragma: no cover"",
+            ""    def __init__(self, local_max_streams, remote_max_streams): # pragma: no cover"",
+            ""        self.local_settings = MockConnectionSettings(local_max_streams) # pragma: no cover"",
+            ""        self.remote_settings = MockConnectionSettings(remote_max_streams) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""Mock = type('Mock', (object,), {}) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""self.conn = MockConnection(10, 20) # pragma: no cover""
+        ]
+    }
+]",1,373,0.0001865,1102,0.001653,0.0018395

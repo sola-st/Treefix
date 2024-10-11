@@ -1,0 +1,6 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/sparse_ops/sparse_reshape_op_test.py
+ind = np.array([[0, 0], [1, 0], [1, 3], [1, 4], [3, 2],
+                [3, 3]]).astype(np.int64)
+val = np.array([0, 10, 13, 14, 32, 33]).astype(np.float64)
+shape = np.array([5, 6]).astype(np.int64)
+exit(sparse_tensor.SparseTensorValue(ind, val, shape))

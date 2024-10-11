@@ -1,0 +1,27 @@
+from enum import Enum # pragma: no cover
+from typing import Set # pragma: no cover
+from collections import defaultdict # pragma: no cover
+
+class TargetVersion(Enum):# pragma: no cover
+    VERSION_1 = "version_1"# pragma: no cover
+    VERSION_2 = "version_2"# pragma: no cover
+    VERSION_3 = "version_3" # pragma: no cover
+node = "example_node" # pragma: no cover
+VERSION_TO_FEATURES = defaultdict(set, {# pragma: no cover
+    TargetVersion.VERSION_1: {"feature_1"},# pragma: no cover
+    TargetVersion.VERSION_2: {"feature_1", "feature_2"},# pragma: no cover
+    TargetVersion.VERSION_3: {"feature_1", "feature_2", "feature_3"}# pragma: no cover
+}) # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/black/src/black/__init__.py
+from l3.Runtime import _l_
+"""Detect the version to target based on the nodes used."""
+features = get_features_used(node, future_imports=future_imports)
+_l_(15424)
+aux = {
+    version for version in TargetVersion if features <= VERSION_TO_FEATURES[version]
+}
+_l_(15425)
+exit(aux)

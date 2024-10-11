@@ -1,0 +1,348 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+a = (np.arange(11 * 11 * 11) + 1000).reshape([11, 11, 11]).astype(np.int32)
+
+out = tensor_format.format_tensor(
+    a, ""a"", False, np_printoptions={""threshold"": 100, ""edgeitems"": 2})
+
+cli_test_utils.assert_lines_equal_ignoring_whitespace(
+    self, [""Tensor \""a\"":"", """"], out.lines[:2])
+self.assertEqual(repr(a).split(""\n""), out.lines[2:])
+
+self._checkTensorMetadata(a, out.annotations)
+
+# Check annotations for beginning indices of the lines.
+actual_row_0_0_0, _ = self._findFirst(out.lines, ""1000"")
+self.assertEqual({tensor_format.BEGIN_INDICES_KEY: [0, 0, 0]},
+                 out.annotations[actual_row_0_0_0])
+actual_row_0_1_0, _ = self._findFirst(out.lines, ""1011"")
+self.assertEqual({tensor_format.BEGIN_INDICES_KEY: [0, 1, 0]},
+                 out.annotations[actual_row_0_1_0])
+# Find the first line that is completely omitted.
+omitted_line = 2
+while not out.lines[omitted_line].strip().startswith(""...""):
+    omitted_line += 1
+self.assertEqual({tensor_format.OMITTED_INDICES_KEY: [0, 2, 0]},
+                 out.annotations[omitted_line])
+
+actual_row_10_10_0, _ = self._findFirst(out.lines, ""2320"")
+self.assertEqual({tensor_format.BEGIN_INDICES_KEY: [10, 10, 0]},
+                 out.annotations[actual_row_10_10_0])
+# Find the last line that is completely omitted.
+omitted_line = len(out.lines) - 1
+while not out.lines[omitted_line].strip().startswith(""...""):
+    omitted_line -= 1
+self.assertEqual({tensor_format.OMITTED_INDICES_KEY: [10, 2, 0]},
+                 out.annotations[omitted_line])
+
+# end code snippet
+
+# begin undefined variables
+np
+tensor_format
+cli_test_utils
+self
+# end undefined variables
+
+# begin undefined attributes and methods
+np.arange
+np.int32
+tensor_format.format_tensor
+cli_test_utils.assert_lines_equal_ignoring_whitespace
+self.assertEqual
+self._checkTensorMetadata
+self._findFirst
+tensor_format.BEGIN_INDICES_KEY
+tensor_format.OMITTED_INDICES_KEY
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""tensor_format = type('Mock', (object,), {'format_tensor': lambda tensor, name, summarize, np_printoptions: type('MockOut', (object,), {'lines': repr(tensor).split('\\n'), 'annotations': {i: ({} if '...' not in line else {tensor_format.OMITTED_INDICES_KEY: [0, 2, 0]}) for i, line in enumerate(repr(tensor).split('\\n'))}})() })"",
+            ""cli_test_utils = type('Mock', (object,), {'assert_lines_equal_ignoring_whitespace': lambda *args, **kwargs: None})"",
+            ""self = type('Mock', (object,), {'assertEqual': lambda *args, **kwargs: None, '_checkTensorMetadata': lambda *args, **kwargs: None, '_findFirst': lambda self, lines, substring: (next((i for i, line in enumerate(lines) if substring in line), -1), None)})()"",
+            ""tensor_format.BEGIN_INDICES_KEY = 'BEGIN_INDICES_KEY'"",
+            ""tensor_format.OMITTED_INDICES_KEY = 'OMITTED_INDICES_KEY'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""tensor_format = type('Mock', (object,), {'format_tensor': lambda x, y, z, np_printoptions={}: type('Out', (object,), {'lines': ['Tensor \""a\"":', ''] + repr(x).split('\\n'), 'annotations': {}})(), 'BEGIN_INDICES_KEY': 'BEGIN_INDICES', 'OMITTED_INDICES_KEY': 'OMITTED_INDICES'})"",
+            ""cli_test_utils = type('Mock', (object,), {'assert_lines_equal_ignoring_whitespace': lambda self, expected, actual: None})"",
+            ""self = type('Mock', (object,), {'assertEqual': lambda self, x, y: None, '_checkTensorMetadata': lambda self, x, y: None, '_findFirst': lambda self, lines, value: (lines.index(value),)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""tensor_format = type('Mock', (object,), {'format_tensor': lambda x, y, z, np_printoptions={}: type('Mock', (object,), {'lines': [f'Tensor \""a\"":', ''] + repr(x).split('\\n'), 'annotations': {1: {tensor_format.BEGIN_INDICES_KEY: [0, 0, 0]}, 4: {tensor_format.BEGIN_INDICES_KEY: [0, 1, 0]}, len(repr(x).split('\\n')) - 1: {tensor_format.OMITTED_INDICES_KEY: [10, 2, 0]}}})()})"",
+            ""cli_test_utils = type('Mock', (object,), {'assert_lines_equal_ignoring_whitespace': lambda *args: None})"",
+            ""self = type('Mock', (object,), {'assertEqual': lambda *args: None, '_checkTensorMetadata': lambda *args: None, '_findFirst': lambda x, y: (1, None)})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""tensor_format = type('Mock', (object,), {'format_tensor': lambda tensor, name, flag, np_printoptions: type('MockOutput', (object,), {'lines': ['Tensor \""a\"":', '', repr(tensor).split('\\n')[:2] + ['...'] * (len(repr(tensor).split('\\n')) - 4) + [repr(tensor).split('\\n')[-1]], 'annotations': {}})()})"",
+            ""cli_test_utils = type('Mock', (object,), {'assert_lines_equal_ignoring_whitespace': lambda self, line1, line2: line1 == line2})"",
+            ""self = type('MockSelf', (object,), {'assertEqual': lambda self, val1, val2: val1 == val2, '_checkTensorMetadata': lambda self, tensor, annotations: True, '_findFirst': lambda self, lines, substring: (next((i for i, line in enumerate(lines) if substring in line), -1), 0)})()"",
+            ""tensor_format.BEGIN_INDICES_KEY = 'begin_indices'"",
+            ""tensor_format.OMITTED_INDICES_KEY = 'omitted_indices'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""tensor_format = type('Mock', (object,), {'format_tensor': lambda x, y, z, np_printoptions: type('MockFormatTensor', (object,), {'lines': ['Tensor \""a\"":', '', str(repr(a)).split('\\n')[0], '...', str(repr(a)).split('\\n')[-1]], 'annotations': {2: {tensor_format.BEGIN_INDICES_KEY: [0, 0, 0]}, 3: {tensor_format.OMITTED_INDICES_KEY: [0, 2, 0]}, len(repr(a).split('\\n')): {tensor_format.OMITTED_INDICES_KEY: [10, 2, 0]}, -1: {tensor_format.BEGIN_INDICES_KEY: [10, 10, 0]}}})()})"",
+            ""cli_test_utils = type('Mock', (object,), {'assert_lines_equal_ignoring_whitespace': lambda self, x, y: None})"",
+            ""self = type('Mock', (object,), {'assertEqual': lambda self, x, y: None, '_checkTensorMetadata': lambda self, x, y: None, '_findFirst': lambda self, lines, val: (next(i for i, line in enumerate(lines) if val in line), None)})()"",
+            ""tensor_format.BEGIN_INDICES_KEY = 'BEGIN_INDICES_KEY'"",
+            ""tensor_format.OMITTED_INDICES_KEY = 'OMITTED_INDICES_KEY'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""np = type('Mock', (object,), {'arange': np.arange, 'int32': np.int32})"",
+            ""tensor_format = type('Mock', (object,), {'format_tensor': lambda *args, **kwargs: SimpleNamespace(lines=[f'line {i}' for i in range(300)], annotations={5: {\""BEGIN_INDICES_KEY\"": [0, 0, 0]}, 17: {\""BEGIN_INDICES_KEY\"": [0, 1, 0]}, 123: {\""OMITTED_INDICES_KEY\"": [0, 2, 0]}, 290: {\""BEGIN_INDICES_KEY\"": [10, 10, 0]}, 298: {\""OMITTED_INDICES_KEY\"": [10, 2, 0]}}), 'BEGIN_INDICES_KEY': 'BEGIN_INDICES_KEY', 'OMITTED_INDICES_KEY': 'OMITTED_INDICES_KEY'})"",
+            ""cli_test_utils = type('Mock', (object,), {'assert_lines_equal_ignoring_whitespace': lambda *args, **kwargs: None})"",
+            ""self = type('Mock', (object,), {'assertEqual': lambda self, x, y: None, '_checkTensorMetadata': lambda self, x, y: None, '_findFirst': lambda self, lines, value: (5 if value == '1000' else 17 if value == '1011' else 290 if value == '2320' else -1, None)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""tensor_format = type('Mock', (object,), {'format_tensor': lambda a, b, c, d: type('MockOutput', (object,), {'lines': ['Tensor \""a\"":', '', 'array([[[1000', ' 1001, 1002, ..., 1008, 1009, 1010],', ' [1011, 1012, 1013, ..., 1019, 1020, 1021],', '    ...',' [2308, 2309, 2310, ..., 2318, 2319, 2320]]],', '', '{tensor_format.BEGIN_INDICES_KEY: [10, 10, 0]': ''}], 'annotations': {'1000': {'tensor_format.BEGIN_INDICES_KEY': [0, 0, 0]}, '1011': {'tensor_format.BEGIN_INDICES_KEY': [0, 1, 0]}, '2320': {'tensor_format.BEGIN_INDICES_KEY': [10, 10, 0]}, '...': {'tensor_format.OMITTED_INDICES_KEY': [10, 2, 0]}}})})"",
+            ""cli_test_utils = type('Mock', (object,), {'assert_lines_equal_ignoring_whitespace': lambda self, a, b: None})"",
+            ""self = type('Mock', (object,), {'assertEqual': lambda self, a, b: None, '_checkTensorMetadata': lambda self, a, b: None, '_findFirst': lambda self, lines, val: (val, None)})"",
+            ""tensor_format.BEGIN_INDICES_KEY = 'tensor_format.BEGIN_INDICES_KEY'"",
+            ""tensor_format.OMITTED_INDICES_KEY = 'tensor_format.OMITTED_INDICES_KEY'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""tensor_format = type('Mock', (object,), {'format_tensor': lambda tensor, name, abbrev, np_printoptions: type('MockOut', (object,), {'lines': ['Tensor \\\""a\\\"":', ''] + repr(tensor).split('\\n'), 'annotations': [{tensor_format.BEGIN_INDICES_KEY: [10, 10, 0]} for i in range(100)]})(),'BEGIN_INDICES_KEY': 'begin_indices', 'OMITTED_INDICES_KEY': 'omitted_indices'})()"",
+            ""cli_test_utils = type('Mock', (object,), {'assert_lines_equal_ignoring_whitespace': lambda self, expected, actual: None})()"",
+            ""self = type('Mock', (object,), {'assertEqual': lambda self, a, b: None, '_checkTensorMetadata': lambda self, tensor, annotations: None, '_findFirst': lambda self, lines, value: (lines.index(value), None)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""tensor_format = type('Mock', (object,), {"",
+            ""    'BEGIN_INDICES_KEY': 'begin_indices',"",
+            ""    'OMITTED_INDICES_KEY': 'omitted_indices',"",
+            ""    'format_tensor': lambda a, name, flag, np_printoptions: type('Out', (object,), {"",
+            ""        'lines': ["",
+            ""            'Tensor \""{}\"":'.format(name), '', '... omitted ...', repr(a)"",
+            ""        ].join('\\n').split('\\n'),"",
+            ""        'annotations': {"",
+            ""            2: { 'omitted_indices': [0, 2, 0] },"",
+            ""            len(repr(a).split('\\n')) - 1: { 'omitted_indices': [10, 2, 0] }"",
+            ""        }"",
+            ""    })"",
+            ""})"",
+            """",
+            ""cli_test_utils = type('Mock', (object,), {"",
+            ""    'assert_lines_equal_ignoring_whitespace': lambda self, a, b: True"",
+            ""})"",
+            """",
+            ""self = type('Mock', (object,), {"",
+            ""    'assertEqual': lambda self, a, b: True,"",
+            ""    '_checkTensorMetadata': lambda self, a, annotations: True,"",
+            ""    '_findFirst': lambda self, lines, value: (lines.index(value), 0)"",
+            ""})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""tensor_format = type('Mock', (object,), {\n    'format_tensor': lambda a, b, c, np_printoptions={}: type('MockOut', (object,), {\n        'lines': [\n            'Tensor \""a\"":', '', repr(a).split('\\n')[0], repr(a).split('\\n')[1], '...', repr(a).split('\\n')[-2], repr(a).split('\\n')[-1], '...'\n        ],\n        'annotations': {\n            0: {tensor_format.BEGIN_INDICES_KEY: [0, 0, 0]},\n            1: {tensor_format.OMITTED_INDICES_KEY: [0, 2, 0]},\n            5: {tensor_format.OMITTED_INDICES_KEY: [10, 2, 0]},\n        }\n    })(),\n    'BEGIN_INDICES_KEY': 'begin_indices_key',\n    'OMITTED_INDICES_KEY': 'omitted_indices_key'\n})\n"",
+            ""cli_test_utils = type('Mock', (object,), {\n    'assert_lines_equal_ignoring_whitespace': lambda a, b, c: None\n})\n"",
+            ""self = type('Mock', (object,), {\n    'assertEqual': lambda self, x, y: None,\n    '_checkTensorMetadata': lambda self, x, y: None,\n    '_findFirst': lambda self, lines, string: (lines.index(next(filter(lambda line: string in line, lines))), None)\n})()\n""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tensor_format = type('Mock', (object,), {'format_tensor': lambda tensor, name, summarize, np_printoptions: type('MockOut', (object,), {'lines': repr(tensor).split('\\n'), 'annotations': {i: ({} if '...' not in line else {tensor_format.OMITTED_INDICES_KEY: [0, 2, 0]}) for i, line in enumerate(repr(tensor).split('\\n'))}})() }) # pragma: no cover"",
+            ""cli_test_utils = type('Mock', (object,), {'assert_lines_equal_ignoring_whitespace': lambda *args, **kwargs: None}) # pragma: no cover"",
+            ""self = type('Mock', (object,), {'assertEqual': lambda *args, **kwargs: None, '_checkTensorMetadata': lambda *args, **kwargs: None, '_findFirst': lambda self, lines, substring: (next((i for i, line in enumerate(lines) if substring in line), -1), None)})() # pragma: no cover"",
+            ""tensor_format.BEGIN_INDICES_KEY = 'BEGIN_INDICES_KEY' # pragma: no cover"",
+            ""tensor_format.OMITTED_INDICES_KEY = 'OMITTED_INDICES_KEY' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tensor_format = type('Mock', (object,), {'format_tensor': lambda x, y, z, np_printoptions={}: type('Out', (object,), {'lines': ['Tensor \""a\"":', ''] + repr(x).split('\\n'), 'annotations': {}})(), 'BEGIN_INDICES_KEY': 'BEGIN_INDICES', 'OMITTED_INDICES_KEY': 'OMITTED_INDICES'}) # pragma: no cover"",
+            ""cli_test_utils = type('Mock', (object,), {'assert_lines_equal_ignoring_whitespace': lambda self, expected, actual: None}) # pragma: no cover"",
+            ""self = type('Mock', (object,), {'assertEqual': lambda self, x, y: None, '_checkTensorMetadata': lambda self, x, y: None, '_findFirst': lambda self, lines, value: (lines.index(value),)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tensor_format = type('Mock', (object,), {'format_tensor': lambda x, y, z, np_printoptions={}: type('Mock', (object,), {'lines': [f'Tensor \""a\"":', ''] + repr(x).split('\\n'), 'annotations': {1: {tensor_format.BEGIN_INDICES_KEY: [0, 0, 0]}, 4: {tensor_format.BEGIN_INDICES_KEY: [0, 1, 0]}, len(repr(x).split('\\n')) - 1: {tensor_format.OMITTED_INDICES_KEY: [10, 2, 0]}}})()}) # pragma: no cover"",
+            ""cli_test_utils = type('Mock', (object,), {'assert_lines_equal_ignoring_whitespace': lambda *args: None}) # pragma: no cover"",
+            ""self = type('Mock', (object,), {'assertEqual': lambda *args: None, '_checkTensorMetadata': lambda *args: None, '_findFirst': lambda x, y: (1, None)}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""cli_test_utils = type('Mock', (object,), {'assert_lines_equal_ignoring_whitespace': lambda self, line1, line2: line1 == line2}) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'assertEqual': lambda self, val1, val2: val1 == val2, '_checkTensorMetadata': lambda self, tensor, annotations: True, '_findFirst': lambda self, lines, substring: (next((i for i, line in enumerate(lines) if substring in line), -1), 0)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tensor_format = type('Mock', (object,), {'format_tensor': lambda x, y, z, np_printoptions: type('MockFormatTensor', (object,), {'lines': ['Tensor \""a\"":', '', str(repr(a)).split('\\n')[0], '...', str(repr(a)).split('\\n')[-1]], 'annotations': {2: {tensor_format.BEGIN_INDICES_KEY: [0, 0, 0]}, 3: {tensor_format.OMITTED_INDICES_KEY: [0, 2, 0]}, len(repr(a).split('\\n')): {tensor_format.OMITTED_INDICES_KEY: [10, 2, 0]}, -1: {tensor_format.BEGIN_INDICES_KEY: [10, 10, 0]}}})()}) # pragma: no cover"",
+            ""cli_test_utils = type('Mock', (object,), {'assert_lines_equal_ignoring_whitespace': lambda self, x, y: None}) # pragma: no cover"",
+            ""self = type('Mock', (object,), {'assertEqual': lambda self, x, y: None, '_checkTensorMetadata': lambda self, x, y: None, '_findFirst': lambda self, lines, val: (next(i for i, line in enumerate(lines) if val in line), None)})() # pragma: no cover"",
+            ""tensor_format.BEGIN_INDICES_KEY = 'BEGIN_INDICES_KEY' # pragma: no cover"",
+            ""tensor_format.OMITTED_INDICES_KEY = 'OMITTED_INDICES_KEY' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""np = type('Mock', (object,), {'arange': np.arange, 'int32': np.int32}) # pragma: no cover"",
+            ""tensor_format = type('Mock', (object,), {'format_tensor': lambda *args, **kwargs: SimpleNamespace(lines=[f'line {i}' for i in range(300)], annotations={5: {\""BEGIN_INDICES_KEY\"": [0, 0, 0]}, 17: {\""BEGIN_INDICES_KEY\"": [0, 1, 0]}, 123: {\""OMITTED_INDICES_KEY\"": [0, 2, 0]}, 290: {\""BEGIN_INDICES_KEY\"": [10, 10, 0]}, 298: {\""OMITTED_INDICES_KEY\"": [10, 2, 0]}}), 'BEGIN_INDICES_KEY': 'BEGIN_INDICES_KEY', 'OMITTED_INDICES_KEY': 'OMITTED_INDICES_KEY'}) # pragma: no cover"",
+            ""cli_test_utils = type('Mock', (object,), {'assert_lines_equal_ignoring_whitespace': lambda *args, **kwargs: None}) # pragma: no cover"",
+            ""self = type('Mock', (object,), {'assertEqual': lambda self, x, y: None, '_checkTensorMetadata': lambda self, x, y: None, '_findFirst': lambda self, lines, value: (5 if value == '1000' else 17 if value == '1011' else 290 if value == '2320' else -1, None)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""cli_test_utils = type('Mock', (object,), {'assert_lines_equal_ignoring_whitespace': lambda self, a, b: None}) # pragma: no cover"",
+            ""self = type('Mock', (object,), {'assertEqual': lambda self, a, b: None, '_checkTensorMetadata': lambda self, a, b: None, '_findFirst': lambda self, lines, val: (val, None)}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tensor_format = type('Mock', (object,), {'format_tensor': lambda tensor, name, abbrev, np_printoptions: type('MockOut', (object,), {'lines': ['Tensor \\\""a\\\"":', ''] + repr(tensor).split('\\n'), 'annotations': [{tensor_format.BEGIN_INDICES_KEY: [10, 10, 0]} for i in range(100)]})(),'BEGIN_INDICES_KEY': 'begin_indices', 'OMITTED_INDICES_KEY': 'omitted_indices'})() # pragma: no cover"",
+            ""cli_test_utils = type('Mock', (object,), {'assert_lines_equal_ignoring_whitespace': lambda self, expected, actual: None})() # pragma: no cover"",
+            ""self = type('Mock', (object,), {'assertEqual': lambda self, a, b: None, '_checkTensorMetadata': lambda self, tensor, annotations: None, '_findFirst': lambda self, lines, value: (lines.index(value), None)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tensor_format = type('Mock', (object,), { # pragma: no cover"",
+            ""    'BEGIN_INDICES_KEY': 'begin_indices', # pragma: no cover"",
+            ""    'OMITTED_INDICES_KEY': 'omitted_indices', # pragma: no cover"",
+            ""    'format_tensor': lambda a, name, flag, np_printoptions: type('Out', (object,), { # pragma: no cover"",
+            ""        'lines': [ # pragma: no cover"",
+            ""            'Tensor \""{}\"":'.format(name), '', '... omitted ...', repr(a) # pragma: no cover"",
+            ""        ].join('\\n').split('\\n'), # pragma: no cover"",
+            ""        'annotations': { # pragma: no cover"",
+            ""            2: { 'omitted_indices': [0, 2, 0] }, # pragma: no cover"",
+            ""            len(repr(a).split('\\n')) - 1: { 'omitted_indices': [10, 2, 0] } # pragma: no cover"",
+            ""        } # pragma: no cover"",
+            ""    }) # pragma: no cover"",
+            ""}) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""cli_test_utils = type('Mock', (object,), { # pragma: no cover"",
+            ""    'assert_lines_equal_ignoring_whitespace': lambda self, a, b: True # pragma: no cover"",
+            ""}) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = type('Mock', (object,), { # pragma: no cover"",
+            ""    'assertEqual': lambda self, a, b: True, # pragma: no cover"",
+            ""    '_checkTensorMetadata': lambda self, a, annotations: True, # pragma: no cover"",
+            ""    '_findFirst': lambda self, lines, value: (lines.index(value), 0) # pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tensor_format = type('Mock', (object,), {# pragma: no cover"",
+            ""    'format_tensor': lambda a, b, c, np_printoptions={}: type('MockOut', (object,), {# pragma: no cover"",
+            ""        'lines': [# pragma: no cover"",
+            ""            'Tensor \""a\"":', '', repr(a).split('\\n')[0], repr(a).split('\\n')[1], '...', repr(a).split('\\n')[-2], repr(a).split('\\n')[-1], '...'# pragma: no cover"",
+            ""        ],# pragma: no cover"",
+            ""        'annotations': {# pragma: no cover"",
+            ""            0: {tensor_format.BEGIN_INDICES_KEY: [0, 0, 0]},# pragma: no cover"",
+            ""            1: {tensor_format.OMITTED_INDICES_KEY: [0, 2, 0]},# pragma: no cover"",
+            ""            5: {tensor_format.OMITTED_INDICES_KEY: [10, 2, 0]},# pragma: no cover"",
+            ""        }# pragma: no cover"",
+            ""    })(),# pragma: no cover"",
+            ""    'BEGIN_INDICES_KEY': 'begin_indices_key',# pragma: no cover"",
+            ""    'OMITTED_INDICES_KEY': 'omitted_indices_key'# pragma: no cover"",
+            ""})# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""cli_test_utils = type('Mock', (object,), {# pragma: no cover"",
+            ""    'assert_lines_equal_ignoring_whitespace': lambda a, b, c: None# pragma: no cover"",
+            ""})# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = type('Mock', (object,), {# pragma: no cover"",
+            ""    'assertEqual': lambda self, x, y: None,# pragma: no cover"",
+            ""    '_checkTensorMetadata': lambda self, x, y: None,# pragma: no cover"",
+            ""    '_findFirst': lambda self, lines, string: (lines.index(next(filter(lambda line: string in line, lines))), None)# pragma: no cover"",
+            ""})()# pragma: no cover"",
+            "" # pragma: no cover""
+        ]
+    }
+]",1,796,0.000398,3061,0.0045915,0.0049895

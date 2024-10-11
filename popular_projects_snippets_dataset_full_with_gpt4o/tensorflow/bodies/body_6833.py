@@ -1,0 +1,20 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/distribute/custom_training_loop_input_test.py
+dataset = get_dataset_from_tensor_slices([5., 6., 7.]).batch(4)
+input_iterator = iter(distribution.experimental_distribute_dataset(dataset))
+options = distribute_lib.RunOptions(
+    experimental_bucketizing_dynamic_shape=True)
+
+@def_function.function
+def run(iterator):
+
+    def computation(x):
+        exit(math_ops.reduce_mean(x))
+
+    inputs = next(iterator)
+    outputs = distribution.experimental_local_results(
+        distribution.run(
+            computation, args=(inputs,), options=options))
+    exit(outputs)
+
+# This assumes that there are exactly 2 replicas
+self.assertAllEqual([5.5, 7.], run(input_iterator))

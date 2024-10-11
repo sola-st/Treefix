@@ -1,0 +1,339 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+_assert_in_default_state(self)
+dist = _TestStrategy()
+scope_a = dist.scope()
+with scope_a:
+    self.assertIs(dist, ds_context.get_strategy())
+    scope_b = dist.scope()
+    with scope_b:
+        self.assertIs(dist, ds_context.get_strategy())
+        with scope_a:
+            self.assertIs(dist, ds_context.get_strategy())
+        self.assertIs(dist, ds_context.get_strategy())
+    self.assertIs(dist, ds_context.get_strategy())
+    dist2 = _TestStrategy()
+    scope2 = dist2.scope()
+    with self.assertRaisesRegex(
+        RuntimeError, ""Mixing different tf.distribute.Strategy objects""):
+        with scope2:
+            pass
+_assert_in_default_state(self)
+with scope_b:
+    self.assertIs(dist, ds_context.get_strategy())
+_assert_in_default_state(self)
+
+# end code snippet
+
+# begin undefined variables
+_assert_in_default_state
+self
+_TestStrategy
+ds_context
+# end undefined variables
+
+# begin undefined attributes and methods
+self.assertIs
+ds_context.get_strategy
+self.assertRaisesRegex
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import re""
+        ],
+        ""initialization"": [
+            ""def _assert_in_default_state(self):\n    pass"",
+            ""self = type('MockSelf', (object,), {\n    'assertIs': lambda self, a, b: None,\n    'assertRaisesRegex': lambda self, exc_class, regex: type('MockContextManager', (object,), {'__enter__': lambda self: None, '__exit__': lambda self, exc_type, exc_val, exc_tb: None})()\n})()"",
+            ""class _TestStrategy:\n    def scope(self):\n        return type('MockScope', (object,), {'__enter__': lambda self: None, '__exit__': lambda self, exc_type, exc_val, exc_tb: None})()"",
+            ""ds_context = type('MockDsContext', (object,), {'get_strategy': lambda: _TestStrategy()})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import contextlib"",
+            ""from unittest import TestCase, mock""
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = mock.MagicMock()"",
+            ""self = type('Mock', (TestCase,), {'assertIs': mock.MagicMock(), 'assertRaisesRegex': mock.MagicMock()})()"",
+            ""_TestStrategy = type('MockStrategy', (object,), {'scope': contextlib.nullcontext})"",
+            ""ds_context = type('Mock', (object,), {'get_strategy': mock.MagicMock(return_value=_TestStrategy())})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""import unittest"",
+            ""from contextlib import contextmanager""
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = lambda self: None"",
+            ""self = unittest.TestCase()"",
+            ""class _TestStrategy:\n    @contextmanager\n    def scope(self):\n        yield"",
+            ""ds_context = type('Mock', (object,), {'get_strategy': lambda: _TestStrategy()})()"",
+            ""setattr(unittest.TestCase, 'assertIs', unittest.TestCase.assertIs)"",
+            ""setattr(unittest.TestCase, 'assertRaisesRegex', unittest.TestCase.assertRaisesRegex)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest import TestCase, mock"",
+            ""import re""
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = mock.Mock()"",
+            ""self = TestCase()"",
+            ""_TestStrategy = type('MockTestStrategy', (object,), {'scope': mock.MagicMock(return_value=mock.MagicMock().__enter__().__iter__().__next__().__without__())})"",
+            ""ds_context = type('MockDSContext', (object,), {'get_strategy': mock.MagicMock(return_value=_TestStrategy())})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest"",
+            ""import contextlib""
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = lambda self: None"",
+            ""self = type('Mock', (object,), {'assertIs': unittest.TestCase().assertIs, 'assertRaisesRegex': unittest.TestCase().assertRaisesRegex})()"",
+            ""_TestStrategy = type('MockTestStrategy', (object,), {'scope': lambda self: contextlib.nullcontext()})"",
+            ""ds_context = type('Mock', (object,), {'get_strategy': lambda: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class _TestStrategy:\n    def scope(self):\n        return self\n\nclass ds_context:\n    @staticmethod\n    def get_strategy():\n        return _TestStrategy()"",
+            ""import unittest""
+        ],
+        ""initialization"": [
+            ""\""\""\nMock class\n\""\""\""\nclass Mock:\n    @staticmethod\n    def assertIs(a, b):\n        assert a is b\n\n    @staticmethod\n    def assertRaisesRegex(exception, regex):\n        class ContextManager:\n            def __enter__(self):\n                pass\n            def __exit__(self, exc_type, exc_val, exc_tb):\n                if exc_type != exception:\n                    raise AssertionError(\""Exception type doesn't match.\"")\n                if not regex in str(exc_val):\n                    raise AssertionError(\""Exception message doesn't match regex.\"")\n                return True\n\n        return ContextManager()"",
+            ""\""\""\nInitialize variables\n\""\""\""\n_assert_in_default_state = lambda self: None\nself = Mock()\n_TestStrategy = _TestStrategy\nds_context = ds_context""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest""
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = lambda x: None"",
+            ""class TestClass(unittest.TestCase):\n    def assertIs(self, a, b):\n        assert a is b\n\n    def assertRaisesRegex(self, exception, regex):\n        class ContextManager:\n            def __enter__(self):\n                pass\n            def __exit__(self, exc_type, exc_value, traceback):\n                if exc_type is None or not issubclass(exc_type, exception) or not re.search(regex, str(exc_value)):\n                    raise AssertionError('Did not raise the expected exception or match the regex')\n                return True\n        return ContextManager()\n\nself = TestClass()"",
+            ""class _TestStrategy:\n    def scope(self):\n        class ScopeManager:\n            def __enter__(self):\n                pass\n            def __exit__(self, exc_type, exc_value, traceback):\n                pass\n        return ScopeManager()"",
+            ""ds_context = type('Mock', (object,), {'get_strategy': lambda: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re""
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = lambda self: None"",
+            ""class MockStrategyContext:\n    def get_strategy(self):\n        return \""MockStrategy\"""",
+            ""ds_context = MockStrategyContext()"",
+            ""class _TestStrategy:\n    def scope(self):\n        return self\n    def __enter__(self):\n        return self\n    def __exit__(self, exc_type, exc_value, traceback):\n        pass"",
+            ""self = type('MockSelf', (object,), dict(\n    assertIs=lambda self, a, b: None,\n    assertRaisesRegex=lambda self, exc_type, regex: type('MockContext', (object,), dict(\n        __enter__=lambda self: None,\n        __exit__=lambda self, exc_type, exc_value, traceback: None))()\n))()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = lambda self: None"",
+            ""self = type('Self', (object,), {'assertIs': lambda s, a, b: None, 'assertRaisesRegex': lambda s, error, regex: type('Mock', (object,), {'__enter__': lambda x: x, '__exit__': lambda x, exc_type, exc_value, traceback: False})() })()"",
+            ""_TestStrategy = lambda: type('MockStrategy', (object,), {'scope': lambda: type('MockScope', (object,), {'__enter__': lambda x: x, '__exit__': lambda x, exc_type, exc_value, traceback: False})() })()"",
+            ""ds_context = type('DSContext', (object,), {'get_strategy': lambda: _TestStrategy() })()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest"",
+            ""import contextlib""
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = lambda self: None"",
+            ""self = type('Mock', (object,), {'assertIs': unittest.TestCase().assertIs, 'assertRaisesRegex': unittest.TestCase().assertRaisesRegex})()"",
+            ""class _TestStrategy:\n    def scope(self):\n        return contextlib.nullcontext()"",
+            ""ds_context = type('Mock', (object,), {'get_strategy': lambda: _TestStrategy()})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import re # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def _assert_in_default_state(self):# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {# pragma: no cover"",
+            ""    'assertIs': lambda self, a, b: None,# pragma: no cover"",
+            ""    'assertRaisesRegex': lambda self, exc_class, regex: type('MockContextManager', (object,), {'__enter__': lambda self: None, '__exit__': lambda self, exc_type, exc_val, exc_tb: None})()# pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""class _TestStrategy:# pragma: no cover"",
+            ""    def scope(self):# pragma: no cover"",
+            ""        return type('MockScope', (object,), {'__enter__': lambda self: None, '__exit__': lambda self, exc_type, exc_val, exc_tb: None})() # pragma: no cover"",
+            ""ds_context = type('MockDsContext', (object,), {'get_strategy': lambda: _TestStrategy()}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import contextlib # pragma: no cover"",
+            ""from unittest import TestCase, mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = mock.MagicMock() # pragma: no cover"",
+            ""self = type('Mock', (TestCase,), {'assertIs': mock.MagicMock(), 'assertRaisesRegex': mock.MagicMock()})() # pragma: no cover"",
+            ""_TestStrategy = type('MockStrategy', (object,), {'scope': contextlib.nullcontext}) # pragma: no cover"",
+            ""ds_context = type('Mock', (object,), {'get_strategy': mock.MagicMock(return_value=_TestStrategy())})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""import unittest # pragma: no cover"",
+            ""from contextlib import contextmanager # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = lambda self: None # pragma: no cover"",
+            ""self = unittest.TestCase() # pragma: no cover"",
+            ""class _TestStrategy:# pragma: no cover"",
+            ""    @contextmanager# pragma: no cover"",
+            ""    def scope(self):# pragma: no cover"",
+            ""        yield # pragma: no cover"",
+            ""ds_context = type('Mock', (object,), {'get_strategy': lambda: _TestStrategy()})() # pragma: no cover"",
+            ""setattr(unittest.TestCase, 'assertIs', unittest.TestCase.assertIs) # pragma: no cover"",
+            ""setattr(unittest.TestCase, 'assertRaisesRegex', unittest.TestCase.assertRaisesRegex) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest import TestCase, mock # pragma: no cover"",
+            ""import re # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = mock.Mock() # pragma: no cover"",
+            ""self = TestCase() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest # pragma: no cover"",
+            ""import contextlib # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = lambda self: None # pragma: no cover"",
+            ""self = type('Mock', (object,), {'assertIs': unittest.TestCase().assertIs, 'assertRaisesRegex': unittest.TestCase().assertRaisesRegex})() # pragma: no cover"",
+            ""_TestStrategy = type('MockTestStrategy', (object,), {'scope': lambda self: contextlib.nullcontext()}) # pragma: no cover"",
+            ""ds_context = type('Mock', (object,), {'get_strategy': lambda: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class _TestStrategy:# pragma: no cover"",
+            ""    def scope(self):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class ds_context:# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def get_strategy():# pragma: no cover"",
+            ""        return _TestStrategy() # pragma: no cover"",
+            ""import unittest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = lambda self: None# pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = lambda x: None # pragma: no cover"",
+            ""class TestClass(unittest.TestCase):# pragma: no cover"",
+            ""    def assertIs(self, a, b):# pragma: no cover"",
+            ""        assert a is b# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def assertRaisesRegex(self, exception, regex):# pragma: no cover"",
+            ""        class ContextManager:# pragma: no cover"",
+            ""            def __enter__(self):# pragma: no cover"",
+            ""                pass# pragma: no cover"",
+            ""            def __exit__(self, exc_type, exc_value, traceback):# pragma: no cover"",
+            ""                if exc_type is None or not issubclass(exc_type, exception) or not re.search(regex, str(exc_value)):# pragma: no cover"",
+            ""                    raise AssertionError('Did not raise the expected exception or match the regex')# pragma: no cover"",
+            ""                return True# pragma: no cover"",
+            ""        return ContextManager()# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = TestClass() # pragma: no cover"",
+            ""class _TestStrategy:# pragma: no cover"",
+            ""    def scope(self):# pragma: no cover"",
+            ""        class ScopeManager:# pragma: no cover"",
+            ""            def __enter__(self):# pragma: no cover"",
+            ""                pass# pragma: no cover"",
+            ""            def __exit__(self, exc_type, exc_value, traceback):# pragma: no cover"",
+            ""                pass# pragma: no cover"",
+            ""        return ScopeManager() # pragma: no cover"",
+            ""ds_context = type('Mock', (object,), {'get_strategy': lambda: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = lambda self: None # pragma: no cover"",
+            ""class MockStrategyContext:# pragma: no cover"",
+            ""    def get_strategy(self):# pragma: no cover"",
+            ""        return \""MockStrategy\"" # pragma: no cover"",
+            ""ds_context = MockStrategyContext() # pragma: no cover"",
+            ""class _TestStrategy:# pragma: no cover"",
+            ""    def scope(self):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""    def __enter__(self):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""    def __exit__(self, exc_type, exc_value, traceback):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = type('MockSelf', (object,), dict(# pragma: no cover"",
+            ""    assertIs=lambda self, a, b: None,# pragma: no cover"",
+            ""    assertRaisesRegex=lambda self, exc_type, regex: type('MockContext', (object,), dict(# pragma: no cover"",
+            ""        __enter__=lambda self: None,# pragma: no cover"",
+            ""        __exit__=lambda self, exc_type, exc_value, traceback: None))()# pragma: no cover"",
+            ""))() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = lambda self: None # pragma: no cover"",
+            ""self = type('Self', (object,), {'assertIs': lambda s, a, b: None, 'assertRaisesRegex': lambda s, error, regex: type('Mock', (object,), {'__enter__': lambda x: x, '__exit__': lambda x, exc_type, exc_value, traceback: False})() })() # pragma: no cover"",
+            ""_TestStrategy = lambda: type('MockStrategy', (object,), {'scope': lambda: type('MockScope', (object,), {'__enter__': lambda x: x, '__exit__': lambda x, exc_type, exc_value, traceback: False})() })() # pragma: no cover"",
+            ""ds_context = type('DSContext', (object,), {'get_strategy': lambda: _TestStrategy() })() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest # pragma: no cover"",
+            ""import contextlib # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_assert_in_default_state = lambda self: None # pragma: no cover"",
+            ""self = type('Mock', (object,), {'assertIs': unittest.TestCase().assertIs, 'assertRaisesRegex': unittest.TestCase().assertRaisesRegex})() # pragma: no cover"",
+            ""class _TestStrategy:# pragma: no cover"",
+            ""    def scope(self):# pragma: no cover"",
+            ""        return contextlib.nullcontext() # pragma: no cover"",
+            ""ds_context = type('Mock', (object,), {'get_strategy': lambda: _TestStrategy()})() # pragma: no cover""
+        ]
+    }
+]",1,479,0.0002395,1805,0.0027075,0.002947

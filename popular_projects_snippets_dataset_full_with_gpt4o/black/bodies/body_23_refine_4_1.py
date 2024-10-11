@@ -1,0 +1,25 @@
+from typing import Any # pragma: no cover
+
+leaf = 'leaf_value' # pragma: no cover
+MockCurrentLine = type('MockCurrentLine', (object,), {'bracket_tracker': type('MockBracketTracker', (object,), {'any_open_brackets': lambda self: False})()}) # pragma: no cover
+self = type('MockSelf', (object,), {'current_line': MockCurrentLine(), 'line': lambda self: 1, 'visit_default': lambda self, leaf: 2})() # pragma: no cover
+
+leaf = 'example_leaf' # pragma: no cover
+self = type('MockSelf', (object,), {})() # pragma: no cover
+self.current_line = type('MockCurrentLine', (object,), {'bracket_tracker': type('MockBracketTracker', (object,), {'any_open_brackets': lambda: False})()})() # pragma: no cover
+self.line = lambda: 'Exiting due to no open brackets' # pragma: no cover
+self.visit_default = lambda leaf: f'Default visit for {leaf}' # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/black/src/black/linegen.py
+from l3.Runtime import _l_
+if not self.current_line.bracket_tracker.any_open_brackets():
+    _l_(16729)
+
+    aux = self.line()
+    _l_(16728)
+    exit(aux)
+aux = self.visit_default(leaf)
+_l_(16730)
+exit(aux)

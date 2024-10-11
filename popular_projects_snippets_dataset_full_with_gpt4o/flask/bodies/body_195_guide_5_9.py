@@ -1,0 +1,26 @@
+import json # pragma: no cover
+
+class Mock:# pragma: no cover
+    def __init__(self, s, **kwargs):# pragma: no cover
+        try:# pragma: no cover
+            self.data = json.loads(s, **kwargs)# pragma: no cover
+        except json.JSONDecodeError:# pragma: no cover
+            raise NotImplementedError('JSON deserialization not implemented.')# pragma: no cover
+# pragma: no cover
+s = '{"key": "value"}'# pragma: no cover
+kwargs = {}# pragma: no cover
+# pragma: no cover
+mock_instance = Mock(s, **kwargs)# pragma: no cover
+print(mock_instance.data) # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/flask/src/flask/json/provider.py
+from l3.Runtime import _l_
+"""Deserialize data as JSON.
+
+        :param s: Text or UTF-8 bytes.
+        :param kwargs: May be passed to the underlying JSON library.
+        """
+raise NotImplementedError
+_l_(22621)

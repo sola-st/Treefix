@@ -1,0 +1,35 @@
+class NnOpsMock:# pragma: no cover
+    def max_pool_v2(self, x, ksize, strides, padding):# pragma: no cover
+        return tf.nn.max_pool2d(x, ksize=[1] + [ksize] * 2 + [1], strides=[1] + [strides] * 2 + [1], padding=padding)# pragma: no cover
+# pragma: no cover
+    def max_pool1d(self, x, ksize, strides, padding):# pragma: no cover
+        return tf.nn.pool(x, window_shape=[ksize], pooling_type="MAX", strides=[strides], padding=padding)# pragma: no cover
+# pragma: no cover
+nn_ops = NnOpsMock() # pragma: no cover
+class SelfMock:# pragma: no cover
+    def assertAllEqual(self, y1, y2):# pragma: no cover
+        assert (self.evaluate(y1) == self.evaluate(y2)).all()# pragma: no cover
+# pragma: no cover
+    def evaluate(self, value):# pragma: no cover
+        return value# pragma: no cover
+# pragma: no cover
+self = SelfMock() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/nn_test.py
+from l3.Runtime import _l_
+x = array_ops.ones([3, 6, 5])
+_l_(17657)
+ksize = 2
+_l_(17658)
+strides = 2
+_l_(17659)
+
+y1 = nn_ops.max_pool_v2(x, ksize, strides, "SAME")
+_l_(17660)
+y2 = nn_ops.max_pool1d(x, ksize, strides, "SAME")
+_l_(17661)
+
+self.assertAllEqual(self.evaluate(y1), self.evaluate(y2))
+_l_(17662)

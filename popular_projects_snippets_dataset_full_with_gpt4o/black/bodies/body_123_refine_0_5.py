@@ -1,0 +1,51 @@
+from pathlib import Path # pragma: no cover
+from typing import List # pragma: no cover
+from unittest.mock import Mock # pragma: no cover
+
+root = Path('.') # pragma: no cover
+List = list # pragma: no cover
+PathSpec = Mock(from_lines=Mock()) # pragma: no cover
+GitWildMatchPatternError = type('GitWildMatchPatternError', (Exception,), {}) # pragma: no cover
+err = print # pragma: no cover
+
+from pathlib import Path # pragma: no cover
+from typing import List # pragma: no cover
+from unittest.mock import Mock # pragma: no cover
+import sys # pragma: no cover
+
+root = Path('.') # pragma: no cover
+PathSpec = Mock(from_lines=Mock()) # pragma: no cover
+GitWildMatchPatternError = type('GitWildMatchPatternError', (Exception,), {}) # pragma: no cover
+err = print # pragma: no cover
+exit = sys.exit # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/black/src/black/files.py
+from l3.Runtime import _l_
+"""Return a PathSpec matching gitignore content if present."""
+gitignore = root / ".gitignore"
+_l_(15663)
+lines: List[str] = []
+_l_(15664)
+if gitignore.is_file():
+    _l_(15667)
+
+    with gitignore.open(encoding="utf-8") as gf:
+        _l_(15666)
+
+        lines = gf.readlines()
+        _l_(15665)
+try:
+    _l_(15672)
+
+    aux = PathSpec.from_lines("gitwildmatch", lines)
+    _l_(15668)
+    exit(aux)
+except GitWildMatchPatternError as e:
+    _l_(15671)
+
+    err(f"Could not parse {gitignore}: {e}")
+    _l_(15669)
+    raise
+    _l_(15670)

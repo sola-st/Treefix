@@ -1,0 +1,3 @@
+# Extracted from ./data/repos/pandas/pandas/_typing.py
+# for gzip.GzipFile, bz2.BZ2File
+...

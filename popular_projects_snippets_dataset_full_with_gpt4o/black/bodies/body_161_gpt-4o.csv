@@ -1,0 +1,701 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Return True iff `leaf` is part of a slice with non-trivial exprs.""""""
+open_lsqb = self.bracket_tracker.get_open_lsqb()
+if open_lsqb is None:
+    exit(False)
+
+subscript_start = open_lsqb.next_sibling
+
+if isinstance(subscript_start, Node):
+    if subscript_start.type == syms.listmaker:
+        exit(False)
+
+    if subscript_start.type == syms.subscriptlist:
+        subscript_start = child_towards(subscript_start, leaf)
+exit(subscript_start is not None and any(
+    n.type in TEST_DESCENDANTS for n in subscript_start.pre_order()
+))
+
+# end code snippet
+
+# begin undefined variables
+self
+Node
+syms
+child_towards
+leaf
+TEST_DESCENDANTS
+# end undefined variables
+
+# begin undefined attributes and methods
+self.bracket_tracker
+syms.listmaker
+syms.subscriptlist
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})()"",
+            ""TEST_DESCENDANTS = {1, 2, 3}"",
+            ""Node = type('MockNode', (object,), {'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()] })"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2})"",
+            ""child_towards = lambda subscript_start, leaf: Node()"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': Node()})()})"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from dataclasses import dataclass, field""
+        ],
+        ""initialization"": [
+            ""@dataclass\nclass MockBracketTracker:\n    def get_open_lsqb(self):\n        return None"",
+            ""@dataclass\nclass MockSelf:\n    bracket_tracker: MockBracketTracker = field(default_factory=MockBracketTracker)"",
+            ""@dataclass\nclass Node:\n    type: int\n    next_sibling: 'Node' = None\n    def pre_order(self):\n        return []"",
+            ""syms = type('syms', (object,), {'listmaker': 1, 'subscriptlist': 2})"",
+            ""def child_towards(subscript_start, leaf):\n    return subscript_start"",
+            ""leaf = Node(type=0)"",
+            ""TEST_DESCENDANTS = set([1, 2, 3])"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace"",
+            ""from typing import List, Any""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace(bracket_tracker=SimpleNamespace(get_open_lsqb=lambda: SimpleNamespace(next_sibling=SimpleNamespace(type='subscriptlist', pre_order=lambda: [SimpleNamespace(type='test')]))))"",
+            ""Node = type('Node', (), {})"",
+            ""syms = SimpleNamespace(listmaker='listmaker', subscriptlist='subscriptlist')"",
+            ""child_towards = lambda node, leaf: node"",
+            ""leaf = SimpleNamespace()"",
+            ""TEST_DESCENDANTS = {'test_descendant1', 'test_descendant2'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List"",
+            ""from collections import namedtuple""
+        ],
+        ""initialization"": [
+            ""leaf = 'example_leaf'"",
+            ""Node = namedtuple('Node', ['type', 'pre_order', 'next_sibling'])"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 'listmaker_type', 'subscriptlist': 'subscriptlist_type'})"",
+            ""child_towards = lambda node, leaf: Node(type='subscript', pre_order=lambda: [], next_sibling=None)"",
+            ""TEST_DESCENDANTS = {'test_type_1', 'test_type_2'}"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: Node(type='list', pre_order=lambda: [], next_sibling=None)})})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, Iterator"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'bracket_tracker': type('Mock', (object,), {'get_open_lsqb': lambda: SimpleNamespace(next_sibling=None)})()})()"",
+            ""Node = type('Node', (object,), {'type': None, 'pre_order': lambda self: iter([])})"",
+            ""syms = SimpleNamespace(listmaker=1, subscriptlist=2)"",
+            ""child_towards = lambda start, leaf: SimpleNamespace()"",
+            ""leaf = SimpleNamespace()"",
+            ""TEST_DESCENDANTS = {1, 2, 3}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace"",
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace(bracket_tracker=SimpleNamespace(get_open_lsqb=lambda: SimpleNamespace(next_sibling=subscript_start)),)"",
+            ""Node = type('Node', (object,), {'__init__': lambda self, type, pre_order_fn: setattr(self, 'type', type) or setattr(self, 'pre_order', pre_order_fn)})"",
+            ""syms = SimpleNamespace(listmaker=1, subscriptlist=2)"",
+            ""child_towards = lambda node, leaf: node"",
+            ""leaf = object()"",
+            ""TEST_DESCENDANTS = {3, 4, 5}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import namedtuple"",
+            ""import types""
+        ],
+        ""initialization"": [
+            ""leaf = namedtuple('Leaf', '')()"",
+            ""Node = namedtuple('Node', ['type', 'next_sibling', 'pre_order', 'children'])"",
+            ""syms = types.SimpleNamespace(listmaker='listmaker', subscriptlist='subscriptlist')"",
+            ""def child_towards(subscript_start, leaf): return Node(type='subtype', next_sibling=None, pre_order=lambda: [Node(type='test', next_sibling=None, pre_order=lambda: [])], children=[])"",
+            ""TEST_DESCENDANTS = {'test'}"",
+            ""BracketTracker = namedtuple('BracketTracker', ['get_open_lsqb'])"",
+            ""self = type('Mock', (object,), {'bracket_tracker': BracketTracker(get_open_lsqb=lambda: Node(type='subscriptlist', next_sibling=Node(type='test', next_sibling=None, pre_order=lambda: [])))})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import types"",
+            ""import itertools""
+        ],
+        ""initialization"": [
+            ""leaf = type('Leaf', (object,), {})()"",
+            ""TEST_DESCENDANTS = {1, 2, 3}"",
+            ""Node = type('Node', (object,), {'__init__': lambda self: setattr(self, 'type', None), 'pre_order': lambda self: iter([])})"",
+            ""syms = types.SimpleNamespace(listmaker=1, subscriptlist=2)"",
+            ""child_towards = lambda node, leaf: node"",
+            ""self = type('Mock', (object,), {'bracket_tracker': type('BracketTracker', (object,), {'get_open_lsqb': lambda self: type('OpenLsqb', (object,), {'next_sibling': Node()})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace"",
+            ""from collections import namedtuple""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace(bracket_tracker=SimpleNamespace(get_open_lsqb=lambda: namedtuple('OpenLsqb', ['next_sibling'])(next_sibling=namedtuple('NextSibling', ['type', 'pre_order'])(type='subscriptlist', pre_order=lambda: []))))"",
+            ""Node = type('Node', (object,), {})"",
+            ""syms = SimpleNamespace(listmaker='listmaker', subscriptlist='subscriptlist')"",
+            ""child_towards = lambda node, leaf: namedtuple('SubscriptStart', ['type', 'pre_order'])(type='subscriptlist', pre_order=lambda: [namedtuple('NodeType', ['type'])('test_type')])"",
+            ""leaf = namedtuple('Leaf', [])()"",
+            ""TEST_DESCENDANTS = {'test_type'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from typing import Any""
+        ],
+        ""initialization"": [
+            ""class MockBracketTracker:"",
+            ""    def get_open_lsqb(self):"",
+            ""        # A mock method to return an object with a 'next_sibling' attribute"",
+            ""        class MockNode:"",
+            ""            next_sibling = self"",
+            ""        return MockNode()"",
+            """",
+            ""class Mock:"",
+            ""    bracket_tracker = MockBracketTracker()"",
+            """",
+            ""self = type('Mock', (object,), {'bracket_tracker': MockBracketTracker()})()"",
+            """",
+            ""class Node:"",
+            ""    def __init__(self, node_type: Any):"",
+            ""        self.type = node_type"",
+            ""    def pre_order(self) -> List:"",
+            ""        return [self]"",
+            """",
+            ""class symsPlaceholder:"",
+            ""    listmaker = 1"",
+            ""    subscriptlist = 2"",
+            """",
+            ""syms = symsPlaceholder()"",
+            """",
+            ""def child_towards(node: Node, leaf: Node) -> Node:"",
+            ""    # Mock function to return a Node instance"",
+            ""    return node"",
+            """",
+            ""leaf = Node(3)"",
+            """",
+            ""TEST_DESCENDANTS = set([1, 2, 3])""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})() # pragma: no cover"",
+            ""TEST_DESCENDANTS = {1, 2, 3} # pragma: no cover"",
+            ""Node = type('MockNode', (object,), {'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()] }) # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2}) # pragma: no cover"",
+            ""child_towards = lambda subscript_start, leaf: Node() # pragma: no cover"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': Node()})()}) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from dataclasses import dataclass, field # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""@dataclass# pragma: no cover"",
+            ""class MockBracketTracker:# pragma: no cover"",
+            ""    def get_open_lsqb(self):# pragma: no cover"",
+            ""        return None # pragma: no cover"",
+            ""@dataclass# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    bracket_tracker: MockBracketTracker = field(default_factory=MockBracketTracker) # pragma: no cover"",
+            ""@dataclass# pragma: no cover"",
+            ""class Node:# pragma: no cover"",
+            ""    type: int# pragma: no cover"",
+            ""    next_sibling: 'Node' = None# pragma: no cover"",
+            ""    def pre_order(self):# pragma: no cover"",
+            ""        return [] # pragma: no cover"",
+            ""syms = type('syms', (object,), {'listmaker': 1, 'subscriptlist': 2}) # pragma: no cover"",
+            ""def child_towards(subscript_start, leaf):# pragma: no cover"",
+            ""    return subscript_start # pragma: no cover"",
+            ""leaf = Node(type=0) # pragma: no cover"",
+            ""TEST_DESCENDANTS = set([1, 2, 3]) # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover"",
+            ""from typing import List, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace(bracket_tracker=SimpleNamespace(get_open_lsqb=lambda: SimpleNamespace(next_sibling=SimpleNamespace(type='subscriptlist', pre_order=lambda: [SimpleNamespace(type='test')])))) # pragma: no cover"",
+            ""Node = type('Node', (), {}) # pragma: no cover"",
+            ""syms = SimpleNamespace(listmaker='listmaker', subscriptlist='subscriptlist') # pragma: no cover"",
+            ""child_towards = lambda node, leaf: node # pragma: no cover"",
+            ""leaf = SimpleNamespace() # pragma: no cover"",
+            ""TEST_DESCENDANTS = {'test_descendant1', 'test_descendant2'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover"",
+            ""from collections import namedtuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = 'example_leaf' # pragma: no cover"",
+            ""Node = namedtuple('Node', ['type', 'pre_order', 'next_sibling']) # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 'listmaker_type', 'subscriptlist': 'subscriptlist_type'}) # pragma: no cover"",
+            ""child_towards = lambda node, leaf: Node(type='subscript', pre_order=lambda: [], next_sibling=None) # pragma: no cover"",
+            ""TEST_DESCENDANTS = {'test_type_1', 'test_type_2'} # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: Node(type='list', pre_order=lambda: [], next_sibling=None)})})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, Iterator # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'bracket_tracker': type('Mock', (object,), {'get_open_lsqb': lambda: SimpleNamespace(next_sibling=None)})()})() # pragma: no cover"",
+            ""Node = type('Node', (object,), {'type': None, 'pre_order': lambda self: iter([])}) # pragma: no cover"",
+            ""syms = SimpleNamespace(listmaker=1, subscriptlist=2) # pragma: no cover"",
+            ""child_towards = lambda start, leaf: SimpleNamespace() # pragma: no cover"",
+            ""leaf = SimpleNamespace() # pragma: no cover"",
+            ""TEST_DESCENDANTS = {1, 2, 3} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover"",
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace(bracket_tracker=SimpleNamespace(get_open_lsqb=lambda: SimpleNamespace(next_sibling=subscript_start)),) # pragma: no cover"",
+            ""Node = type('Node', (object,), {'__init__': lambda self, type, pre_order_fn: setattr(self, 'type', type) or setattr(self, 'pre_order', pre_order_fn)}) # pragma: no cover"",
+            ""syms = SimpleNamespace(listmaker=1, subscriptlist=2) # pragma: no cover"",
+            ""child_towards = lambda node, leaf: node # pragma: no cover"",
+            ""leaf = object() # pragma: no cover"",
+            ""TEST_DESCENDANTS = {3, 4, 5} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import namedtuple # pragma: no cover"",
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = namedtuple('Leaf', '')() # pragma: no cover"",
+            ""Node = namedtuple('Node', ['type', 'next_sibling', 'pre_order', 'children']) # pragma: no cover"",
+            ""syms = types.SimpleNamespace(listmaker='listmaker', subscriptlist='subscriptlist') # pragma: no cover"",
+            ""def child_towards(subscript_start, leaf): return Node(type='subtype', next_sibling=None, pre_order=lambda: [Node(type='test', next_sibling=None, pre_order=lambda: [])], children=[]) # pragma: no cover"",
+            ""TEST_DESCENDANTS = {'test'} # pragma: no cover"",
+            ""BracketTracker = namedtuple('BracketTracker', ['get_open_lsqb']) # pragma: no cover"",
+            ""self = type('Mock', (object,), {'bracket_tracker': BracketTracker(get_open_lsqb=lambda: Node(type='subscriptlist', next_sibling=Node(type='test', next_sibling=None, pre_order=lambda: [])))})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import types # pragma: no cover"",
+            ""import itertools # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Leaf', (object,), {})() # pragma: no cover"",
+            ""TEST_DESCENDANTS = {1, 2, 3} # pragma: no cover"",
+            ""Node = type('Node', (object,), {'__init__': lambda self: setattr(self, 'type', None), 'pre_order': lambda self: iter([])}) # pragma: no cover"",
+            ""syms = types.SimpleNamespace(listmaker=1, subscriptlist=2) # pragma: no cover"",
+            ""child_towards = lambda node, leaf: node # pragma: no cover"",
+            ""self = type('Mock', (object,), {'bracket_tracker': type('BracketTracker', (object,), {'get_open_lsqb': lambda self: type('OpenLsqb', (object,), {'next_sibling': Node()})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover"",
+            ""from collections import namedtuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace(bracket_tracker=SimpleNamespace(get_open_lsqb=lambda: namedtuple('OpenLsqb', ['next_sibling'])(next_sibling=namedtuple('NextSibling', ['type', 'pre_order'])(type='subscriptlist', pre_order=lambda: [])))) # pragma: no cover"",
+            ""Node = type('Node', (object,), {}) # pragma: no cover"",
+            ""syms = SimpleNamespace(listmaker='listmaker', subscriptlist='subscriptlist') # pragma: no cover"",
+            ""child_towards = lambda node, leaf: namedtuple('SubscriptStart', ['type', 'pre_order'])(type='subscriptlist', pre_order=lambda: [namedtuple('NodeType', ['type'])('test_type')]) # pragma: no cover"",
+            ""leaf = namedtuple('Leaf', [])() # pragma: no cover"",
+            ""TEST_DESCENDANTS = {'test_type'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from typing import Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockBracketTracker: # pragma: no cover"",
+            ""    def get_open_lsqb(self): # pragma: no cover"",
+            ""        # A mock method to return an object with a 'next_sibling' attribute # pragma: no cover"",
+            ""        class MockNode: # pragma: no cover"",
+            ""            next_sibling = self # pragma: no cover"",
+            ""        return MockNode() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class Mock: # pragma: no cover"",
+            ""    bracket_tracker = MockBracketTracker() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = type('Mock', (object,), {'bracket_tracker': MockBracketTracker()})() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class Node: # pragma: no cover"",
+            ""    def __init__(self, node_type: Any): # pragma: no cover"",
+            ""        self.type = node_type # pragma: no cover"",
+            ""    def pre_order(self) -> List: # pragma: no cover"",
+            ""        return [self] # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class symsPlaceholder: # pragma: no cover"",
+            ""    listmaker = 1 # pragma: no cover"",
+            ""    subscriptlist = 2 # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""syms = symsPlaceholder() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def child_towards(node: Node, leaf: Node) -> Node: # pragma: no cover"",
+            ""    # Mock function to return a Node instance # pragma: no cover"",
+            ""    return node # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""leaf = Node(3) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""TEST_DESCENDANTS = set([1, 2, 3]) # pragma: no cover""
+        ]
+    }
+]",1,458,0.000229,2069,0.0031035,0.0033325
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 20:
+    if subscript_start.type == syms.listmaker:
+AttributeError: 'MockNode' object has no attribute 'type'
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})()"",
+            ""TEST_DESCENDANTS = {1, 2, 3}"",
+            ""Node = type('MockNode', (object,), {'__init__': lambda self, type_val: setattr(self, 'type', type_val), 'pre_order': lambda self: [Node(1)]})"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2})"",
+            ""child_towards = lambda subscript_start, leaf: Node(1)"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': Node(1)})()})"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})()"",
+            ""TEST_DESCENDANTS = {1, 2, 3}"",
+            ""Node = type('MockNode', (object,), {'type': None, 'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()] })"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2})"",
+            ""child_towards = lambda subscript_start, leaf: type('MockNode', (object,), {'type': 1, 'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()]})()"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': type('MockNode', (object,), {'type': 2})()})()})"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})()"",
+            ""TEST_DESCENDANTS = {1, 2, 3}"",
+            ""Node = type('MockNode', (object,), {'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()], 'type': None})"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2})"",
+            ""child_towards = lambda subscript_start, leaf: Node()"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': type('MockNode', (object,), {'type': 0})()})()})"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})()"",
+            ""TEST_DESCENDANTS = {1, 2, 3}"",
+            ""NodeChild = type('MockNodeChild', (object,), {'type': 1})"",
+            ""Node = type('MockNode', (object,), {'type': 2, 'pre_order': lambda self: [NodeChild()] })"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2})"",
+            ""child_towards = lambda subscript_start, leaf: Node()"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': Node()})()})"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})()"",
+            ""TEST_DESCENDANTS = {1, 2, 3}"",
+            ""Node = type('MockNode', (object,), {'type': 3, 'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()] })"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2})"",
+            ""child_towards = lambda subscript_start, leaf: Node()"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': Node()})()})"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})()"",
+            ""TEST_DESCENDANTS = {1, 2, 3}"",
+            ""Node = type('MockNode', (object,), {'__init__': lambda self: setattr(self, 'type', 0), 'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()]} )"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2})"",
+            ""child_towards = lambda subscript_start, leaf: Node()"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': Node()})()})"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})()"",
+            ""subscript_start = Node()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})()"",
+            ""TEST_DESCENDANTS = {1, 2, 3}"",
+            ""Node = type('MockNode', (object,), {'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()], 'type': 0})"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2})"",
+            ""child_towards = lambda subscript_start, leaf: Node()"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': Node()})()})"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})()"",
+            ""TEST_DESCENDANTS = {1, 2, 3}"",
+            ""Node = type('MockNode', (object,), {'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()], 'type': 2})"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2})"",
+            ""child_towards = lambda subscript_start, leaf: Node()"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': Node()})()})"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})()"",
+            ""TEST_DESCENDANTS = {1, 2, 3}"",
+            ""Node = type('MockNode', (object,), {'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()], 'type': None})"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2})"",
+            ""child_towards = lambda subscript_start, leaf: Node()"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': Node()})()})"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})()"",
+            ""TEST_DESCENDANTS = {1, 2, 3}"",
+            ""Node = type('MockNode', (object,), {'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()], 'type': None})"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2})"",
+            ""child_towards = lambda subscript_start, leaf: Node()"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': type('MockSubscriptStart', (Node,), {'type': syms.listmaker})()})()})"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})() # pragma: no cover"",
+            ""TEST_DESCENDANTS = {1, 2, 3} # pragma: no cover"",
+            ""Node = type('MockNode', (object,), {'__init__': lambda self, type_val: setattr(self, 'type', type_val), 'pre_order': lambda self: [Node(1)]}) # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2}) # pragma: no cover"",
+            ""child_towards = lambda subscript_start, leaf: Node(1) # pragma: no cover"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': Node(1)})()}) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})() # pragma: no cover"",
+            ""TEST_DESCENDANTS = {1, 2, 3} # pragma: no cover"",
+            ""Node = type('MockNode', (object,), {'type': None, 'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()] }) # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2}) # pragma: no cover"",
+            ""child_towards = lambda subscript_start, leaf: type('MockNode', (object,), {'type': 1, 'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()]})() # pragma: no cover"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': type('MockNode', (object,), {'type': 2})()})()}) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})() # pragma: no cover"",
+            ""TEST_DESCENDANTS = {1, 2, 3} # pragma: no cover"",
+            ""Node = type('MockNode', (object,), {'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()], 'type': None}) # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2}) # pragma: no cover"",
+            ""child_towards = lambda subscript_start, leaf: Node() # pragma: no cover"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': type('MockNode', (object,), {'type': 0})()})()}) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})() # pragma: no cover"",
+            ""TEST_DESCENDANTS = {1, 2, 3} # pragma: no cover"",
+            ""NodeChild = type('MockNodeChild', (object,), {'type': 1}) # pragma: no cover"",
+            ""Node = type('MockNode', (object,), {'type': 2, 'pre_order': lambda self: [NodeChild()] }) # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2}) # pragma: no cover"",
+            ""child_towards = lambda subscript_start, leaf: Node() # pragma: no cover"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': Node()})()}) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})() # pragma: no cover"",
+            ""TEST_DESCENDANTS = {1, 2, 3} # pragma: no cover"",
+            ""Node = type('MockNode', (object,), {'type': 3, 'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()] }) # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2}) # pragma: no cover"",
+            ""child_towards = lambda subscript_start, leaf: Node() # pragma: no cover"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': Node()})()}) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})() # pragma: no cover"",
+            ""TEST_DESCENDANTS = {1, 2, 3} # pragma: no cover"",
+            ""Node = type('MockNode', (object,), {'__init__': lambda self: setattr(self, 'type', 0), 'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()]} ) # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2}) # pragma: no cover"",
+            ""child_towards = lambda subscript_start, leaf: Node() # pragma: no cover"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': Node()})()}) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})() # pragma: no cover"",
+            ""subscript_start = Node() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})() # pragma: no cover"",
+            ""TEST_DESCENDANTS = {1, 2, 3} # pragma: no cover"",
+            ""Node = type('MockNode', (object,), {'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()], 'type': 0}) # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2}) # pragma: no cover"",
+            ""child_towards = lambda subscript_start, leaf: Node() # pragma: no cover"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': Node()})()}) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})() # pragma: no cover"",
+            ""TEST_DESCENDANTS = {1, 2, 3} # pragma: no cover"",
+            ""Node = type('MockNode', (object,), {'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()], 'type': 2}) # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2}) # pragma: no cover"",
+            ""child_towards = lambda subscript_start, leaf: Node() # pragma: no cover"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': Node()})()}) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})() # pragma: no cover"",
+            ""TEST_DESCENDANTS = {1, 2, 3} # pragma: no cover"",
+            ""Node = type('MockNode', (object,), {'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()], 'type': None}) # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2}) # pragma: no cover"",
+            ""child_towards = lambda subscript_start, leaf: Node() # pragma: no cover"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': Node()})()}) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {})() # pragma: no cover"",
+            ""TEST_DESCENDANTS = {1, 2, 3} # pragma: no cover"",
+            ""Node = type('MockNode', (object,), {'pre_order': lambda self: [type('MockNodeChild', (object,), {'type': 1})()], 'type': None}) # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'listmaker': 1, 'subscriptlist': 2}) # pragma: no cover"",
+            ""child_towards = lambda subscript_start, leaf: Node() # pragma: no cover"",
+            ""bracket_tracker = type('MockBracketTracker', (object,), {'get_open_lsqb': lambda: type('MockLSQB', (object,), {'next_sibling': type('MockSubscriptStart', (Node,), {'type': syms.listmaker})()})()}) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'bracket_tracker': bracket_tracker})() # pragma: no cover""
+        ]
+    }
+]",2,972,0.000486,2316,0.003474,0.00396

@@ -1,0 +1,25 @@
+import pyarrow as pa # pragma: no cover
+import pytest # pragma: no cover
+
+data_for_grouping = type('Mock', (object,), {'dtype': type('Mock', (object,), {'pyarrow_dtype': pa.bool_()})()})() # pragma: no cover
+pa = type('Mock', (object,), {'types': type('Mock', (object,), {'is_boolean': pa.types.is_boolean})()})() # pragma: no cover
+request = type('Mock', (object,), {'node': type('Mock', (object,), {'add_marker': lambda marker: None})()})() # pragma: no cover
+pytest = type('Mock', (object,), {'mark': type('Mock', (object,), {'xfail': lambda reason: None})()})() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/pandas/pandas/tests/extension/test_arrow.py
+from l3.Runtime import _l_
+pa_dtype = data_for_grouping.dtype.pyarrow_dtype
+_l_(21048)
+if pa.types.is_boolean(pa_dtype):
+    _l_(21050)
+
+    request.node.add_marker(
+        pytest.mark.xfail(
+            reason=f"{pa_dtype} only has 2 unique possible values",
+        )
+    )
+    _l_(21049)
+super().test_factorize(data_for_grouping)
+_l_(21051)

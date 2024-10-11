@@ -1,0 +1,302 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+a = datetime_frame
+noise = Series(np.random.randn(len(a)), index=a.index)
+
+b = datetime_frame.add(noise, axis=0)
+
+# make sure order does not matter
+b = b.reindex(columns=b.columns[::-1], index=b.index[::-1][10:])
+del b[""B""]
+
+colcorr = a.corrwith(b, axis=0)
+tm.assert_almost_equal(colcorr[""A""], a[""A""].corr(b[""A""]))
+
+rowcorr = a.corrwith(b, axis=1)
+tm.assert_series_equal(rowcorr, a.T.corrwith(b.T, axis=0))
+
+dropped = a.corrwith(b, axis=0, drop=True)
+tm.assert_almost_equal(dropped[""A""], a[""A""].corr(b[""A""]))
+assert ""B"" not in dropped
+
+dropped = a.corrwith(b, axis=1, drop=True)
+assert a.index[-1] not in dropped.index
+
+# non time-series data
+index = [""a"", ""b"", ""c"", ""d"", ""e""]
+columns = [""one"", ""two"", ""three"", ""four""]
+df1 = DataFrame(np.random.randn(5, 4), index=index, columns=columns)
+df2 = DataFrame(np.random.randn(4, 4), index=index[:4], columns=columns)
+correls = df1.corrwith(df2, axis=1)
+for row in index[:4]:
+    tm.assert_almost_equal(correls[row], df1.loc[row].corr(df2.loc[row]))
+
+# end code snippet
+
+# begin undefined variables
+datetime_frame
+Series
+np
+tm
+DataFrame
+# end undefined variables
+
+# begin undefined attributes and methods
+np.random
+datetime_frame.add
+tm.assert_almost_equal
+tm.assert_series_equal
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""datetime_frame = pd.DataFrame(np.random.randn(20, 3), index=pd.date_range('1/1/2000', periods=20), columns=['A', 'B', 'C'])"",
+            ""Series = pd.Series"",
+            ""tm = type('Mock', (object,), {'assert_almost_equal': lambda x, y: None, 'assert_series_equal': lambda x, y: None})"",
+            ""DataFrame = pd.DataFrame""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""datetime_frame = pd.DataFrame(np.random.randn(20, 3), index=pd.date_range('20230101', periods=20), columns=['A', 'B', 'C'])"",
+            ""Series = pd.Series"",
+            ""tm = type('Mock', (object,), {'assert_almost_equal': lambda x, y: None, 'assert_series_equal': lambda x, y: None})"",
+            ""DataFrame = pd.DataFrame""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd"",
+            ""import pandas.testing as tm""
+        ],
+        ""initialization"": [
+            ""datetime_frame = pd.DataFrame(np.random.randn(20, 4), columns=['A', 'B', 'C', 'D'])"",
+            ""Series = pd.Series"",
+            ""DataFrame = pd.DataFrame""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd"",
+            ""import pandas._testing as tm""
+        ],
+        ""initialization"": [
+            ""datetime_frame = pd.DataFrame(np.random.randn(100, 3), columns=list('ABC'), index=pd.date_range('20210101', periods=100))"",
+            ""Series = pd.Series"",
+            ""DataFrame = pd.DataFrame""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd"",
+            ""from pandas import DataFrame, Series"",
+            ""import pandas._testing as tm""
+        ],
+        ""initialization"": [
+            ""datetime_frame = DataFrame(np.random.randn(100, 4), index=pd.date_range('20210101', periods=100), columns=['A', 'B', 'C', 'D'])"",
+            ""tm = type('Mock', (object,), {'assert_almost_equal': lambda x, y: None, 'assert_series_equal': lambda x, y: None})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd"",
+            ""from pandas import Series, DataFrame""
+        ],
+        ""initialization"": [
+            ""datetime_frame = pd.DataFrame({'A': np.random.randn(20), 'B': np.random.randn(20)})"",
+            ""np.random = type('Mock', (object,), {'randn': lambda size: np.random.randn(size)})"",
+            ""tm = type('Mock', (object,), {'assert_almost_equal': lambda a, b: None, 'assert_series_equal': lambda a, b: None})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd"",
+            ""from pandas import DataFrame, Series""
+        ],
+        ""initialization"": [
+            ""datetime_frame = pd.DataFrame(np.random.randn(100, 4), index=pd.date_range('20230101', periods=100), columns=['A', 'B', 'C', 'D'])"",
+            ""tm = type('Mock', (object,), {'assert_almost_equal': staticmethod(lambda x, y: None), 'assert_series_equal': staticmethod(lambda x, y: None)})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd"",
+            ""from pandas import DataFrame, Series"",
+            ""import pandas._testing as tm""
+        ],
+        ""initialization"": [
+            ""datetime_frame = DataFrame(np.random.randn(20, 3), index=pd.date_range('2023-01-01', periods=20), columns=['A', 'B', 'C'])"",
+            ""np = np"",
+            ""tm = type('Mock', (object,), {'assert_almost_equal': lambda x, y: None, 'assert_series_equal': lambda x, y: None})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd"",
+            ""from pandas import DataFrame, Series"",
+            ""from pandas.testing import assert_almost_equal, assert_series_equal""
+        ],
+        ""initialization"": [
+            ""datetime_frame = DataFrame(np.random.randn(20, 3), columns=['A', 'B', 'C'], index=pd.date_range('20230101', periods=20))"",
+            ""tm = type('Mock', (object,), {'assert_almost_equal': assert_almost_equal, 'assert_series_equal': assert_series_equal})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""from pandas import DataFrame, Series""
+        ],
+        ""initialization"": [
+            ""datetime_frame = pd.DataFrame(np.random.randn(20, 3), columns=['A', 'B', 'C'], index=pd.date_range('20210101', periods=20))"",
+            ""Series = pd.Series"",
+            ""tm = type('Mock', (object,), {'assert_almost_equal': lambda x, y: None, 'assert_series_equal': lambda x, y: None})""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""datetime_frame = pd.DataFrame(np.random.randn(20, 3), index=pd.date_range('1/1/2000', periods=20), columns=['A', 'B', 'C']) # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'assert_almost_equal': lambda x, y: None, 'assert_series_equal': lambda x, y: None}) # pragma: no cover"",
+            ""DataFrame = pd.DataFrame # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""datetime_frame = pd.DataFrame(np.random.randn(20, 3), index=pd.date_range('20230101', periods=20), columns=['A', 'B', 'C']) # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'assert_almost_equal': lambda x, y: None, 'assert_series_equal': lambda x, y: None}) # pragma: no cover"",
+            ""DataFrame = pd.DataFrame # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover"",
+            ""import pandas.testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""datetime_frame = pd.DataFrame(np.random.randn(20, 4), columns=['A', 'B', 'C', 'D']) # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""DataFrame = pd.DataFrame # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover"",
+            ""import pandas._testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""datetime_frame = pd.DataFrame(np.random.randn(100, 3), columns=list('ABC'), index=pd.date_range('20210101', periods=100)) # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""DataFrame = pd.DataFrame # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover"",
+            ""from pandas import DataFrame, Series # pragma: no cover"",
+            ""import pandas._testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""datetime_frame = DataFrame(np.random.randn(100, 4), index=pd.date_range('20210101', periods=100), columns=['A', 'B', 'C', 'D']) # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'assert_almost_equal': lambda x, y: None, 'assert_series_equal': lambda x, y: None}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover"",
+            ""from pandas import Series, DataFrame # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""datetime_frame = pd.DataFrame({'A': np.random.randn(20), 'B': np.random.randn(20)}) # pragma: no cover"",
+            ""np.random = type('Mock', (object,), {'randn': lambda size: np.random.randn(size)}) # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'assert_almost_equal': lambda a, b: None, 'assert_series_equal': lambda a, b: None}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover"",
+            ""from pandas import DataFrame, Series # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""datetime_frame = pd.DataFrame(np.random.randn(100, 4), index=pd.date_range('20230101', periods=100), columns=['A', 'B', 'C', 'D']) # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'assert_almost_equal': staticmethod(lambda x, y: None), 'assert_series_equal': staticmethod(lambda x, y: None)}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover"",
+            ""from pandas import DataFrame, Series # pragma: no cover"",
+            ""import pandas._testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""datetime_frame = DataFrame(np.random.randn(20, 3), index=pd.date_range('2023-01-01', periods=20), columns=['A', 'B', 'C']) # pragma: no cover"",
+            ""np = np # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'assert_almost_equal': lambda x, y: None, 'assert_series_equal': lambda x, y: None}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover"",
+            ""from pandas import DataFrame, Series # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""datetime_frame = DataFrame(np.random.randn(20, 3), columns=['A', 'B', 'C'], index=pd.date_range('20230101', periods=20)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import DataFrame, Series # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""datetime_frame = pd.DataFrame(np.random.randn(20, 3), columns=['A', 'B', 'C'], index=pd.date_range('20210101', periods=20)) # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'assert_almost_equal': lambda x, y: None, 'assert_series_equal': lambda x, y: None}) # pragma: no cover""
+        ]
+    }
+]",1,637,0.0003185,1261,0.0018915,0.00221

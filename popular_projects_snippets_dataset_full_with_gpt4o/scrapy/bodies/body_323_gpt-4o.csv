@@ -1,0 +1,457 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Store the given response in the cache.""""""
+rpath = Path(self._get_request_path(spider, request))
+if not rpath.exists():
+    rpath.mkdir(parents=True)
+metadata = {
+    'url': request.url,
+    'method': request.method,
+    'status': response.status,
+    'response_url': response.url,
+    'timestamp': time(),
+}
+with self._open(rpath / 'meta', 'wb') as f:
+    f.write(to_bytes(repr(metadata)))
+with self._open(rpath / 'pickled_meta', 'wb') as f:
+    pickle.dump(metadata, f, protocol=4)
+with self._open(rpath / 'response_headers', 'wb') as f:
+    f.write(headers_dict_to_raw(response.headers))
+with self._open(rpath / 'response_body', 'wb') as f:
+    f.write(response.body)
+with self._open(rpath / 'request_headers', 'wb') as f:
+    f.write(headers_dict_to_raw(request.headers))
+with self._open(rpath / 'request_body', 'wb') as f:
+    f.write(request.body)
+
+# end code snippet
+
+# begin undefined variables
+Path
+self
+spider
+request
+response
+time
+to_bytes
+pickle
+headers_dict_to_raw
+# end undefined variables
+
+# begin undefined attributes and methods
+self._get_request_path
+request.url
+request.method
+response.status
+response.url
+self._open
+pickle.dump
+response.headers
+response.body
+request.headers
+request.body
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""import pickle"",
+            ""import time""
+        ],
+        ""initialization"": [
+            ""Path = Path"",
+            ""to_bytes = lambda x: x.encode()"",
+            ""headers_dict_to_raw = lambda headers: b'\\n'.join(key.encode() + b': ' + value.encode() for key, value in headers.items())"",
+            ""self = type('Mock', (object,), {'_get_request_path': lambda s, spider, request: Path('mock_path'), '_open': open})()"",
+            ""spider = type('MockSpider', (object,), {})()"",
+            ""request = type('MockRequest', (object,), {'url': 'http://example.com', 'method': 'GET', 'headers': { 'User-Agent': 'MockAgent' }, 'body': b'mock request body'})()"",
+            ""response = type('MockResponse', (object,), {'status': 200, 'url': 'http://example.com', 'headers': { 'Content-Type': 'text/html' }, 'body': b'mock response body'})()"",
+            ""time = time.time""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""import pickle"",
+            ""import time as time_module""
+        ],
+        ""initialization"": [
+            ""class Mock(object): pass"",
+            ""self = Mock()"",
+            ""self._get_request_path = lambda spider, request: 'mocked/path'"",
+            ""spider = Mock()"",
+            ""request = Mock()"",
+            ""request.url = 'http://example.com'"",
+            ""request.method = 'GET'"",
+            ""response = Mock()"",
+            ""response.status = 200"",
+            ""response.url = 'http://example.com/response'"",
+            ""self._open = lambda path, mode: open('/dev/null', mode)"",
+            ""def time(): return int(time_module.time())"",
+            ""def to_bytes(data): return data.encode('utf-8')"",
+            ""def headers_dict_to_raw(headers): return b'\\r\\n'.join(f'{k}: {v}' for k, v in headers.items()).encode('utf-8')"",
+            ""request.headers = {'User-Agent': 'test-agent'}"",
+            ""request.body = b'request body content'"",
+            ""response.headers = {'Content-Type': 'text/html'}"",
+            ""response.body = b'response body content'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""import pickle"",
+            ""import time"",
+            ""from typing import Dict""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_get_request_path': lambda s, spider, request: 'mock_path', '_open': lambda s, path, mode: open(path, mode)})()"",
+            ""spider = type('Mock', (object,), {})()"",
+            ""request = type('Mock', (object,), {'url': 'http://example.com', 'method': 'GET', 'headers': {'User-Agent': 'mock-agent'}, 'body': b'Hello'})()"",
+            ""response = type('Mock', (object,), {'status': 200, 'url': 'http://example.com/response', 'headers': {'Content-Type': 'text/html'}, 'body': b'<html>Response</html>'})()"",
+            ""time = time.time"",
+            ""to_bytes = lambda x: x.encode('utf-8')"",
+            ""headers_dict_to_raw = lambda headers: b''.join(f'{k}: {v}\\r\\n'.encode('utf-8') for k, v in headers.items())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""import pickle"",
+            ""import time"",
+            ""from typing import Dict"",
+            ""from datetime import datetime""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_get_request_path': lambda self, spider, request: Path('/mock/path'), '_open': lambda self, path, mode: open(path, mode)})()"",
+            ""spider = type('MockSpider', (object,), {})()"",
+            ""request = type('MockRequest', (object,), {'url': 'http://example.com', 'method': 'GET', 'headers': {'Content-Type': 'text/html'}, 'body': b'request body'})()"",
+            ""response = type('MockResponse', (object,), {'status': 200, 'url': 'http://example.com/response', 'headers': {'Content-Type': 'text/html'}, 'body': b'response body'})()"",
+            ""time = lambda: datetime.now().timestamp()"",
+            ""to_bytes = lambda s: bytes(s, 'utf-8')"",
+            ""headers_dict_to_raw = lambda headers: b'\\n'.join(f'{k}: {v}'.encode() for k, v in headers.items())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""import pickle"",
+            ""import time""
+        ],
+        ""initialization"": [
+            ""Path = Path"",
+            ""self = type('Mock', (object,), {'_get_request_path': lambda self, spider, request: Path('/mocked/path'), '_open': lambda self, path, mode: open(path, mode)})()"",
+            ""spider = 'mock_spider'"",
+            ""request = type('Mock', (object,), {'url': 'http://example.com', 'method': 'GET', 'headers': {'User-Agent': 'test-agent'}, 'body': b'test_request_body'})()"",
+            ""response = type('Mock', (object,), {'status': 200, 'url': 'http://example.com/response', 'headers': {'Content-Type': 'text/html'}, 'body': b'test_response_body'})()"",
+            ""time = time.time"",
+            ""to_bytes = lambda s: s.encode('utf-8') if isinstance(s, str) else s"",
+            ""pickle = pickle"",
+            ""headers_dict_to_raw = lambda headers: b'HTTP/1.1 200 OK\\r\\n' + b''.join([f'{k}: {v}\\r\\n'.encode('utf-8') for k, v in headers.items()])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""import pickle"",
+            ""import time as _time""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_get_request_path': lambda self, spider, request: Path('/mock/path'), '_open': lambda self, path, mode: open(path, mode)})()"",
+            ""spider = type('MockSpider', (object,), {})()"",
+            ""request = type('MockRequest', (object,), {'url': 'http://example.com', 'method': 'GET', 'headers': {'User-Agent': 'test-agent'}, 'body': b'test request body'})()"",
+            ""response = type('MockResponse', (object,), {'status': 200, 'url': 'http://example.com/response', 'headers': {'Content-Type': 'text/html'}, 'body': b'test response body'})()"",
+            ""time = _time.time"",
+            ""to_bytes = lambda x: bytes(x, 'utf-8')"",
+            ""headers_dict_to_raw = lambda headers: b''.join([f'{k}: {v}\\r\\n'.encode('utf-8') for k, v in headers.items()])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""import pickle"",
+            ""from time import time""
+        ],
+        ""initialization"": [
+            ""Path = Path"",
+            ""time = time"",
+            ""to_bytes = lambda x: x.encode('utf-8') if isinstance(x, str) else bytes(x)"",
+            ""headers_dict_to_raw = lambda headers: b'\\r\\n'.join([f'{k}: {v}'.encode('utf-8') for k, v in headers.items()])"",
+            ""self = type('Mock', (object,), {'_get_request_path': lambda s, spider, request: Path('/mock/path'), '_open': lambda s, path, mode: open(path, mode)})()"",
+            ""spider = object()"",
+            ""request = type('Mock', (object,), {'url': 'http://example.com', 'method': 'GET', 'headers': {'User-Agent': 'test-agent'}, 'body': b'example request body'})()"",
+            ""response = type('Mock', (object,), {'status': 200, 'url': 'http://example.com/response', 'headers': {'Content-Type': 'text/html'}, 'body': b'example response body'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""import pickle"",
+            ""from time import time""
+        ],
+        ""initialization"": [
+            ""Path = Path"",
+            ""self = type('Mock', (object,), {'_get_request_path': lambda self, spider, request: Path('/path/to/cache'), '_open': lambda self, path, mode: open(path, mode)})"",
+            ""spider = type('MockSpider', (object,), dict)()"",
+            ""request = type('MockRequest', (object,), {'url': 'http://example.com', 'method': 'GET', 'headers': {'User-Agent': 'test-agent'}, 'body': b''})()"",
+            ""response = type('MockResponse', (object,), {'status': 200, 'url': 'http://example.com', 'headers': {'Content-Type': 'text/html'}, 'body': b'<html></html>'})()"",
+            ""time = time"",
+            ""to_bytes = lambda obj: bytes(obj, 'utf-8')"",
+            ""pickle = pickle"",
+            ""headers_dict_to_raw = lambda headers: b''.join([f'{k}: {v}\\r\\n'.encode('utf-8') for k, v in headers.items()])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""import pickle"",
+            ""import time""
+        ],
+        ""initialization"": [
+            ""Path = Path('.')"",
+            ""self = type('Mock', (object,), {'_get_request_path': lambda self, spider, request: Path('/mock/path'), '_open': open})()"",
+            ""spider = object()"",
+            ""request = type('MockRequest', (object,), {'url': 'http://example.com', 'method': 'GET', 'headers': {'User-Agent': 'Mozilla/5.0'}, 'body': b'request body'})()"",
+            ""response = type('MockResponse', (object,), {'status': 200, 'url': 'http://example.com/response', 'headers': {'Content-Type': 'text/html'}, 'body': b'response body'})()"",
+            ""time = lambda: 1633572845.0"",
+            ""to_bytes = lambda x: x.encode('utf-8') if isinstance(x, str) else x"",
+            ""headers_dict_to_raw = lambda headers: b'\\r\\n'.join([f'{k}: {v}'.encode('utf-8') for k, v in headers.items()])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path"",
+            ""import pickle"",
+            ""from time import time"",
+            ""from typing import Any"",
+            ""import io""
+        ],
+        ""initialization"": [
+            ""time = time"",
+            ""to_bytes = lambda x: x.encode('utf-8') if isinstance(x, str) else x"",
+            ""headers_dict_to_raw = lambda headers: b'\\r\\n'.join([f'{k}: {v}'.encode('utf-8') for k, v in headers.items()])"",
+            ""class MockResponse:\n    def __init__(self, url: str, status: int, headers: dict, body: bytes):\n        self.url = url\n        self.status = status\n        self.headers = headers\n        self.body = body"",
+            ""response = MockResponse('http://example.com', 200, {'Content-Type': 'text/html'}, b'<html>...</html>')"",
+            ""class MockRequest:\n    def __init__(self, url: str, method: str, headers: dict, body: bytes):\n        self.url = url\n        self.method = method\n        self.headers = headers\n        self.body = body"",
+            ""request = MockRequest('http://example.com', 'GET', {'User-Agent': 'test-agent'}, b'')"",
+            ""class MockSpider:\n    pass"",
+            ""spider = MockSpider()"",
+            ""class Mock:\n    def __init__(self, **kwargs: Any):\n        self.__dict__.update(kwargs)"",
+            ""self = Mock(\n    _get_request_path=lambda spider, request: Path('/tmp/cache'),\n    _open=lambda path, mode: io.BytesIO() if 'b' in mode else open(path, mode)\n)""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""import pickle # pragma: no cover"",
+            ""import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""Path = Path # pragma: no cover"",
+            ""to_bytes = lambda x: x.encode() # pragma: no cover"",
+            ""headers_dict_to_raw = lambda headers: b'\\n'.join(key.encode() + b': ' + value.encode() for key, value in headers.items()) # pragma: no cover"",
+            ""self = type('Mock', (object,), {'_get_request_path': lambda s, spider, request: Path('mock_path'), '_open': open})() # pragma: no cover"",
+            ""spider = type('MockSpider', (object,), {})() # pragma: no cover"",
+            ""request = type('MockRequest', (object,), {'url': 'http://example.com', 'method': 'GET', 'headers': { 'User-Agent': 'MockAgent' }, 'body': b'mock request body'})() # pragma: no cover"",
+            ""response = type('MockResponse', (object,), {'status': 200, 'url': 'http://example.com', 'headers': { 'Content-Type': 'text/html' }, 'body': b'mock response body'})() # pragma: no cover"",
+            ""time = time.time # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""import pickle # pragma: no cover"",
+            ""import time as time_module # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Mock(object): pass # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""self._get_request_path = lambda spider, request: 'mocked/path' # pragma: no cover"",
+            ""spider = Mock() # pragma: no cover"",
+            ""request = Mock() # pragma: no cover"",
+            ""request.url = 'http://example.com' # pragma: no cover"",
+            ""request.method = 'GET' # pragma: no cover"",
+            ""response = Mock() # pragma: no cover"",
+            ""response.status = 200 # pragma: no cover"",
+            ""response.url = 'http://example.com/response' # pragma: no cover"",
+            ""self._open = lambda path, mode: open('/dev/null', mode) # pragma: no cover"",
+            ""def time(): return int(time_module.time()) # pragma: no cover"",
+            ""def to_bytes(data): return data.encode('utf-8') # pragma: no cover"",
+            ""def headers_dict_to_raw(headers): return b'\\r\\n'.join(f'{k}: {v}' for k, v in headers.items()).encode('utf-8') # pragma: no cover"",
+            ""request.headers = {'User-Agent': 'test-agent'} # pragma: no cover"",
+            ""request.body = b'request body content' # pragma: no cover"",
+            ""response.headers = {'Content-Type': 'text/html'} # pragma: no cover"",
+            ""response.body = b'response body content' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""import pickle # pragma: no cover"",
+            ""import time # pragma: no cover"",
+            ""from typing import Dict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_get_request_path': lambda s, spider, request: 'mock_path', '_open': lambda s, path, mode: open(path, mode)})() # pragma: no cover"",
+            ""spider = type('Mock', (object,), {})() # pragma: no cover"",
+            ""request = type('Mock', (object,), {'url': 'http://example.com', 'method': 'GET', 'headers': {'User-Agent': 'mock-agent'}, 'body': b'Hello'})() # pragma: no cover"",
+            ""response = type('Mock', (object,), {'status': 200, 'url': 'http://example.com/response', 'headers': {'Content-Type': 'text/html'}, 'body': b'<html>Response</html>'})() # pragma: no cover"",
+            ""time = time.time # pragma: no cover"",
+            ""to_bytes = lambda x: x.encode('utf-8') # pragma: no cover"",
+            ""headers_dict_to_raw = lambda headers: b''.join(f'{k}: {v}\\r\\n'.encode('utf-8') for k, v in headers.items()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""import pickle # pragma: no cover"",
+            ""import time # pragma: no cover"",
+            ""from typing import Dict # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_get_request_path': lambda self, spider, request: Path('/mock/path'), '_open': lambda self, path, mode: open(path, mode)})() # pragma: no cover"",
+            ""spider = type('MockSpider', (object,), {})() # pragma: no cover"",
+            ""request = type('MockRequest', (object,), {'url': 'http://example.com', 'method': 'GET', 'headers': {'Content-Type': 'text/html'}, 'body': b'request body'})() # pragma: no cover"",
+            ""response = type('MockResponse', (object,), {'status': 200, 'url': 'http://example.com/response', 'headers': {'Content-Type': 'text/html'}, 'body': b'response body'})() # pragma: no cover"",
+            ""time = lambda: datetime.now().timestamp() # pragma: no cover"",
+            ""to_bytes = lambda s: bytes(s, 'utf-8') # pragma: no cover"",
+            ""headers_dict_to_raw = lambda headers: b'\\n'.join(f'{k}: {v}'.encode() for k, v in headers.items()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""import pickle # pragma: no cover"",
+            ""import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""Path = Path # pragma: no cover"",
+            ""self = type('Mock', (object,), {'_get_request_path': lambda self, spider, request: Path('/mocked/path'), '_open': lambda self, path, mode: open(path, mode)})() # pragma: no cover"",
+            ""spider = 'mock_spider' # pragma: no cover"",
+            ""request = type('Mock', (object,), {'url': 'http://example.com', 'method': 'GET', 'headers': {'User-Agent': 'test-agent'}, 'body': b'test_request_body'})() # pragma: no cover"",
+            ""response = type('Mock', (object,), {'status': 200, 'url': 'http://example.com/response', 'headers': {'Content-Type': 'text/html'}, 'body': b'test_response_body'})() # pragma: no cover"",
+            ""time = time.time # pragma: no cover"",
+            ""to_bytes = lambda s: s.encode('utf-8') if isinstance(s, str) else s # pragma: no cover"",
+            ""pickle = pickle # pragma: no cover"",
+            ""headers_dict_to_raw = lambda headers: b'HTTP/1.1 200 OK\\r\\n' + b''.join([f'{k}: {v}\\r\\n'.encode('utf-8') for k, v in headers.items()]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""import pickle # pragma: no cover"",
+            ""import time as _time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'_get_request_path': lambda self, spider, request: Path('/mock/path'), '_open': lambda self, path, mode: open(path, mode)})() # pragma: no cover"",
+            ""spider = type('MockSpider', (object,), {})() # pragma: no cover"",
+            ""request = type('MockRequest', (object,), {'url': 'http://example.com', 'method': 'GET', 'headers': {'User-Agent': 'test-agent'}, 'body': b'test request body'})() # pragma: no cover"",
+            ""response = type('MockResponse', (object,), {'status': 200, 'url': 'http://example.com/response', 'headers': {'Content-Type': 'text/html'}, 'body': b'test response body'})() # pragma: no cover"",
+            ""time = _time.time # pragma: no cover"",
+            ""to_bytes = lambda x: bytes(x, 'utf-8') # pragma: no cover"",
+            ""headers_dict_to_raw = lambda headers: b''.join([f'{k}: {v}\\r\\n'.encode('utf-8') for k, v in headers.items()]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""import pickle # pragma: no cover"",
+            ""from time import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""Path = Path # pragma: no cover"",
+            ""time = time # pragma: no cover"",
+            ""to_bytes = lambda x: x.encode('utf-8') if isinstance(x, str) else bytes(x) # pragma: no cover"",
+            ""headers_dict_to_raw = lambda headers: b'\\r\\n'.join([f'{k}: {v}'.encode('utf-8') for k, v in headers.items()]) # pragma: no cover"",
+            ""self = type('Mock', (object,), {'_get_request_path': lambda s, spider, request: Path('/mock/path'), '_open': lambda s, path, mode: open(path, mode)})() # pragma: no cover"",
+            ""spider = object() # pragma: no cover"",
+            ""request = type('Mock', (object,), {'url': 'http://example.com', 'method': 'GET', 'headers': {'User-Agent': 'test-agent'}, 'body': b'example request body'})() # pragma: no cover"",
+            ""response = type('Mock', (object,), {'status': 200, 'url': 'http://example.com/response', 'headers': {'Content-Type': 'text/html'}, 'body': b'example response body'})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""import pickle # pragma: no cover"",
+            ""from time import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""Path = Path # pragma: no cover"",
+            ""self = type('Mock', (object,), {'_get_request_path': lambda self, spider, request: Path('/path/to/cache'), '_open': lambda self, path, mode: open(path, mode)}) # pragma: no cover"",
+            ""request = type('MockRequest', (object,), {'url': 'http://example.com', 'method': 'GET', 'headers': {'User-Agent': 'test-agent'}, 'body': b''})() # pragma: no cover"",
+            ""response = type('MockResponse', (object,), {'status': 200, 'url': 'http://example.com', 'headers': {'Content-Type': 'text/html'}, 'body': b'<html></html>'})() # pragma: no cover"",
+            ""time = time # pragma: no cover"",
+            ""to_bytes = lambda obj: bytes(obj, 'utf-8') # pragma: no cover"",
+            ""pickle = pickle # pragma: no cover"",
+            ""headers_dict_to_raw = lambda headers: b''.join([f'{k}: {v}\\r\\n'.encode('utf-8') for k, v in headers.items()]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""import pickle # pragma: no cover"",
+            ""import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""Path = Path('.') # pragma: no cover"",
+            ""self = type('Mock', (object,), {'_get_request_path': lambda self, spider, request: Path('/mock/path'), '_open': open})() # pragma: no cover"",
+            ""spider = object() # pragma: no cover"",
+            ""request = type('MockRequest', (object,), {'url': 'http://example.com', 'method': 'GET', 'headers': {'User-Agent': 'Mozilla/5.0'}, 'body': b'request body'})() # pragma: no cover"",
+            ""response = type('MockResponse', (object,), {'status': 200, 'url': 'http://example.com/response', 'headers': {'Content-Type': 'text/html'}, 'body': b'response body'})() # pragma: no cover"",
+            ""time = lambda: 1633572845.0 # pragma: no cover"",
+            ""to_bytes = lambda x: x.encode('utf-8') if isinstance(x, str) else x # pragma: no cover"",
+            ""headers_dict_to_raw = lambda headers: b'\\r\\n'.join([f'{k}: {v}'.encode('utf-8') for k, v in headers.items()]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from pathlib import Path # pragma: no cover"",
+            ""import pickle # pragma: no cover"",
+            ""from time import time # pragma: no cover"",
+            ""from typing import Any # pragma: no cover"",
+            ""import io # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""time = time # pragma: no cover"",
+            ""to_bytes = lambda x: x.encode('utf-8') if isinstance(x, str) else x # pragma: no cover"",
+            ""headers_dict_to_raw = lambda headers: b'\\r\\n'.join([f'{k}: {v}'.encode('utf-8') for k, v in headers.items()]) # pragma: no cover"",
+            ""class MockResponse:# pragma: no cover"",
+            ""    def __init__(self, url: str, status: int, headers: dict, body: bytes):# pragma: no cover"",
+            ""        self.url = url# pragma: no cover"",
+            ""        self.status = status# pragma: no cover"",
+            ""        self.headers = headers# pragma: no cover"",
+            ""        self.body = body # pragma: no cover"",
+            ""response = MockResponse('http://example.com', 200, {'Content-Type': 'text/html'}, b'<html>...</html>') # pragma: no cover"",
+            ""class MockRequest:# pragma: no cover"",
+            ""    def __init__(self, url: str, method: str, headers: dict, body: bytes):# pragma: no cover"",
+            ""        self.url = url# pragma: no cover"",
+            ""        self.method = method# pragma: no cover"",
+            ""        self.headers = headers# pragma: no cover"",
+            ""        self.body = body # pragma: no cover"",
+            ""request = MockRequest('http://example.com', 'GET', {'User-Agent': 'test-agent'}, b'') # pragma: no cover"",
+            ""class MockSpider:# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""spider = MockSpider() # pragma: no cover"",
+            ""class Mock:# pragma: no cover"",
+            ""    def __init__(self, **kwargs: Any):# pragma: no cover"",
+            ""        self.__dict__.update(kwargs) # pragma: no cover"",
+            ""self = Mock(# pragma: no cover"",
+            ""    _get_request_path=lambda spider, request: Path('/tmp/cache'),# pragma: no cover"",
+            ""    _open=lambda path, mode: io.BytesIO() if 'b' in mode else open(path, mode)# pragma: no cover"",
+            "") # pragma: no cover""
+        ]
+    }
+]",1,575,0.0002875,2855,0.0042825,0.004569999999999999

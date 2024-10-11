@@ -1,0 +1,19 @@
+from typing import Any # pragma: no cover
+
+st: Any = None # pragma: no cover
+response: Any = type('MockResponse', (), {})() # pragma: no cover
+XmlResponse: Any = type('XmlResponse', (object,), {}) # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/scrapy/scrapy/selector/unified.py
+from l3.Runtime import _l_
+if st is None:
+    _l_(16093)
+
+    aux = 'xml' if isinstance(response, XmlResponse) else 'html'
+    _l_(16092)
+    exit(aux)
+aux = st
+_l_(16094)
+exit(aux)

@@ -1,0 +1,13 @@
+# Since the code snippet provided raises the NotImplementedError, we need to ensure that it gets executed. # pragma: no cover
+# We can do this by wrapping it in a try-except block. # pragma: no cover
+try: # pragma: no cover
+    raise NotImplementedError() # pragma: no cover
+except NotImplementedError: # pragma: no cover
+    print('Handled NotImplementedError')  # This confirms that the exception was raised and handled. # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/scrapy/scrapy/spidermiddlewares/referer.py
+from l3.Runtime import _l_
+raise NotImplementedError()
+_l_(16928)

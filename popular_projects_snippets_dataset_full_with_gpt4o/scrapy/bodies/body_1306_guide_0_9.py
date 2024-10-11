@@ -1,0 +1,27 @@
+from scrapy.exceptions import NotConfigured # pragma: no cover
+class SettingsMock: # pragma: no cover
+    def getbool(self, key): # pragma: no cover
+        return False # Mocking to trigger the NotConfigured exception # pragma: no cover
+ # pragma: no cover
+settings = SettingsMock() # pragma: no cover
+
+class self: # pragma: no cover
+    pass # pragma: no cover
+ # pragma: no cover
+self = self() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/scrapy/scrapy/downloadermiddlewares/retry.py
+from l3.Runtime import _l_
+if not settings.getbool('RETRY_ENABLED'):
+    _l_(18876)
+
+    raise NotConfigured
+    _l_(18875)
+self.max_retry_times = settings.getint('RETRY_TIMES')
+_l_(18877)
+self.retry_http_codes = set(int(x) for x in settings.getlist('RETRY_HTTP_CODES'))
+_l_(18878)
+self.priority_adjust = settings.getint('RETRY_PRIORITY_ADJUST')
+_l_(18879)

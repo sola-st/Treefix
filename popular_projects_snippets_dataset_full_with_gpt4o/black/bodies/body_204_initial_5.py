@@ -1,0 +1,35 @@
+import difflib # pragma: no cover
+from typing import Any, Tuple # pragma: no cover
+
+_format_str_once: Any = lambda x, mode: x[::-1] # pragma: no cover
+dst: str = 'example' # pragma: no cover
+mode: Any = 'test_mode' # pragma: no cover
+dump_to_file: Any = lambda mode, diff1, diff2: f'diff between {diff1} and {diff2}' # pragma: no cover
+diff: Any = lambda a, b, text1, text2: '\n'.join(difflib.ndiff(a.splitlines(), b.splitlines())) # pragma: no cover
+src: str = 'example_source' # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/black/src/black/__init__.py
+from l3.Runtime import _l_
+"""Raise AssertionError if `dst` reformats differently the second time."""
+# We shouldn't call format_str() here, because that formats the string
+# twice and may hide a bug where we bounce back and forth between two
+# versions.
+newdst = _format_str_once(dst, mode=mode)
+_l_(16833)
+if dst != newdst:
+    _l_(16836)
+
+    log = dump_to_file(
+        str(mode),
+        diff(src, dst, "source", "first pass"),
+        diff(dst, newdst, "first pass", "second pass"),
+    )
+    _l_(16834)
+    raise AssertionError(
+        "INTERNAL ERROR: Black produced different code on the second pass of the"
+        " formatter.  Please report a bug on https://github.com/psf/black/issues."
+        f"  This diff might be helpful: {log}"
+    ) from None
+    _l_(16835)

@@ -1,0 +1,14 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/lite/python/lite_v2_test.py
+"""Test a SavedModel has debug info captured."""
+input_data = tf.constant(1., shape=[1])
+root = autotrackable.AutoTrackable()
+root.f = tf.function(lambda x: 2. * x)
+to_save = root.f.get_concrete_function(input_data)
+options = save_options.SaveOptions(save_debug_info=True)
+save_dir = os.path.join(self.get_temp_dir(), 'saved_model')
+save(root, save_dir, to_save, options)
+
+# Convert model and ensure model is not None.
+converter = lite.TFLiteConverterV2.from_saved_model(save_dir)
+converter.convert()
+self._assertValidDebugInfo(converter._debug_info)

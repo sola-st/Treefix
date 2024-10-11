@@ -1,0 +1,3 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/data/ops/structured_function.py
+ret = wrapper_helper(*args)
+exit(structure.to_tensor_list(self._output_structure, ret))

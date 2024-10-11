@@ -1,0 +1,26 @@
+from unittest import TestCase # pragma: no cover
+
+self = type('Mock', (TestCase,), {'assertRaisesOpError': lambda self, msg: self.assertRaisesRegex(tf.errors.InvalidArgumentError, msg), 'evaluate': lambda self, x: x.numpy() if tf.executing_eagerly() else tf.Session().run(x)})() # pragma: no cover
+
+import unittest # pragma: no cover
+
+class MockTest(unittest.TestCase): # pragma: no cover
+    def assertRaisesOpError(self, msg): # pragma: no cover
+        return self.assertRaisesRegex(tf.errors.InvalidArgumentError, msg) # pragma: no cover
+    def evaluate(self, x): # pragma: no cover
+        return tf.Session().run(x) if not tf.executing_eagerly() else x.numpy() # pragma: no cover
+ # pragma: no cover
+self = MockTest() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/distributions/normal_test.py
+from l3.Runtime import _l_
+with self.assertRaisesOpError("Condition x > 0 did not hold"):
+    _l_(18549)
+
+    normal = normal_lib.Normal(
+        loc=[1.], scale=[-5.], validate_args=True, name="G")
+    _l_(18547)
+    self.evaluate(normal.mean())
+    _l_(18548)

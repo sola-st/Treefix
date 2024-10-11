@@ -1,0 +1,1532 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Return the first leaf that precedes `node`, if any.""""""
+while node:
+    res = node.prev_sibling
+    if res:
+        if isinstance(res, Leaf):
+            exit(res)
+
+        try:
+            exit(list(res.leaves())[-1])
+
+        except IndexError:
+            exit(None)
+
+    node = node.parent
+exit(None)
+
+# end code snippet
+
+# begin undefined variables
+node
+Leaf
+# end undefined variables
+
+# begin undefined attributes and methods
+node.prev_sibling
+node.parent
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""Leaf = type('Leaf', (object,), {})"",
+            ""node = type('Node', (object,), { 'prev_sibling': None, 'parent': None })()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""Leaf = type('Leaf', (object,), {})"",
+            ""node = type('MockNode', (object,), {'prev_sibling': None, 'parent': None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""class MockNode:"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):"",
+            ""        self.parent = parent"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.is_leaf = is_leaf"",
+            ""    def leaves(self) -> List['MockNode']:"",
+            ""        if self.is_leaf:"",
+            ""            return [self]"",
+            ""        return []"",
+            ""node = MockNode()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional""
+        ],
+        ""initialization"": [
+            ""class Leaf: pass"",
+            ""class MockNode:"",
+            ""    def __init__(self, prev_sibling: Optional['MockNode'], parent: Optional['MockNode'], is_leaf: bool = False, leaves: Optional[List['Leaf']] = None):"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.parent = parent"",
+            ""        self.is_leaf = is_leaf"",
+            ""        self._leaves = leaves or []"",
+            """",
+            ""    def leaves(self):"",
+            ""        if self.is_leaf:"",
+            ""            return [Leaf()]"",
+            ""        return self._leaves"",
+            """",
+            ""# Creating a mock structure for the nodes"",
+            ""leaf_node = MockNode(None, None, is_leaf=True)"",
+            ""intermediate_node = MockNode(leaf_node, None)"",
+            ""node = MockNode(intermediate_node, None)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any"",
+            ""from typing import Iterator"",
+            ""from typing import Optional"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, parent: Optional[Any] = None, prev_sibling: Optional[Any] = None):\n        self.parent = parent\n        self.prev_sibling = prev_sibling"",
+            ""class Leaf:\n    pass"",
+            ""node = MockNode(\n    parent=MockNode(\n        parent=None,\n        prev_sibling=MockNode(\n            parent=None,\n            prev_sibling=None\n        )\n    ),\n    prev_sibling=None\n)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""    def __init__(self, value: str):"",
+            ""        self.value = value"",
+            """",
+            ""class Node:"",
+            ""    def __init__(self, value: str, leaves: Optional[List['Node']] = None, parent: Optional['Node'] = None):"",
+            ""        self.value = value"",
+            ""        self._leaves = leaves or []"",
+            ""        self.parent = parent"",
+            ""        self._prev_sibling = None"",
+            ""        if parent:"",
+            ""            index = parent._leaves.index(self)"",
+            ""            if index > 0:"",
+            ""                self._prev_sibling = parent._leaves[index - 1]"",
+            """",
+            ""    @property"",
+            ""    def prev_sibling(self):"",
+            ""        return self._prev_sibling"",
+            """",
+            ""    def leaves(self):"",
+            ""        return self._leaves"",
+            """",
+            ""leaf_1 = Leaf('Leaf 1')"",
+            ""leaf_2 = Leaf('Leaf 2')"",
+            """",
+            ""node_2 = Node('Node 2', parent=None)"",
+            ""node_1 = Node('Node 1', leaves=[node_2], parent=None)"",
+            ""node_2.parent = node_1"",
+            """",
+            ""node = node_2""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    pass"",
+            ""class MockNode:\n    def __init__(self, prev_sibling=None, parent=None, leaves=None):\n        self.prev_sibling = prev_sibling\n        self.parent = parent\n        self._leaves = leaves or []\n\n    def leaves(self) -> List[Any]:\n        return self._leaves\n\n# Example instantiation. You may need to modify it based on your context.\nnode = MockNode(\n    prev_sibling=MockNode(),\n    parent=MockNode(\n        prev_sibling=MockNode(),\n        parent=None,\n        leaves=[Leaf()]\n    )\n)""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""Leaf = type('Leaf', (), {})"",
+            ""node = type('MockNode', (object,), {'prev_sibling': None, 'parent': None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, Union, List""
+        ],
+        ""initialization"": [
+            ""class MockNode:"",
+            ""    def __init__(self, prev_sibling: Optional['MockNode'], parent: Optional['MockNode']):"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.parent = parent"",
+            """",
+            ""class Leaf:"",
+            ""    pass"",
+            """",
+            ""class ResMock:"",
+            ""    def __init__(self, leaves: List[Leaf]):"",
+            ""        self._leaves = leaves"",
+            """",
+            ""    def leaves(self) -> List[Leaf]:"",
+            ""        return self._leaves or []"",
+            """",
+            ""leaf1 = Leaf()"",
+            ""leaf2 = Leaf()"",
+            ""leaf3 = Leaf()"",
+            """",
+            ""# Creating a hierarchy of nodes and leaves for testing"",
+            ""node3 = MockNode(prev_sibling=None, parent=None)"",
+            ""node2 = MockNode(prev_sibling=node3, parent=None)"",
+            ""node1 = MockNode(prev_sibling=node2, parent=None)"",
+            """",
+            ""res_with_leaves = ResMock(leaves=[leaf1, leaf2, leaf3])"",
+            ""res_empty = ResMock(leaves=[])"",
+            """",
+            ""# Assigning prev_sibling to either a Leaf or ResMock"",
+            ""node3.prev_sibling = res_with_leaves"",
+            ""node2.prev_sibling = leaf1"",
+            ""node1.prev_sibling = res_empty"",
+            """",
+            ""node = node1""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class Leaf: pass"",
+            ""Node = type('Node', (object,), { 'prev_sibling': None, 'parent': None })"",
+            ""node = Node()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""Leaf = type('Leaf', (object,), {}) # pragma: no cover"",
+            ""node = type('Node', (object,), { 'prev_sibling': None, 'parent': None })() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""Leaf = type('Leaf', (object,), {}) # pragma: no cover"",
+            ""node = type('MockNode', (object,), {'prev_sibling': None, 'parent': None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf: pass # pragma: no cover"",
+            ""class MockNode: # pragma: no cover"",
+            ""    def __init__(self, prev_sibling: Optional['MockNode'], parent: Optional['MockNode'], is_leaf: bool = False, leaves: Optional[List['Leaf']] = None): # pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""        self.is_leaf = is_leaf # pragma: no cover"",
+            ""        self._leaves = leaves or [] # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def leaves(self): # pragma: no cover"",
+            ""        if self.is_leaf: # pragma: no cover"",
+            ""            return [Leaf()] # pragma: no cover"",
+            ""        return self._leaves # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""# Creating a mock structure for the nodes # pragma: no cover"",
+            ""leaf_node = MockNode(None, None, is_leaf=True) # pragma: no cover"",
+            ""intermediate_node = MockNode(leaf_node, None) # pragma: no cover"",
+            ""node = MockNode(intermediate_node, None) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any # pragma: no cover"",
+            ""from typing import Iterator # pragma: no cover"",
+            ""from typing import Optional # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, parent: Optional[Any] = None, prev_sibling: Optional[Any] = None):# pragma: no cover"",
+            ""        self.parent = parent# pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling # pragma: no cover"",
+            ""class Leaf:# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""node = MockNode(# pragma: no cover"",
+            ""    parent=MockNode(# pragma: no cover"",
+            ""        parent=None,# pragma: no cover"",
+            ""        prev_sibling=MockNode(# pragma: no cover"",
+            ""            parent=None,# pragma: no cover"",
+            ""            prev_sibling=None# pragma: no cover"",
+            ""        )# pragma: no cover"",
+            ""    ),# pragma: no cover"",
+            ""    prev_sibling=None# pragma: no cover"",
+            "") # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf: # pragma: no cover"",
+            ""    def __init__(self, value: str): # pragma: no cover"",
+            ""        self.value = value # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class Node: # pragma: no cover"",
+            ""    def __init__(self, value: str, leaves: Optional[List['Node']] = None, parent: Optional['Node'] = None): # pragma: no cover"",
+            ""        self.value = value # pragma: no cover"",
+            ""        self._leaves = leaves or [] # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""        self._prev_sibling = None # pragma: no cover"",
+            ""        if parent: # pragma: no cover"",
+            ""            index = parent._leaves.index(self) # pragma: no cover"",
+            ""            if index > 0: # pragma: no cover"",
+            ""                self._prev_sibling = parent._leaves[index - 1] # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    @property # pragma: no cover"",
+            ""    def prev_sibling(self): # pragma: no cover"",
+            ""        return self._prev_sibling # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def leaves(self): # pragma: no cover"",
+            ""        return self._leaves # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""leaf_1 = Leaf('Leaf 1') # pragma: no cover"",
+            ""leaf_2 = Leaf('Leaf 2') # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""node_2 = Node('Node 2', parent=None) # pragma: no cover"",
+            ""node_1 = Node('Node 1', leaves=[node_2], parent=None) # pragma: no cover"",
+            ""node_2.parent = node_1 # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""node = node_2 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, prev_sibling=None, parent=None, leaves=None):# pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling# pragma: no cover"",
+            ""        self.parent = parent# pragma: no cover"",
+            ""        self._leaves = leaves or []# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self) -> List[Any]:# pragma: no cover"",
+            ""        return self._leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""# Example instantiation. You may need to modify it based on your context.# pragma: no cover"",
+            ""node = MockNode(# pragma: no cover"",
+            ""    prev_sibling=MockNode(),# pragma: no cover"",
+            ""    parent=MockNode(# pragma: no cover"",
+            ""        prev_sibling=MockNode(),# pragma: no cover"",
+            ""        parent=None,# pragma: no cover"",
+            ""        leaves=[Leaf()]# pragma: no cover"",
+            ""    )# pragma: no cover"",
+            "") # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""Leaf = type('Leaf', (), {}) # pragma: no cover"",
+            ""node = type('MockNode', (object,), {'prev_sibling': None, 'parent': None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, Union, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode: # pragma: no cover"",
+            ""    def __init__(self, prev_sibling: Optional['MockNode'], parent: Optional['MockNode']): # pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class Leaf: # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class ResMock: # pragma: no cover"",
+            ""    def __init__(self, leaves: List[Leaf]): # pragma: no cover"",
+            ""        self._leaves = leaves # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def leaves(self) -> List[Leaf]: # pragma: no cover"",
+            ""        return self._leaves or [] # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""leaf1 = Leaf() # pragma: no cover"",
+            ""leaf2 = Leaf() # pragma: no cover"",
+            ""leaf3 = Leaf() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""# Creating a hierarchy of nodes and leaves for testing # pragma: no cover"",
+            ""node3 = MockNode(prev_sibling=None, parent=None) # pragma: no cover"",
+            ""node2 = MockNode(prev_sibling=node3, parent=None) # pragma: no cover"",
+            ""node1 = MockNode(prev_sibling=node2, parent=None) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""res_with_leaves = ResMock(leaves=[leaf1, leaf2, leaf3]) # pragma: no cover"",
+            ""res_empty = ResMock(leaves=[]) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""# Assigning prev_sibling to either a Leaf or ResMock # pragma: no cover"",
+            ""node3.prev_sibling = res_with_leaves # pragma: no cover"",
+            ""node2.prev_sibling = leaf1 # pragma: no cover"",
+            ""node1.prev_sibling = res_empty # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""node = node1 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Leaf: pass # pragma: no cover"",
+            ""Node = type('Node', (object,), { 'prev_sibling': None, 'parent': None }) # pragma: no cover"",
+            ""node = Node() # pragma: no cover""
+        ]
+    }
+]",1,368,0.000184,1597,0.0023955,0.0025795
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 5:
+    while node:
+NameError: name 'node' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import Optional, List""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""class MockNode:"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):"",
+            ""        self.parent = parent"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.is_leaf = is_leaf"",
+            ""    def leaves(self) -> List['MockNode']:"",
+            ""        if self.is_leaf:"",
+            ""            return [self]"",
+            ""        return []"",
+            ""parent_node = MockNode()"",
+            ""prev_sibling_node = MockNode(is_leaf=True)"",
+            ""node = MockNode(parent=parent_node, prev_sibling=prev_sibling_node)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""class MockNode:"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):"",
+            ""        self.parent = parent"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.is_leaf = is_leaf"",
+            ""    def leaves(self) -> List['MockNode']:"",
+            ""        if self.is_leaf:"",
+            ""            return [self]"",
+            ""        return []"",
+            ""leaf_node = MockNode(is_leaf=True)"",
+            ""sibling_node = MockNode(prev_sibling=leaf_node)"",
+            ""parent_node = MockNode(parent=sibling_node)"",
+            ""node = MockNode(parent=parent_node)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List""
+        ],
+        ""initialization"": [
+            ""class Leaf: pass"",
+            ""class MockNode:"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):"",
+            ""        self.parent = parent"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.is_leaf = is_leaf"",
+            ""    def leaves(self) -> List['MockNode']:"",
+            ""        if self.is_leaf:"",
+            ""            return [self]"",
+            ""        return []"",
+            ""node = MockNode()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""class MockNode:"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):"",
+            ""        self.parent = parent"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.is_leaf = is_leaf"",
+            ""    def leaves(self) -> List['MockNode']:"",
+            ""        if self.is_leaf:"",
+            ""            return [self]"",
+            ""        return []"",
+            ""leaf = MockNode(is_leaf=True)"",
+            ""prev_leaf = MockNode(prev_sibling=leaf)"",
+            ""node = MockNode(parent=prev_leaf)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""class MockNode:"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):"",
+            ""        self.parent = parent"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.is_leaf = is_leaf"",
+            ""    def leaves(self) -> List['MockNode']:"",
+            ""        if self.is_leaf:"",
+            ""            return [self]"",
+            ""        return []"",
+            ""node = MockNode(parent=MockNode(), prev_sibling=MockNode(is_leaf=True), is_leaf=False)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""class MockNode:"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):"",
+            ""        self.parent = parent"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.is_leaf = is_leaf"",
+            ""    def leaves(self) -> List['MockNode']:"",
+            ""        if self.is_leaf:"",
+            ""            return [self]"",
+            ""        return []"",
+            ""leaf_node = MockNode(is_leaf=True)"",
+            ""sibling_leaf_node = MockNode(is_leaf=True)"",
+            ""parent_node = MockNode(prev_sibling=sibling_leaf_node)"",
+            ""node = MockNode(parent=parent_node, prev_sibling=leaf_node)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""class MockNode:"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):"",
+            ""        self.parent = parent"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.is_leaf = is_leaf"",
+            ""    def leaves(self) -> List['MockNode']:"",
+            ""        if self.is_leaf:"",
+            ""            return [self]"",
+            ""        return []"",
+            ""leaf_node = MockNode(is_leaf=True)"",
+            ""parent_node = MockNode()"",
+            ""node = MockNode(parent=parent_node, prev_sibling=leaf_node)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""class MockNode:"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):"",
+            ""        self.parent = parent"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.is_leaf = is_leaf"",
+            ""    def leaves(self) -> List['MockNode']:"",
+            ""        if self.is_leaf:"",
+            ""            return [self]"",
+            ""        return []"",
+            ""leaf_node = MockNode(is_leaf=True)"",
+            ""sibling_node = MockNode(prev_sibling=leaf_node)"",
+            ""parent_node = MockNode(parent=sibling_node)"",
+            ""node = MockNode(parent=parent_node)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""class MockNode:"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):"",
+            ""        self.parent = parent"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.is_leaf = is_leaf"",
+            ""    def leaves(self) -> List['MockNode']:"",
+            ""        if self.is_leaf:"",
+            ""            return [self]"",
+            ""        return []"",
+            ""leaf_node = MockNode(is_leaf=True)"",
+            ""sibling_node = MockNode(is_leaf=True)"",
+            ""parent_node = MockNode(prev_sibling=sibling_node)"",
+            ""node = MockNode(parent=parent_node)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""class MockNode:"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):"",
+            ""        self.parent = parent"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.is_leaf = is_leaf"",
+            ""    def leaves(self) -> List['MockNode']:"",
+            ""        if self.is_leaf:"",
+            ""            return [self]"",
+            ""        return []"",
+            ""leaf_node = MockNode(is_leaf=True)"",
+            ""sibling_node = MockNode(prev_sibling=leaf_node)"",
+            ""parent_node = MockNode(prev_sibling=sibling_node, parent=None)"",
+            ""node = MockNode(parent=parent_node)""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import Optional, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf: pass # pragma: no cover"",
+            ""class MockNode: # pragma: no cover"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False): # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling # pragma: no cover"",
+            ""        self.is_leaf = is_leaf # pragma: no cover"",
+            ""    def leaves(self) -> List['MockNode']: # pragma: no cover"",
+            ""        if self.is_leaf: # pragma: no cover"",
+            ""            return [self] # pragma: no cover"",
+            ""        return [] # pragma: no cover"",
+            ""node = MockNode() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",2,810,0.000405,1866,0.002799,0.003204
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 32:
+    exit(list(res.leaves())[-1])
+AttributeError: 'MockNode' object has no attribute 'leaves'
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class Leaf:\n    pass"",
+            ""class MockNode:\n    def __init__(self, parent=None, prev_sibling=None, is_leaf=False):\n        self.parent = parent\n        self.prev_sibling = prev_sibling\n        self.is_leaf = is_leaf\n\n    def leaves(self):\n        if self.is_leaf:\n            return [self]\n        return []"",
+            ""node = MockNode(\n    parent=MockNode(\n        parent=None,\n        prev_sibling=MockNode(\n            parent=None,\n            prev_sibling=None,\n            is_leaf=True\n        ),\n        is_leaf=False\n    ),\n    prev_sibling=None,\n    is_leaf=False\n)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    pass"",
+            ""class MockNode:\n    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):\n        self.parent = parent\n        self.prev_sibling = prev_sibling\n        self.is_leaf = is_leaf\n    def leaves(self) -> List['MockNode']:\n        if self.is_leaf:\n            return [self]\n        return []"",
+            ""node = MockNode(\n    parent=MockNode(\n        parent=None,\n        prev_sibling=MockNode(\n            parent=None,\n            prev_sibling=None,\n            is_leaf=True\n        )\n    ),\n    prev_sibling=None\n)""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class Leaf:\n    pass"",
+            ""class MockNode:\n    def __init__(self, parent=None, prev_sibling=None, is_leaf=False):\n        self.parent = parent\n        self.prev_sibling = prev_sibling\n        self.is_leaf = is_leaf\n    def leaves(self):\n        if self.is_leaf:\n            return [self]\n        return []"",
+            ""leaf = Leaf()"",
+            ""node = MockNode(\n    parent=MockNode(\n        parent=None,\n        prev_sibling=MockNode(\n            parent=None,\n            prev_sibling=None,\n            is_leaf=True\n        )\n    ),\n    prev_sibling=None\n)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List, Union""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""class MockNode:"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):"",
+            ""        self.parent = parent"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.is_leaf = is_leaf"",
+            ""    def leaves(self) -> List[Union['MockNode', 'Leaf']]:"",
+            ""        if self.is_leaf:"",
+            ""            return [self]"",
+            ""        return []"",
+            ""leaf_node = MockNode(None, None, True)"",
+            ""parent_node = MockNode(None, leaf_node, False)"",
+            ""leaf_node.parent = parent_node"",
+            ""node = MockNode(parent_node, None, False)""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class Leaf:\n    pass"",
+            ""class MockNode:\n    def __init__(self, parent=None, prev_sibling=None, is_leaf=False):\n        self.parent = parent\n        self.prev_sibling = prev_sibling\n        self.is_leaf = is_leaf\n\n    def leaves(self):\n        if self.is_leaf:\n            return [self]\n        return []"",
+            ""leaf_node = MockNode(is_leaf=True)"",
+            ""sibling_node_with_leaves = MockNode(prev_sibling=leaf_node)"",
+            ""parent_node = MockNode(prev_sibling=sibling_node_with_leaves)"",
+            ""node = MockNode(parent=parent_node)""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class Leaf:\n    pass"",
+            ""class MockNode:\n    def __init__(self, parent=None, prev_sibling=None, is_leaf=False):\n        self.parent = parent\n        self.prev_sibling = prev_sibling\n        self.is_leaf = is_leaf\n    def leaves(self):\n        if self.is_leaf:\n            return [self]\n        return []"",
+            ""leaf_node = MockNode(is_leaf=True)"",
+            ""inner_node = MockNode(parent=None, prev_sibling=leaf_node)"",
+            ""node = MockNode(parent=inner_node, prev_sibling=None)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any"",
+            ""from typing import Iterator"",
+            ""from typing import Optional"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, parent: Optional[Any] = None, prev_sibling: Optional[Any] = None, is_leaf: bool = False):\n        self.parent = parent\n        self.prev_sibling = prev_sibling\n        self.is_leaf = is_leaf\n    def leaves(self) -> Iterator['MockNode']:\n        if self.is_leaf:\n            yield self\n        else:\n            return iter([])"",
+            ""class Leaf:\n    pass"",
+            ""leaf_node = MockNode(is_leaf=True)"",
+            ""inner_node_with_leaf_sibling = MockNode(\n    parent=None,\n    prev_sibling=leaf_node\n)"",
+            ""node = MockNode(\n    parent=MockNode(\n        parent=None,\n        prev_sibling=inner_node_with_leaf_sibling\n    ),\n    prev_sibling=None\n)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    pass"",
+            ""class MockNode:\n    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):\n        self.parent = parent\n        self.prev_sibling = prev_sibling\n        self.is_leaf = is_leaf\n    def leaves(self) -> List['MockNode']:\n        if self.is_leaf:\n            return [self]\n        return []"",
+            ""leaf_node = MockNode(is_leaf=True)"",
+            ""prev_sibling_node = MockNode(prev_sibling=leaf_node)"",
+            ""parent_node = MockNode(prev_sibling=prev_sibling_node)"",
+            ""node = MockNode(parent=parent_node)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any"",
+            ""from typing import Optional"",
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""    pass"",
+            ""class MockNode:"",
+            ""    def __init__(self, parent: Optional[Any] = None, prev_sibling: Optional[Any] = None, is_leaf: bool = False):"",
+            ""        self.parent = parent"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.is_leaf = is_leaf"",
+            ""    def leaves(self) -> List[Any]:"",
+            ""        if self.is_leaf:"",
+            ""            return [self]"",
+            ""        return []"",
+            ""leaf_node = MockNode(is_leaf=True)"",
+            ""non_leaf_node = MockNode(parent=None, prev_sibling=leaf_node, is_leaf=False)"",
+            ""node = MockNode(parent=non_leaf_node)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List""
+        ],
+        ""initialization"": [
+            ""class Leaf: pass"",
+            ""class MockNode:"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):"",
+            ""        self.parent = parent"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.is_leaf = is_leaf"",
+            ""    def leaves(self) -> List['MockNode']:"",
+            ""        if self.is_leaf:"",
+            ""            return [self]"",
+            ""        return []"",
+            ""leaf_node = MockNode(is_leaf=True)"",
+            ""inner_node = MockNode(prev_sibling=leaf_node)"",
+            ""node = MockNode(parent=inner_node)""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, parent=None, prev_sibling=None, is_leaf=False):# pragma: no cover"",
+            ""        self.parent = parent# pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling# pragma: no cover"",
+            ""        self.is_leaf = is_leaf# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        if self.is_leaf:# pragma: no cover"",
+            ""            return [self]# pragma: no cover"",
+            ""        return [] # pragma: no cover"",
+            ""node = MockNode(# pragma: no cover"",
+            ""    parent=MockNode(# pragma: no cover"",
+            ""        parent=None,# pragma: no cover"",
+            ""        prev_sibling=MockNode(# pragma: no cover"",
+            ""            parent=None,# pragma: no cover"",
+            ""            prev_sibling=None,# pragma: no cover"",
+            ""            is_leaf=True# pragma: no cover"",
+            ""        ),# pragma: no cover"",
+            ""        is_leaf=False# pragma: no cover"",
+            ""    ),# pragma: no cover"",
+            ""    prev_sibling=None,# pragma: no cover"",
+            ""    is_leaf=False# pragma: no cover"",
+            "") # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):# pragma: no cover"",
+            ""        self.parent = parent# pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling# pragma: no cover"",
+            ""        self.is_leaf = is_leaf# pragma: no cover"",
+            ""    def leaves(self) -> List['MockNode']:# pragma: no cover"",
+            ""        if self.is_leaf:# pragma: no cover"",
+            ""            return [self]# pragma: no cover"",
+            ""        return [] # pragma: no cover"",
+            ""node = MockNode(# pragma: no cover"",
+            ""    parent=MockNode(# pragma: no cover"",
+            ""        parent=None,# pragma: no cover"",
+            ""        prev_sibling=MockNode(# pragma: no cover"",
+            ""            parent=None,# pragma: no cover"",
+            ""            prev_sibling=None,# pragma: no cover"",
+            ""            is_leaf=True# pragma: no cover"",
+            ""        )# pragma: no cover"",
+            ""    ),# pragma: no cover"",
+            ""    prev_sibling=None# pragma: no cover"",
+            "") # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, parent=None, prev_sibling=None, is_leaf=False):# pragma: no cover"",
+            ""        self.parent = parent# pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling# pragma: no cover"",
+            ""        self.is_leaf = is_leaf# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        if self.is_leaf:# pragma: no cover"",
+            ""            return [self]# pragma: no cover"",
+            ""        return [] # pragma: no cover"",
+            ""leaf = Leaf() # pragma: no cover"",
+            ""node = MockNode(# pragma: no cover"",
+            ""    parent=MockNode(# pragma: no cover"",
+            ""        parent=None,# pragma: no cover"",
+            ""        prev_sibling=MockNode(# pragma: no cover"",
+            ""            parent=None,# pragma: no cover"",
+            ""            prev_sibling=None,# pragma: no cover"",
+            ""            is_leaf=True# pragma: no cover"",
+            ""        )# pragma: no cover"",
+            ""    ),# pragma: no cover"",
+            ""    prev_sibling=None# pragma: no cover"",
+            "") # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, parent=None, prev_sibling=None, is_leaf=False):# pragma: no cover"",
+            ""        self.parent = parent# pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling# pragma: no cover"",
+            ""        self.is_leaf = is_leaf# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        if self.is_leaf:# pragma: no cover"",
+            ""            return [self]# pragma: no cover"",
+            ""        return [] # pragma: no cover"",
+            ""leaf_node = MockNode(is_leaf=True) # pragma: no cover"",
+            ""sibling_node_with_leaves = MockNode(prev_sibling=leaf_node) # pragma: no cover"",
+            ""parent_node = MockNode(prev_sibling=sibling_node_with_leaves) # pragma: no cover"",
+            ""node = MockNode(parent=parent_node) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, parent=None, prev_sibling=None, is_leaf=False):# pragma: no cover"",
+            ""        self.parent = parent# pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling# pragma: no cover"",
+            ""        self.is_leaf = is_leaf# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        if self.is_leaf:# pragma: no cover"",
+            ""            return [self]# pragma: no cover"",
+            ""        return [] # pragma: no cover"",
+            ""leaf_node = MockNode(is_leaf=True) # pragma: no cover"",
+            ""inner_node = MockNode(parent=None, prev_sibling=leaf_node) # pragma: no cover"",
+            ""node = MockNode(parent=inner_node, prev_sibling=None) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any # pragma: no cover"",
+            ""from typing import Iterator # pragma: no cover"",
+            ""from typing import Optional # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, parent: Optional[Any] = None, prev_sibling: Optional[Any] = None, is_leaf: bool = False):# pragma: no cover"",
+            ""        self.parent = parent# pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling# pragma: no cover"",
+            ""        self.is_leaf = is_leaf# pragma: no cover"",
+            ""    def leaves(self) -> Iterator['MockNode']:# pragma: no cover"",
+            ""        if self.is_leaf:# pragma: no cover"",
+            ""            yield self# pragma: no cover"",
+            ""        else:# pragma: no cover"",
+            ""            return iter([]) # pragma: no cover"",
+            ""class Leaf:# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""leaf_node = MockNode(is_leaf=True) # pragma: no cover"",
+            ""inner_node_with_leaf_sibling = MockNode(# pragma: no cover"",
+            ""    parent=None,# pragma: no cover"",
+            ""    prev_sibling=leaf_node# pragma: no cover"",
+            "") # pragma: no cover"",
+            ""node = MockNode(# pragma: no cover"",
+            ""    parent=MockNode(# pragma: no cover"",
+            ""        parent=None,# pragma: no cover"",
+            ""        prev_sibling=inner_node_with_leaf_sibling# pragma: no cover"",
+            ""    ),# pragma: no cover"",
+            ""    prev_sibling=None# pragma: no cover"",
+            "") # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False):# pragma: no cover"",
+            ""        self.parent = parent# pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling# pragma: no cover"",
+            ""        self.is_leaf = is_leaf# pragma: no cover"",
+            ""    def leaves(self) -> List['MockNode']:# pragma: no cover"",
+            ""        if self.is_leaf:# pragma: no cover"",
+            ""            return [self]# pragma: no cover"",
+            ""        return [] # pragma: no cover"",
+            ""leaf_node = MockNode(is_leaf=True) # pragma: no cover"",
+            ""prev_sibling_node = MockNode(prev_sibling=leaf_node) # pragma: no cover"",
+            ""parent_node = MockNode(prev_sibling=prev_sibling_node) # pragma: no cover"",
+            ""node = MockNode(parent=parent_node) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any # pragma: no cover"",
+            ""from typing import Optional # pragma: no cover"",
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf: # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""class MockNode: # pragma: no cover"",
+            ""    def __init__(self, parent: Optional[Any] = None, prev_sibling: Optional[Any] = None, is_leaf: bool = False): # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling # pragma: no cover"",
+            ""        self.is_leaf = is_leaf # pragma: no cover"",
+            ""    def leaves(self) -> List[Any]: # pragma: no cover"",
+            ""        if self.is_leaf: # pragma: no cover"",
+            ""            return [self] # pragma: no cover"",
+            ""        return [] # pragma: no cover"",
+            ""leaf_node = MockNode(is_leaf=True) # pragma: no cover"",
+            ""non_leaf_node = MockNode(parent=None, prev_sibling=leaf_node, is_leaf=False) # pragma: no cover"",
+            ""node = MockNode(parent=non_leaf_node) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf: pass # pragma: no cover"",
+            ""class MockNode: # pragma: no cover"",
+            ""    def __init__(self, parent: Optional['MockNode'] = None, prev_sibling: Optional['MockNode'] = None, is_leaf: bool = False): # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling # pragma: no cover"",
+            ""        self.is_leaf = is_leaf # pragma: no cover"",
+            ""    def leaves(self) -> List['MockNode']: # pragma: no cover"",
+            ""        if self.is_leaf: # pragma: no cover"",
+            ""            return [self] # pragma: no cover"",
+            ""        return [] # pragma: no cover"",
+            ""leaf_node = MockNode(is_leaf=True) # pragma: no cover"",
+            ""inner_node = MockNode(prev_sibling=leaf_node) # pragma: no cover"",
+            ""node = MockNode(parent=inner_node) # pragma: no cover""
+        ]
+    }
+]",2,1265,0.0006325,1868,0.002802,0.0034345
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Return the first leaf that precedes `node`, if any.""""""
+while node:
+    res = node.prev_sibling
+    if res:
+        if isinstance(res, Leaf): # uncovered
+            aux = res # uncovered
+            exit(aux) # uncovered
+        try:
+            aux = list(res.leaves())[-1]
+            exit(aux) # uncovered
+        except IndexError:
+            aux = None
+            exit(aux) # uncovered
+    node = node.parent
+aux = None
+exit(aux) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""class Leaf: pass"",
+            ""class MockNode:"",
+            ""    def leaves(self) -> List[Leaf]:"",
+            ""        return [Leaf(), Leaf()]"",
+            ""    def __init__(self, prev_sibling: Any = None, parent: Any = None):"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.parent = parent"",
+            ""        self.leaf = Leaf()"",
+            ""node = MockNode(prev_sibling=Leaf())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class Leaf:"",
+            ""class Node:""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""    pass"",
+            """",
+            ""class Node:"",
+            ""    def __init__(self, prev_sibling=None, parent=None):"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.parent = parent"",
+            """",
+            ""leaf_node = Leaf()"",
+            ""parent_node = Node(prev_sibling=leaf_node)"",
+            ""node = Node(parent=parent_node)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""class Leaf: pass"",
+            ""mock_leaves = lambda: [Leaf()]"",
+            ""node = SimpleNamespace(prev_sibling=SimpleNamespace(leaves=mock_leaves), parent=None)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""    pass"",
+            """",
+            ""class NodeMock:"",
+            ""    def __init__(self, prev_sibling=None, parent=None):"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.parent = parent"",
+            ""aux = None"",
+            ""node = NodeMock(prev_sibling=Leaf())"",
+            ""exit = sys.exit""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""# Mock class definitions"",
+            ""class Mock:"",
+            ""    def __init__(self, **kwargs):"",
+            ""        self.__dict__.update(kwargs)"",
+            """",
+            ""# Mock Leaf class with prev_sibling attribute"",
+            ""class Leaf(Mock):"",
+            ""    pass"",
+            """",
+            ""# Create leaf node and its previous sibling"",
+            ""prev_leaf = Leaf()"",
+            ""node = Mock(prev_sibling=prev_leaf, parent=None)"",
+            """",
+            ""# Create parent node chain to ensure `node` will be checked at least once in loop"",
+            ""parent_node = Mock(prev_sibling=None, parent=None)"",
+            ""node.parent = parent_node"",
+            """",
+            ""# Create method `leaves` with empty result to trigger IndexError"",
+            ""Mock.leaves = lambda self: []"",
+            """",
+            ""# Redirect exit to a dummy function to avoid termination"",
+            ""sys.exit = lambda x: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""    pass"",
+            """",
+            ""class Node:"",
+            ""    def __init__(self, prev_sibling=None, parent=None):"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.parent = parent"",
+            """",
+            ""leaf = Leaf()"",
+            ""leaf_node = Node(prev_sibling=leaf)"",
+            """",
+            ""node = Node(parent=leaf_node)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import namedtuple""
+        ],
+        ""initialization"": [
+            ""Leaf = namedtuple('Leaf', [])"",
+            ""MockNode = type('MockNode', (object,), {'prev_sibling': None, 'leaves': lambda self: [], 'parent': None})"",
+            ""node = MockNode()"",
+            ""leaf_node = Leaf()"",
+            ""sibling_node = MockNode()"",
+            ""sibling_node.prev_sibling = leaf_node"",
+            ""node.prev_sibling = sibling_node""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""    pass"",
+            """",
+            ""class MockNode:"",
+            ""    def __init__(self, prev_sibling=None, parent=None, is_leaf=False):"",
+            ""        if is_leaf:"",
+            ""            self.__class__ = Leaf"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.parent = parent"",
+            ""    def leaves(self) -> List[Leaf]:"",
+            ""        return [Leaf()]"",
+            """",
+            ""leaf_node = MockNode(is_leaf=True)"",
+            ""prev_sibling_node = MockNode(prev_sibling=leaf_node)"",
+            ""node = MockNode(prev_sibling=prev_sibling_node)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class Leaf: pass"",
+            ""class Node: pass""
+        ],
+        ""initialization"": [
+            ""leaf1 = Leaf()"",
+            ""leaf2 = Leaf()"",
+            ""node1 = Node()"",
+            ""node2 = Node()"",
+            ""node3 = Node()"",
+            ""node3.prev_sibling = leaf1"",
+            ""node2.prev_sibling = node3"",
+            ""node1.prev_sibling = node2"",
+            ""node1.prev_sibling = node2"",
+            ""node1.parent = None"",
+            ""node2.parent = node1"",
+            ""node3.parent = node2"",
+            ""leaf1.parent = node3"",
+            ""leaf2.parent = node3"",
+            ""node = node3""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List"",
+            ""class Leaf:"",
+            ""    pass"",
+            ""class Mock:"",
+            ""    def __init__(self, prev_sibling: Optional['Mock'] = None, parent: Optional['Mock'] = None):"",
+            ""        self.prev_sibling = prev_sibling"",
+            ""        self.parent = parent"",
+            ""    def leaves(self) -> List[Leaf]:"",
+            ""        return [Leaf()]"",
+            ""node = Mock(Mock(), Mock())""
+        ],
+        ""initialization"": [
+            ""node.prev_sibling = Leaf()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf: pass # pragma: no cover"",
+            ""class MockNode: # pragma: no cover"",
+            ""    def leaves(self) -> List[Leaf]: # pragma: no cover"",
+            ""        return [Leaf(), Leaf()] # pragma: no cover"",
+            ""    def __init__(self, prev_sibling: Any = None, parent: Any = None): # pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""        self.leaf = Leaf() # pragma: no cover"",
+            ""node = MockNode(prev_sibling=Leaf()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Leaf: # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class Node: # pragma: no cover"",
+            ""    def __init__(self, prev_sibling=None, parent=None): # pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""leaf_node = Leaf() # pragma: no cover"",
+            ""parent_node = Node(prev_sibling=leaf_node) # pragma: no cover"",
+            ""node = Node(parent=parent_node) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf: pass # pragma: no cover"",
+            ""mock_leaves = lambda: [Leaf()] # pragma: no cover"",
+            ""node = SimpleNamespace(prev_sibling=SimpleNamespace(leaves=mock_leaves), parent=None) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf: # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class NodeMock: # pragma: no cover"",
+            ""    def __init__(self, prev_sibling=None, parent=None): # pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""aux = None # pragma: no cover"",
+            ""node = NodeMock(prev_sibling=Leaf()) # pragma: no cover"",
+            ""exit = sys.exit # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""# Mock class definitions # pragma: no cover"",
+            ""class Mock: # pragma: no cover"",
+            ""    def __init__(self, **kwargs): # pragma: no cover"",
+            ""        self.__dict__.update(kwargs) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""# Mock Leaf class with prev_sibling attribute # pragma: no cover"",
+            ""class Leaf(Mock): # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""# Create leaf node and its previous sibling # pragma: no cover"",
+            ""prev_leaf = Leaf() # pragma: no cover"",
+            ""node = Mock(prev_sibling=prev_leaf, parent=None) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""# Create parent node chain to ensure `node` will be checked at least once in loop # pragma: no cover"",
+            ""parent_node = Mock(prev_sibling=None, parent=None) # pragma: no cover"",
+            ""node.parent = parent_node # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""# Create method `leaves` with empty result to trigger IndexError # pragma: no cover"",
+            ""Mock.leaves = lambda self: [] # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""# Redirect exit to a dummy function to avoid termination # pragma: no cover"",
+            ""sys.exit = lambda x: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf: # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class Node: # pragma: no cover"",
+            ""    def __init__(self, prev_sibling=None, parent=None): # pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""leaf = Leaf() # pragma: no cover"",
+            ""leaf_node = Node(prev_sibling=leaf) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""node = Node(parent=leaf_node) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import namedtuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""Leaf = namedtuple('Leaf', []) # pragma: no cover"",
+            ""MockNode = type('MockNode', (object,), {'prev_sibling': None, 'leaves': lambda self: [], 'parent': None}) # pragma: no cover"",
+            ""node = MockNode() # pragma: no cover"",
+            ""leaf_node = Leaf() # pragma: no cover"",
+            ""sibling_node = MockNode() # pragma: no cover"",
+            ""sibling_node.prev_sibling = leaf_node # pragma: no cover"",
+            ""node.prev_sibling = sibling_node # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf: # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockNode: # pragma: no cover"",
+            ""    def __init__(self, prev_sibling=None, parent=None, is_leaf=False): # pragma: no cover"",
+            ""        if is_leaf: # pragma: no cover"",
+            ""            self.__class__ = Leaf # pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""    def leaves(self) -> List[Leaf]: # pragma: no cover"",
+            ""        return [Leaf()] # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""leaf_node = MockNode(is_leaf=True) # pragma: no cover"",
+            ""prev_sibling_node = MockNode(prev_sibling=leaf_node) # pragma: no cover"",
+            ""node = MockNode(prev_sibling=prev_sibling_node) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""class Leaf: pass # pragma: no cover"",
+            ""class Node: pass # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf1 = Leaf() # pragma: no cover"",
+            ""leaf2 = Leaf() # pragma: no cover"",
+            ""node1 = Node() # pragma: no cover"",
+            ""node2 = Node() # pragma: no cover"",
+            ""node3 = Node() # pragma: no cover"",
+            ""node3.prev_sibling = leaf1 # pragma: no cover"",
+            ""node2.prev_sibling = node3 # pragma: no cover"",
+            ""node1.prev_sibling = node2 # pragma: no cover"",
+            ""node1.prev_sibling = node2 # pragma: no cover"",
+            ""node1.parent = None # pragma: no cover"",
+            ""node2.parent = node1 # pragma: no cover"",
+            ""node3.parent = node2 # pragma: no cover"",
+            ""leaf1.parent = node3 # pragma: no cover"",
+            ""leaf2.parent = node3 # pragma: no cover"",
+            ""node = node3 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional, List # pragma: no cover"",
+            ""class Leaf: # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""class Mock: # pragma: no cover"",
+            ""    def __init__(self, prev_sibling: Optional['Mock'] = None, parent: Optional['Mock'] = None): # pragma: no cover"",
+            ""        self.prev_sibling = prev_sibling # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""    def leaves(self) -> List[Leaf]: # pragma: no cover"",
+            ""        return [Leaf()] # pragma: no cover"",
+            ""node = Mock(Mock(), Mock()) # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node.prev_sibling = Leaf() # pragma: no cover""
+        ]
+    }
+]",3,401,0.0002005,1371,0.0020565,0.0022570000000000003

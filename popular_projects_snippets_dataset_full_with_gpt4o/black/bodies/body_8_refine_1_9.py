@@ -1,0 +1,146 @@
+from typing import List # pragma: no cover
+import token # pragma: no cover
+
+class Leaf:# pragma: no cover
+    pass # pragma: no cover
+node = Leaf() # pragma: no cover
+MockCurrentLine = type('MockCurrentLine', (object,), {# pragma: no cover
+    'bracket_tracker': type('MockBracketTracker', (object,), {# pragma: no cover
+        'any_open_brackets': lambda self: False# pragma: no cover
+    })(),# pragma: no cover
+    'append': lambda self, item: None# pragma: no cover
+})# pragma: no cover
+self = type('MockSelf', (object,), {# pragma: no cover
+    'current_line': MockCurrentLine(),# pragma: no cover
+    'mode': type('MockMode', (object,), {# pragma: no cover
+        'preview': False,# pragma: no cover
+        'string_normalization': True# pragma: no cover
+    })(),# pragma: no cover
+    'line': lambda self: None,# pragma: no cover
+    'visit_default': lambda self, node: None# pragma: no cover
+})() # pragma: no cover
+def generate_comments(node, preview=False):# pragma: no cover
+    return [] # pragma: no cover
+def normalize_prefix(node, inside_brackets):# pragma: no cover
+    pass # pragma: no cover
+def normalize_string_prefix(value):# pragma: no cover
+    return value # pragma: no cover
+def normalize_string_quotes(value):# pragma: no cover
+    return value # pragma: no cover
+def normalize_numeric_literal(node):# pragma: no cover
+    pass # pragma: no cover
+token.COMMENT = 1 # pragma: no cover
+token.STRING = 2 # pragma: no cover
+token.NUMBER = 3 # pragma: no cover
+WHITESPACE = set() # pragma: no cover
+node.type = token.COMMENT # pragma: no cover
+node.value = 'Some value' # pragma: no cover
+
+from typing import List # pragma: no cover
+import token # pragma: no cover
+
+class Leaf:# pragma: no cover
+    pass # pragma: no cover
+node = Leaf() # pragma: no cover
+class MockBracketTracker:# pragma: no cover
+    def any_open_brackets(self) -> bool:# pragma: no cover
+        return False # pragma: no cover
+class MockCurrentLine:# pragma: no cover
+    bracket_tracker = MockBracketTracker()# pragma: no cover
+    def append(self, item):# pragma: no cover
+        print(f"Appended: {item}") # pragma: no cover
+class MockMode:# pragma: no cover
+    preview = False# pragma: no cover
+    string_normalization = True # pragma: no cover
+class BaseVisitor:# pragma: no cover
+    def visit_default(self, node):# pragma: no cover
+        print("Visited default") # pragma: no cover
+class MockSelf(BaseVisitor):# pragma: no cover
+    current_line = MockCurrentLine()# pragma: no cover
+    mode = MockMode()# pragma: no cover
+    def line(self):# pragma: no cover
+        print("Line exit") # pragma: no cover
+def generate_comments(node, preview=False):# pragma: no cover
+    print(f"Generating comments for node: {node}, preview: {preview}")# pragma: no cover
+    return [{'type': token.COMMENT, 'value': '# Comment'}] # pragma: no cover
+def normalize_prefix(node, inside_brackets):# pragma: no cover
+    print(f"Normalizing prefix for node: {node}, inside_brackets: {inside_brackets}") # pragma: no cover
+def normalize_string_prefix(value):# pragma: no cover
+    print(f"Normalizing string prefix: {value}")# pragma: no cover
+    return value # pragma: no cover
+def normalize_string_quotes(value):# pragma: no cover
+    print(f"Normalizing string quotes: {value}")# pragma: no cover
+    return value # pragma: no cover
+def normalize_numeric_literal(node):# pragma: no cover
+    print(f"Normalizing numeric literal for node: {node}") # pragma: no cover
+token.COMMENT = 1 # pragma: no cover
+token.STRING = 2 # pragma: no cover
+token.NUMBER = 3 # pragma: no cover
+WHITESPACE = set() # pragma: no cover
+node.type = token.COMMENT # pragma: no cover
+node.value = 'Some value' # pragma: no cover
+self = MockSelf() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/black/src/black/linegen.py
+from l3.Runtime import _l_
+"""Default `visit_*()` implementation. Recurses to children of `node`."""
+if isinstance(node, Leaf):
+    _l_(19447)
+
+    any_open_brackets = self.current_line.bracket_tracker.any_open_brackets()
+    _l_(19429)
+    for comment in generate_comments(node, preview=self.mode.preview):
+        _l_(19438)
+
+        if any_open_brackets:
+            _l_(19437)
+
+            # any comment within brackets is subject to splitting
+            self.current_line.append(comment)
+            _l_(19430)
+        elif comment.type == token.COMMENT:
+            _l_(19436)
+
+            # regular trailing comment
+            self.current_line.append(comment)
+            _l_(19431)
+            aux = self.line()
+            _l_(19432)
+            exit(aux)
+
+        else:
+            aux = self.line()
+            _l_(19433)
+            # regular standalone comment
+            exit(aux)
+
+            self.current_line.append(comment)
+            _l_(19434)
+            aux = self.line()
+            _l_(19435)
+            exit(aux)
+
+    normalize_prefix(node, inside_brackets=any_open_brackets)
+    _l_(19439)
+    if self.mode.string_normalization and node.type == token.STRING:
+        _l_(19442)
+
+        node.value = normalize_string_prefix(node.value)
+        _l_(19440)
+        node.value = normalize_string_quotes(node.value)
+        _l_(19441)
+    if node.type == token.NUMBER:
+        _l_(19444)
+
+        normalize_numeric_literal(node)
+        _l_(19443)
+    if node.type not in WHITESPACE:
+        _l_(19446)
+
+        self.current_line.append(node)
+        _l_(19445)
+aux = super().visit_default(node)
+_l_(19448)
+exit(aux)

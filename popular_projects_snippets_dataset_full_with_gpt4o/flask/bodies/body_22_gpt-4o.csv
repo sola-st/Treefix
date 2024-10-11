@@ -1,0 +1,3415 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+# Before we push the request context we have to ensure that there
+# is an application context.
+app_ctx = _cv_app.get(None)
+
+if app_ctx is None or app_ctx.app is not self.app:
+    app_ctx = self.app.app_context()
+    app_ctx.push()
+else:
+    app_ctx = None
+
+self._cv_tokens.append((_cv_request.set(self), app_ctx))
+
+# Open the session at the moment that the request context is available.
+# This allows a custom open_session method to use the request context.
+# Only open a new session if this is the first time the request was
+# pushed, otherwise stream_with_context loses the session.
+if self.session is None:
+    session_interface = self.app.session_interface
+    self.session = session_interface.open_session(self.app, self.request)
+
+    if self.session is None:
+        self.session = session_interface.make_null_session(self.app)
+
+        # Match the request URL after loading the session, so that the
+        # session is available in custom URL converters.
+if self.url_adapter is not None:
+    self.match_request()
+
+# end code snippet
+
+# begin undefined variables
+_cv_app
+self
+_cv_request
+# end undefined variables
+
+# begin undefined attributes and methods
+_cv_app.get
+self.app
+self._cv_tokens
+_cv_request.set
+self.session
+self.request
+self.url_adapter
+self.match_request
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from threading import local"",
+            ""from flask import Flask, Request, Session, url_adapter""
+        ],
+        ""initialization"": [
+            ""_cv_app = local()"",
+            ""self = type('MockSelf', (object,), {\n  'app': Flask('mock_app'),\n  '_cv_tokens': [],\n  'session': None,\n  'request': Request('http://localhost'),\n  'url_adapter': url_adapter\n})()"",
+            ""_cv_request = local()"",
+            ""_cv_request.set = lambda val: 'mock_token'"",
+            ""self.match_request = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, session, g""
+        ],
+        ""initialization"": [
+            ""_cv_app = type('Mock', (object,), {'get': lambda self, default: None})()"",
+            ""self = type('Mock', (object,), {"",
+            ""    'app': Flask(__name__),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': Request.from_values(),"",
+            ""    'url_adapter': type('Mock', (object,), {'some_adapter_function': lambda self: None})(),"",
+            ""    'match_request': lambda self: None"",
+            ""})()"",
+            ""_cv_request = type('Mock', (object,), {'set': lambda self, value: value})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock, MagicMock""
+        ],
+        ""initialization"": [
+            ""_cv_app = Mock()"",
+            ""self = type('Mock', (object,), {})()"",
+            ""_cv_request = Mock()"",
+            ""_cv_app.get = Mock(return_value=None)"",
+            ""self.app = Mock()"",
+            ""self._cv_tokens = []"",
+            ""_cv_request.set = Mock(return_value=None)"",
+            ""self.session = None"",
+            ""self.request = Mock()"",
+            ""self.url_adapter = None"",
+            ""self.match_request = Mock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from typing import Any"",
+            ""class Mock: pass""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""self = type('SelfMock', (object,), {"",
+            ""    'app': Mock(),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': Mock(),"",
+            ""    'url_adapter': Mock(),"",
+            ""    'match_request': lambda self: None"",
+            ""})()"",
+            ""_cv_request = ContextVar('cv_request', default=None)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, url_for""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app_context', default=None)"",
+            ""_cv_request = ContextVar('request_context', default=None)"",
+            ""self = type('Mock', (object,), {})()"",
+            ""self.app = Flask(__name__)"",
+            ""self._cv_tokens = []"",
+            ""self.session = None"",
+            ""self.request = Request({})"",
+            ""self.url_adapter = url_for('index')"",
+            ""self.match_request = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, SessionInterface, url_for, Blueprint"",
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""class MockApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n\n    def app_context(self):\n        return MockAppContext()\n\napp = MockApp()"",
+            ""class MockAppContext:\n    def push(self):\n        pass\n\napp_ctx = MockAppContext()"",
+            ""class MockRequest:\n    pass\n\nrequest = MockRequest()"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return { 'session_key': 'session_value' }\n\n    def make_null_session(self, app):\n        return { 'session_key': 'null_session_value' }\n\nsession_interface = MockSessionInterface()"",
+            ""class MockSelf:\n    def __init__(self):\n        self.app = app\n        self.session = None\n        self.request = request\n        self.url_adapter = True\n        self._cv_tokens = []\n\n    def match_request(self):\n        pass\n\nself = MockSelf()"",
+            ""_cv_request = ContextVar('_cv_request', default=None)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local"",
+            ""from flask import Flask, Request, SessionInterface, URLAdapter""
+        ],
+        ""initialization"": [
+            ""_cv_app = local()"",
+            ""class SelfMock:\n    def __init__(self):\n        self.app = Flask(__name__)\n        self._cv_tokens = []\n        self.session = None\n        self.request = Request({})\n        self.url_adapter = URLAdapter()"",
+            ""self = SelfMock()"",
+            ""_cv_request = local()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import deque"",
+            ""from flask import Flask, Request, SessionInterface""
+        ],
+        ""initialization"": [
+            ""_cv_app = type('Mock', (object,), {'get': lambda self, x: None})()"",
+            ""_cv_request = type('Mock', (object,), {'set': lambda self, x: None})()"",
+            ""self = type('Mock', (object,), {\n    'app': Flask(__name__),\n    '_cv_tokens': deque(),\n    'session': None,\n    'request': Request({'REQUEST_METHOD': 'GET', 'wsgi.url_scheme': 'http'})\n})"",
+            ""self.url_adapter = type('Mock', (object,), {\n    'match_request': lambda self: None\n})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from typing import Any, List, Optional""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app_context')"",
+            ""class MockApp:\n    def __init__(self) -> None:\n        self.session_interface = MockSessionInterface()\n        self.app_context_pushed = False\n\n    def app_context(self) -> 'AppContext':\n        if not self.app_context_pushed:\n            self.app_context_pushed = True\n            return AppContext(self)\n        return AppContext(self)\n\nclass MockSessionInterface:\n    def open_session(self, app: 'MockApp', request: 'MockRequest') -> Optional['MockSession']:\n        return MockSession()\n\n    def make_null_session(self, app: 'MockApp') -> 'MockNullSession':\n        return MockNullSession()\n\nclass AppContext:\n    def __init__(self, app: 'MockApp') -> None:\n        self.app = app\n\n    def push(self) -> None:\n        pass\n\nclass MockSession:\n    pass\n\nclass MockNullSession:\n    pass\n\nclass MockRequest:\n    pass\n\nclass Mock:\n    def __init__(self) -> None:\n        self.app = MockApp()\n        self._cv_tokens: List[Any] = []\n        self.session: Optional[MockSession] = None\n        self.request = MockRequest()\n        self.url_adapter: Optional[Any] = True\n\n    def match_request(self) -> None:\n        pass\n\nself = Mock()"",
+            ""_cv_request = ContextVar('request_context')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import deque"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""_cv_app = type('Mock', (object,), {'get': lambda self, val: SimpleNamespace(app=None)})()"",
+            ""self = type('Mock', (object,), {'app': SimpleNamespace(app_context=lambda: type('Mock', (object,), {'push': lambda self: None})()), '_cv_tokens': deque(), 'session': None, 'request': SimpleNamespace(), 'url_adapter': SimpleNamespace(), 'match_request': lambda self: None})()"",
+            ""_cv_request = type('Mock', (object,), {'set': lambda self, val: None})()"",
+            ""self.app.session_interface = type('Mock', (object,), {'open_session': lambda self, app, request: None, 'make_null_session': lambda self, app: SimpleNamespace()})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from threading import local # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, session, g # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = type('Mock', (object,), {'get': lambda self, default: None})() # pragma: no cover"",
+            ""self = type('Mock', (object,), { # pragma: no cover"",
+            ""    'app': Flask(__name__), # pragma: no cover"",
+            ""    '_cv_tokens': [], # pragma: no cover"",
+            ""    'session': None, # pragma: no cover"",
+            ""    'request': Request.from_values(), # pragma: no cover"",
+            ""    'url_adapter': type('Mock', (object,), {'some_adapter_function': lambda self: None})(), # pragma: no cover"",
+            ""    'match_request': lambda self: None # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""_cv_request = type('Mock', (object,), {'set': lambda self, value: value})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock, MagicMock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = Mock() # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""_cv_request = Mock() # pragma: no cover"",
+            ""_cv_app.get = Mock(return_value=None) # pragma: no cover"",
+            ""self.app = Mock() # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""_cv_request.set = Mock(return_value=None) # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self.request = Mock() # pragma: no cover"",
+            ""self.url_adapter = None # pragma: no cover"",
+            ""self.match_request = Mock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from typing import Any # pragma: no cover"",
+            ""class Mock: pass # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None) # pragma: no cover"",
+            ""self = type('SelfMock', (object,), { # pragma: no cover"",
+            ""    'app': Mock(), # pragma: no cover"",
+            ""    '_cv_tokens': [], # pragma: no cover"",
+            ""    'session': None, # pragma: no cover"",
+            ""    'request': Mock(), # pragma: no cover"",
+            ""    'url_adapter': Mock(), # pragma: no cover"",
+            ""    'match_request': lambda self: None # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""_cv_request = ContextVar('cv_request', default=None) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from flask import Flask, Request, url_for # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app_context', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('request_context', default=None) # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.app = Flask(__name__) # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self.request = Request({}) # pragma: no cover"",
+            ""self.match_request = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""class MockApp:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        pass"",
+            ""# pragma: no cover"",
+            ""    def app_context(self):# pragma: no cover"",
+            ""        return MockAppContext()# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""app = MockApp() # pragma: no cover"",
+            ""class MockAppContext:# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""app_ctx = MockAppContext() # pragma: no cover"",
+            ""class MockRequest:# pragma: no cover"",
+            ""    pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""request = MockRequest() # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.app = app# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""        self.request = request# pragma: no cover"",
+            ""        self.url_adapter = True# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = local() # pragma: no cover"",
+            ""class SelfMock:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""self = SelfMock() # pragma: no cover"",
+            ""_cv_request = local() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import deque # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from typing import Any, List, Optional # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app_context') # pragma: no cover"",
+            ""class MockApp:# pragma: no cover"",
+            ""    def __init__(self) -> None:# pragma: no cover"",
+            ""        self.session_interface = MockSessionInterface()# pragma: no cover"",
+            ""        self.app_context_pushed = False# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def app_context(self) -> 'AppContext':# pragma: no cover"",
+            ""        if not self.app_context_pushed:# pragma: no cover"",
+            ""            self.app_context_pushed = True# pragma: no cover"",
+            ""            return AppContext(self)# pragma: no cover"",
+            ""        return AppContext(self)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSessionInterface:# pragma: no cover"",
+            ""    def open_session(self, app: 'MockApp', request: 'MockRequest') -> Optional['MockSession']:# pragma: no cover"",
+            ""        return MockSession()# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def make_null_session(self, app: 'MockApp') -> 'MockNullSession':# pragma: no cover"",
+            ""        return MockNullSession()# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class AppContext:# pragma: no cover"",
+            ""    def __init__(self, app: 'MockApp') -> None:# pragma: no cover"",
+            ""        self.app = app# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def push(self) -> None:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSession:# pragma: no cover"",
+            ""    pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockNullSession:# pragma: no cover"",
+            ""    pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockRequest:# pragma: no cover"",
+            ""    pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class Mock:# pragma: no cover"",
+            ""    def __init__(self) -> None:# pragma: no cover"",
+            ""        self.app = MockApp()# pragma: no cover"",
+            ""        self._cv_tokens: List[Any] = []# pragma: no cover"",
+            ""        self.session: Optional[MockSession] = None# pragma: no cover"",
+            ""        self.request = MockRequest()# pragma: no cover"",
+            ""        self.url_adapter: Optional[Any] = True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def match_request(self) -> None:# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""_cv_request = ContextVar('request_context') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import deque # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = type('Mock', (object,), {'get': lambda self, val: SimpleNamespace(app=None)})() # pragma: no cover"",
+            ""self = type('Mock', (object,), {'app': SimpleNamespace(app_context=lambda: type('Mock', (object,), {'push': lambda self: None})()), '_cv_tokens': deque(), 'session': None, 'request': SimpleNamespace(), 'url_adapter': SimpleNamespace(), 'match_request': lambda self: None})() # pragma: no cover"",
+            ""_cv_request = type('Mock', (object,), {'set': lambda self, val: None})() # pragma: no cover"",
+            ""self.app.session_interface = type('Mock', (object,), {'open_session': lambda self, app, request: None, 'make_null_session': lambda self, app: SimpleNamespace()})() # pragma: no cover""
+        ]
+    }
+]",1,543,0.0002715,1945,0.0029175,0.003189
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 6:
+    app_ctx = _cv_app.get(None)
+NameError: name '_cv_app' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from threading import local"",
+            ""from flask import Flask, Request, Session, url_adapter""
+        ],
+        ""initialization"": [
+            ""_cv_app = local()"",
+            ""_cv_app.get = lambda key: None"",
+            ""self = type('MockSelf', (object,), {\n  'app': Flask('mock_app'),\n  '_cv_tokens': [],\n  'session': None,\n  'request': Request('http://localhost'),\n  'url_adapter': url_adapter,\n  '_cv_app': _cv_app\n})()"",
+            ""_cv_request = local()"",
+            ""_cv_request.set = lambda val: 'mock_token'"",
+            ""self.match_request = lambda: None"",
+            ""_cv_app.get = lambda key: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local"",
+            ""from flask import Flask, Request, Session, url_for""
+        ],
+        ""initialization"": [
+            ""_cv_app = local()"",
+            ""_cv_app.get = lambda _: None"",
+            ""self = type('MockSelf', (object,), {\n  'app': Flask('mock_app'),\n  '_cv_tokens': [],\n  'session': None,\n  'request': Request({}, {}),\n  'url_adapter': None\n})()"",
+            ""_cv_request = local()"",
+            ""_cv_request.set = lambda val: 'mock_token'"",
+            ""self.match_request = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local"",
+            ""from flask import Flask, Request""
+        ],
+        ""initialization"": [
+            ""_cv_app = local()"",
+            ""_cv_app.get = lambda default: None"",
+            ""self = type('MockSelf', (object,), {\n  'app': Flask('mock_app'),\n  '_cv_tokens': [],\n  'session': None,\n  'request': Request({'PATH_INFO': '/'}, {'SERVER_NAME': 'localhost'}),\n  'url_adapter': None,\n  'app_context': lambda: type('MockAppContext', (object,), {\n    'push': lambda: None,\n    'app': Flask('mock_app')\n  })()\n})()"",
+            ""_cv_request = local()"",
+            ""_cv_request.set = lambda val: 'mock_token'"",
+            ""self.match_request = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local"",
+            ""from flask import Flask, Request, Session, url_adapter""
+        ],
+        ""initialization"": [
+            ""_cv_app = local()"",
+            ""_cv_app.get = lambda default: None"",
+            ""self = type('MockSelf', (object,), {\n  'app': Flask('mock_app'),\n  '_cv_tokens': [],\n  'session': None,\n  'request': Request('http://localhost'),\n  'url_adapter': url_adapter\n})()"",
+            ""_cv_request = local()"",
+            ""_cv_request.set = lambda val: 'mock_token'"",
+            ""self.match_request = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local"",
+            ""from flask import Flask, Request, Session, url_adapter""
+        ],
+        ""initialization"": [
+            ""_cv_app = local()"",
+            ""_cv_app.get = lambda x: None"",
+            ""self = type('MockSelf', (object,), {\n  'app': Flask('mock_app'),\n  '_cv_tokens': [],\n  'session': None,\n  'request': Request({'REQUEST_METHOD': 'GET'}, '/', query_string=''),\n  'url_adapter': url_adapter\n})()"",
+            ""_cv_request = local()"",
+            ""_cv_request.set = lambda val: 'mock_token'"",
+            ""self.match_request = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local"",
+            ""from flask import Flask, Request, Session""
+        ],
+        ""initialization"": [
+            ""_cv_app = local()"",
+            ""_cv_app.get = lambda _: None"",
+            ""self = type('MockSelf', (object,), {\n  'app': Flask('mock_app'),\n  '_cv_tokens': [],\n  'session': None,\n  'request': Request({'wsgi.url_scheme': 'http', 'SERVER_NAME': 'localhost', 'SERVER_PORT': '80', 'REQUEST_METHOD': 'GET'}),\n  'url_adapter': type('MockUrlAdapter', (object,), {'match': lambda: None})()\n})()"",
+            ""_cv_request = local()"",
+            ""_cv_request.set = lambda val: 'mock_token'"",
+            ""self.match_request = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local"",
+            ""from flask import Flask, Request""
+        ],
+        ""initialization"": [
+            ""_cv_app = local()"",
+            ""_cv_app.get = lambda val: None"",
+            ""self = type('MockSelf', (object,), {\n  'app': Flask('mock_app'),\n  '_cv_tokens': [],\n  'session': None,\n  'request': Request({'REQUEST_METHOD': 'GET'}, lambda: None),\n  'url_adapter': None\n})()"",
+            ""_cv_request = local()"",
+            ""_cv_request.set = lambda val: 'mock_token'"",
+            ""self.match_request = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local"",
+            ""from flask import Flask, Request, Session""
+        ],
+        ""initialization"": [
+            ""_cv_app = local()"",
+            ""_cv_app.get = lambda default: getattr(_cv_app, 'app_context', default)"",
+            ""self = type('MockSelf', (object,), {\n  'app': Flask('mock_app'),\n  '_cv_tokens': [],\n  'session': None,\n  'request': Request.from_values('/'),\n  'url_adapter': None\n})()"",
+            ""_cv_request = local()"",
+            ""_cv_request.set = lambda val: 'mock_token'"",
+            ""self.match_request = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local"",
+            ""from flask import Flask, Request, Session""
+        ],
+        ""initialization"": [
+            ""_cv_app = local()"",
+            ""_cv_app.get = lambda x: None"",
+            ""self = type('MockSelf', (object,), {\n  'app': Flask('mock_app'),\n  '_cv_tokens': [],\n  'session': None,\n  'request': Request({'PATH_INFO': '/', 'SERVER_NAME': 'localhost', 'wsgi.url_scheme': 'http'}),\n  'url_adapter': None\n})()"",
+            ""_cv_request = local()"",
+            ""_cv_request.set = lambda val: 'mock_token'"",
+            ""self.match_request = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local"",
+            ""from flask import Flask, Request"",
+            ""from flask.sessions import SecureCookieSessionInterface""
+        ],
+        ""initialization"": [
+            ""_cv_app = local()"",
+            ""_cv_app.get = lambda _: None"",
+            ""self = type('MockSelf', (object,), {\n  'app': Flask('mock_app'),\n  'app_context': lambda: type('MockAppContext', (object,), {'push': lambda: None})(),\n  '_cv_tokens': [],\n  'session': None,\n  'request': Request({'PATH_INFO': '/', 'SERVER_NAME': 'localhost', 'SERVER_PORT': '5000', 'REQUEST_METHOD': 'GET'}),\n  'url_adapter': None,\n  'match_request': lambda: None,\n  'session_interface': SecureCookieSessionInterface()\n})()"",
+            ""_cv_request = local()"",
+            ""_cv_request.set = lambda val: 'mock_token'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from threading import local # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local # pragma: no cover"",
+            ""from flask import Flask, Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = local() # pragma: no cover"",
+            ""_cv_app.get = lambda default: None # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {# pragma: no cover"",
+            ""  'app': Flask('mock_app'),# pragma: no cover"",
+            ""  '_cv_tokens': [],# pragma: no cover"",
+            ""  'session': None,# pragma: no cover"",
+            ""  'request': Request({'PATH_INFO': '/'}, {'SERVER_NAME': 'localhost'}),# pragma: no cover"",
+            ""  'url_adapter': None,# pragma: no cover"",
+            ""  'app_context': lambda: type('MockAppContext', (object,), {# pragma: no cover"",
+            ""    'push': lambda: None,# pragma: no cover"",
+            ""    'app': Flask('mock_app')# pragma: no cover"",
+            ""  })()# pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""_cv_request = local() # pragma: no cover"",
+            ""_cv_request.set = lambda val: 'mock_token' # pragma: no cover"",
+            ""self.match_request = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local # pragma: no cover"",
+            ""from flask import Flask, Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = local() # pragma: no cover"",
+            ""_cv_app.get = lambda val: None # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {# pragma: no cover"",
+            ""  'app': Flask('mock_app'),# pragma: no cover"",
+            ""  '_cv_tokens': [],# pragma: no cover"",
+            ""  'session': None,# pragma: no cover"",
+            ""  'request': Request({'REQUEST_METHOD': 'GET'}, lambda: None),# pragma: no cover"",
+            ""  'url_adapter': None# pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""_cv_request = local() # pragma: no cover"",
+            ""_cv_request.set = lambda val: 'mock_token' # pragma: no cover"",
+            ""self.match_request = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from threading import local # pragma: no cover"",
+            ""from flask import Flask, Request # pragma: no cover"",
+            ""from flask.sessions import SecureCookieSessionInterface # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = local() # pragma: no cover"",
+            ""_cv_app.get = lambda _: None # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {# pragma: no cover"",
+            ""  'app': Flask('mock_app'),# pragma: no cover"",
+            ""  'app_context': lambda: type('MockAppContext', (object,), {'push': lambda: None})(),# pragma: no cover"",
+            ""  '_cv_tokens': [],# pragma: no cover"",
+            ""  'session': None,# pragma: no cover"",
+            ""  'request': Request({'PATH_INFO': '/', 'SERVER_NAME': 'localhost', 'SERVER_PORT': '5000', 'REQUEST_METHOD': 'GET'}),# pragma: no cover"",
+            ""  'url_adapter': None,# pragma: no cover"",
+            ""  'match_request': lambda: None,# pragma: no cover"",
+            ""  'session_interface': SecureCookieSessionInterface()# pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""_cv_request = local() # pragma: no cover"",
+            ""_cv_request.set = lambda val: 'mock_token' # pragma: no cover""
+        ]
+    }
+]",2,983,0.0004915,1749,0.0026235,0.0031149999999999
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 22:
+    app_ctx = self.app.app_context()
+AttributeError: 'Mock' object has no attribute 'app_context'
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""_cv_request = ContextVar('cv_request', default=None)"",
+            ""self = type('SelfMock', (object,), {"",
+            ""    'app': type('AppMock', (object,), {"",
+            ""        'app_context': lambda self: type('AppContextMock', (object,), {'push': lambda self: None})()"",
+            ""    })(),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': type('RequestMock', (object,), {})(),"",
+            ""    'url_adapter': type('UrlAdapterMock', (object,), {})(),"",
+            ""    'match_request': lambda self: None"",
+            ""})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, Session"",
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""self = type('SelfMock', (object,), {"",
+            ""    'app': Mock(spec=Flask),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': Mock(spec=Request),"",
+            ""    'url_adapter': Mock(),"",
+            ""    'match_request': lambda self: None"",
+            ""})()"",
+            ""_cv_request = ContextVar('cv_request', default=None)"",
+            ""self.app.app_context.return_value = Mock()"",
+            ""self.app.app_context.return_value.push = lambda: None"",
+            ""self.app.session_interface = Mock()"",
+            ""self.app.session_interface.open_session = lambda app, request: Mock(spec=Session)"",
+            ""self.app.session_interface.make_null_session = lambda app: Mock(spec=Session)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from typing import Any""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""class MockAppContext:"",
+            ""    def push(self):"",
+            ""        pass"",
+            ""class MockApp:"",
+            ""    def app_context(self):"",
+            ""        return MockAppContext()"",
+            ""self = type('SelfMock', (object,), {"",
+            ""    'app': MockApp(),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': type('RequestMock', (object,), {})(),"",
+            ""    'url_adapter': type('UrlAdapterMock', (object,), {})(),"",
+            ""    'match_request': lambda self: None"",
+            ""})()"",
+            ""_cv_request = ContextVar('cv_request', default=None)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from types import SimpleNamespace"",
+            ""from typing import Any""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""_cv_request = ContextVar('cv_request', default=None)"",
+            ""self = type('SelfMock', (object,), {"",
+            ""    'app': SimpleNamespace(app_context=lambda: SimpleNamespace(push=lambda: None), session_interface=SimpleNamespace(open_session=lambda app, request: SimpleNamespace(), make_null_session=lambda app: SimpleNamespace())),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': SimpleNamespace(),"",
+            ""    'url_adapter': SimpleNamespace(),"",
+            ""    'match_request': lambda self: None"",
+            ""})()"",
+            ""_cv_request.set = lambda val: 'mock_token'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, AppContext"",
+            ""class Mock: pass""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""self = type('SelfMock', (object,), {"",
+            ""    'app': type('AppMock', (object,), {"",
+            ""        'app_context': lambda self: AppContext(Flask('mock_app'))"",
+            ""    })(),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': Request({'SERVER_NAME': 'localhost', 'SERVER_PORT': '5000', 'wsgi.url_scheme': 'http'}),"",
+            ""    'url_adapter': Mock(),"",
+            ""    'match_request': lambda self: None"",
+            ""})()"",
+            ""_cv_request = ContextVar('cv_request', default=None)"",
+            ""_cv_request.set = lambda val: 'mock_token'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, Session, Flask""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""self = type('SelfMock', (object,), {"",
+            ""    'app': Flask('mock_app'),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': Request.from_values(),"",
+            ""    'url_adapter': None,"",
+            ""    'match_request': lambda self: None"",
+            ""})()"",
+            ""_cv_request = ContextVar('cv_request', default=None)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, Session""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""_cv_request = ContextVar('cv_request', default=None)"",
+            ""self = type('SelfMock', (object,), {"",
+            ""    'app': type('AppMock', (object,), {"",
+            ""        'app_context': lambda: type('AppContext', (object,), {'push': lambda: None})"",
+            ""    })(),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': Request({'PATH_INFO': '/', 'SERVER_NAME': 'localhost', 'SERVER_PORT': '5000', 'wsgi.url_scheme': 'http'}),"",
+            ""    'url_adapter': object(),"",
+            ""    'match_request': lambda self: None"",
+            ""})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""self = type('SelfMock', (object,), {"",
+            ""    'app': Flask('mock_app'),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': Request({'PATH_INFO': ''}),"",
+            ""    'url_adapter': None,"",
+            ""    'match_request': lambda self: None"",
+            ""})()"",
+            ""_cv_request = ContextVar('cv_request', default=None)"",
+            ""_cv_request.set = lambda val: 'mock_token'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from typing import Any"",
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""self = type('SelfMock', (object,), {"",
+            ""    'app': type('AppMock', (object,), {"",
+            ""        'app_context': lambda: Mock(push=lambda: None),"",
+            ""        'session_interface': Mock(open_session=lambda app, request: Mock(), make_null_session=lambda app: Mock())"",
+            ""    })(),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': Mock(),"",
+            ""    'url_adapter': Mock(),"",
+            ""    'match_request': lambda self: None"",
+            ""})()"",
+            ""_cv_request = ContextVar('cv_request', default=None)"",
+            ""_cv_request.set = lambda val: 'mock_token'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from typing import Any""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""_cv_request = ContextVar('cv_request', default=None)"",
+            ""self = type('SelfMock', (object,), {"",
+            ""    'app': type('AppMock', (object,), {"",
+            ""        'app_context': lambda: type('AppContextMock', (object,), {"",
+            ""            'push': lambda: None"",
+            ""        })()"",
+            ""    })(),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': type('RequestMock', (object,), {})(),"",
+            ""    'url_adapter': type('URLAdapterMock', (object,), {})(),"",
+            ""    'match_request': lambda self: None"",
+            ""})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('cv_request', default=None) # pragma: no cover"",
+            ""self = type('SelfMock', (object,), { # pragma: no cover"",
+            ""    'app': type('AppMock', (object,), { # pragma: no cover"",
+            ""        'app_context': lambda self: type('AppContextMock', (object,), {'push': lambda self: None})() # pragma: no cover"",
+            ""    })(), # pragma: no cover"",
+            ""    '_cv_tokens': [], # pragma: no cover"",
+            ""    'session': None, # pragma: no cover"",
+            ""    'request': type('RequestMock', (object,), {})(), # pragma: no cover"",
+            ""    'url_adapter': type('UrlAdapterMock', (object,), {})(), # pragma: no cover"",
+            ""    'match_request': lambda self: None # pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from typing import Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None) # pragma: no cover"",
+            ""class MockAppContext: # pragma: no cover"",
+            ""    def push(self): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockApp: # pragma: no cover"",
+            ""    def app_context(self): # pragma: no cover"",
+            ""        return MockAppContext() # pragma: no cover"",
+            ""self = type('SelfMock', (object,), { # pragma: no cover"",
+            ""    'app': MockApp(), # pragma: no cover"",
+            ""    '_cv_tokens': [], # pragma: no cover"",
+            ""    'session': None, # pragma: no cover"",
+            ""    'request': type('RequestMock', (object,), {})(), # pragma: no cover"",
+            ""    'url_adapter': type('UrlAdapterMock', (object,), {})(), # pragma: no cover"",
+            ""    'match_request': lambda self: None # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""_cv_request = ContextVar('cv_request', default=None) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover"",
+            ""from typing import Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('cv_request', default=None) # pragma: no cover"",
+            ""self = type('SelfMock', (object,), { # pragma: no cover"",
+            ""    'app': SimpleNamespace(app_context=lambda: SimpleNamespace(push=lambda: None), session_interface=SimpleNamespace(open_session=lambda app, request: SimpleNamespace(), make_null_session=lambda app: SimpleNamespace())), # pragma: no cover"",
+            ""    '_cv_tokens': [], # pragma: no cover"",
+            ""    'session': None, # pragma: no cover"",
+            ""    'request': SimpleNamespace(), # pragma: no cover"",
+            ""    'url_adapter': SimpleNamespace(), # pragma: no cover"",
+            ""    'match_request': lambda self: None # pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""class Mock: pass # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from flask import Flask, Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None) # pragma: no cover"",
+            ""self = type('SelfMock', (object,), { # pragma: no cover"",
+            ""    'app': Flask('mock_app'), # pragma: no cover"",
+            ""    '_cv_tokens': [], # pragma: no cover"",
+            ""    'session': None, # pragma: no cover"",
+            ""    'request': Request({'PATH_INFO': ''}), # pragma: no cover"",
+            ""    'url_adapter': None, # pragma: no cover"",
+            ""    'match_request': lambda self: None # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""_cv_request = ContextVar('cv_request', default=None) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from typing import Any # pragma: no cover"",
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None) # pragma: no cover"",
+            ""self = type('SelfMock', (object,), { # pragma: no cover"",
+            ""    'app': type('AppMock', (object,), { # pragma: no cover"",
+            ""        'app_context': lambda: Mock(push=lambda: None), # pragma: no cover"",
+            ""        'session_interface': Mock(open_session=lambda app, request: Mock(), make_null_session=lambda app: Mock()) # pragma: no cover"",
+            ""    })(), # pragma: no cover"",
+            ""    '_cv_tokens': [], # pragma: no cover"",
+            ""    'session': None, # pragma: no cover"",
+            ""    'request': Mock(), # pragma: no cover"",
+            ""    'url_adapter': Mock(), # pragma: no cover"",
+            ""    'match_request': lambda self: None # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""_cv_request = ContextVar('cv_request', default=None) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from typing import Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('cv_request', default=None) # pragma: no cover"",
+            ""self = type('SelfMock', (object,), { # pragma: no cover"",
+            ""    'app': type('AppMock', (object,), { # pragma: no cover"",
+            ""        'app_context': lambda: type('AppContextMock', (object,), { # pragma: no cover"",
+            ""            'push': lambda: None # pragma: no cover"",
+            ""        })() # pragma: no cover"",
+            ""    })(), # pragma: no cover"",
+            ""    '_cv_tokens': [], # pragma: no cover"",
+            ""    'session': None, # pragma: no cover"",
+            ""    'request': type('RequestMock', (object,), {})(), # pragma: no cover"",
+            ""    'url_adapter': type('URLAdapterMock', (object,), {})(), # pragma: no cover"",
+            ""    'match_request': lambda self: None # pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    }
+]",2,1429,0.0007145,2023,0.0030345,0.0037489999999999
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 39:
+    if self.url_adapter is not None:
+AttributeError: 'Mock' object has no attribute 'url_adapter'
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface"",
+            ""from werkzeug.routing import MapAdapter""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app_context', default=None)"",
+            ""_cv_request = ContextVar('request_context', default=None)"",
+            ""self = type('MockSelf', (object,), {"",
+            ""    'app': Flask(__name__),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': Request({'REQUEST_METHOD': 'GET', 'PATH_INFO': '/'}),"",
+            ""    'url_adapter': MapAdapter({}, '/'),"",
+            ""    'match_request': lambda self: None"",
+            ""})()"",
+            ""SessionInterface.open_session = lambda self, app, request: {}"",
+            ""SessionInterface.make_null_session = lambda self, app: {}"",
+            ""self.app.session_interface = SessionInterface()"",
+            ""_cv_request.set = lambda val: 'mock_token'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface, URLAdapter"",
+            ""class Mock: pass""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app_context', default=None)"",
+            ""_cv_request = ContextVar('request_context', default=None)"",
+            ""self = type('MockSelf', (object,), {"",
+            ""    'app': type('MockApp', (object,), {"",
+            ""        'app_context': lambda: type('AppCtx', (object,), {'push': lambda: None})(),"",
+            ""        'session_interface': type('MockSessionInterface', (SessionInterface,), {"",
+            ""            'open_session': lambda self, app, request: None,"",
+            ""            'make_null_session': lambda self, app: type('MockSession', (object,), {})()"",
+            ""        })()"",
+            ""    })(),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': Request.from_values(),"",
+            ""    'url_adapter': type('MockURLAdapter', (URLAdapter,), {})(),"",
+            ""    'match_request': lambda self: None"",
+            ""})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, Session, Flask"",
+            ""from werkzeug.routing import MapAdapter""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""_cv_request = ContextVar('cv_request', default=None)"",
+            ""self = type('SelfMock', (object,), {"",
+            ""    'app': Flask('mock_app'),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': Request({'PATH_INFO': '/', 'REQUEST_METHOD': 'GET'}),"",
+            ""    'url_adapter': MapAdapter(None, '/', {}),"",
+            ""    'match_request': lambda self: None"",
+            ""})()"",
+            ""_cv_request.set = lambda val: 'mock_token'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface"",
+            ""from werkzeug.routing import MapAdapter""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""_cv_request = ContextVar('cv_request', default=None)"",
+            ""self = type('Mock', (object,), {"",
+            ""    'app': Flask(__name__),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': Request({'wsgi.url_scheme': 'http', 'SERVER_NAME': 'localhost', 'REQUEST_METHOD': 'GET'}),"",
+            ""    'url_adapter': MapAdapter(None, 'http://localhost', [''], None),"",
+            ""    'match_request': lambda self: None"",
+            ""})()"",
+            ""class MockSessionInterface(SessionInterface):"",
+            ""    def open_session(self, app, request):"",
+            ""        return None"",
+            ""    def make_null_session(self, app):"",
+            ""        return 'null_session'"",
+            ""self.app.session_interface = MockSessionInterface()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, Session, url_adapter""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app_context', default=None)"",
+            ""_cv_request = ContextVar('request_context', default=None)"",
+            ""self = type('MockSelf', (object,), {"",
+            ""    'app': type('MockApp', (object,), {"",
+            ""        'app_context': lambda: type('MockAppContext', (object,), {'push': lambda: None})(),"",
+            ""        'session_interface': type('MockSessionInterface', (object,), {"",
+            ""            'open_session': lambda app, request: Session({}, None),"",
+            ""            'make_null_session': lambda app: Session({}, None)"",
+            ""        })()"",
+            ""    })(),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': Request.from_values('/'),"",
+            ""    'url_adapter': type('MockUrlAdapter', (object,), {})(),"",
+            ""    'match_request': lambda: None"",
+            ""})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface, Session, URLAdapter""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""_cv_request = ContextVar('cv_request', default=None)"",
+            ""self = type('MockSelf', (object,), {"",
+            ""    'app': Flask('mock_app'),"",
+            ""    'app_context': lambda: Flask('mock_app').app_context(),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': Request({'wsgi.url_scheme': 'http', 'SERVER_NAME': 'localhost', 'SERVER_PORT': '5000', 'REQUEST_METHOD': 'GET'}),"",
+            ""    'url_adapter': URLAdapter(map=None, server_name='localhost'),"",
+            ""    'match_request': lambda: None"",
+            ""})()"",
+            ""type(self.app, (object,), {"",
+            ""    'app_context': lambda self: self.app.app_context(),"",
+            ""    'session_interface': type('MockSessionInterface', (SessionInterface,), {"",
+            ""        'open_session': lambda self, app, request: Session({}, self),"",
+            ""        'make_null_session': lambda self, app: Session({}, self)"",
+            ""    })(),"",
+            ""})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request"",
+            ""from werkzeug.routing import Map, Rule, MapAdapter""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""_cv_request = ContextVar('cv_request', default=None)"",
+            ""self = type('Mock', (object,), {})()"",
+            ""self.app = Flask(__name__)"",
+            ""self._cv_tokens = []"",
+            ""self.session = None"",
+            ""self.request = Request({'PATH_INFO': '/'})"",
+            ""url_map = Map([Rule('/', endpoint='index')])"",
+            ""self.url_adapter = url_map.bind('localhost')"",
+            ""self.match_request = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface, RequestContext, url_for""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app_context', default=None)"",
+            ""_cv_request = ContextVar('request_context', default=None)"",
+            ""self = type('Mock', (object,), {\n  'app': type('MockApp', (object,), {\n    'app_context': lambda: RequestContext(Mock()),\n    'session_interface': type('MockSessionInterface', (SessionInterface,), {\n      'open_session': lambda self, app, request: None,\n      'make_null_session': lambda self, app: None\n    })()\n  })(),\n  '_cv_tokens': [],\n  'session': None,\n  'request': Request({}),\n  'url_adapter': True,  # Mocking the presence of a url_adapter\n  'match_request': lambda: None\n})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface, URLAdapter"",
+            ""class Mock: pass""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""_cv_request = ContextVar('cv_request', default=None)"",
+            ""self = type('SelfMock', (object,), {"",
+            ""    'app': type('AppMock', (object,), {"",
+            ""        'app_context': lambda: Mock(),"",
+            ""        'session_interface': type('SessionInterfaceMock', (SessionInterface,), {"",
+            ""            'open_session': lambda self, app, request: None,"",
+            ""            'make_null_session': lambda self, app: Mock()"",
+            ""        })(),"",
+            ""    })(),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': type('RequestMock', (Request,), {})({}, None),"",
+            ""    'url_adapter': Mock(),"",
+            ""    'match_request': lambda self: None"",
+            ""})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, Session, appcontext_pushed"",
+            ""from werkzeug.local import Local""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app_context', default=None)"",
+            ""_cv_request = ContextVar('request_context', default=None)"",
+            ""self = type('MockSelf', (object,), {"",
+            ""    'app': Flask(__name__),"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'request': Request({'SERVER_NAME': 'localhost', 'SERVER_PORT': '5000', 'REQUEST_METHOD': 'GET'}),"",
+            ""    'url_adapter': object(),"",
+            ""    'match_request': lambda self: None"",
+            ""})()"",
+            ""self.app.app_context = lambda: appcontext_pushed.send(self.app)""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from werkzeug.routing import MapAdapter # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""class Mock: pass # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from werkzeug.routing import MapAdapter # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from werkzeug.routing import MapAdapter # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from flask import Flask, Request # pragma: no cover"",
+            ""from werkzeug.routing import Map, Rule, MapAdapter # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('cv_request', default=None) # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.app = Flask(__name__) # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self.request = Request({'PATH_INFO': '/'}) # pragma: no cover"",
+            ""url_map = Map([Rule('/', endpoint='index')]) # pragma: no cover"",
+            ""self.url_adapter = url_map.bind('localhost') # pragma: no cover"",
+            ""self.match_request = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""class Mock: pass # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from werkzeug.local import Local # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",2,1867,0.0009335,2366,0.003549,0.0044825
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 53:
+    session_interface = self.app.session_interface
+AttributeError: 'MockApp' object has no attribute 'session_interface'
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, url_for, Flask, SessionInterface"",
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return {'session_key': 'session_value'}\n\n    def make_null_session(self, app):\n        return {'session_key': 'null_session_value'}"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""class MockApp(Flask):\n    def __init__(self, name):\n        super().__init__(name)\n        self.session_interface = MockSessionInterface()\n\n    def app_context(self):\n        return MockAppContext()"",
+            ""self = type('MockSelf', (object,), {\n    'app': MockApp('mock_app'),\n    '_cv_tokens': [],\n    'session': None,\n    'request': Request({'PATH_INFO': '/', 'REQUEST_METHOD': 'GET'}),\n    'url_adapter': None,\n    'match_request': lambda: None\n})()"",
+            ""_cv_request = ContextVar('cv_request', default=None)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, SessionInterface"",
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return {'session_key': 'session_value'}\n\n    def make_null_session(self, app):\n        return {'session_key': 'null_session_value'}"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""class MockApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n\n    def app_context(self):\n        return MockAppContext()"",
+            ""class MockRequest:\n    pass"",
+            ""self = type('MockSelf', (object,), {\n    'app': MockApp(),\n    '_cv_tokens': [],\n    'session': None,\n    'request': MockRequest(),\n    'url_adapter': True,\n    'match_request': lambda self: None\n})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, SessionInterface"",
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return {'session_key': 'session_value'}\n    def make_null_session(self, app):\n        return {'session_key': 'null_session_value'}"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""class MockApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n    def app_context(self):\n        return MockAppContext()"",
+            ""app = MockApp()"",
+            ""class Mock:\n    def __init__(self):\n        self.app = app\n        self._cv_tokens = []\n        self.session = None\n        self.request = Request({'REQUEST_METHOD': 'GET', 'wsgi.url_scheme': 'http'})\n        self.url_adapter = True\n    def match_request(self):\n        pass"",
+            ""self = Mock()"",
+            ""_cv_request = ContextVar('_cv_request', default=None)\n_cv_request.set = lambda val: 'mock_token'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, Session, url_for"",
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""class MockSessionInterface:\n    def open_session(self, app, request):\n        return {}  # Simulating a non-null session\n    def make_null_session(self, app):\n        return {}  # Simulating a null session"",
+            ""app = type('MockApp', (object,), {\n    'app_context': lambda self: MockAppContext(),\n    'session_interface': MockSessionInterface()\n})()"",
+            ""self = type('MockSelf', (object,), {\n    'app': app,\n    '_cv_tokens': [],\n    'session': None,\n    'request': Request({'PATH_INFO': '/', 'REQUEST_METHOD': 'GET'}),\n    'url_adapter': object(),  # Just any non-None value\n    'match_request': lambda self: None\n})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, SessionInterface"",
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return {'session_key': 'session_value'}\n\n    def make_null_session(self, app):\n        return {'session_key': 'null_session_value'}"",
+            ""class MockRequest(Request):\n    def __init__(self):\n        super().__init__({}, {}, {})"",
+            ""self = type('MockSelf', (object,), {\n    'app': type('MockApp', (object,), {\n        'app_context': lambda: MockAppContext(),\n        'session_interface': MockSessionInterface()\n    })(),\n    '_cv_tokens': [],\n    'session': None,\n    'request': MockRequest(),\n    'url_adapter': True,\n    'match_request': lambda: None\n})()"",
+            ""_cv_request = ContextVar('_cv_request', default=None)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request"",
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""class MockAppContext:\n    def __init__(self, app):\n        self.app = app\n    def push(self):\n        pass\napp = Flask(__name__)"",
+            ""app.app_context = lambda: MockAppContext(app)"",
+            ""class MockSessionInterface:\n    def open_session(self, app, request):\n        return {'session_key': 'session_value'}\n    def make_null_session(self, app):\n        return {'session_key': 'null_session_value'}"",
+            ""class MockSelf:\n    def __init__(self, app):\n        self.app = app\n        self._cv_tokens = []\n        self.session = None\n        self.request = Request({'PATH_INFO': '/', 'SERVER_NAME': 'localhost', 'SERVER_PORT': '5000', 'wsgi.url_scheme': 'http'})\n        self.url_adapter = True\n    def match_request(self):\n        pass"",
+            ""self = MockSelf(app)"",
+            ""self.app.session_interface = MockSessionInterface()"",
+            ""_cv_request = ContextVar('_cv_request', default=None)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface, url_for""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return { 'session_key': 'session_value' }\n\n    def make_null_session(self, app):\n        return { 'session_key': 'null_session_value' }"",
+            ""class MockApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n\n    def app_context(self):\n        return MockAppContext()"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""class MockRequest:\n    pass"",
+            ""class MockSelf:\n    def __init__(self):\n        self.app = MockApp()\n        self._cv_tokens = []\n        self.session = None\n        self.request = MockRequest()\n        self.url_adapter = True\n\n    def match_request(self):\n        pass"",
+            ""self = MockSelf()"",
+            ""_cv_request = ContextVar('_cv_request', default=None)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, SessionInterface"",
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return {'session_key': 'session_value'}\n\n    def make_null_session(self, app):\n        return {'session_key': 'null_session_value'}"",
+            ""class MockApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n\n    def app_context(self):\n        return MockAppContext()"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""class MockRequest:\n    pass"",
+            ""class MockSelf:\n    def __init__(self):\n        self.app = MockApp()\n        self._cv_tokens = []\n        self.session = None\n        self.request = MockRequest()\n        self.url_adapter = True\n\n    def match_request(self):\n        pass"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, url_for"",
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""class MockSessionInterface:\n    def open_session(self, app, request):\n        return {'session_key': 'session_value'}\n\n    def make_null_session(self, app):\n        return {'session_key': 'null_session_value'}\n\nclass MockApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n\n    def app_context(self):\n        return MockAppContext()"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""self = type('MockSelf', (object,), {\n    'app': MockApp(),\n    '_cv_tokens': [],\n    'session': None,\n    'request': Request({'PATH_INFO': '/'}),\n    'url_adapter': MockAppContext(),\n    'match_request': lambda self: None\n})()"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""_cv_request.set = lambda val: 'mock_token'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, SessionInterface"",
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return {'session_key': 'session_value'}\n\n    def make_null_session(self, app):\n        return {'session_key': 'null_session_value'}"",
+            ""class MockApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n\n    def app_context(self):\n        return MockAppContext()"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""class MockSelf:\n    def __init__(self):\n        self.app = MockApp()\n        self._cv_tokens = []\n        self.session = None\n        self.request = Request({'PATH_INFO': '/', 'SERVER_NAME': 'localhost', 'SERVER_PORT': '5000', 'wsgi.url_scheme': 'http'})\n        self.url_adapter = True\n\n    def match_request(self):\n        pass"",
+            ""self = MockSelf()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover"",
+            ""class MockAppContext:# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockApp:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        pass"",
+            ""# pragma: no cover"",
+            ""    def app_context(self):# pragma: no cover"",
+            ""        return MockAppContext() # pragma: no cover"",
+            ""class MockRequest:# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {# pragma: no cover"",
+            ""    'app': MockApp(),# pragma: no cover"",
+            ""    '_cv_tokens': [],# pragma: no cover"",
+            ""    'session': None,# pragma: no cover"",
+            ""    'request': MockRequest(),# pragma: no cover"",
+            ""    'url_adapter': True,# pragma: no cover"",
+            ""    'match_request': lambda self: None# pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""class MockAppContext:# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockApp:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        pass"",
+            ""    def app_context(self):# pragma: no cover"",
+            ""        return MockAppContext() # pragma: no cover"",
+            ""app = MockApp() # pragma: no cover"",
+            ""class Mock:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.app = app# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""        self.url_adapter = True# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None)# pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request # pragma: no cover"",
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""class MockAppContext:# pragma: no cover"",
+            ""    def __init__(self, app):# pragma: no cover"",
+            ""        self.app = app# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""app.app_context = lambda: MockAppContext(app) # pragma: no cover"",
+            ""class MockSessionInterface:# pragma: no cover"",
+            ""    def open_session(self, app, request):# pragma: no cover"",
+            ""        return {'session_key': 'session_value'}# pragma: no cover"",
+            ""    def make_null_session(self, app):# pragma: no cover"",
+            ""        return {'session_key': 'null_session_value'} # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def __init__(self, app):# pragma: no cover"",
+            ""        self.app = app# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""        self.request = Request({'PATH_INFO': '/', 'SERVER_NAME': 'localhost', 'SERVER_PORT': '5000', 'wsgi.url_scheme': 'http'})# pragma: no cover"",
+            ""        self.url_adapter = True# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = MockSelf(app) # pragma: no cover"",
+            ""self.app.session_interface = MockSessionInterface() # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""class MockApp:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        pass"",
+            ""# pragma: no cover"",
+            ""    def app_context(self):# pragma: no cover"",
+            ""        return MockAppContext() # pragma: no cover"",
+            ""class MockAppContext:# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockRequest:# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.app = MockApp()# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""        self.request = MockRequest()# pragma: no cover"",
+            ""        self.url_adapter = True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover"",
+            ""class MockApp:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        pass"",
+            ""# pragma: no cover"",
+            ""    def app_context(self):# pragma: no cover"",
+            ""        return MockAppContext() # pragma: no cover"",
+            ""class MockAppContext:# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockRequest:# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.app = MockApp()# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""        self.request = MockRequest()# pragma: no cover"",
+            ""        self.url_adapter = True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, url_for # pragma: no cover"",
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""class MockSessionInterface:# pragma: no cover"",
+            ""    def open_session(self, app, request):# pragma: no cover"",
+            ""        return {'session_key': 'session_value'}# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def make_null_session(self, app):# pragma: no cover"",
+            ""        return {'session_key': 'null_session_value'}# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockApp:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.session_interface = MockSessionInterface()# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def app_context(self):# pragma: no cover"",
+            ""        return MockAppContext() # pragma: no cover"",
+            ""class MockAppContext:# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {# pragma: no cover"",
+            ""    'app': MockApp(),# pragma: no cover"",
+            ""    '_cv_tokens': [],# pragma: no cover"",
+            ""    'session': None,# pragma: no cover"",
+            ""    'request': Request({'PATH_INFO': '/'}),# pragma: no cover"",
+            ""    'url_adapter': MockAppContext(),# pragma: no cover"",
+            ""    'match_request': lambda self: None# pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover"",
+            ""class MockApp:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        pass"",
+            ""# pragma: no cover"",
+            ""    def app_context(self):# pragma: no cover"",
+            ""        return MockAppContext() # pragma: no cover"",
+            ""class MockAppContext:# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.app = MockApp()# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""        self.url_adapter = True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    }
+]",2,2473,0.0012365,2809,0.0042135,0.00545
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 14:
+    app_ctx = _cv_app.get(None)
+AttributeError: '_thread._local' object has no attribute 'get'
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface, url_for""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n\n    def app_context(self):\n        return MockAppContext()"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""class MockRequest(Request):\n    pass"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return {'mock_key': 'mock_session'}\n\n    def make_null_session(self, app):\n        return {'mock_key': 'null_session'}"",
+            ""class MockSelf:\n    def __init__(self):\n        self.app = MockApp()\n        self._cv_tokens = []\n        self.session = None\n        self.request = MockRequest({'url': 'http://localhost'})\n        self.url_adapter = True\n\n    def match_request(self):\n        pass"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface, URLAdapter""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class AppContextMock:\n    def push(self):\n        pass"",
+            ""class AppMock:\n    def app_context(self):\n        return AppContextMock()\n    def __init__(self):\n        self.session_interface = SessionInterface()"",
+            ""class SelfMock:\n    def __init__(self):\n        self.app = AppMock()\n        self._cv_tokens = []\n        self.session = None\n        self.request = Request({})\n        self.url_adapter = URLAdapter(self.app)\n    def match_request(self):\n        pass"",
+            ""self = SelfMock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, Session, url_for"",
+            ""from flask.sessions import SessionMixin, SessionInterface"",
+            ""from werkzeug.local import Local""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return Session(app=app)\n\n    def make_null_session(self, app):\n        return Session()"",
+            ""class MockFlaskApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n\n    def app_context(self):\n        return Local()\nself.app = MockFlaskApp()"",
+            ""class MockSelf:\n    def __init__(self, app):\n        self.app = app\n        self._cv_tokens = []\n        self.session = None\n        self.request = Request({'PATH_INFO': '/', 'REQUEST_METHOD': 'GET'})\n        self.url_adapter = url_for\n\n    def match_request(self):\n        pass"",
+            ""self = MockSelf(self.app)"",
+            ""_cv_request = ContextVar('cv_request', default=None)\n_cv_request.set = lambda val: 'mock_token'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return {'session_key': 'session_value'}\n\n    def make_null_session(self, app):\n        return {'session_key': 'null_session_value'}"",
+            ""class MockApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n\n    def app_context(self):\n        return MockAppContext()"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""self = type('MockSelf', (object,), {\n    'app': MockApp(),\n    '_cv_tokens': [],\n    'session': None,\n    'request': Request({}, None),\n    'url_adapter': object(),\n    'match_request': lambda self: None\n})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, SessionInterface, Blueprint"",
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockAppContext:\n    def __init__(self, app):\n        self.app = app\n    def push(self):\n        pass"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return {}\n    def make_null_session(self, app):\n        return {}"",
+            ""class MockFlaskApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n    def app_context(self):\n        return MockAppContext(self)"",
+            ""app = MockFlaskApp()"",
+            ""class MockRequest(Request):\n    pass"",
+            ""request = MockRequest()"",
+            ""class MockSelf:\n    def __init__(self):\n        self.app = app\n        self._cv_tokens = []\n        self.session = None\n        self.request = request\n        self.url_adapter = True\n    def match_request(self):\n        pass"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface, URLAdapter""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app')"",
+            ""_cv_request = ContextVar('_cv_request')"",
+            ""self = type('MockSelf', (object,), {})()"",
+            ""self.app = Flask('mock_app')"",
+            ""self.app.app_context = lambda: type('MockAppContext', (object,), {'push': lambda: None})()"",
+            ""self._cv_tokens = []"",
+            ""self.session = None"",
+            ""self.request = Request({'PATH_INFO': '/'})"",
+            ""self.url_adapter = URLAdapter(self.app)"",
+            ""self.match_request = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None)"",
+            ""_cv_request = ContextVar('cv_request', default=None)"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return {'session_key': 'session_value'}\n    def make_null_session(self, app):\n        return {'session_key': 'null_session_value'}"",
+            ""class MockApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n    def app_context(self):\n        return MockAppContext()"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""self = type('MockSelf', (object,), {\n  'app': MockApp(),\n  '_cv_tokens': [],\n  'session': None,\n  'request': Request({'REQUEST_METHOD':'GET'}),\n  'url_adapter': True,\n  'match_request': lambda: None\n})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n\n    def app_context(self):\n        return MockAppContext()"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return { 'session_key': 'session_value' }\n\n    def make_null_session(self, app):\n        return { 'session_key': 'null_session_value' }"",
+            ""class MockSelf:\n    def __init__(self):\n        self.app = MockApp()\n        self._cv_tokens = []\n        self.session = None\n        self.request = Request({})\n        self.url_adapter = True\n\n    def match_request(self):\n        pass"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface, RequestContext, URLAdapter""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return dict()\n    def make_null_session(self, app):\n        return dict()"",
+            ""class MockApp(Flask):\n    def __init__(self, name):\n        super().__init__(name)\n        self.session_interface = MockSessionInterface()"",
+            ""class SelfMock:\n    def __init__(self):\n        self.app = MockApp('mock_app')\n        self._cv_tokens = []\n        self.session = None\n        self.request = Request({'PATH_INFO': '/', 'REQUEST_METHOD': 'GET'})\n        self.url_adapter = URLAdapter(self.app)"",
+            ""    def match_request(self):\n        pass"",
+            ""self = SelfMock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""class MockApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n    def app_context(self):\n        return MockAppContext()"",
+            ""class MockRequest:\n    pass"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return {'session_key': 'session_value'}\n    def make_null_session(self, app):\n        return {'session_key': 'null_session_value'}"",
+            ""class SelfMock:\n    def __init__(self):\n        self.app = MockApp()\n        self._cv_tokens = []\n        self.session = None\n        self.request = MockRequest()\n        self.url_adapter = True\n    def match_request(self):\n        pass\n"",
+            ""self = SelfMock()"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""_cv_request.set = lambda val: 'mock_token'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover"",
+            ""class MockApp:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        pass"",
+            ""# pragma: no cover"",
+            ""    def app_context(self):# pragma: no cover"",
+            ""        return MockAppContext() # pragma: no cover"",
+            ""class MockAppContext:# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.app = MockApp()# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""        self.url_adapter = True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover"",
+            ""class AppContextMock:# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class AppMock:# pragma: no cover"",
+            ""    def app_context(self):# pragma: no cover"",
+            ""        return AppContextMock()# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        pass"",
+            ""class SelfMock:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.app = AppMock()# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = SelfMock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from flask.sessions import SessionMixin, SessionInterface # pragma: no cover"",
+            ""from werkzeug.local import Local # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('cv_app', default=None) # pragma: no cover"",
+            ""class MockSessionInterface(SessionInterface):# pragma: no cover"",
+            ""    def open_session(self, app, request):# pragma: no cover"",
+            ""        return Session(app=app)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def make_null_session(self, app):# pragma: no cover"",
+            ""        return Session() # pragma: no cover"",
+            ""class MockFlaskApp:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.session_interface = MockSessionInterface()# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def app_context(self):# pragma: no cover"",
+            ""        return Local()# pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def __init__(self, app):# pragma: no cover"",
+            ""        self.app = app# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""        self.request = Request({'PATH_INFO': '/', 'REQUEST_METHOD': 'GET'})# pragma: no cover"",
+            ""        self.url_adapter = url_for# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""_cv_request = ContextVar('cv_request', default=None)# pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover"",
+            ""class MockAppContext:# pragma: no cover"",
+            ""    def __init__(self, app):# pragma: no cover"",
+            ""        self.app = app# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockFlaskApp:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        pass"",
+            ""    def app_context(self):# pragma: no cover"",
+            ""        return MockAppContext(self) # pragma: no cover"",
+            ""app = MockFlaskApp() # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.app = app# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""        self.url_adapter = True# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app') # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request') # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {})() # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self.match_request = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover"",
+            ""class MockApp:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        pass"",
+            ""# pragma: no cover"",
+            ""    def app_context(self):# pragma: no cover"",
+            ""        return MockAppContext() # pragma: no cover"",
+            ""class MockAppContext:# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.app = MockApp()# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""        self.url_adapter = True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover"",
+            ""class SelfMock:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = SelfMock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""class MockAppContext:# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockApp:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        pass"",
+            ""    def app_context(self):# pragma: no cover"",
+            ""        return MockAppContext() # pragma: no cover"",
+            ""class MockRequest:# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""class SelfMock:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.app = MockApp()# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""        self.request = MockRequest()# pragma: no cover"",
+            ""        self.url_adapter = True# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = SelfMock() # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover""
+        ]
+    }
+]",2,2898,0.001449,2580,0.00387,0.005319
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 6:
+    app_ctx = _cv_app.get(None)
+NameError: name '_cv_app' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""class MockSessionInterface:\n    def open_session(self, app, request):\n        return {'session_key': 'session_value'}\n\n    def make_null_session(self, app):\n        return {'session_key': 'null_session_value'}"",
+            ""self = type('Mock', (object,), {\n    'app': type('MockApp', (object,), {\n        'app_context': lambda: MockAppContext(),\n        'session_interface': MockSessionInterface()\n    })(),\n    '_cv_tokens': [],\n    'session': None,\n    'request': Request({'REQUEST_METHOD': 'GET', 'wsgi.url_scheme': 'http'}),\n    'url_adapter': True,\n    'match_request': lambda self: None\n})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, session""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockSessionInterface:\n    def open_session(self, app, request):\n        return {}  # Mock session data\n\n    def make_null_session(self, app):\n        return {}  # Mock null session data\n"",
+            ""class MockAppContext:\n    def __init__(self, app):\n        self.app = app\n\n    def push(self):\n        pass\n"",
+            ""class MockApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n\n    def app_context(self):\n        return MockAppContext(self)\n"",
+            ""class MockSelf:\n    def __init__(self):\n        self.app = MockApp()\n        self._cv_tokens = []\n        self.session = None\n        self.request = Request({'REQUEST_METHOD': 'GET', 'wsgi.url_scheme': 'http'})\n        self.url_adapter = True\n\n    def match_request(self):\n        pass\n"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import deque"",
+            ""from flask import Flask, Request, SessionInterface""
+        ],
+        ""initialization"": [
+            ""_cv_app = type('Mock', (object,), {'get': lambda self, x: None})()"",
+            ""_cv_request = type('Mock', (object,), {'set': lambda self, x: None})()"",
+            ""self = type('Mock', (object,), {\n    'app': Flask(__name__),\n    '_cv_tokens': deque(),\n    'session': None,\n    'request': Request({'REQUEST_METHOD': 'GET', 'wsgi.url_scheme': 'http'})\n})"",
+            ""self.url_adapter = type('Mock', (object,), {})()"",
+            ""self.match_request = lambda: None"",
+            ""self.app.session_interface = type('MockSessionInterface', (SessionInterface,), {\n    'open_session': lambda self, app, request: {},\n    'make_null_session': lambda self, app: {}})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface, URLAdapter""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return {'session_key': 'session_value'}\n    def make_null_session(self, app):\n        return {'session_key': 'null_session_value'}"",
+            ""class MockFlask(Flask):\n    def __init__(self, import_name):\n        super().__init__(import_name)\n        self.session_interface = MockSessionInterface()"",
+            ""class MockSelf:\n    def __init__(self):\n        self.app = MockFlask('mock_app')\n        self._cv_tokens = []\n        self.session = None\n        self.request = Request({'REQUEST_METHOD': 'GET', 'wsgi.url_scheme': 'http'})\n        self.url_adapter = URLAdapter(self.app)\n    def match_request(self):\n        pass"",
+            ""self = MockSelf()"",
+            ""class AppContext:\n    def __init__(self, app):\n        self.app = app\n    def push(self):\n        pass"",
+            ""def mock_app_context():\n    return AppContext(self.app)"",
+            ""self.app.app_context = mock_app_context""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""self = type('MockSelf', (object,), {})()"",
+            ""self.app = Flask(__name__)"",
+            ""self._cv_tokens = []"",
+            ""self.session = None"",
+            ""self.request = Request({'REQUEST_METHOD': 'GET', 'wsgi.url_scheme': 'http'})"",
+            ""self.url_adapter = type('MockURLAdapter', (object,), {'match_request': lambda self: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import deque"",
+            ""from flask import Flask, Request, SessionInterface""
+        ],
+        ""initialization"": [
+            ""_cv_app = type('MockCVApp', (object,), {'get': lambda self, x: None})()"",
+            ""_cv_request = type('MockCVRequest', (object,), {'set': lambda self, x: None})()"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return {'session_key': 'session_value'}\n\n    def make_null_session(self, app):\n        return {'session_key': 'null_session_value'}"",
+            ""self = type('MockSelf', (object,), {\n    'app': type('AppWithContext', (object,), {\n        'app_context': lambda: MockAppContext(),\n        'session_interface': MockSessionInterface()})(),\n    '_cv_tokens': deque(),\n    'session': None,\n    'request': Request({'REQUEST_METHOD': 'GET', 'wsgi.url_scheme': 'http'}),\n    'url_adapter': True,\n    'match_request': lambda self: None\n})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return {'session_key': 'session_value'}\n\n    def make_null_session(self, app):\n        return {'session_key': 'null_session_value'}"",
+            ""class MockFlaskApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n\n    def app_context(self):\n        return self\n\n    def push(self):\n        pass"",
+            ""class MockSelf:\n    def __init__(self):\n        self.app = MockFlaskApp()\n        self._cv_tokens = []\n        self.session = None\n        self.request = Request({'REQUEST_METHOD': 'GET', 'wsgi.url_scheme': 'http'})\n        self.url_adapter = True\n\n    def match_request(self):\n        pass"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, session"",
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockAppContext:\n    def __init__(self, app):\n        self.app = app\n\n    def push(self):\n        pass"",
+            ""class MockSessionInterface:\n    def open_session(self, app, request):\n        return session._get_current_object()\n\n    def make_null_session(self, app):\n        return {}"",
+            ""class MockSelf:\n    def __init__(self):\n        self.app = Flask(__name__)\n        self.app.app_context = lambda: MockAppContext(self.app)\n        self.app.session_interface = MockSessionInterface()\n        self._cv_tokens = []\n        self.session = None\n        self.request = Request({'REQUEST_METHOD': 'GET', 'wsgi.url_scheme': 'http'})\n        self.url_adapter = None\n    def match_request(self):\n        pass"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface"",
+            ""from werkzeug.urls import URLAdapter""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app')"",
+            ""_cv_request = ContextVar('_cv_request')"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return {'key': 'value'}\n    def make_null_session(self, app):\n        return {}"",
+            ""class MockFlaskApp:\n    def __init__(self):\n        self.session_interface = MockSessionInterface()\n    def app_context(self):\n        return MockAppContext()"",
+            ""class MockAppContext:\n    def push(self):\n        pass"",
+            ""class MockSelf:\n    def __init__(self):\n        self.app = MockFlaskApp()\n        self._cv_tokens = []\n        self.session = None\n        self.request = Request({'REQUEST_METHOD': 'GET', 'wsgi.url_scheme': 'http'})\n        self.url_adapter = URLAdapter(self.request.environ)\n    def match_request(self):\n        pass"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface, RequestContext""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockSessionInterface(SessionInterface):\n    def open_session(self, app, request):\n        return {'session_key': 'session_value'}\n\n    def make_null_session(self, app):\n        return {'session_key': 'null_session_value'}"",
+            ""class MockApp(Flask):\n    def __init__(self, *args, **kwargs):\n        super().__init__(*args, **kwargs)\n        self.session_interface = MockSessionInterface()\n\n    def app_context(self):\n        return RequestContext(self, '', {})"",
+            ""self = type('MockSelf', (object,), {\n    'app': MockApp(__name__),\n    '_cv_tokens': [],\n    'session': None,\n    'request': Request({'REQUEST_METHOD': 'GET', 'wsgi.url_scheme': 'http'}),\n    'url_adapter': type('MockURLAdapter', (object,), {'match_request': lambda self: None})()\n})()"",
+            ""self.match_request = lambda: None""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from flask import Flask, Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover"",
+            ""class MockAppContext:# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockSessionInterface:# pragma: no cover"",
+            ""    def open_session(self, app, request):# pragma: no cover"",
+            ""        return {'session_key': 'session_value'}# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def make_null_session(self, app):# pragma: no cover"",
+            ""        return {'session_key': 'null_session_value'} # pragma: no cover"",
+            ""self = type('Mock', (object,), {# pragma: no cover"",
+            ""    'app': type('MockApp', (object,), {# pragma: no cover"",
+            ""        'app_context': lambda: MockAppContext(),# pragma: no cover"",
+            ""        'session_interface': MockSessionInterface()# pragma: no cover"",
+            ""    })(),# pragma: no cover"",
+            ""    '_cv_tokens': [],# pragma: no cover"",
+            ""    'session': None,# pragma: no cover"",
+            ""    'request': Request({'REQUEST_METHOD': 'GET', 'wsgi.url_scheme': 'http'}),# pragma: no cover"",
+            ""    'url_adapter': True,# pragma: no cover"",
+            ""    'match_request': lambda self: None# pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from flask import Flask, Request, session # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover"",
+            ""class MockSessionInterface:# pragma: no cover"",
+            ""    def open_session(self, app, request):# pragma: no cover"",
+            ""        return {}  # Mock session data# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def make_null_session(self, app):# pragma: no cover"",
+            ""        return {}  # Mock null session data# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockAppContext:# pragma: no cover"",
+            ""    def __init__(self, app):# pragma: no cover"",
+            ""        self.app = app# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockApp:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.session_interface = MockSessionInterface()# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def app_context(self):# pragma: no cover"",
+            ""        return MockAppContext(self)# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.app = MockApp()# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""        self.request = Request({'REQUEST_METHOD': 'GET', 'wsgi.url_scheme': 'http'})# pragma: no cover"",
+            ""        self.url_adapter = True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import deque # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover"",
+            ""class AppContext:# pragma: no cover"",
+            ""    def __init__(self, app):# pragma: no cover"",
+            ""        self.app = app# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""def mock_app_context():# pragma: no cover"",
+            ""    return AppContext(self.app) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {})() # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self.url_adapter = type('MockURLAdapter', (object,), {'match_request': lambda self: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import deque # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover"",
+            ""class MockFlaskApp:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        pass"",
+            ""# pragma: no cover"",
+            ""    def app_context(self):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.app = MockFlaskApp()# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""        self.url_adapter = True# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, session # pragma: no cover"",
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover"",
+            ""class MockAppContext:# pragma: no cover"",
+            ""    def __init__(self, app):# pragma: no cover"",
+            ""        self.app = app# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockSessionInterface:# pragma: no cover"",
+            ""    def open_session(self, app, request):# pragma: no cover"",
+            ""        return session._get_current_object()# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def make_null_session(self, app):# pragma: no cover"",
+            ""        return {} # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.app = Flask(__name__)# pragma: no cover"",
+            ""        self.app.app_context = lambda: MockAppContext(self.app)# pragma: no cover"",
+            ""        self.app.session_interface = MockSessionInterface()# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""        self.request = Request({'REQUEST_METHOD': 'GET', 'wsgi.url_scheme': 'http'})# pragma: no cover"",
+            ""        self.url_adapter = None# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app') # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request') # pragma: no cover"",
+            ""class MockFlaskApp:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        pass"",
+            ""    def app_context(self):# pragma: no cover"",
+            ""        return MockAppContext() # pragma: no cover"",
+            ""class MockAppContext:# pragma: no cover"",
+            ""    def push(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockSelf:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.app = MockFlaskApp()# pragma: no cover"",
+            ""        self._cv_tokens = []# pragma: no cover"",
+            ""        self.session = None# pragma: no cover"",
+            ""    def match_request(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    }
+]",2,3373,0.0016865,2680,0.00402,0.0057065
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+# Before we push the request context we have to ensure that there
+# is an application context.
+app_ctx = _cv_app.get(None)
+if app_ctx is None or app_ctx.app is not self.app:
+    app_ctx = self.app.app_context()
+    app_ctx.push()
+else: # uncovered
+    app_ctx = None # uncovered
+self._cv_tokens.append((_cv_request.set(self), app_ctx))
+# Open the session at the moment that the request context is available.
+# This allows a custom open_session method to use the request context.
+# Only open a new session if this is the first time the request was
+# pushed, otherwise stream_with_context loses the session.
+if self.session is None:
+    session_interface = self.app.session_interface
+    self.session = session_interface.open_session(self.app, self.request)
+    if self.session is None:
+        self.session = session_interface.make_null_session(self.app)
+if self.url_adapter is not None:
+    self.match_request()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app')"",
+            ""_cv_request = ContextVar('_cv_request')"",
+            ""_cv_request.set(None)"",
+            ""self = type('Mock', (object,), {})()"",
+            ""self.app = type('Mock', (object,), {'app_context': lambda: type('AppContext', (object,), {'push': lambda: None})()})()"",
+            ""self._cv_tokens = []"",
+            ""self.session = None"",
+            ""self.app.session_interface = type('MockInterface', (object,), {'open_session': lambda app, request: None, 'make_null_session': lambda app: 'mock_session'})"",
+            ""self.request = 'mock_request'"",
+            ""self.url_adapter = None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, session"",
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""request = Request(dict())"",
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""self = type('Mock', (object,), {"",
+            ""    'app': app,"",
+            ""    'request': request,"",
+            ""    '_cv_tokens': [],"",
+            ""    'session': None,"",
+            ""    'url_adapter': None,"",
+            ""    'match_request': lambda _: None,"",
+            ""})()"",
+            ""_cv_app.set(type('MockAppCtx', (object,), {"",
+            ""    'app': None,"",
+            ""    'push': lambda self: None"",
+            ""})())""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading""
+        ],
+        ""initialization"": [
+            ""_cv_app = threading.local()"",
+            ""_cv_request = threading.local()"",
+            ""_cv_request.set = lambda x: x"",
+            ""class MockAppContext: app = 'mock_app'"",
+            ""_cv_app.get = lambda _: MockAppContext()"",
+            ""self = type('Mock', (object,), {})()"",
+            ""self.app = type('MockApp', (object,), {'app_context': MockAppContext})()"",
+            ""self._cv_tokens = []"",
+            ""self.session = None"",
+            ""self.app.session_interface = type('MockSessionInterface', (object,), {'open_session': lambda app, req: 'mock_session', 'make_null_session': lambda app: 'null_session'})()"",
+            ""self.request = 'mock_request'"",
+            ""self.url_adapter = None"",
+            ""self.match_request = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app')"",
+            ""_cv_request = ContextVar('_cv_request')"",
+            ""self = type('Self', (object,), {})()"",
+            ""self.app = type('App', (object,), {'app_context': lambda: type('AppContext', (object,), {'push': lambda: None})()})()"",
+            ""self._cv_tokens = []"",
+            ""self.session = None"",
+            ""self.request = None"",
+            ""self.app.session_interface = type('SessionInterface', (object,), {'open_session': lambda app, request: None, 'make_null_session': lambda app: None})()"",
+            ""self.url_adapter = type('UrlAdapter', (object,), {'match_request': lambda: None})()"",
+            ""self.match_request = self.url_adapter.match_request""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from typing import List, Optional""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app')"",
+            ""_cv_request = ContextVar('request')"",
+            ""self = type('MockSelf', (object,), {})()"",
+            ""self.app = type('MockApp', (object,), {'app_context': lambda self: type('MockAppContext', (object,), {'push': lambda self: None})()})()"",
+            ""self._cv_tokens = []"",
+            ""self.session = None"",
+            ""self.request = type('MockRequest', (object,), {})()"",
+            ""self.app.session_interface = type('MockSessionInterface', (object,), {'open_session': lambda self, app, request: None, 'make_null_session': lambda self, app: type('MockSession', (object,), {})()})()"",
+            ""self.url_adapter = None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app')"",
+            ""_cv_request = ContextVar('_cv_request')"",
+            ""self = type('Mock', (object,), {})()"",
+            ""self.app = type('Mock', (object,), {'app_context': lambda: type('Mock', (object,), {'push': lambda: None})()})()"",
+            ""self._cv_tokens = []"",
+            ""self.session = None"",
+            ""self.app.session_interface = type('Mock', (object,), {'open_session': lambda app, request: None, 'make_null_session': lambda app: 'null_session'})()"",
+            ""self.request = type('Mock', (object,), {})()"",
+            ""self.url_adapter = None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app')"",
+            ""_cv_request = ContextVar('request')"",
+            ""self = type('MockSelf', (object,), {})()"",
+            ""self.app = type('MockApp', (object,), {'app_context': lambda: type('AppContext', (object,), {'push': lambda: None})()})()"",
+            ""self._cv_tokens = []"",
+            ""self.session = None"",
+            ""self.url_adapter = None"",
+            ""self.app.session_interface = type('MockSessionInterface', (object,), {'open_session': lambda app, req: None, 'make_null_session': lambda app: None})()"",
+            ""self.request = None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from types import SimpleNamespace"",
+            ""from flask import Flask, Request""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app')"",
+            ""_cv_request = ContextVar('_cv_request')"",
+            ""self = type('Mock', (object,), {})()"",
+            ""self.app = Flask(__name__)"",
+            ""self.request = Request(SimpleNamespace())"",
+            ""self._cv_tokens = []"",
+            ""self.app.app_context = lambda: self.app.test_request_context()"",
+            ""self.app.session_interface = type('MockSessionInterface', (object,), {'open_session': lambda app, request: None, 'make_null_session': lambda app: {}})()"",
+            ""self.match_request = lambda: None"",
+            ""self.session = None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockAppContext: app = 'app_instance'; def push(self): pass"",
+            ""class MockApp: def app_context(self): return MockAppContext(); session_interface = type('SessionInterface', (object,), {'open_session': lambda self, app, request: 'mock_session', 'make_null_session': lambda self, app: 'null_session'})()"",
+            ""class MockRequest: pass"",
+            ""self = type('Mock', (object,), {'app': MockApp(), 'request': MockRequest(), '_cv_tokens': [], 'session': None, 'url_adapter': 'mock_adapter', 'match_request': lambda self: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface, RequestContext, url_for""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app')"",
+            ""_cv_request = ContextVar('_cv_request')"",
+            ""class MockRequestContext(RequestContext): pass"",
+            ""self = type('Mock', (object,), {})()"",
+            ""self.app = Flask(__name__)"",
+            ""self.request = Request({})"",
+            ""self.session = None"",
+            ""class MockSessionInterface(SessionInterface):"",
+            ""    def open_session(self, app, request):"",
+            ""        return None"",
+            ""    def make_null_session(self, app):"",
+            ""        return type('Mock', (object,), {})()"",
+            ""self.app.session_interface = MockSessionInterface()"",
+            ""self._cv_tokens = []"",
+            ""self.url_adapter = None""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app') # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request') # pragma: no cover"",
+            ""_cv_request.set(None) # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.app = type('Mock', (object,), {'app_context': lambda: type('AppContext', (object,), {'push': lambda: None})()})() # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self.app.session_interface = type('MockInterface', (object,), {'open_session': lambda app, request: None, 'make_null_session': lambda app: 'mock_session'}) # pragma: no cover"",
+            ""self.request = 'mock_request' # pragma: no cover"",
+            ""self.url_adapter = None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, Request, session # pragma: no cover"",
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""request = Request(dict()) # pragma: no cover"",
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover"",
+            ""self = type('Mock', (object,), { # pragma: no cover"",
+            ""    'app': app, # pragma: no cover"",
+            ""    'request': request, # pragma: no cover"",
+            ""    '_cv_tokens': [], # pragma: no cover"",
+            ""    'session': None, # pragma: no cover"",
+            ""    'url_adapter': None, # pragma: no cover"",
+            ""    'match_request': lambda _: None, # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""_cv_app.set(type('MockAppCtx', (object,), { # pragma: no cover"",
+            ""    'app': None, # pragma: no cover"",
+            ""    'push': lambda self: None # pragma: no cover"",
+            ""})()) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import threading # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = threading.local() # pragma: no cover"",
+            ""_cv_request = threading.local() # pragma: no cover"",
+            ""_cv_request.set = lambda x: x # pragma: no cover"",
+            ""class MockAppContext: app = 'mock_app' # pragma: no cover"",
+            ""_cv_app.get = lambda _: MockAppContext() # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.app = type('MockApp', (object,), {'app_context': MockAppContext})() # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self.app.session_interface = type('MockSessionInterface', (object,), {'open_session': lambda app, req: 'mock_session', 'make_null_session': lambda app: 'null_session'})() # pragma: no cover"",
+            ""self.request = 'mock_request' # pragma: no cover"",
+            ""self.url_adapter = None # pragma: no cover"",
+            ""self.match_request = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app') # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request') # pragma: no cover"",
+            ""self = type('Self', (object,), {})() # pragma: no cover"",
+            ""self.app = type('App', (object,), {'app_context': lambda: type('AppContext', (object,), {'push': lambda: None})()})() # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self.request = None # pragma: no cover"",
+            ""self.app.session_interface = type('SessionInterface', (object,), {'open_session': lambda app, request: None, 'make_null_session': lambda app: None})() # pragma: no cover"",
+            ""self.url_adapter = type('UrlAdapter', (object,), {'match_request': lambda: None})() # pragma: no cover"",
+            ""self.match_request = self.url_adapter.match_request # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from typing import List, Optional # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app') # pragma: no cover"",
+            ""_cv_request = ContextVar('request') # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {})() # pragma: no cover"",
+            ""self.app = type('MockApp', (object,), {'app_context': lambda self: type('MockAppContext', (object,), {'push': lambda self: None})()})() # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self.request = type('MockRequest', (object,), {})() # pragma: no cover"",
+            ""self.app.session_interface = type('MockSessionInterface', (object,), {'open_session': lambda self, app, request: None, 'make_null_session': lambda self, app: type('MockSession', (object,), {})()})() # pragma: no cover"",
+            ""self.url_adapter = None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app') # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request') # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.app = type('Mock', (object,), {'app_context': lambda: type('Mock', (object,), {'push': lambda: None})()})() # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self.app.session_interface = type('Mock', (object,), {'open_session': lambda app, request: None, 'make_null_session': lambda app: 'null_session'})() # pragma: no cover"",
+            ""self.request = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.url_adapter = None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app') # pragma: no cover"",
+            ""_cv_request = ContextVar('request') # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {})() # pragma: no cover"",
+            ""self.app = type('MockApp', (object,), {'app_context': lambda: type('AppContext', (object,), {'push': lambda: None})()})() # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self.url_adapter = None # pragma: no cover"",
+            ""self.app.session_interface = type('MockSessionInterface', (object,), {'open_session': lambda app, req: None, 'make_null_session': lambda app: None})() # pragma: no cover"",
+            ""self.request = None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover"",
+            ""from flask import Flask, Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app') # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request') # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.app = Flask(__name__) # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.app.app_context = lambda: self.app.test_request_context() # pragma: no cover"",
+            ""self.app.session_interface = type('MockSessionInterface', (object,), {'open_session': lambda app, request: None, 'make_null_session': lambda app: {}})() # pragma: no cover"",
+            ""self.match_request = lambda: None # pragma: no cover"",
+            ""self.session = None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app') # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request') # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.url_adapter = None # pragma: no cover""
+        ]
+    }
+]",3,494,0.000247,1959,0.0029385,0.0031855
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+# Before we push the request context we have to ensure that there
+# is an application context.
+app_ctx = _cv_app.get(None)
+if app_ctx is None or app_ctx.app is not self.app:
+    app_ctx = self.app.app_context()
+    app_ctx.push()
+else: # uncovered
+    app_ctx = None # uncovered
+self._cv_tokens.append((_cv_request.set(self), app_ctx))
+# Open the session at the moment that the request context is available.
+# This allows a custom open_session method to use the request context.
+# Only open a new session if this is the first time the request was
+# pushed, otherwise stream_with_context loses the session.
+if self.session is None:
+    session_interface = self.app.session_interface
+    self.session = session_interface.open_session(self.app, self.request)
+    if self.session is None:
+        self.session = session_interface.make_null_session(self.app)
+if self.url_adapter is not None:
+    self.match_request()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app', default='mock_app_ctx')"",
+            ""_cv_request = ContextVar('request')"",
+            ""self = type('MockSelf', (object,), {})()"",
+            ""self.app = type('MockApp', (object,), {'app_context': lambda: type('MockAppContext', (object,), {'push': lambda: None, 'app': 'mock_app_ctx'})()})()"",
+            ""self._cv_tokens = []"",
+            ""self.session = None"",
+            ""self.app.session_interface = type('MockSessionInterface', (object,), {'open_session': lambda app, req: None, 'make_null_session': lambda app: 'mock_session'})()"",
+            ""self.request = 'mock_request'"",
+            ""self.url_adapter = None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface, RequestContext""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app')"",
+            ""_cv_request = ContextVar('_cv_request')"",
+            ""class MockAppContext:"",
+            ""    def __init__(self, app):"",
+            ""        self.app = app"",
+            ""    def push(self):"",
+            ""        pass"",
+            ""class MockSessionInterface(SessionInterface):"",
+            ""    def open_session(self, app, request):"",
+            ""        return None"",
+            ""    def make_null_session(self, app):"",
+            ""        return 'mock_session'"",
+            ""_cv_app.set(MockAppContext(app='different_app'))"",
+            ""self = type('Mock', (object,), {})()"",
+            ""self.app = Flask(__name__)"",
+            ""self.request = Request({}, 'GET', 'http://test')"",
+            ""self._cv_tokens = []"",
+            ""self.session = None"",
+            ""self.app.session_interface = MockSessionInterface()"",
+            ""self.url_adapter = None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app')"",
+            ""_cv_request = ContextVar('_cv_request')"",
+            ""class MockAppContext:"",
+            ""    def __init__(self, app):"",
+            ""        self.app = app"",
+            ""    def push(self):"",
+            ""        pass"",
+            ""class MockSessionInterface:"",
+            ""    def open_session(self, app, request):"",
+            ""        return None"",
+            ""    def make_null_session(self, app):"",
+            ""        return 'null_session'"",
+            ""self = type('MockSelf', (object,), {})()"",
+            ""self.app = Flask(__name__)"",
+            ""_cv_app.set(MockAppContext(app=None))"",
+            ""self.request = Request(dict())"",
+            ""self._cv_tokens = []"",
+            ""self.session = 'already_exists_session'"",
+            ""self.url_adapter = None"",
+            ""self.app.session_interface = MockSessionInterface()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app')"",
+            ""_cv_request = ContextVar('_cv_request')"",
+            ""_cv_app.set(type('MockAppContext', (object,), {'app': 'mock_app'})())"",
+            ""self = type('Mock', (object,), {})()"",
+            ""self.app = Flask(__name__)"",
+            ""self.request = Request({})"",
+            ""self._cv_tokens = []"",
+            ""self.session = None"",
+            ""self.app.app_context = lambda: type('AppContext', (object,), {'push': lambda: None})()"",
+            ""self.app.session_interface = type('SessionInterface', (object,), {'open_session': lambda app, request: None, 'make_null_session': lambda app: 'null_session'})()"",
+            ""self.url_adapter = None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app')"",
+            ""_cv_request = ContextVar('_cv_request')"",
+            ""self = type('Mock', (object,), {})()"",
+            ""self.app = Flask(__name__)"",
+            ""self.request = Request({}, ('localhost',))"",
+            ""self.session = None"",
+            ""self._cv_tokens = []"",
+            ""_cv_app.set(type('AppContext', (object,), {'app': self.app}))"",
+            ""self.app.app_context = lambda: type('AppContext', (object,), {'push': lambda app: None})()"",
+            ""self.app.session_interface = type('SessionInterface', (object,), {'open_session': lambda app, req: None, 'make_null_session': lambda app: 'null_session'})()"",
+            ""self.match_request = lambda: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask, Request, SessionInterface""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app')"",
+            ""_cv_request = ContextVar('_cv_request')"",
+            ""class MockAppContext:"",
+            ""    def __init__(self, app):"",
+            ""        self.app = app"",
+            ""    def push(self):"",
+            ""        pass"",
+            ""self = type('Mock', (object,), {})()"",
+            ""self.app = Flask(__name__)"",
+            ""self.request = Request(dict())"",
+            ""mock_app_ctx = MockAppContext(self.app)"",
+            ""_cv_app.set(mock_app_ctx)"",
+            ""self._cv_tokens = []"",
+            ""self.session = None"",
+            ""class MockSessionInterface(SessionInterface):"",
+            ""    def open_session(self, app, request):"",
+            ""        return None"",
+            ""    def make_null_session(self, app):"",
+            ""        return type('MockSession', (object,), {})()"",
+            ""self.app.session_interface = MockSessionInterface()"",
+            ""self.url_adapter = None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from contextlib import contextmanager""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None)"",
+            ""_cv_request = ContextVar('_cv_request', default=None)"",
+            ""class MockAppContext: app = 'another_app_instance'; def push(self): pass"",
+            ""class MockApp: def app_context(self): return MockAppContext()"",
+            ""session_interface = type('SessionInterface', (object,), {'open_session': lambda self, app, request: 'mock_session', 'make_null_session': lambda self, app: 'null_session'})()"",
+            ""class MockRequest: pass"",
+            ""self = type('Mock', (object,), {'app': MockApp(), 'app_context': None, '_cv_tokens': [], 'session': None, 'request': MockRequest(), 'url_adapter': None, 'match_request': lambda self: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app')"",
+            ""_cv_request = ContextVar('_cv_request')"",
+            ""self = type('Mock', (object,), {})()"",
+            ""self.app = type('Mock', (object,), {'app_context': lambda: type('Mock', (object,), {'push': lambda: None})()})()"",
+            ""self._cv_tokens = []"",
+            ""self.session = None"",
+            ""_cv_app.set(type('MockAppContext', (object,), {'app': self.app}))"",
+            ""self.app.app_context = lambda: type('MockAppContext', (object,), {'push': lambda: None})()"",
+            ""self.app.session_interface = type('Mock', (object,), {'open_session': lambda app, request: None, 'make_null_session': lambda app: 'null_session'})()"",
+            ""self.request = type('MockRequest', (object,), {})()"",
+            ""self.url_adapter = None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app')"",
+            ""_cv_request = ContextVar('request')"",
+            ""class MockAppContext:"",
+            ""    def __init__(self, app):"",
+            ""        self.app = app"",
+            ""    def push(self): pass"",
+            ""self = type('MockSelf', (object,), {'app': 'some_other_app', '_cv_tokens': [], 'session': None, 'url_adapter': None})()"",
+            ""_cv_app.set(MockAppContext(app=self.app))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar"",
+            ""from flask import Flask""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app')"",
+            ""_cv_request = ContextVar('_cv_request')"",
+            ""class MockAppContext: app = None; def push(self): pass"",
+            ""_cv_app.set(MockAppContext())"",
+            ""self = type('Mock', (object,), {})()"",
+            ""self.app = Flask(__name__)"",
+            ""self._cv_tokens = []"",
+            ""self.session = None"",
+            ""self.request = type('Request', (object,), {})()"",
+            ""self.app.session_interface = type('SessionInterface', (object,), {'open_session': lambda app, req: None, 'make_null_session': lambda app: 'null_session'})()"",
+            ""self.url_adapter = None""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app', default='mock_app_ctx') # pragma: no cover"",
+            ""_cv_request = ContextVar('request') # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {})() # pragma: no cover"",
+            ""self.app = type('MockApp', (object,), {'app_context': lambda: type('MockAppContext', (object,), {'push': lambda: None, 'app': 'mock_app_ctx'})()})() # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self.app.session_interface = type('MockSessionInterface', (object,), {'open_session': lambda app, req: None, 'make_null_session': lambda app: 'mock_session'})() # pragma: no cover"",
+            ""self.request = 'mock_request' # pragma: no cover"",
+            ""self.url_adapter = None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app') # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request') # pragma: no cover"",
+            ""class MockAppContext: # pragma: no cover"",
+            ""    def __init__(self, app): # pragma: no cover"",
+            ""        self.app = app # pragma: no cover"",
+            ""    def push(self): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""_cv_app.set(MockAppContext(app='different_app')) # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self.url_adapter = None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from flask import Flask, Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app') # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request') # pragma: no cover"",
+            ""class MockAppContext: # pragma: no cover"",
+            ""    def __init__(self, app): # pragma: no cover"",
+            ""        self.app = app # pragma: no cover"",
+            ""    def push(self): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockSessionInterface: # pragma: no cover"",
+            ""    def open_session(self, app, request): # pragma: no cover"",
+            ""        return None # pragma: no cover"",
+            ""    def make_null_session(self, app): # pragma: no cover"",
+            ""        return 'null_session' # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {})() # pragma: no cover"",
+            ""self.app = Flask(__name__) # pragma: no cover"",
+            ""_cv_app.set(MockAppContext(app=None)) # pragma: no cover"",
+            ""self.request = Request(dict()) # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.session = 'already_exists_session' # pragma: no cover"",
+            ""self.url_adapter = None # pragma: no cover"",
+            ""self.app.session_interface = MockSessionInterface() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from flask import Flask, Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app') # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request') # pragma: no cover"",
+            ""_cv_app.set(type('MockAppContext', (object,), {'app': 'mock_app'})()) # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.app = Flask(__name__) # pragma: no cover"",
+            ""self.request = Request({}) # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self.app.app_context = lambda: type('AppContext', (object,), {'push': lambda: None})() # pragma: no cover"",
+            ""self.app.session_interface = type('SessionInterface', (object,), {'open_session': lambda app, request: None, 'make_null_session': lambda app: 'null_session'})() # pragma: no cover"",
+            ""self.url_adapter = None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from flask import Flask, Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app') # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request') # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.app = Flask(__name__) # pragma: no cover"",
+            ""self.request = Request({}, ('localhost',)) # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""_cv_app.set(type('AppContext', (object,), {'app': self.app})) # pragma: no cover"",
+            ""self.app.app_context = lambda: type('AppContext', (object,), {'push': lambda app: None})() # pragma: no cover"",
+            ""self.app.session_interface = type('SessionInterface', (object,), {'open_session': lambda app, req: None, 'make_null_session': lambda app: 'null_session'})() # pragma: no cover"",
+            ""self.match_request = lambda: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app') # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request') # pragma: no cover"",
+            ""class MockAppContext: # pragma: no cover"",
+            ""    def __init__(self, app): # pragma: no cover"",
+            ""        self.app = app # pragma: no cover"",
+            ""    def push(self): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""self.url_adapter = None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from contextlib import contextmanager # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app', default=None) # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request', default=None) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app') # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request') # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.app = type('Mock', (object,), {'app_context': lambda: type('Mock', (object,), {'push': lambda: None})()})() # pragma: no cover"",
+            ""self._cv_tokens = [] # pragma: no cover"",
+            ""self.session = None # pragma: no cover"",
+            ""_cv_app.set(type('MockAppContext', (object,), {'app': self.app})) # pragma: no cover"",
+            ""self.app.app_context = lambda: type('MockAppContext', (object,), {'push': lambda: None})() # pragma: no cover"",
+            ""self.app.session_interface = type('Mock', (object,), {'open_session': lambda app, request: None, 'make_null_session': lambda app: 'null_session'})() # pragma: no cover"",
+            ""self.request = type('MockRequest', (object,), {})() # pragma: no cover"",
+            ""self.url_adapter = None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('app') # pragma: no cover"",
+            ""_cv_request = ContextVar('request') # pragma: no cover"",
+            ""class MockAppContext: # pragma: no cover"",
+            ""    def __init__(self, app): # pragma: no cover"",
+            ""        self.app = app # pragma: no cover"",
+            ""    def push(self): pass # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'app': 'some_other_app', '_cv_tokens': [], 'session': None, 'url_adapter': None})() # pragma: no cover"",
+            ""_cv_app.set(MockAppContext(app=self.app)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from contextvars import ContextVar # pragma: no cover"",
+            ""from flask import Flask # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_cv_app = ContextVar('_cv_app') # pragma: no cover"",
+            ""_cv_request = ContextVar('_cv_request') # pragma: no cover""
+        ]
+    }
+]",3,2924,0.001462,2133,0.0031995,0.0046615

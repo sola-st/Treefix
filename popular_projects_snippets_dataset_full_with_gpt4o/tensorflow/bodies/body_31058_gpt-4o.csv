@@ -1,0 +1,498 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+if not test.is_gpu_available():
+    self.skipTest(""No GPU available"")
+for t in [
+    np.float16,
+    np.float32,
+    np.float64,
+    dtypes.bfloat16.as_numpy_dtype,
+]:
+    self._testCrelu(
+        np.array([[-9, 7, -5, 3, -1], [1, -3, 5, -7, 9]]).astype(t))
+
+# end code snippet
+
+# begin undefined variables
+test
+self
+np
+dtypes
+# end undefined variables
+
+# begin undefined attributes and methods
+test.is_gpu_available
+self.skipTest
+np.float16
+np.float32
+np.float64
+dtypes.bfloat16
+self._testCrelu
+np.array
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from unittest import TestCase, mock""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda: True})()"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})()"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda: True})()"",
+            ""self = type('Mock', (object,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, array: None})()"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('BF16Mock', (object,), {'as_numpy_dtype': np.float32})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from tensorflow import dtypes""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda: True})()"",
+            ""self = type('Mock', (object,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, x: None})()"",
+            ""np.float16 = np.dtype('float16').type"",
+            ""np.float32 = np.dtype('float32').type"",
+            ""np.float64 = np.dtype('float64').type"",
+            ""dtypes.bfloat16 = type('Mock', (object,), {'as_numpy_dtype': np.dtype('float32').type})()"",
+            ""np.array = np.core.array""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import tensorflow as tf"",
+            ""from tensorflow import dtypes""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': staticmethod(lambda: False)})()"",
+            ""self = type('Mock', (object,), {'skipTest': lambda self, msg: print(msg), '_testCrelu': lambda self, arr: print(arr)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda: False})()"",
+            ""self = type('Mock', (object,), {'skipTest': lambda self, message: print(message), '_testCrelu': lambda self, array: print(array)})()"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('Mock', (object,), {'as_numpy_dtype': np.float32})})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from tensorflow import dtypes""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda: False})()"",
+            ""self = type('Mock', (object,), {'skipTest': lambda x: print(x), '_testCrelu': lambda x: print(x)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""test = SimpleNamespace(is_gpu_available=lambda: False)"",
+            ""self = type('Mock', (object,), {'skipTest': lambda msg: print(msg), '_testCrelu': lambda array: print(f'Testing with array:\\n{array}')})()"",
+            ""dtypes = SimpleNamespace(bfloat16=SimpleNamespace(as_numpy_dtype=np.float32))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda: True})()"",
+            ""self = type('Mock', (object,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, array: None})()"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockNested', (object,), {'as_numpy_dtype': np.float32})})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from tensorflow import dtypes""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), { 'is_gpu_available': lambda self: False })()"",
+            ""self = type('Mock', (object,), { 'skipTest': lambda self, message: print(message), '_testCrelu': lambda self, x: print(f'_testCrelu called with {x}') })()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda: True})()"",
+            ""self = type('Mock', (object,), {'skipTest': lambda x: None, '_testCrelu': lambda x: None})()"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('Mock', (object,), {'as_numpy_dtype': np.float32})()})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from unittest import TestCase, mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda: True})() # pragma: no cover"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})() # pragma: no cover"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda: True})() # pragma: no cover"",
+            ""self = type('Mock', (object,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, array: None})() # pragma: no cover"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('BF16Mock', (object,), {'as_numpy_dtype': np.float32})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda: True})() # pragma: no cover"",
+            ""self = type('Mock', (object,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, x: None})() # pragma: no cover"",
+            ""np.float16 = np.dtype('float16').type # pragma: no cover"",
+            ""np.float32 = np.dtype('float32').type # pragma: no cover"",
+            ""np.float64 = np.dtype('float64').type # pragma: no cover"",
+            ""np.array = np.core.array # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': staticmethod(lambda: False)})() # pragma: no cover"",
+            ""self = type('Mock', (object,), {'skipTest': lambda self, msg: print(msg), '_testCrelu': lambda self, arr: print(arr)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda: False})() # pragma: no cover"",
+            ""self = type('Mock', (object,), {'skipTest': lambda self, message: print(message), '_testCrelu': lambda self, array: print(array)})() # pragma: no cover"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('Mock', (object,), {'as_numpy_dtype': np.float32})})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda: False})() # pragma: no cover"",
+            ""self = type('Mock', (object,), {'skipTest': lambda x: print(x), '_testCrelu': lambda x: print(x)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = SimpleNamespace(is_gpu_available=lambda: False) # pragma: no cover"",
+            ""self = type('Mock', (object,), {'skipTest': lambda msg: print(msg), '_testCrelu': lambda array: print(f'Testing with array:\\n{array}')})() # pragma: no cover"",
+            ""dtypes = SimpleNamespace(bfloat16=SimpleNamespace(as_numpy_dtype=np.float32)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda: True})() # pragma: no cover"",
+            ""self = type('Mock', (object,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, array: None})() # pragma: no cover"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockNested', (object,), {'as_numpy_dtype': np.float32})})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), { 'is_gpu_available': lambda self: False })() # pragma: no cover"",
+            ""self = type('Mock', (object,), { 'skipTest': lambda self, message: print(message), '_testCrelu': lambda self, x: print(f'_testCrelu called with {x}') })() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda: True})() # pragma: no cover"",
+            ""self = type('Mock', (object,), {'skipTest': lambda x: None, '_testCrelu': lambda x: None})() # pragma: no cover"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('Mock', (object,), {'as_numpy_dtype': np.float32})()})() # pragma: no cover""
+        ]
+    }
+]",1,421,0.0002105,1241,0.0018615,0.002072
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 9:
+    if not test.is_gpu_available():
+TypeError: <lambda>() takes 0 positional arguments but 1 was given
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from unittest import TestCase""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': staticmethod(lambda: True)})()"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})()"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from unittest import TestCase""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': staticmethod(lambda: True)})()"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})()"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from unittest import TestCase, mock""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda self: True})()"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})()"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from unittest import TestCase, mock""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda self: True})()"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})()"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from unittest import TestCase""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda self: True})()"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})()"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from unittest import TestCase""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda self: True})()"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})()"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from unittest import TestCase, mock""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda self: True})()"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})()"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from unittest import TestCase""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda self: True})()"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})()"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from unittest import TestCase, mock""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda self: True})()"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})()"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from unittest import TestCase""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': staticmethod(lambda: True)})()"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})()"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from unittest import TestCase # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': staticmethod(lambda: True)})() # pragma: no cover"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})() # pragma: no cover"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from unittest import TestCase # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': staticmethod(lambda: True)})() # pragma: no cover"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})() # pragma: no cover"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from unittest import TestCase, mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda self: True})() # pragma: no cover"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})() # pragma: no cover"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from unittest import TestCase, mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda self: True})() # pragma: no cover"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})() # pragma: no cover"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from unittest import TestCase # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda self: True})() # pragma: no cover"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})() # pragma: no cover"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from unittest import TestCase # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda self: True})() # pragma: no cover"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})() # pragma: no cover"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from unittest import TestCase, mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda self: True})() # pragma: no cover"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})() # pragma: no cover"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from unittest import TestCase # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda self: True})() # pragma: no cover"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})() # pragma: no cover"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from unittest import TestCase, mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': lambda self: True})() # pragma: no cover"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})() # pragma: no cover"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from unittest import TestCase # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""test = type('Mock', (object,), {'is_gpu_available': staticmethod(lambda: True)})() # pragma: no cover"",
+            ""self = type('Mock', (TestCase,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, arr: None})() # pragma: no cover"",
+            ""dtypes = type('Mock', (object,), {'bfloat16': type('MockDtype', (object,), {'as_numpy_dtype': np.float16})()})() # pragma: no cover""
+        ]
+    }
+]",2,856,0.000428,1374,0.002061,0.002489

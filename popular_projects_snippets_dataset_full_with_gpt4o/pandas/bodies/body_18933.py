@@ -1,0 +1,3 @@
+# Extracted from ./data/repos/pandas/pandas/_typing.py
+# for _get_filepath_or_buffer
+...

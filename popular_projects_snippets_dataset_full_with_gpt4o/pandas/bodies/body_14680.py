@@ -1,0 +1,14 @@
+# Extracted from ./data/repos/pandas/pandas/tests/plotting/frame/test_frame_groupby.py
+# https://github.com/pandas-dev/pandas/issues/20968
+# sharey can now be switched check whether the right
+# pair of axes is turned on or off
+df = DataFrame(
+    {
+        "a": [-1.43, -0.15, -3.70, -1.43, -0.14],
+        "b": [0.56, 0.84, 0.29, 0.56, 0.85],
+        "c": [0, 1, 2, 3, 1],
+    },
+    index=[0, 1, 2, 3, 4],
+)
+axes = df.groupby("c").boxplot(**kwargs)
+self._assert_ytickslabels_visibility(axes, expected)

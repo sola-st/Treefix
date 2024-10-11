@@ -1,0 +1,308 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+ignored_ids = set()
+try:
+    last_leaf = self.leaves[-1]
+    ignored_ids.add(id(last_leaf))
+    if last_leaf.type == token.COMMA or (
+        last_leaf.type == token.RPAR and not last_leaf.value
+    ):
+        # When trailing commas or optional parens are inserted by Black for
+        # consistency, comments after the previous last element are not moved
+        # (they don't have to, rendering will still be correct).  So we ignore
+        # trailing commas and invisible.
+        last_leaf = self.leaves[-2]
+        ignored_ids.add(id(last_leaf))
+except IndexError:
+    exit(False)
+
+# A type comment is uncollapsable if it is attached to a leaf
+# that isn't at the end of the line (since that could cause it
+# to get associated to a different argument) or if there are
+# comments before it (since that could cause it to get hidden
+# behind a comment.
+comment_seen = False
+for leaf_id, comments in self.comments.items():
+    for comment in comments:
+        if is_type_comment(comment):
+            if comment_seen or (
+                not is_type_comment(comment, "" ignore"")
+                and leaf_id not in ignored_ids
+            ):
+                exit(True)
+
+        comment_seen = True
+
+exit(False)
+
+# end code snippet
+
+# begin undefined variables
+self
+token
+is_type_comment
+# end undefined variables
+
+# begin undefined attributes and methods
+self.leaves
+token.COMMA
+token.RPAR
+self.comments
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List, Dict"",
+            ""from collections import defaultdict""
+        ],
+        ""initialization"": [
+            ""token = type('MockToken', (object,), {'COMMA': 1, 'RPAR': 2})"",
+            ""self = type('MockSelf', (object,), {'leaves': [type('MockLeaf', (object,), {'type': token.COMMA, 'value': ','})(), type('MockLeaf', (object,), {'type': token.RPAR, 'value': ''})()], 'comments': defaultdict(list)})()"",
+            ""def is_type_comment(comment: str, ignore_str: str = '') -> bool: return 'type' in comment and ignore_str in comment""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self.leaves = [type('MockLeaf', (object,), {'type': token.COMMA, 'value': ''})(), type('MockLeaf', (object,), {'type': token.RPAR, 'value': ''})()]"",
+            ""token.COMMA = 1"",
+            ""token.RPAR = 2"",
+            ""self.comments = { id(self.leaves[0]): ['# type: ignore'] }"",
+            ""def is_type_comment(comment, ignore='ignore'): return 'type' in comment""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Dict, List""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""token = type('MockToken', (object,), {'COMMA': 1, 'RPAR': 2})"",
+            ""def is_type_comment(comment, ignore=None): return 'type' in comment"",
+            ""self.leaves = type('MockLeaf', (object,), {'type': int, 'value': False})"",
+            ""self.leaves = [type('MockLeaf', (object,), {'type': token.COMMA, 'value': True})(), type('MockLeaf', (object,), {'type': token.RPAR, 'value': False})()]"",
+            ""self.comments = {id(self.leaves[-1]): ['# type: ignore']} ""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'leaves': [type('Leaf', (object,), {'type': token.RPAR, 'value': ''})(), type('Leaf', (object,), {'type': token.COMMA, 'value': ','})()], 'comments': {id(object()): ['type: ignore', 'comment']} })()"",
+            ""is_type_comment = lambda x, y=None: 'type:' in x""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self.leaves = [type('Leaf', (object,), {'type': None, 'value': None})(), type('Leaf', (object,), {'type': None, 'value': None})()]"",
+            ""self.leaves[-1].type = 54"",
+            ""self.leaves[-1].value = None"",
+            ""self.leaves[-2].type = 52"",
+            ""self.comments = {id(self.leaves[-1]): ['# some comment'], id(self.leaves[-2]): ['# another comment']}"",
+            ""token = type('Mock', (object,), {'COMMA': 52, 'RPAR': 53})()"",
+            ""def is_type_comment(comment, ignore=''): return True""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'leaves': [{ 'type': 'COMMA', 'value': ',' }, { 'type': 'RPAR', 'value': '' }], 'comments': {1: ['# comment 1', '# comment 2']} })()"",
+            ""token = type('Mock', (object,), {'COMMA': 'COMMA', 'RPAR': 'RPAR'})()"",
+            ""def is_type_comment(comment, ignore=''): return 'type' in comment""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self.leaves = [type('Leaf', (object,), {'type': token.RPAR, 'value': ''})(), type('Leaf', (object,), {'type': token.COMMA, 'value': ','})()]"",
+            ""self.comments = {id(self.leaves[0]): ['# type: ignore'], id(self.leaves[1]): ['# some comment']}"",
+            ""is_type_comment = lambda comment, suffix='': comment.startswith('# type:') and (suffix in comment)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import defaultdict""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""token = type('MockToken', (object,), {'COMMA': 1, 'RPAR': 2})()"",
+            ""def is_type_comment(comment, marker=None):\n    if marker:\n        return comment.rstrip().endswith(marker)\n    return 'type:' in comment"",
+            ""self.leaves = [type('Leaf', (object,), {'type': token.COMMA, 'value': ''})()]"",
+            ""self.comments = defaultdict(list)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'leaves': [], 'comments': {}})()"",
+            ""token.COMMA = 12  # Arbitrary token type for COMMA"",
+            ""token.RPAR = 13  # Arbitrary token type for RPAR"",
+            ""def is_type_comment(comment, suffix=None):\n    if suffix:\n        return comment.endswith(suffix)\n    return True""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import defaultdict"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace()"",
+            ""self.leaves = [SimpleNamespace(type='RPAR', value=''), SimpleNamespace(type='COMMA', value=',')]"",
+            ""token = SimpleNamespace(COMMA='COMMA', RPAR='RPAR')"",
+            ""def is_type_comment(comment, subtype=None): return comment.startswith('# type:') and (not subtype or subtype in comment)"",
+            ""self.comments = defaultdict(list)"",
+            ""self.comments[id(self.leaves[0])] = ['# type: ignore']""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List, Dict # pragma: no cover"",
+            ""from collections import defaultdict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""token = type('MockToken', (object,), {'COMMA': 1, 'RPAR': 2}) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'leaves': [type('MockLeaf', (object,), {'type': token.COMMA, 'value': ','})(), type('MockLeaf', (object,), {'type': token.RPAR, 'value': ''})()], 'comments': defaultdict(list)})() # pragma: no cover"",
+            ""def is_type_comment(comment: str, ignore_str: str = '') -> bool: return 'type' in comment and ignore_str in comment # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.leaves = [type('MockLeaf', (object,), {'type': token.COMMA, 'value': ''})(), type('MockLeaf', (object,), {'type': token.RPAR, 'value': ''})()] # pragma: no cover"",
+            ""token.COMMA = 1 # pragma: no cover"",
+            ""token.RPAR = 2 # pragma: no cover"",
+            ""self.comments = { id(self.leaves[0]): ['# type: ignore'] } # pragma: no cover"",
+            ""def is_type_comment(comment, ignore='ignore'): return 'type' in comment # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Dict, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""token = type('MockToken', (object,), {'COMMA': 1, 'RPAR': 2}) # pragma: no cover"",
+            ""def is_type_comment(comment, ignore=None): return 'type' in comment # pragma: no cover"",
+            ""self.leaves = type('MockLeaf', (object,), {'type': int, 'value': False}) # pragma: no cover"",
+            ""self.leaves = [type('MockLeaf', (object,), {'type': token.COMMA, 'value': True})(), type('MockLeaf', (object,), {'type': token.RPAR, 'value': False})()] # pragma: no cover"",
+            ""self.comments = {id(self.leaves[-1]): ['# type: ignore']}  # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'leaves': [type('Leaf', (object,), {'type': token.RPAR, 'value': ''})(), type('Leaf', (object,), {'type': token.COMMA, 'value': ','})()], 'comments': {id(object()): ['type: ignore', 'comment']} })() # pragma: no cover"",
+            ""is_type_comment = lambda x, y=None: 'type:' in x # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.leaves = [type('Leaf', (object,), {'type': None, 'value': None})(), type('Leaf', (object,), {'type': None, 'value': None})()] # pragma: no cover"",
+            ""self.leaves[-1].type = 54 # pragma: no cover"",
+            ""self.leaves[-1].value = None # pragma: no cover"",
+            ""self.leaves[-2].type = 52 # pragma: no cover"",
+            ""self.comments = {id(self.leaves[-1]): ['# some comment'], id(self.leaves[-2]): ['# another comment']} # pragma: no cover"",
+            ""token = type('Mock', (object,), {'COMMA': 52, 'RPAR': 53})() # pragma: no cover"",
+            ""def is_type_comment(comment, ignore=''): return True # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'leaves': [{ 'type': 'COMMA', 'value': ',' }, { 'type': 'RPAR', 'value': '' }], 'comments': {1: ['# comment 1', '# comment 2']} })() # pragma: no cover"",
+            ""token = type('Mock', (object,), {'COMMA': 'COMMA', 'RPAR': 'RPAR'})() # pragma: no cover"",
+            ""def is_type_comment(comment, ignore=''): return 'type' in comment # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.leaves = [type('Leaf', (object,), {'type': token.RPAR, 'value': ''})(), type('Leaf', (object,), {'type': token.COMMA, 'value': ','})()] # pragma: no cover"",
+            ""self.comments = {id(self.leaves[0]): ['# type: ignore'], id(self.leaves[1]): ['# some comment']} # pragma: no cover"",
+            ""is_type_comment = lambda comment, suffix='': comment.startswith('# type:') and (suffix in comment) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import defaultdict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""token = type('MockToken', (object,), {'COMMA': 1, 'RPAR': 2})() # pragma: no cover"",
+            ""def is_type_comment(comment, marker=None):# pragma: no cover"",
+            ""    if marker:# pragma: no cover"",
+            ""        return comment.rstrip().endswith(marker)# pragma: no cover"",
+            ""    return 'type:' in comment # pragma: no cover"",
+            ""self.leaves = [type('Leaf', (object,), {'type': token.COMMA, 'value': ''})()] # pragma: no cover"",
+            ""self.comments = defaultdict(list) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {'leaves': [], 'comments': {}})() # pragma: no cover"",
+            ""token.COMMA = 12  # Arbitrary token type for COMMA # pragma: no cover"",
+            ""token.RPAR = 13  # Arbitrary token type for RPAR # pragma: no cover"",
+            ""def is_type_comment(comment, suffix=None):# pragma: no cover"",
+            ""    if suffix:# pragma: no cover"",
+            ""        return comment.endswith(suffix)# pragma: no cover"",
+            ""    return True # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import defaultdict # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace() # pragma: no cover"",
+            ""self.leaves = [SimpleNamespace(type='RPAR', value=''), SimpleNamespace(type='COMMA', value=',')] # pragma: no cover"",
+            ""token = SimpleNamespace(COMMA='COMMA', RPAR='RPAR') # pragma: no cover"",
+            ""def is_type_comment(comment, subtype=None): return comment.startswith('# type:') and (not subtype or subtype in comment) # pragma: no cover"",
+            ""self.comments = defaultdict(list) # pragma: no cover"",
+            ""self.comments[id(self.leaves[0])] = ['# type: ignore'] # pragma: no cover""
+        ]
+    }
+]",1,575,0.0002875,1484,0.002226,0.0025135

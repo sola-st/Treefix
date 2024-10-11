@@ -1,0 +1,7 @@
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/pandas/pandas/core/series.py
+from l3.Runtime import _l_
+aux = base.IndexOpsMixin.searchsorted(self, value, side=side, sorter=sorter)
+_l_(21375)
+exit(aux)

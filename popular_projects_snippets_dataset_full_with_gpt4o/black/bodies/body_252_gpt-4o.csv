@@ -1,0 +1,2536 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Return maximum delimiter priority inside `node`.
+
+    This is specific to atoms with contents contained in a pair of parentheses.
+    If `node` isn't an atom or there are no enclosing parentheses, returns 0.
+    """"""
+if node.type != syms.atom:
+    exit(0)
+
+first = node.children[0]
+last = node.children[-1]
+if not (first.type == token.LPAR and last.type == token.RPAR):
+    exit(0)
+
+bt = BracketTracker()
+for c in node.children[1:-1]:
+    if isinstance(c, Leaf):
+        bt.mark(c)
+    else:
+        for leaf in c.leaves():
+            bt.mark(leaf)
+try:
+    exit(bt.max_delimiter_priority())
+
+except ValueError:
+    exit(0)
+
+# end code snippet
+
+# begin undefined variables
+node
+syms
+token
+BracketTracker
+Leaf
+# end undefined variables
+
+# begin undefined attributes and methods
+node.type
+syms.atom
+node.children
+token.LPAR
+token.RPAR
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""node = type('Node', (object,), {'type': 'atom', 'children': []})()"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None})"",
+            ""Leaf = type('Leaf', (object,), {})"",
+            ""node.type = syms.atom"",
+            ""node.children = [type('NodeChild', (Leaf,), {'type': token.LPAR})(), type('NodeChild', (Leaf,), {'type': ')' if i % 2 else '('})() for i in range(3)], type('NodeChild', (Leaf,), {'type': token.RPAR})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union, Any""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_: int):\n        self.type = type_\n\n    def mark(self):\n        pass\n\nMockLeaf = type('Leaf', (object,), {'mark': lambda self: None})\n````"",
+            ""class MockBracketTracker:\n    def __init__(self):\n        self.priority = 0\n\n    def mark(self, leaf: Union[MockLeaf, Any]):\n        pass\n\n    def max_delimiter_priority(self) -> int:\n        return self.priority\n\nMockBracketTracker = MockBracketTracke"",
+            ""class MockNode:\n    def __init__(self, type_: Any, children: List[Any]):\n        self.type = type_\n        self.children = children\n"",
+            ""node = MockNode(type_=999, children=[MockLeaf(1), MockLeaf(2), MockLeaf(3)])"",
+            ""syms = type('syms', (object,), {'atom': 999})"",
+            ""token = type('token', (object,), {'LPAR': 1, 'RPAR': 2})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List"",
+            ""import sys"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type='atom', children=[SimpleNamespace(type='LPAR'), SimpleNamespace(type='child1'), SimpleNamespace(type='RPAR')])"",
+            ""syms = SimpleNamespace(atom='atom')"",
+            ""token = SimpleNamespace(LPAR='LPAR', RPAR='RPAR')"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, l: None, 'max_delimiter_priority': lambda self: 5})"",
+            ""Leaf = type('Leaf', (object,), {})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union"",
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""node = Mock()"",
+            ""syms = Mock()"",
+            ""token = Mock()"",
+            ""BracketTracker = Mock()"",
+            ""Leaf = Mock()"",
+            ""node.type = syms.atom"",
+            ""syms.atom = 'atom'"",
+            ""node.children = [Mock(type=token.LPAR), Mock(type='child1'), Mock(type='child2'), Mock(type=token.RPAR)]"",
+            ""token.LPAR = 'LPAR'"",
+            ""token.RPAR = 'RPAR'"",
+            ""BracketTracker.max_delimiter_priority = Mock(return_value=1)"",
+            ""BracketTracker.mark = Mock()"",
+            ""Leaf = type('Leaf', (object,), {'leaves': lambda self: [Mock()]})""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": []
+    },
+    {
+        ""imports"": [
+            ""import sys"",
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""node = type('MockNode', (object,), {'type': 'atom', 'children': []})()"",
+            ""syms = type('MockSyms', (object,), {'atom': 'atom'})"",
+            ""token = type('MockToken', (object,), {'LPAR': '(', 'RPAR': ')'})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, x: None, 'max_delimiter_priority': lambda self: 1})"",
+            ""Leaf = type('MockLeaf', (object,), {})"",
+            ""bt = BracketTracker()"",
+            ""first = type('MockFirst', (object,), {'type': '(', 'children': []})()"",
+            ""last = type('MockLast', (object,), {'type': ')', 'children': []})()"",
+            ""node.children = [first, last]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union"",
+            ""from enum import Enum, auto""
+        ],
+        ""initialization"": [
+            ""class NodeType(Enum): atom = auto()"",
+            ""class TokenType(Enum): LPAR = auto(); RPAR = auto()"",
+            ""class MockLeaf: pass"",
+            ""class MockNodeType: type = NodeType.atom; children: List[Union['MockLeaf', 'MockNodeType']] = [MockLeaf(), MockLeaf(), MockLeaf()]"",
+            ""node = MockNodeType()"",
+            ""syms = type('Mock', (object,), {'atom': NodeType.atom})"",
+            ""token = type('Mock', (object,), {'LPAR': TokenType.LPAR, 'RPAR': TokenType.RPAR})"",
+            ""class BracketTracker: def __init__(self): self.max_priority = 0; def mark(self, leaf): pass; def max_delimiter_priority(self): return self.max_priority"",
+            ""Leaf = MockLeaf""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""node = type('Node', (object,), {'type': 1, 'children': []})()"",
+            ""syms = type('MockSyms', (), {'atom': 1})"",
+            ""token = type('MockToken', (), {'LPAR': 2, 'RPAR': 3})"",
+            ""class BracketTracker:\n    def __init__(self):\n        self.max_priority = 0\n    def mark(self, leaf):\n        pass  # Assuming `mark` updates `self.max_priority` as necessary\n    def max_delimiter_priority(self) -> int:\n        return self.max_priority"",
+            ""Leaf = type('Leaf', (object,), {})"",
+            ""node.children = [type('MockLeaf', (Leaf,), {'type': token.LPAR})(), type('Node', (object,), {'leaves': lambda self: [type('MockLeaf', (Leaf,), {})()]})(), type('MockLeaf', (Leaf,), {'type': token.RPAR})()]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union"",
+            ""import token""
+        ],
+        ""initialization"": [
+            ""class NodeType: pass"",
+            """",
+            ""class Syms:"",
+            ""    atom = NodeType()"",
+            """",
+            ""class Token:"",
+            ""    LPAR = token.LPAR"",
+            ""    RPAR = token.RPAR"",
+            """",
+            ""class BracketTracker:"",
+            ""    def __init__(self):"",
+            ""        self.priority = 0"",
+            ""    def mark(self, leaf):"",
+            ""        pass  # Assume some logic that modifies self.priority"",
+            ""    def max_delimiter_priority(self):"",
+            ""        return self.priority"",
+            """",
+            ""class Leaf:"",
+            ""    pass  # Assume some properties and methods for Leaf"",
+            """",
+            ""class MockNode:"",
+            ""    def __init__(self, type_: NodeType, children: List[Union['MockNode', Leaf]]):"",
+            ""        self.type = type_"",
+            ""        self.children = children"",
+            """",
+            ""node = MockNode(Syms.atom, [Leaf(), Leaf()])  # Initialize with Leaf objects for simplicity"",
+            ""syms = Syms()"",
+            ""token = Token()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys"",
+            ""from dataclasses import dataclass, field"",
+            ""from typing import List, Union"",
+            ""import token""
+        ],
+        ""initialization"": [
+            ""node = type('Mock', (object,), {'type': 'atom', 'children': [type('Mock', (object,), {'type': token.LPAR}), type('Mock', (object,), {'type': 'content'}) , type('Mock', (object,), {'type': token.RPAR})]})"",
+            ""syms = type('Mock', (object,), {'atom': 'atom'})"",
+            ""token.LPAR = token.LPAR"",
+            ""token.RPAR = token.RPAR"",
+            ""@dataclass"",
+            ""class BracketTracker:"",
+            ""    max_delimiter_priority: int = 0"",
+            ""    def mark(self, leaf):"",
+            ""        self.max_delimiter_priority = max(self.max_delimiter_priority, leaf.priority)"",
+            ""@dataclass"",
+            ""class Leaf:"",
+            ""    priority: int = 5"",
+            ""    def leaves(self):"",
+            ""        return [self]""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = type('Node', (object,), {'type': 'atom', 'children': []})() # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None}) # pragma: no cover"",
+            ""Leaf = type('Leaf', (object,), {}) # pragma: no cover"",
+            ""node.type = syms.atom # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockBracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 0# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self) -> int:# pragma: no cover"",
+            ""        return self.priority# pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    pass"",
+            ""syms = type('syms', (object,), {'atom': 999}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': 1, 'RPAR': 2}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type='atom', children=[SimpleNamespace(type='LPAR'), SimpleNamespace(type='child1'), SimpleNamespace(type='RPAR')]) # pragma: no cover"",
+            ""syms = SimpleNamespace(atom='atom') # pragma: no cover"",
+            ""token = SimpleNamespace(LPAR='LPAR', RPAR='RPAR') # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, l: None, 'max_delimiter_priority': lambda self: 5}) # pragma: no cover"",
+            ""Leaf = type('Leaf', (object,), {}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union # pragma: no cover"",
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = Mock() # pragma: no cover"",
+            ""syms = Mock() # pragma: no cover"",
+            ""token = Mock() # pragma: no cover"",
+            ""BracketTracker = Mock() # pragma: no cover"",
+            ""Leaf = Mock() # pragma: no cover"",
+            ""node.type = syms.atom # pragma: no cover"",
+            ""syms.atom = 'atom' # pragma: no cover"",
+            ""node.children = [Mock(type=token.LPAR), Mock(type='child1'), Mock(type='child2'), Mock(type=token.RPAR)] # pragma: no cover"",
+            ""token.LPAR = 'LPAR' # pragma: no cover"",
+            ""token.RPAR = 'RPAR' # pragma: no cover"",
+            ""BracketTracker.max_delimiter_priority = Mock(return_value=1) # pragma: no cover"",
+            ""BracketTracker.mark = Mock() # pragma: no cover"",
+            ""Leaf = type('Leaf', (object,), {'leaves': lambda self: [Mock()]}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys # pragma: no cover"",
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = type('MockNode', (object,), {'type': 'atom', 'children': []})() # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('MockToken', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, x: None, 'max_delimiter_priority': lambda self: 1}) # pragma: no cover"",
+            ""Leaf = type('MockLeaf', (object,), {}) # pragma: no cover"",
+            ""bt = BracketTracker() # pragma: no cover"",
+            ""first = type('MockFirst', (object,), {'type': '(', 'children': []})() # pragma: no cover"",
+            ""last = type('MockLast', (object,), {'type': ')', 'children': []})() # pragma: no cover"",
+            ""node.children = [first, last] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union # pragma: no cover"",
+            ""from enum import Enum, auto # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class NodeType(Enum): atom = auto() # pragma: no cover"",
+            ""class TokenType(Enum): LPAR = auto(); RPAR = auto() # pragma: no cover"",
+            ""class MockLeaf: pass # pragma: no cover"",
+            ""class MockNodeType: type = NodeType.atom; children: List[Union['MockLeaf', 'MockNodeType']] = [MockLeaf(), MockLeaf(), MockLeaf()] # pragma: no cover"",
+            ""node = MockNodeType() # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'atom': NodeType.atom}) # pragma: no cover"",
+            ""token = type('Mock', (object,), {'LPAR': TokenType.LPAR, 'RPAR': TokenType.RPAR}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = type('Node', (object,), {'type': 1, 'children': []})() # pragma: no cover"",
+            ""syms = type('MockSyms', (), {'atom': 1}) # pragma: no cover"",
+            ""token = type('MockToken', (), {'LPAR': 2, 'RPAR': 3}) # pragma: no cover"",
+            ""class BracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.max_priority = 0# pragma: no cover"",
+            ""    def mark(self, leaf):# pragma: no cover"",
+            ""        pass  # Assuming `mark` updates `self.max_priority` as necessary# pragma: no cover"",
+            ""    def max_delimiter_priority(self) -> int:# pragma: no cover"",
+            ""        return self.max_priority # pragma: no cover"",
+            ""Leaf = type('Leaf', (object,), {}) # pragma: no cover"",
+            ""node.children = [type('MockLeaf', (Leaf,), {'type': token.LPAR})(), type('Node', (object,), {'leaves': lambda self: [type('MockLeaf', (Leaf,), {})()]})(), type('MockLeaf', (Leaf,), {'type': token.RPAR})()] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union # pragma: no cover"",
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class NodeType: pass # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class Syms: # pragma: no cover"",
+            ""    atom = NodeType() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class Token: # pragma: no cover"",
+            ""    LPAR = token.LPAR # pragma: no cover"",
+            ""    RPAR = token.RPAR # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class BracketTracker: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.priority = 0 # pragma: no cover"",
+            ""    def mark(self, leaf): # pragma: no cover"",
+            ""        pass  # Assume some logic that modifies self.priority # pragma: no cover"",
+            ""    def max_delimiter_priority(self): # pragma: no cover"",
+            ""        return self.priority # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class Leaf: # pragma: no cover"",
+            ""    pass  # Assume some properties and methods for Leaf # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockNode: # pragma: no cover"",
+            ""    def __init__(self, type_: NodeType, children: List[Union['MockNode', Leaf]]): # pragma: no cover"",
+            ""        self.type = type_ # pragma: no cover"",
+            ""        self.children = children # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""node = MockNode(Syms.atom, [Leaf(), Leaf()])  # Initialize with Leaf objects for simplicity # pragma: no cover"",
+            ""syms = Syms() # pragma: no cover"",
+            ""token = Token() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys # pragma: no cover"",
+            ""from dataclasses import dataclass, field # pragma: no cover"",
+            ""from typing import List, Union # pragma: no cover"",
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = type('Mock', (object,), {'type': 'atom', 'children': [type('Mock', (object,), {'type': token.LPAR}), type('Mock', (object,), {'type': 'content'}) , type('Mock', (object,), {'type': token.RPAR})]}) # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token.LPAR = token.LPAR # pragma: no cover"",
+            ""token.RPAR = token.RPAR # pragma: no cover"",
+            ""@dataclass # pragma: no cover"",
+            ""class BracketTracker: # pragma: no cover"",
+            ""    max_delimiter_priority: int = 0 # pragma: no cover"",
+            ""    def mark(self, leaf): # pragma: no cover"",
+            ""        self.max_delimiter_priority = max(self.max_delimiter_priority, leaf.priority) # pragma: no cover"",
+            ""@dataclass # pragma: no cover"",
+            ""class Leaf: # pragma: no cover"",
+            ""    priority: int = 5 # pragma: no cover"",
+            ""    def leaves(self): # pragma: no cover"",
+            ""        return [self] # pragma: no cover""
+        ]
+    }
+]",1,473,0.0002365,6162,0.009243,0.0094795
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 20:
+    first = node.children[0]
+IndexError: list index out of range
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""node = type('Node', (object,), {'type': 'atom', 'children': []})()"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None})"",
+            ""Leaf = type('Leaf', (object,), {'leaves': lambda self: []})"",
+            ""node.type = syms.atom"",
+            ""node.children = [type('NodeChild', (Leaf,), {'type': token.LPAR})(), type('NodeChild', (Leaf,), {'type': 'content'})(), type('NodeChild', (Leaf,), {'type': token.RPAR})()]""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""node = type('Node', (object,), {'type': None, 'children': []})()"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None})"",
+            ""Leaf = type('Leaf', (object,), {})"",
+            ""node.type = syms.atom"",
+            ""child1 = type('NodeChild', (Leaf,), {'type': token.LPAR})()"",
+            ""child2 = type('NodeChild', (Leaf,), {'type': 'content1'})()"",
+            ""child3 = type('NodeChild', (Leaf,), {'type': 'content2'})()"",
+            ""child4 = type('NodeChild', (Leaf,), {'type': token.RPAR})()"",
+            ""node.children = [child1, child2, child3, child4]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""    def __init__(self, type_: str):"",
+            ""        self.type = type_"",
+            ""class Node:"",
+            ""    def __init__(self, type_: str, children: List[Union['Node', Leaf]]):"",
+            ""        self.type = type_"",
+            ""        self.children = children"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')' })"",
+            ""class BracketTracker:"",
+            ""    def __init__(self):"",
+            ""        self.delimiter_priority = 42"",
+            ""    def mark(self, leaf):"",
+            ""        pass"",
+            ""    def max_delimiter_priority(self):"",
+            ""        return self.delimiter_priority"",
+            ""node = Node(syms.atom, [Leaf(token.LPAR), Leaf('content'), Leaf(token.RPAR)])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""node = type('Node', (object,), {'type': 'atom', 'children': []})()"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None})"",
+            ""Leaf = type('Leaf', (object,), {'leaves': lambda self: []})"",
+            ""node.type = syms.atom"",
+            ""node.children = [type('NodeChildFirst', (Leaf,), {'type': token.LPAR})(), type('NodeChildInner', (Leaf,), {'type': 'inner'})(), type('NodeChildLast', (Leaf,), {'type': token.RPAR})()]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""node = type('Node', (object,), {'type': 'atom', 'children': []})()"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None})"",
+            ""Leaf = type('Leaf', (object,), {})"",
+            ""node.type = syms.atom"",
+            ""node.children = [type('NodeChild', (Leaf,), {'type': token.LPAR})(), type('NodeChild', (Leaf,), {'type': '('})(), type('NodeChild', (Leaf,), {'type': ')'})(), type('NodeChild', (Leaf,), {'type': token.RPAR})() ]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""node = type('Node', (object,), {'type': 'atom', 'children': []})()"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None})"",
+            ""Leaf = type('Leaf', (object,), {})"",
+            ""node.type = syms.atom"",
+            ""node.children = [type('NodeChild', (Leaf,), {'type': token.LPAR})(), type('NodeChild', (Leaf,), {'type': 'value'})(), type('NodeChild', (Leaf,), {'type': token.RPAR})()]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""class MockLeaf: pass"",
+            ""class MockNodeChild: pass"",
+            ""node = type('Node', (object,), {'type': 'atom', 'children': []})()"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None})"",
+            ""Leaf = MockLeaf"",
+            ""node.type = syms.atom"",
+            ""node.children = [type('NodeChild', (Leaf,), {'type': token.LPAR})(), type('NodeChild', (object,), {})(), type('NodeChild', (object,), {})(), type('NodeChild', (Leaf,), {'type': token.RPAR})()]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None})"",
+            ""Leaf = type('Leaf', (object,), {})"",
+            ""node = type('Node', (object,), {'type': syms.atom, 'children': []})()"",
+            ""node.children = [type('NodeChild', (Leaf,), {'type': token.LPAR})(), type('NodeChild', (Leaf,), {'type': 'mock_child'})(), type('NodeChild', (Leaf,), {'type': token.RPAR})()]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""class MockNode:"",
+            ""    def __init__(self, _type, children):"",
+            ""        self.type = _type"",
+            ""        self.children = children"",
+            """",
+            ""class MockLeaf:"",
+            ""    def __init__(self, _type):"",
+            ""        self.type = _type"",
+            """",
+            ""node = MockNode('atom', [MockLeaf('('), MockLeaf('x'), MockLeaf(')')])"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})"",
+            ""BracketTracker = type('BracketTracker', (object,), {"",
+            ""    'max_delimiter_priority': lambda self: 42,"",
+            ""    'mark': lambda self, x: None"",
+            ""})"",
+            ""Leaf = MockLeaf"",
+            ""node.type = syms.atom"",
+            ""node.children = [MockLeaf(token.LPAR), MockLeaf('x'), MockLeaf(token.RPAR)]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from typing import Union""
+        ],
+        ""initialization"": [
+            ""node = type('Node', (object,), {'type': 'atom', 'children': []})()"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None})"",
+            ""Leaf = type('Leaf', (object,), {})"",
+            ""node.type = syms.atom"",
+            ""node.children = [type('NodeChild', (Leaf,), {'type': token.LPAR})(), type('NodeChild', (Leaf,), {'type': None})(), type('NodeChild', (Leaf,), {'type': token.RPAR})()]""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = type('Node', (object,), {'type': 'atom', 'children': []})() # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None}) # pragma: no cover"",
+            ""Leaf = type('Leaf', (object,), {'leaves': lambda self: []}) # pragma: no cover"",
+            ""node.type = syms.atom # pragma: no cover"",
+            ""node.children = [type('NodeChild', (Leaf,), {'type': token.LPAR})(), type('NodeChild', (Leaf,), {'type': 'content'})(), type('NodeChild', (Leaf,), {'type': token.RPAR})()] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""node = type('Node', (object,), {'type': None, 'children': []})() # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None}) # pragma: no cover"",
+            ""Leaf = type('Leaf', (object,), {}) # pragma: no cover"",
+            ""node.type = syms.atom # pragma: no cover"",
+            ""child1 = type('NodeChild', (Leaf,), {'type': token.LPAR})() # pragma: no cover"",
+            ""child2 = type('NodeChild', (Leaf,), {'type': 'content1'})() # pragma: no cover"",
+            ""child3 = type('NodeChild', (Leaf,), {'type': 'content2'})() # pragma: no cover"",
+            ""child4 = type('NodeChild', (Leaf,), {'type': token.RPAR})() # pragma: no cover"",
+            ""node.children = [child1, child2, child3, child4] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf: # pragma: no cover"",
+            ""    def __init__(self, type_: str): # pragma: no cover"",
+            ""        self.type = type_ # pragma: no cover"",
+            ""class Node: # pragma: no cover"",
+            ""    def __init__(self, type_: str, children: List[Union['Node', Leaf]]): # pragma: no cover"",
+            ""        self.type = type_ # pragma: no cover"",
+            ""        self.children = children # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')' }) # pragma: no cover"",
+            ""class BracketTracker: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.delimiter_priority = 42 # pragma: no cover"",
+            ""    def mark(self, leaf): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""    def max_delimiter_priority(self): # pragma: no cover"",
+            ""        return self.delimiter_priority # pragma: no cover"",
+            ""node = Node(syms.atom, [Leaf(token.LPAR), Leaf('content'), Leaf(token.RPAR)]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = type('Node', (object,), {'type': 'atom', 'children': []})() # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None}) # pragma: no cover"",
+            ""Leaf = type('Leaf', (object,), {'leaves': lambda self: []}) # pragma: no cover"",
+            ""node.type = syms.atom # pragma: no cover"",
+            ""node.children = [type('NodeChildFirst', (Leaf,), {'type': token.LPAR})(), type('NodeChildInner', (Leaf,), {'type': 'inner'})(), type('NodeChildLast', (Leaf,), {'type': token.RPAR})()] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = type('Node', (object,), {'type': 'atom', 'children': []})() # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None}) # pragma: no cover"",
+            ""Leaf = type('Leaf', (object,), {}) # pragma: no cover"",
+            ""node.type = syms.atom # pragma: no cover"",
+            ""node.children = [type('NodeChild', (Leaf,), {'type': token.LPAR})(), type('NodeChild', (Leaf,), {'type': '('})(), type('NodeChild', (Leaf,), {'type': ')'})(), type('NodeChild', (Leaf,), {'type': token.RPAR})() ] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = type('Node', (object,), {'type': 'atom', 'children': []})() # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None}) # pragma: no cover"",
+            ""Leaf = type('Leaf', (object,), {}) # pragma: no cover"",
+            ""node.type = syms.atom # pragma: no cover"",
+            ""node.children = [type('NodeChild', (Leaf,), {'type': token.LPAR})(), type('NodeChild', (Leaf,), {'type': 'value'})(), type('NodeChild', (Leaf,), {'type': token.RPAR})()] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf: pass # pragma: no cover"",
+            ""class MockNodeChild: pass # pragma: no cover"",
+            ""node = type('Node', (object,), {'type': 'atom', 'children': []})() # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None}) # pragma: no cover"",
+            ""Leaf = MockLeaf # pragma: no cover"",
+            ""node.type = syms.atom # pragma: no cover"",
+            ""node.children = [type('NodeChild', (Leaf,), {'type': token.LPAR})(), type('NodeChild', (object,), {})(), type('NodeChild', (object,), {})(), type('NodeChild', (Leaf,), {'type': token.RPAR})()] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None}) # pragma: no cover"",
+            ""Leaf = type('Leaf', (object,), {}) # pragma: no cover"",
+            ""node = type('Node', (object,), {'type': syms.atom, 'children': []})() # pragma: no cover"",
+            ""node.children = [type('NodeChild', (Leaf,), {'type': token.LPAR})(), type('NodeChild', (Leaf,), {'type': 'mock_child'})(), type('NodeChild', (Leaf,), {'type': token.RPAR})()] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode: # pragma: no cover"",
+            ""    def __init__(self, _type, children): # pragma: no cover"",
+            ""        self.type = _type # pragma: no cover"",
+            ""        self.children = children # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockLeaf: # pragma: no cover"",
+            ""    def __init__(self, _type): # pragma: no cover"",
+            ""        self.type = _type # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""node = MockNode('atom', [MockLeaf('('), MockLeaf('x'), MockLeaf(')')]) # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), { # pragma: no cover"",
+            ""    'max_delimiter_priority': lambda self: 42, # pragma: no cover"",
+            ""    'mark': lambda self, x: None # pragma: no cover"",
+            ""}) # pragma: no cover"",
+            ""Leaf = MockLeaf # pragma: no cover"",
+            ""node.type = syms.atom # pragma: no cover"",
+            ""node.children = [MockLeaf(token.LPAR), MockLeaf('x'), MockLeaf(token.RPAR)] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from typing import Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = type('Node', (object,), {'type': 'atom', 'children': []})() # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None}) # pragma: no cover"",
+            ""Leaf = type('Leaf', (object,), {}) # pragma: no cover"",
+            ""node.type = syms.atom # pragma: no cover"",
+            ""node.children = [type('NodeChild', (Leaf,), {'type': token.LPAR})(), type('NodeChild', (Leaf,), {'type': None})(), type('NodeChild', (Leaf,), {'type': token.RPAR})()] # pragma: no cover""
+        ]
+    }
+]",2,992,0.000496,2313,0.0034695,0.0039655
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 20:
+    if node.type != syms.atom:
+NameError: name 'node' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List, Union""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_):\n        self.type = type_\n\n    def leaves(self):\n        return [self]\n\nLeaf = MockLeaf"",
+            ""class MockBracketTracker:\n    def __init__(self):\n        self.priority = 0\n\n    def mark(self, leaf):\n        # Simplified marking logic for the example\n        if leaf.type in (20, 21):  # Assume 20 and 21 are priorities\n            self.priority = max(self.priority, 1)\n\n    def max_delimiter_priority(self):\n        return self.priority\n\nBracketTracker = MockBracketTracker"",
+            ""class MockNode:\n    def __init__(self, type_, children):\n        self.type = type_\n        self.children = children\n"",
+            ""node = MockNode(\n    type_='atom',\n    children=[MockLeaf(type_='('), MockLeaf(type_=20), MockLeaf(type_=')')]\n)"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union, Any""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    def __init__(self, type):\n        self.type = type\n\nclass Node:\n    def __init__(self, type, children):\n        self.type = type\n        self.children = children\n\nclass BracketTracker:\n    def __init__(self):\n        self.priority = 0\n\n    def mark(self, leaf: Leaf):\n        pass\n\n    def max_delimiter_priority(self):\n        return self.priority\n\nsyms = type('syms', (object,), {'atom': 1})\ntoken = type('token', (object,), {'LPAR': 2, 'RPAR': 3})\nnode = Node(syms.atom, [Leaf(token.LPAR), Leaf(100), Leaf(token.RPAR)])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    def __init__(self, type_):\n        self.type = type_\n\n    def leaves(self):\n        # Assuming it returns a list of leaves\n        return [self]\n"",
+            ""class BracketTracker:\n    def __init__(self):\n        self.priority = 0\n\n    def mark(self, leaf: Leaf):\n        # Mock method to mark leaf, affecting priority\n        if leaf.type == 3:  # Assuming type 3 has max priority in our mock\n            self.priority = 42\n\n    def max_delimiter_priority(self):\n        return self.priority\n"",
+            ""class Node:\n    def __init__(self, type_, children: List[Leaf]):\n        self.type = type_\n        self.children = children\n"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})"",
+            ""node = Node(syms.atom, [Leaf(token.LPAR), Leaf(1), Leaf(2), Leaf(token.RPAR)])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_):\n        self.type = type_\n\n    def mark(self, leaf):\n        pass\n\nMockLeaf = MockLeaf"",
+            ""class MockBracketTracker:\n    def __init__(self):\n        self.priority = 42  # Example priority value\n\n    def mark(self, leaf):\n        pass\n\n    def max_delimiter_priority(self):\n        return self.priority\n\nMockBracketTracker = MockBracketTracker"",
+            ""class MockNode:\n    def __init__(self, type_, children):\n        self.type = type_\n        self.children = children\n\nMockNode = MockNode"",
+            ""node = MockNode(type_='atom', children=[MockLeaf(type_='('), MockLeaf(type_='content'), MockLeaf(type_=')')])"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_):\n        self.type = type_\n\n    def leaves(self):\n        return [self]\n\nclass MockBracketTracker:\n    def __init__(self):\n        self.priority = 0\n\n    def mark(self, leaf):\n        pass\n\n    def max_delimiter_priority(self) -> int:\n        return self.priority\n\nclass MockNode:\n    def __init__(self, type_, children):\n        self.type = type_\n        self.children = children\n\nsyms = type('syms', (object,), {'atom': 999})\ntoken = type('token', (object,), {'LPAR': 1, 'RPAR': 2})\nnode = MockNode(syms.atom, [MockLeaf(token.LPAR), MockLeaf(3), MockLeaf(token.RPAR)])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    def __init__(self, type_):\n        self.type = type_\n\nclass Node:\n    def __init__(self, type_, children):\n        self.type = type_\n        self.children = children\n"",
+            ""node = Node('atom', [Leaf('LPAR'), Leaf('content1'), Leaf('content2'), Leaf('RPAR')])"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': 'LPAR', 'RPAR': 'RPAR'})"",
+            ""class BracketTracker:\n    def __init__(self):\n        self.priority = 42\n\n    def mark(self, leaf):\n        pass\n\n    def max_delimiter_priority(self):\n        return self.priority"",
+            ""Leaf = Leaf""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_: int):\n        self.type = type_\n\nMockLeaf = type('Leaf', (object,), {})"",
+            ""class MockBracketTracker:\n    def __init__(self):\n        self.priority = 0\n\n    def mark(self, leaf: MockLeaf):\n        pass\n\n    def max_delimiter_priority(self) -> int:\n        return self.priority\nBracketTracker = MockBracketTracker"",
+            ""class MockNode:\n    def __init__(self, type_: int, children: List[MockLeaf]):\n        self.type = type_\n        self.children = children\nnode = MockNode(type_=999, children=[MockLeaf(1), MockLeaf(3), MockLeaf(2)])"",
+            ""syms = type('syms', (object,), {'atom': 999})"",
+            ""token = type('token', (object,), {'LPAR': 1, 'RPAR': 2})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union""
+        ],
+        ""initialization"": [
+            ""node = type('MockNode', (object,), {'type': 'atom', 'children': []})()"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'max_delimiter_priority': lambda self: 42, 'mark': lambda self, x: None})"",
+            ""Leaf = type('Leaf', (object,), {})"",
+            ""node.type = syms.atom"",
+            ""node.children = [type('NodeChild', (Leaf,), {'type': token.LPAR})(), type('NodeChild', (Leaf,), {'type': 999})(), type('NodeChild', (Leaf,), {'type': token.RPAR})()}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    def __init__(self, type_):\n        self.type = type_\n\n    def leaves(self):\n        return [self]\n"",
+            ""class Node:\n    def __init__(self, type_, children):\n        self.type = type_\n        self.children = children\n"",
+            ""class BracketTracker:\n    def __init__(self):\n        self.priority = 0\n\n    def mark(self, leaf):\n        pass\n\n    def max_delimiter_priority(self):\n        return self.priority\n"",
+            ""node = Node(\n    type_='atom',\n    children=[Leaf('('), Leaf('content_1'), Leaf('content_2'), Leaf(')')]\n)"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union, Any""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_: str):\n        self.type = type_\n\n    def leaves(self):\n        return [self]\n"",
+            ""class MockBracketTracker:\n    def __init__(self):\n        self.priority = 0\n\n    def mark(self, leaf: MockLeaf):\n        pass\n\n    def max_delimiter_priority(self) -> int:\n        return self.priority\n"",
+            ""class MockNode:\n    def __init__(self, type_: Any, children: List[Any]):\n        self.type = type_\n        self.children = children\n"",
+            ""node = MockNode(type_='atom', children=[MockLeaf('('), MockLeaf('content'), MockLeaf(')')])"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})"",
+            ""BracketTracker = MockBracketTracker"",
+            ""Leaf = MockLeaf""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return [self]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""Leaf = MockLeaf # pragma: no cover"",
+            ""class MockBracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 0# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf):# pragma: no cover"",
+            ""        # Simplified marking logic for the example# pragma: no cover"",
+            ""        if leaf.type in (20, 21):  # Assume 20 and 21 are priorities# pragma: no cover"",
+            ""            self.priority = max(self.priority, 1)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self):# pragma: no cover"",
+            ""        return self.priority# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""BracketTracker = MockBracketTracker # pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type_, children):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""node = MockNode(# pragma: no cover"",
+            ""    type_='atom',# pragma: no cover"",
+            ""    children=[MockLeaf(type_='('), MockLeaf(type_=20), MockLeaf(type_=')')]# pragma: no cover"",
+            "") # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, type, children):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class BracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 0# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf: Leaf):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self):# pragma: no cover"",
+            ""        return self.priority# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 1})# pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': 2, 'RPAR': 3})# pragma: no cover"",
+            ""node = Node(syms.atom, [Leaf(token.LPAR), Leaf(100), Leaf(token.RPAR)]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, type_):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        # Assuming it returns a list of leaves# pragma: no cover"",
+            ""        return [self]# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class BracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 0# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf: Leaf):# pragma: no cover"",
+            ""        # Mock method to mark leaf, affecting priority# pragma: no cover"",
+            ""        if leaf.type == 3:  # Assuming type 3 has max priority in our mock# pragma: no cover"",
+            ""            self.priority = 42# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self):# pragma: no cover"",
+            ""        return self.priority# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, type_, children: List[Leaf]):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover"",
+            ""node = Node(syms.atom, [Leaf(token.LPAR), Leaf(1), Leaf(2), Leaf(token.RPAR)]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""MockLeaf = MockLeaf # pragma: no cover"",
+            ""class MockBracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 42  # Example priority value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self):# pragma: no cover"",
+            ""        return self.priority# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""MockBracketTracker = MockBracketTracker # pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type_, children):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""MockNode = MockNode # pragma: no cover"",
+            ""node = MockNode(type_='atom', children=[MockLeaf(type_='('), MockLeaf(type_='content'), MockLeaf(type_=')')]) # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return [self]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockBracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 0# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self) -> int:# pragma: no cover"",
+            ""        return self.priority# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type_, children):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 999})# pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': 1, 'RPAR': 2})# pragma: no cover"",
+            ""node = MockNode(syms.atom, [MockLeaf(token.LPAR), MockLeaf(3), MockLeaf(token.RPAR)]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, type_):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, type_, children):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""node = Node('atom', [Leaf('LPAR'), Leaf('content1'), Leaf('content2'), Leaf('RPAR')]) # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': 'LPAR', 'RPAR': 'RPAR'}) # pragma: no cover"",
+            ""class BracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 42# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self):# pragma: no cover"",
+            ""        return self.priority # pragma: no cover"",
+            ""Leaf = Leaf # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_: int):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""MockLeaf = type('Leaf', (object,), {}) # pragma: no cover"",
+            ""class MockBracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 0# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf: MockLeaf):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self) -> int:# pragma: no cover"",
+            ""        return self.priority# pragma: no cover"",
+            ""BracketTracker = MockBracketTracker # pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type_: int, children: List[MockLeaf]):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 999}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': 1, 'RPAR': 2}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, type_):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return [self]# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, type_, children):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class BracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 0# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self):# pragma: no cover"",
+            ""        return self.priority# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""node = Node(# pragma: no cover"",
+            ""    type_='atom',# pragma: no cover"",
+            ""    children=[Leaf('('), Leaf('content_1'), Leaf('content_2'), Leaf(')')]# pragma: no cover"",
+            "") # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_: str):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return [self]# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockBracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 0# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf: MockLeaf):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self) -> int:# pragma: no cover"",
+            ""        return self.priority# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type_: Any, children: List[Any]):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""node = MockNode(type_='atom', children=[MockLeaf('('), MockLeaf('content'), MockLeaf(')')]) # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover"",
+            ""BracketTracker = MockBracketTracker # pragma: no cover"",
+            ""Leaf = MockLeaf # pragma: no cover""
+        ]
+    }
+]",2,1565,0.0007825,2468,0.003702,0.0044845
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 30:
+    for leaf in c.leaves():
+AttributeError: 'types.SimpleNamespace' object has no attribute 'leaves'
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import Any, List"",
+            ""import sys"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_: str):\n        self.type = type_\n\n    def mark(self):\n        pass"",
+            ""class MockBracketTracker:\n    def __init__(self):\n        self.priority = 0\n\n    def mark(self, leaf: MockLeaf):\n        pass\n\n    def max_delimiter_priority(self) -> int:\n        return 5"",
+            ""class MockNodeChild:\n    def __init__(self, type_: str):\n        self.type = type_\n\n    def leaves(self):\n        return [MockLeaf('leaf')]"",
+            ""node = SimpleNamespace(type='atom', children=[MockNodeChild('LPAR'), MockNodeChild('child1'), MockNodeChild('RPAR')])"",
+            ""syms = SimpleNamespace(atom='atom')"",
+            ""token = SimpleNamespace(LPAR='LPAR', RPAR='RPAR')"",
+            ""BracketTracker = MockBracketTracker"",
+            ""Leaf = MockLeaf""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List"",
+            ""import sys"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""Leaf = type('Leaf', (object,), {'__init__': lambda self, type_: setattr(self, 'type', type_)})"",
+            ""def mock_leaves(self): return [Leaf('leaf')]"",
+            ""NodeChild = type('NodeChild', (object,), {'__init__': lambda self, type_: setattr(self, 'type', type_), 'leaves': mock_leaves})"",
+            ""node = SimpleNamespace(type='atom', children=[SimpleNamespace(type='LPAR'), NodeChild('child'), SimpleNamespace(type='RPAR')])"",
+            ""syms = SimpleNamespace(atom='atom')"",
+            ""token = SimpleNamespace(LPAR='LPAR', RPAR='RPAR')"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, l: None, 'max_delimiter_priority': lambda self: 5})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List"",
+            ""import sys"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_: int):\n        self.type = type_\n\n    def mark(self):\n        pass\n\nMockLeaf = type('Leaf', (object,), {'mark': lambda self: None})\n````"",
+            ""class MockBracketTracker:\n    def __init__(self):\n        self.priority = 0\n\n    def mark(self, leaf: Union[MockLeaf, Any]):\n        pass\n\n    def max_delimiter_priority(self) -> int:\n        return self.priority\n\nMockBracketTracker = MockBracketTracke"",
+            ""class MockNode:\n    def __init__(self, type_: Any, children: List[Any]):\n        self.type = type_\n        self.children = children\n"",
+            ""node = MockNode(type_=999, children=[MockLeaf(1), MockLeaf(2), MockLeaf(3)])"",
+            ""syms = type('syms', (object,), {'atom': 999})"",
+            ""token = type('token', (object,), {'LPAR': 1, 'RPAR': 2})"",
+            ""class MockNodeChild:\n    def __init__(self, type_: Any, leaves_method: Any = None):\n        self.type = type_\n        self.leaves_method = leaves_method\n\n    def leaves(self):\n        if self.leaves_method:\n            return self.leaves_method()\n        return []\n\nnode.children = [MockNodeChild(token.LPAR), MockNodeChild(999, lambda: [MockLeaf(4), MockLeaf(5)]), MockNodeChild(token.RPAR)]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List"",
+            ""import sys"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_: str):\n        self.type = type_\n\n    def __repr__(self):\n        return f'MockLeaf(type={self.type})'\n\nclass MockNodeChild:\n    def __init__(self, type_: str, leaves: List[MockLeaf] = None):\n        self.type = type_\n        self._leaves = leaves or []\n\n    def leaves(self):\n        return self._leaves\n\nnode = SimpleNamespace(\n    type='atom',\n    children=[\n        MockLeaf('LPAR'),\n        MockNodeChild('content', leaves=[MockLeaf('child1'), MockLeaf('child2')]),\n        MockLeaf('RPAR')\n    ]\n)\nsyms = SimpleNamespace(atom='atom')\ntoken = SimpleNamespace(LPAR='LPAR', RPAR='RPAR')\nBracketTracker = type('BracketTracker', (object,), {'mark': lambda self, l: None, 'max_delimiter_priority': lambda self: 5})\nLeaf = MockLeaf""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_: Any):\n        self.type = type_\n\nclass MockNode:\n    def __init__(self, type_: Any, children: List[Any]):\n        self.type = type_\n        self.children = children\n    def leaves(self):\n        return self.children"",
+            ""node = MockNode(type_='atom', children=[MockLeaf(type_='LPAR'), MockLeaf(type_='inner1'), MockLeaf(type_='RPAR')])"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': 'LPAR', 'RPAR': 'RPAR'})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, leaf: None, 'max_delimiter_priority': lambda self: 5})"",
+            ""Leaf = MockLeaf""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List"",
+            ""import sys"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type='atom', children=[SimpleNamespace(type='LPAR'), SimpleNamespace(type='child1'), SimpleNamespace(type='RPAR')])"",
+            ""syms = SimpleNamespace(atom='atom')"",
+            ""token = SimpleNamespace(LPAR='LPAR', RPAR='RPAR')"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, l: None, 'max_delimiter_priority': lambda self: 5})"",
+            ""Leaf = type('Leaf', (object,), {})"",
+            ""for child in node.children:\n    if not hasattr(child, 'leaves'):\n        child.leaves = lambda: [SimpleNamespace(type='leaf')] if hasattr(child, 'type') and child.type == 'child1' else []""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_: Any):\n        self.type = type_\n\nclass MockNode:\n    def __init__(self, type_: Any, children: List[Any]):\n        self.type = type_\n        self.children = children\n\nclass MockBracketTracker:\n    def __init__(self):\n        self.priority = 0\n\n    def mark(self, leaf: MockLeaf):\n        pass\n\n    def max_delimiter_priority(self) -> int:\n        return self.priority\n\nclass MockInternalNode:\n    def __init__(self, leaves: List[MockLeaf]):\n        self._leaves = leaves\n\n    def leaves(self):\n        return self._leaves\n\nnode = MockNode(type_='atom', children=[MockLeaf('LPAR'), MockInternalNode([MockLeaf('child1')]), MockLeaf('RPAR')])"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': 'LPAR', 'RPAR': 'RPAR'})"",
+            ""BracketTracker = MockBracketTracker"",
+            ""Leaf = MockLeaf""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_):\n        self.type = type_\n\nMockLeaf = MockLeaf"",
+            ""class MockBracketTracker:\n    def __init__(self):\n        self.priority = 5\n\n    def mark(self, leaf: Any):\n        pass\n\n    def max_delimiter_priority(self) -> int:\n        return self.priority\n\nBracketTracker = MockBracketTracker"",
+            ""class MockNodeChild:\n    def __init__(self, type_, has_leaves=False):\n        self.type = type_\n        self.has_leaves = has_leaves\n        self._leaves = [MockLeaf('child_leaf')] if has_leaves else []\n\n    def leaves(self):\n        return self._leaves\n"",
+            ""node = type('Node', (object,), {'type': 'atom', 'children': [MockNodeChild('LPAR'), MockNodeChild('MID', has_leaves=True), MockNodeChild('RPAR')]})()"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': 'LPAR', 'RPAR': 'RPAR'})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_):\n        self.type = type_\n\nclass MockBracketTracker:\n    def __init__(self):\n        self.priority = 0\n\n    def mark(self, leaf: Any):\n        pass\n\n    def max_delimiter_priority(self) -> int:\n        return self.priority\n\nclass MockNode:\n    def __init__(self, type_: Any, children: List[Any]):\n        self.type = type_\n        self.children = children\n\n    def leaves(self):\n        return self.children\n\nnode = MockNode('atom', [MockLeaf('LPAR'), MockLeaf('child1'), MockLeaf('RPAR')])"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': 'LPAR', 'RPAR': 'RPAR'})"",
+            ""BracketTracker = MockBracketTracker"",
+            ""Leaf = MockLeaf""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List, Union""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    def __init__(self, type_: Any):\n        self.type = type_\n\nclass MockNode:\n    def __init__(self, type_: Any, children: List[Union['MockNode', Leaf]]):\n        self.type = type_\n        self.children = children\n    def leaves(self):\n        return []\n\nclass BracketTracker:\n    def __init__(self):\n        self.priority = 0\n    def mark(self, leaf: Union[Leaf, Any]):\n        pass\n    def max_delimiter_priority(self) -> int:\n        return self.priority"",
+            ""node = MockNode('atom', [Leaf('LPAR'), MockNode('child', [Leaf('child1')]), Leaf('RPAR')])"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': 'LPAR', 'RPAR': 'RPAR'})""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_: str):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""class MockBracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 0# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf: MockLeaf):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self) -> int:# pragma: no cover"",
+            ""        return 5 # pragma: no cover"",
+            ""class MockNodeChild:# pragma: no cover"",
+            ""    def __init__(self, type_: str):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return [MockLeaf('leaf')] # pragma: no cover"",
+            ""node = SimpleNamespace(type='atom', children=[MockNodeChild('LPAR'), MockNodeChild('child1'), MockNodeChild('RPAR')]) # pragma: no cover"",
+            ""syms = SimpleNamespace(atom='atom') # pragma: no cover"",
+            ""token = SimpleNamespace(LPAR='LPAR', RPAR='RPAR') # pragma: no cover"",
+            ""BracketTracker = MockBracketTracker # pragma: no cover"",
+            ""Leaf = MockLeaf # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""Leaf = type('Leaf', (object,), {'__init__': lambda self, type_: setattr(self, 'type', type_)}) # pragma: no cover"",
+            ""def mock_leaves(self): return [Leaf('leaf')] # pragma: no cover"",
+            ""NodeChild = type('NodeChild', (object,), {'__init__': lambda self, type_: setattr(self, 'type', type_), 'leaves': mock_leaves}) # pragma: no cover"",
+            ""node = SimpleNamespace(type='atom', children=[SimpleNamespace(type='LPAR'), NodeChild('child'), SimpleNamespace(type='RPAR')]) # pragma: no cover"",
+            ""syms = SimpleNamespace(atom='atom') # pragma: no cover"",
+            ""token = SimpleNamespace(LPAR='LPAR', RPAR='RPAR') # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, l: None, 'max_delimiter_priority': lambda self: 5}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockBracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 0# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self) -> int:# pragma: no cover"",
+            ""        return self.priority# pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    pass"",
+            ""syms = type('syms', (object,), {'atom': 999}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': 1, 'RPAR': 2}) # pragma: no cover"",
+            ""class MockNodeChild:# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        if self.leaves_method:# pragma: no cover"",
+            ""            return self.leaves_method()# pragma: no cover"",
+            ""        return []# pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_: str):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def __repr__(self):# pragma: no cover"",
+            ""        return f'MockLeaf(type={self.type})'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockNodeChild:# pragma: no cover"",
+            ""    def __init__(self, type_: str, leaves: List[MockLeaf] = None):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self._leaves = leaves or []# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return self._leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = SimpleNamespace(# pragma: no cover"",
+            ""    type='atom',# pragma: no cover"",
+            ""    children=[# pragma: no cover"",
+            ""        MockLeaf('LPAR'),# pragma: no cover"",
+            ""        MockNodeChild('content', leaves=[MockLeaf('child1'), MockLeaf('child2')]),# pragma: no cover"",
+            ""        MockLeaf('RPAR')# pragma: no cover"",
+            ""    ]# pragma: no cover"",
+            "")# pragma: no cover"",
+            ""syms = SimpleNamespace(atom='atom')# pragma: no cover"",
+            ""token = SimpleNamespace(LPAR='LPAR', RPAR='RPAR')# pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, l: None, 'max_delimiter_priority': lambda self: 5})# pragma: no cover"",
+            ""Leaf = MockLeaf # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_: Any):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type_: Any, children: List[Any]):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return self.children # pragma: no cover"",
+            ""node = MockNode(type_='atom', children=[MockLeaf(type_='LPAR'), MockLeaf(type_='inner1'), MockLeaf(type_='RPAR')]) # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': 'LPAR', 'RPAR': 'RPAR'}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, leaf: None, 'max_delimiter_priority': lambda self: 5}) # pragma: no cover"",
+            ""Leaf = MockLeaf # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = SimpleNamespace(type='atom', children=[SimpleNamespace(type='LPAR'), SimpleNamespace(type='child1'), SimpleNamespace(type='RPAR')]) # pragma: no cover"",
+            ""syms = SimpleNamespace(atom='atom') # pragma: no cover"",
+            ""token = SimpleNamespace(LPAR='LPAR', RPAR='RPAR') # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, l: None, 'max_delimiter_priority': lambda self: 5}) # pragma: no cover"",
+            ""Leaf = type('Leaf', (object,), {}) # pragma: no cover"",
+            ""for child in node.children:# pragma: no cover"",
+            ""    if not hasattr(child, 'leaves'):# pragma: no cover"",
+            ""        child.leaves = lambda: [SimpleNamespace(type='leaf')] if hasattr(child, 'type') and child.type == 'child1' else [] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_: Any):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type_: Any, children: List[Any]):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockBracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 0# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf: MockLeaf):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self) -> int:# pragma: no cover"",
+            ""        return self.priority# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockInternalNode:# pragma: no cover"",
+            ""    def __init__(self, leaves: List[MockLeaf]):# pragma: no cover"",
+            ""        self._leaves = leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return self._leaves# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode(type_='atom', children=[MockLeaf('LPAR'), MockInternalNode([MockLeaf('child1')]), MockLeaf('RPAR')]) # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': 'LPAR', 'RPAR': 'RPAR'}) # pragma: no cover"",
+            ""BracketTracker = MockBracketTracker # pragma: no cover"",
+            ""Leaf = MockLeaf # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""MockLeaf = MockLeaf # pragma: no cover"",
+            ""class MockBracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 5# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf: Any):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self) -> int:# pragma: no cover"",
+            ""        return self.priority# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""BracketTracker = MockBracketTracker # pragma: no cover"",
+            ""class MockNodeChild:# pragma: no cover"",
+            ""    def __init__(self, type_, has_leaves=False):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.has_leaves = has_leaves# pragma: no cover"",
+            ""        self._leaves = [MockLeaf('child_leaf')] if has_leaves else []# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return self._leaves# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""node = type('Node', (object,), {'type': 'atom', 'children': [MockNodeChild('LPAR'), MockNodeChild('MID', has_leaves=True), MockNodeChild('RPAR')]})() # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': 'LPAR', 'RPAR': 'RPAR'}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockBracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 0# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf: Any):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self) -> int:# pragma: no cover"",
+            ""        return self.priority# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type_: Any, children: List[Any]):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return self.children# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode('atom', [MockLeaf('LPAR'), MockLeaf('child1'), MockLeaf('RPAR')]) # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': 'LPAR', 'RPAR': 'RPAR'}) # pragma: no cover"",
+            ""BracketTracker = MockBracketTracker # pragma: no cover"",
+            ""Leaf = MockLeaf # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, type_: Any):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type_: Any, children: List[Union['MockNode', Leaf]]):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return []# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class BracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 0# pragma: no cover"",
+            ""    def mark(self, leaf: Union[Leaf, Any]):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    def max_delimiter_priority(self) -> int:# pragma: no cover"",
+            ""        return self.priority # pragma: no cover"",
+            ""node = MockNode('atom', [Leaf('LPAR'), MockNode('child', [Leaf('child1')]), Leaf('RPAR')]) # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': 'LPAR', 'RPAR': 'RPAR'}) # pragma: no cover""
+        ]
+    }
+]",2,2021,0.0010105,2757,0.0041355,0.005146
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 7:
+    if node.type != syms.atom:
+NameError: name 'node' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import token""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    def __init__(self, type, value=None):\n        self.type = type\n        self.value = value\n\n    def leaves(self):\n        return [self]"",
+            ""class Node:\n    def __init__(self, type, children):\n        self.type = type\n        self.children = children"",
+            ""node = Node(type=1, children=[Leaf(type=token.LPAR), Leaf(type='child'), Leaf(type=token.RPAR)])"",
+            ""syms = type('syms', (object,), {'atom': 1})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, leaf: None, 'max_delimiter_priority': lambda self: 5})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token"",
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""syms = type('syms', (object,), {'atom': 1})"",
+            ""Leaf = type('Leaf', (object,), {})"",
+            ""BracketTracker = type('BracketTracker', (object,), {"",
+            ""    '__init__': lambda self: None,"",
+            ""    'mark': lambda self, x: None,"",
+            ""    'max_delimiter_priority': lambda self: 42"",
+            ""})"",
+            ""class Node:"",
+            ""    def __init__(self, type_, children):"",
+            ""        self.type = type_"",
+            ""        self.children = children"",
+            ""class LeafNode(Leaf):"",
+            ""    def __init__(self, type_, value):"",
+            ""        self.type = type_"",
+            ""        self.value = value"",
+            ""    def leaves(self):"",
+            ""        return [self]"",
+            ""node = Node(syms.atom, [LeafNode(token.LPAR, '('), LeafNode(token.NAME, 'content'), LeafNode(token.RPAR, ')')])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union"",
+            ""import token""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_: int):\n        self.type = type_\n\n    def leaves(self):\n        return [self]\n\nclass MockNode:\n    def __init__(self, type_: int, children: List[Union['MockNode', MockLeaf]]):\n        self.type = type_\n        self.children = children\n\nnode = MockNode(type_=1, children=[MockLeaf(token.LPAR), MockLeaf(0), MockLeaf(token.RPAR)])"",
+            ""syms = type('syms', (object,), {'atom': 1})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, leaf: None, 'max_delimiter_priority': lambda self: 5})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import token""
+        ],
+        ""initialization"": [
+            ""class Node:\n    def __init__(self, type_, children):\n        self.type = type_\n        self.children = children\n"",
+            ""node = Node(type_=1, children=[Node(type_=token.LPAR, children=[]), Node(type_=999, children=[]), Node(type_=token.RPAR, children=[])])"",
+            ""syms = type('Symbols', (), {'atom': 1})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, l: None, 'max_delimiter_priority': lambda self: 5})"",
+            ""Leaf = Node  # Assume Leaf is analogous to Node for this example""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union"",
+            ""import token""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    def __init__(self, type_: int, value: str = ''):\n        self.type = type_\n        self.value = value\n\n    def leaves(self):\n        return [self]"",
+            ""class BracketTracker:\n    def __init__(self):\n        self.delimiters = []\n\n    def mark(self, leaf: Leaf):\n        if leaf.type in (token.LPAR, token.RPAR):\n            self.delimiters.append(leaf)\n\n    def max_delimiter_priority(self) -> int:\n        if not self.delimiters:\n            raise ValueError('No delimiters')\n        return 10"",
+            ""class Node:\n    def __init__(self, type_: int, children: List[Union['Node', Leaf]]):\n        self.type = type_\n        self.children = children"",
+            ""syms = type('syms', (object,), {'atom': 1})"",
+            ""node = Node(syms.atom, [Leaf(token.LPAR, '('), Leaf(999, 'child1'), Leaf(token.RPAR, ')')])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import token""
+        ],
+        ""initialization"": [
+            ""syms = type('Symbols', (object,), {'atom': 1})"",
+            ""Leaf = type('Leaf', (object,), {'__init__': lambda self, type: setattr(self, 'type', type)})"",
+            ""class BracketTracker:"",
+            ""    def __init__(self):"",
+            ""        self.delimiters = []"",
+            ""    def mark(self, leaf):"",
+            ""        if leaf.type in (token.LPAR, token.RPAR):"",
+            ""            self.delimiters.append(leaf)"",
+            ""    def max_delimiter_priority(self):"",
+            ""        if not self.delimiters:"",
+            ""            raise ValueError('No delimiters found')"",
+            ""        return 10"",
+            ""class Node:"",
+            ""    def __init__(self, type, children):"",
+            ""        self.type = type"",
+            ""        self.children = children"",
+            ""node = Node(syms.atom, [Leaf(token.LPAR), Node('child', [Leaf('inner')]), Leaf(token.RPAR)])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import token""
+        ],
+        ""initialization"": [
+            ""class Node:\n    def __init__(self, type_: int, children: List[object]):\n        self.type = type_\n        self.children = children"",
+            ""class Leaf:\n    def __init__(self, type_: int):\n        self.type = type_\n    def leaves(self):\n        return [self]"",
+            ""syms = type('Symbols', (object,), {'atom': 1})"",
+            ""token = type('token', (object,), {'LPAR': token.LPAR, 'RPAR': token.RPAR})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'__init__': lambda self: None, 'mark': lambda self, l: None, 'max_delimiter_priority': lambda self: 5})"",
+            ""node = Node(syms.atom, [Leaf(token.LPAR), Leaf(2), Leaf(token.RPAR)])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    def __init__(self, type):\n        self.type = type\n\n    def leaves(self):\n        # Return an empty list to simulate no internal leaves\n        return []"",
+            ""class Node:\n    def __init__(self, type, children):\n        self.type = type\n        self.children = children"",
+            ""class BracketTracker:\n    def __init__(self):\n        self.delimiter_priorities = []\n\n    def mark(self, leaf):\n        # Just a mock method, doesn't need to do anything for this test\n        pass\n\n    def max_delimiter_priority(self):\n        if not self.delimiter_priorities:\n            return 0\n        return max(self.delimiter_priorities)"",
+            ""syms = type('syms', (), {'atom': 1})"",
+            ""node = Node(type=1, children=[Leaf(token.LPAR), Leaf('child1'), Leaf(token.RPAR)])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""class Leaf:\n    def __init__(self, type):\n        self.type = type\n    def leaves(self):\n        return [self]"",
+            ""class BracketTracker:\n    def __init__(self):\n        self.delimiters = []\n    def mark(self, leaf):\n        if leaf.type in {token.LPAR, token.RPAR}:\n            self.delimiters.append(leaf.type)\n    def max_delimiter_priority(self):\n        if not self.delimiters:\n            raise ValueError('No delimiters')\n        return 10"",
+            ""syms = SimpleNamespace(atom=1)"",
+            ""node = SimpleNamespace(type=1, children=[Leaf(token.LPAR), Leaf('child'), Leaf(token.RPAR)])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token""
+        ],
+        ""initialization"": [
+            ""syms = type('syms', (object,), {'atom': 1})"",
+            ""Leaf = type('Leaf', (object,), {})"",
+            ""class BracketTracker:\n    def __init__(self):\n        self.delimiters = []\n    def mark(self, leaf):\n        pass\n    def max_delimiter_priority(self) -> int:\n        return 42"",
+            ""class MockNode:\n    def __init__(self, type_, children):\n        self.type = type_\n        self.children = children\n    def leaves(self):\n        return self.children"",
+            ""node = MockNode(syms.atom, [MockNode(token.LPAR, []), MockNode('child', []), MockNode(token.RPAR, [])])""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, type, value=None):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""        self.value = value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return [self] # pragma: no cover"",
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, type, children):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""        self.children = children # pragma: no cover"",
+            ""node = Node(type=1, children=[Leaf(type=token.LPAR), Leaf(type='child'), Leaf(type=token.RPAR)]) # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 1}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, leaf: None, 'max_delimiter_priority': lambda self: 5}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover"",
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""syms = type('syms', (object,), {'atom': 1}) # pragma: no cover"",
+            ""Leaf = type('Leaf', (object,), {}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), { # pragma: no cover"",
+            ""    '__init__': lambda self: None, # pragma: no cover"",
+            ""    'mark': lambda self, x: None, # pragma: no cover"",
+            ""    'max_delimiter_priority': lambda self: 42 # pragma: no cover"",
+            ""}) # pragma: no cover"",
+            ""class Node: # pragma: no cover"",
+            ""    def __init__(self, type_, children): # pragma: no cover"",
+            ""        self.type = type_ # pragma: no cover"",
+            ""        self.children = children # pragma: no cover"",
+            ""class LeafNode(Leaf): # pragma: no cover"",
+            ""    def __init__(self, type_, value): # pragma: no cover"",
+            ""        self.type = type_ # pragma: no cover"",
+            ""        self.value = value # pragma: no cover"",
+            ""    def leaves(self): # pragma: no cover"",
+            ""        return [self] # pragma: no cover"",
+            ""node = Node(syms.atom, [LeafNode(token.LPAR, '('), LeafNode(token.NAME, 'content'), LeafNode(token.RPAR, ')')]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union # pragma: no cover"",
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_: int):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return [self]# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type_: int, children: List[Union['MockNode', MockLeaf]]):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""node = MockNode(type_=1, children=[MockLeaf(token.LPAR), MockLeaf(0), MockLeaf(token.RPAR)]) # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 1}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, leaf: None, 'max_delimiter_priority': lambda self: 5}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, type_, children):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""node = Node(type_=1, children=[Node(type_=token.LPAR, children=[]), Node(type_=999, children=[]), Node(type_=token.RPAR, children=[])]) # pragma: no cover"",
+            ""syms = type('Symbols', (), {'atom': 1}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, l: None, 'max_delimiter_priority': lambda self: 5}) # pragma: no cover"",
+            ""Leaf = Node  # Assume Leaf is analogous to Node for this example # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Union # pragma: no cover"",
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, type_: int, value: str = ''):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.value = value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return [self] # pragma: no cover"",
+            ""class BracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.delimiters = []# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf: Leaf):# pragma: no cover"",
+            ""        if leaf.type in (token.LPAR, token.RPAR):# pragma: no cover"",
+            ""            self.delimiters.append(leaf)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self) -> int:# pragma: no cover"",
+            ""        if not self.delimiters:# pragma: no cover"",
+            ""            raise ValueError('No delimiters')# pragma: no cover"",
+            ""        return 10 # pragma: no cover"",
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, type_: int, children: List[Union['Node', Leaf]]):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 1}) # pragma: no cover"",
+            ""node = Node(syms.atom, [Leaf(token.LPAR, '('), Leaf(999, 'child1'), Leaf(token.RPAR, ')')]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""syms = type('Symbols', (object,), {'atom': 1}) # pragma: no cover"",
+            ""Leaf = type('Leaf', (object,), {'__init__': lambda self, type: setattr(self, 'type', type)}) # pragma: no cover"",
+            ""class BracketTracker: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.delimiters = [] # pragma: no cover"",
+            ""    def mark(self, leaf): # pragma: no cover"",
+            ""        if leaf.type in (token.LPAR, token.RPAR): # pragma: no cover"",
+            ""            self.delimiters.append(leaf) # pragma: no cover"",
+            ""    def max_delimiter_priority(self): # pragma: no cover"",
+            ""        if not self.delimiters: # pragma: no cover"",
+            ""            raise ValueError('No delimiters found') # pragma: no cover"",
+            ""        return 10 # pragma: no cover"",
+            ""class Node: # pragma: no cover"",
+            ""    def __init__(self, type, children): # pragma: no cover"",
+            ""        self.type = type # pragma: no cover"",
+            ""        self.children = children # pragma: no cover"",
+            ""node = Node(syms.atom, [Leaf(token.LPAR), Node('child', [Leaf('inner')]), Leaf(token.RPAR)]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, type_: int, children: List[object]):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children # pragma: no cover"",
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, type_: int):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return [self] # pragma: no cover"",
+            ""syms = type('Symbols', (object,), {'atom': 1}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': token.LPAR, 'RPAR': token.RPAR}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'__init__': lambda self: None, 'mark': lambda self, l: None, 'max_delimiter_priority': lambda self: 5}) # pragma: no cover"",
+            ""node = Node(syms.atom, [Leaf(token.LPAR), Leaf(2), Leaf(token.RPAR)]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        # Return an empty list to simulate no internal leaves# pragma: no cover"",
+            ""        return [] # pragma: no cover"",
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, type, children):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""        self.children = children # pragma: no cover"",
+            ""class BracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.delimiter_priorities = []# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf):# pragma: no cover"",
+            ""        # Just a mock method, doesn't need to do anything for this test# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self):# pragma: no cover"",
+            ""        if not self.delimiter_priorities:# pragma: no cover"",
+            ""            return 0# pragma: no cover"",
+            ""        return max(self.delimiter_priorities) # pragma: no cover"",
+            ""syms = type('syms', (), {'atom': 1}) # pragma: no cover"",
+            ""node = Node(type=1, children=[Leaf(token.LPAR), Leaf('child1'), Leaf(token.RPAR)]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return [self] # pragma: no cover"",
+            ""class BracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.delimiters = []# pragma: no cover"",
+            ""    def mark(self, leaf):# pragma: no cover"",
+            ""        if leaf.type in {token.LPAR, token.RPAR}:# pragma: no cover"",
+            ""            self.delimiters.append(leaf.type)# pragma: no cover"",
+            ""    def max_delimiter_priority(self):# pragma: no cover"",
+            ""        if not self.delimiters:# pragma: no cover"",
+            ""            raise ValueError('No delimiters')# pragma: no cover"",
+            ""        return 10 # pragma: no cover"",
+            ""syms = SimpleNamespace(atom=1) # pragma: no cover"",
+            ""node = SimpleNamespace(type=1, children=[Leaf(token.LPAR), Leaf('child'), Leaf(token.RPAR)]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""syms = type('syms', (object,), {'atom': 1}) # pragma: no cover"",
+            ""Leaf = type('Leaf', (object,), {}) # pragma: no cover"",
+            ""class BracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.delimiters = []# pragma: no cover"",
+            ""    def mark(self, leaf):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    def max_delimiter_priority(self) -> int:# pragma: no cover"",
+            ""        return 42 # pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type_, children):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return self.children # pragma: no cover"",
+            ""node = MockNode(syms.atom, [MockNode(token.LPAR, []), MockNode('child', []), MockNode(token.RPAR, [])]) # pragma: no cover""
+        ]
+    }
+]",2,6402,0.003201,2250,0.003375,0.006576
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import sys"",
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""Leaf = type('Leaf', (object,), {'__init__': lambda self, type_: setattr(self, 'type', type_)})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'__init__': lambda self: setattr(self, 'delimiters', []), 'mark': lambda self, leaf: self.delimiters.append(leaf), 'max_delimiter_priority': lambda self: 10 if self.delimiters else ValueError('No delimiters')})"",
+            ""node = type('Node', (object,), {'__init__': lambda self, type_, children: (setattr(self, 'type', type_), setattr(self, 'children', children)), 'leaves': lambda self: self.children})('atom', [Leaf('LPAR'), Leaf('child1'), Leaf('RPAR')])"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': 'LPAR', 'RPAR': 'RPAR'})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_):\n        self.type = type_\n\n    def leaves(self):\n        return [self]"",
+            ""node = type('MockNode', (object,), {'type': None, 'children': []})()"",
+            ""node.type = 1"",
+            ""node.children = [MockLeaf(token.LPAR), MockLeaf('child1'), MockLeaf(token.RPAR)]"",
+            ""syms = type('syms', (object,), {'atom': 1})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, l: None, 'max_delimiter_priority': lambda self: 10})"",
+            ""Leaf = MockLeaf""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""syms = type('MockSyms', (object,), {'atom': 'atom'})"",
+            ""token = type('MockToken', (object,), {'LPAR': '(', 'RPAR': ')'})"",
+            ""class Leaf:\n    def __init__(self, type):\n        self.type = type\nclass MockNodeChild:\n    def __init__(self, type, children=None):\n        self.type = type\n        self.children = children or []\n    def leaves(self):\n        return self.children\nnode = MockNodeChild(syms.atom, [Leaf(token.LPAR), MockNodeChild('child', [Leaf('inner')]), Leaf(token.RPAR)])"",
+            ""class BracketTracker:\n    def __init__(self):\n        self.delimiters = []\n    def mark(self, leaf: Leaf):\n        if leaf.type in (token.LPAR, token.RPAR):\n            self.delimiters.append(leaf)\n    def max_delimiter_priority(self):\n        if not self.delimiters:\n            raise ValueError('No delimiters')\n        return 10""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys"",
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:"",
+            ""    def __init__(self, type_):"",
+            ""        self.type = type_"",
+            ""    def leaves(self):"",
+            ""        return [self]"",
+            ""node = type('MockNode', (object,), {'type': 'atom', 'children': [MockLeaf('LPAR'), MockLeaf('content'), MockLeaf('RPAR')]})()"",
+            ""syms = type('MockSyms', (object,), {'atom': 'atom'})"",
+            ""token = type('MockToken', (object,), {'LPAR': 'LPAR', 'RPAR': 'RPAR'})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, x: None, 'max_delimiter_priority': lambda self: 42})"",
+            ""Leaf = MockLeaf""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_):\n        self.type = type_\n\nclass MockNode:\n    def __init__(self, type_, children):\n        self.type = type_\n        self.children = children\n\nclass MockBracketTracker:\n    def __init__(self):\n        self.delimiters = []\n    def mark(self, leaf):\n        pass\n    def max_delimiter_priority(self):\n        return 42\n\n# Initializing undefined variables with concrete values\nnode = MockNode(type_='atom', children=[MockLeaf(token.LPAR), 'child1', 'child2', MockLeaf(token.RPAR)])\nsyms = type('syms', (object,), {'atom': 'atom'})\nBracketTracker = MockBracketTracker\nLeaf = MockLeaf""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys"",
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:"",
+            ""    def __init__(self, type_: int):"",
+            ""        self.type = type_"",
+            ""    def leaves(self):"",
+            ""        return [self]"",
+            """",
+            ""class MockNode:"",
+            ""    def __init__(self, type_: str, children: List[MockLeaf]):"",
+            ""        self.type = type_"",
+            ""        self.children = children"",
+            """",
+            ""class BracketTracker:"",
+            ""    def __init__(self):"",
+            ""        self.delimiters = []"",
+            ""    def mark(self, leaf):"",
+            ""        if leaf.type in (token.LPAR, token.RPAR):"",
+            ""            self.delimiters.append(leaf)"",
+            ""    def max_delimiter_priority(self) -> int:"",
+            ""        if not self.delimiters:"",
+            ""            raise ValueError('No delimiters')"",
+            ""        return 10  # example fixed priority"",
+            """",
+            ""class MockSyms:"",
+            ""    atom = 'atom'"",
+            """",
+            ""class MockToken:"",
+            ""    LPAR = 1"",
+            ""    RPAR = 2"",
+            """",
+            ""node = MockNode(MockSyms.atom, [MockLeaf(MockToken.LPAR), MockLeaf(3), MockLeaf(MockToken.RPAR)])"",
+            ""syms = MockSyms"",
+            ""token = MockToken""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token""
+        ],
+        ""initialization"": [
+            ""node = type('MockNode', (object,), {'type': None, 'children': None})()"",
+            ""syms = type('MockSyms', (object,), {'atom': 1})"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, l: None, 'max_delimiter_priority': lambda self: 5})"",
+            ""Leaf = type('Leaf', (object,), {})"",
+            ""node.type = syms.atom"",
+            ""node.children = [type('FirstChild', (Leaf,), {'type': token.LPAR})(), type('MiddleChild', (Leaf,), {'type': None})(), type('LastChild', (Leaf,), {'type': token.RPAR})()]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import token""
+        ],
+        ""initialization"": [
+            ""syms = type('MockSymbols', (object,), {'atom': 1})"",
+            ""class Leaf:"",
+            ""    def __init__(self, type_):"",
+            ""        self.type = type_"",
+            ""class BracketTracker:"",
+            ""    def __init__(self):"",
+            ""        self.priority = 0"",
+            ""    def mark(self, leaf):"",
+            ""        if leaf.type in {token.LPAR, token.RPAR}:"",
+            ""            self.priority = 10"",
+            ""    def max_delimiter_priority(self):"",
+            ""        if self.priority == 0:"",
+            ""            raise ValueError('No delimiters')"",
+            ""        return self.priority"",
+            ""class Node:"",
+            ""    def __init__(self, type_, children):"",
+            ""        self.type = type_"",
+            ""        self.children = children"",
+            ""node = Node(syms.atom, [Leaf(token.LPAR), Leaf(token.RPAR)])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import token""
+        ],
+        ""initialization"": [
+            ""class MockNode:\n    def __init__(self, type_, children):\n        self.type = type_\n        self.children = children\n"",
+            ""class MockLeaf:\n    def __init__(self, type_):\n        self.type = type_\n    def leaves(self):\n        return []\n"",
+            ""class BracketTracker:\n    def __init__(self):\n        self.delimiters = []\n    def mark(self, leaf):\n        if leaf.type in (token.LPAR, token.RPAR):\n            self.delimiters.append(leaf)\n    def max_delimiter_priority(self):\n        if not self.delimiters:\n            raise ValueError('No delimiters')\n        return 10"",
+            ""syms = type('syms', (), {'atom': 1})"",
+            ""token = type('token', (), {'LPAR': 1, 'RPAR': 2})"",
+            ""node = MockNode(syms.atom, [MockLeaf(token.LPAR), MockLeaf(100), MockLeaf(token.RPAR)])"",
+            ""Leaf = MockLeaf""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys"",
+            ""from typing import List, Union""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, ltype):\n        self.type = ltype\n\n    def leaves(self):\n        return [self]"",
+            ""class MockNode:\n    def __init__(self, ntype, children):\n        self.type = ntype\n        self.children = children"",
+            ""class BracketTracker:\n    def __init__(self):\n        self.priority = 0\n\n    def mark(self, leaf):\n        pass\n\n    def max_delimiter_priority(self) -> int:\n        return 10"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'})"",
+            ""node = MockNode(syms.atom, [MockLeaf(token.LPAR), MockLeaf('child1'), MockLeaf('child2'), MockLeaf(token.RPAR)])""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import sys # pragma: no cover"",
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""Leaf = type('Leaf', (object,), {'__init__': lambda self, type_: setattr(self, 'type', type_)}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'__init__': lambda self: setattr(self, 'delimiters', []), 'mark': lambda self, leaf: self.delimiters.append(leaf), 'max_delimiter_priority': lambda self: 10 if self.delimiters else ValueError('No delimiters')}) # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': 'LPAR', 'RPAR': 'RPAR'}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return [self] # pragma: no cover"",
+            ""node = type('MockNode', (object,), {'type': None, 'children': []})() # pragma: no cover"",
+            ""node.type = 1 # pragma: no cover"",
+            ""node.children = [MockLeaf(token.LPAR), MockLeaf('child1'), MockLeaf(token.RPAR)] # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 1}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, l: None, 'max_delimiter_priority': lambda self: 10}) # pragma: no cover"",
+            ""Leaf = MockLeaf # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""syms = type('MockSyms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('MockToken', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover"",
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, type):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""class MockNodeChild:# pragma: no cover"",
+            ""    def __init__(self, type, children=None):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""        self.children = children or []# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return self.children# pragma: no cover"",
+            ""node = MockNodeChild(syms.atom, [Leaf(token.LPAR), MockNodeChild('child', [Leaf('inner')]), Leaf(token.RPAR)]) # pragma: no cover"",
+            ""class BracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.delimiters = []# pragma: no cover"",
+            ""    def mark(self, leaf: Leaf):# pragma: no cover"",
+            ""        if leaf.type in (token.LPAR, token.RPAR):# pragma: no cover"",
+            ""            self.delimiters.append(leaf)# pragma: no cover"",
+            ""    def max_delimiter_priority(self):# pragma: no cover"",
+            ""        if not self.delimiters:# pragma: no cover"",
+            ""            raise ValueError('No delimiters')# pragma: no cover"",
+            ""        return 10 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys # pragma: no cover"",
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf: # pragma: no cover"",
+            ""    def __init__(self, type_): # pragma: no cover"",
+            ""        self.type = type_ # pragma: no cover"",
+            ""    def leaves(self): # pragma: no cover"",
+            ""        return [self] # pragma: no cover"",
+            ""node = type('MockNode', (object,), {'type': 'atom', 'children': [MockLeaf('LPAR'), MockLeaf('content'), MockLeaf('RPAR')]})() # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('MockToken', (object,), {'LPAR': 'LPAR', 'RPAR': 'RPAR'}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, x: None, 'max_delimiter_priority': lambda self: 42}) # pragma: no cover"",
+            ""Leaf = MockLeaf # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type_, children):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockBracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.delimiters = []# pragma: no cover"",
+            ""    def mark(self, leaf):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    def max_delimiter_priority(self):# pragma: no cover"",
+            ""        return 42# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""# Initializing undefined variables with concrete values# pragma: no cover"",
+            ""node = MockNode(type_='atom', children=[MockLeaf(token.LPAR), 'child1', 'child2', MockLeaf(token.RPAR)])# pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'})# pragma: no cover"",
+            ""BracketTracker = MockBracketTracker# pragma: no cover"",
+            ""Leaf = MockLeaf # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys # pragma: no cover"",
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf: # pragma: no cover"",
+            ""    def __init__(self, type_: int): # pragma: no cover"",
+            ""        self.type = type_ # pragma: no cover"",
+            ""    def leaves(self): # pragma: no cover"",
+            ""        return [self] # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockNode: # pragma: no cover"",
+            ""    def __init__(self, type_: str, children: List[MockLeaf]): # pragma: no cover"",
+            ""        self.type = type_ # pragma: no cover"",
+            ""        self.children = children # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class BracketTracker: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.delimiters = [] # pragma: no cover"",
+            ""    def mark(self, leaf): # pragma: no cover"",
+            ""        if leaf.type in (token.LPAR, token.RPAR): # pragma: no cover"",
+            ""            self.delimiters.append(leaf) # pragma: no cover"",
+            ""    def max_delimiter_priority(self) -> int: # pragma: no cover"",
+            ""        if not self.delimiters: # pragma: no cover"",
+            ""            raise ValueError('No delimiters') # pragma: no cover"",
+            ""        return 10  # example fixed priority # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockSyms: # pragma: no cover"",
+            ""    atom = 'atom' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockToken: # pragma: no cover"",
+            ""    LPAR = 1 # pragma: no cover"",
+            ""    RPAR = 2 # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""node = MockNode(MockSyms.atom, [MockLeaf(MockToken.LPAR), MockLeaf(3), MockLeaf(MockToken.RPAR)]) # pragma: no cover"",
+            ""syms = MockSyms # pragma: no cover"",
+            ""token = MockToken # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""node = type('MockNode', (object,), {'type': None, 'children': None})() # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'atom': 1}) # pragma: no cover"",
+            ""BracketTracker = type('BracketTracker', (object,), {'mark': lambda self, l: None, 'max_delimiter_priority': lambda self: 5}) # pragma: no cover"",
+            ""Leaf = type('Leaf', (object,), {}) # pragma: no cover"",
+            ""node.type = syms.atom # pragma: no cover"",
+            ""node.children = [type('FirstChild', (Leaf,), {'type': token.LPAR})(), type('MiddleChild', (Leaf,), {'type': None})(), type('LastChild', (Leaf,), {'type': token.RPAR})()] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""syms = type('MockSymbols', (object,), {'atom': 1}) # pragma: no cover"",
+            ""class Leaf: # pragma: no cover"",
+            ""    def __init__(self, type_): # pragma: no cover"",
+            ""        self.type = type_ # pragma: no cover"",
+            ""class BracketTracker: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.priority = 0 # pragma: no cover"",
+            ""    def mark(self, leaf): # pragma: no cover"",
+            ""        if leaf.type in {token.LPAR, token.RPAR}: # pragma: no cover"",
+            ""            self.priority = 10 # pragma: no cover"",
+            ""    def max_delimiter_priority(self): # pragma: no cover"",
+            ""        if self.priority == 0: # pragma: no cover"",
+            ""            raise ValueError('No delimiters') # pragma: no cover"",
+            ""        return self.priority # pragma: no cover"",
+            ""class Node: # pragma: no cover"",
+            ""    def __init__(self, type_, children): # pragma: no cover"",
+            ""        self.type = type_ # pragma: no cover"",
+            ""        self.children = children # pragma: no cover"",
+            ""node = Node(syms.atom, [Leaf(token.LPAR), Leaf(token.RPAR)]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import token # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, type_, children):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.children = children# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return []# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class BracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.delimiters = []# pragma: no cover"",
+            ""    def mark(self, leaf):# pragma: no cover"",
+            ""        if leaf.type in (token.LPAR, token.RPAR):# pragma: no cover"",
+            ""            self.delimiters.append(leaf)# pragma: no cover"",
+            ""    def max_delimiter_priority(self):# pragma: no cover"",
+            ""        if not self.delimiters:# pragma: no cover"",
+            ""            raise ValueError('No delimiters')# pragma: no cover"",
+            ""        return 10 # pragma: no cover"",
+            ""syms = type('syms', (), {'atom': 1}) # pragma: no cover"",
+            ""token = type('token', (), {'LPAR': 1, 'RPAR': 2}) # pragma: no cover"",
+            ""node = MockNode(syms.atom, [MockLeaf(token.LPAR), MockLeaf(100), MockLeaf(token.RPAR)]) # pragma: no cover"",
+            ""Leaf = MockLeaf # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys # pragma: no cover"",
+            ""from typing import List, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, ltype):# pragma: no cover"",
+            ""        self.type = ltype# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def leaves(self):# pragma: no cover"",
+            ""        return [self] # pragma: no cover"",
+            ""class MockNode:# pragma: no cover"",
+            ""    def __init__(self, ntype, children):# pragma: no cover"",
+            ""        self.type = ntype# pragma: no cover"",
+            ""        self.children = children # pragma: no cover"",
+            ""class BracketTracker:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.priority = 0# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def mark(self, leaf):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def max_delimiter_priority(self) -> int:# pragma: no cover"",
+            ""        return 10 # pragma: no cover"",
+            ""syms = type('syms', (object,), {'atom': 'atom'}) # pragma: no cover"",
+            ""token = type('token', (object,), {'LPAR': '(', 'RPAR': ')'}) # pragma: no cover"",
+            ""node = MockNode(syms.atom, [MockLeaf(token.LPAR), MockLeaf('child1'), MockLeaf('child2'), MockLeaf(token.RPAR)]) # pragma: no cover""
+        ]
+    }
+]",2,6895,0.0034475,2426,0.003639,0.0070865

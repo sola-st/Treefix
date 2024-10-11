@@ -1,0 +1,9 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/structured/structured_array_ops_test.py
+st = StructuredTensor.from_pyval(values)
+# NOTE: ones_like is very robust. There aren't arguments that
+# should cause this operation to fail.
+actual = array_ops.ones_like(st, dtype)
+self.assertAllEqual(actual, expected)
+
+actual2 = array_ops.ones_like_v2(st, dtype)
+self.assertAllEqual(actual2, expected)

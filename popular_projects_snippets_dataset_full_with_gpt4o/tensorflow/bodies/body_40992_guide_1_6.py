@@ -1,0 +1,13 @@
+class MockExit: # pragma: no cover
+    def __call__(self, value): # pragma: no cover
+        print(f'Exit called with: {value}') # pragma: no cover
+exit = MockExit() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/eager/polymorphic_function/polymorphic_function_xla_jit_test.py
+from l3.Runtime import _l_
+aux = control_flow_ops.cond(
+    math_ops.reduce_all(x > 1), lambda: 1. / x, lambda: x)
+_l_(21903)
+exit(aux)

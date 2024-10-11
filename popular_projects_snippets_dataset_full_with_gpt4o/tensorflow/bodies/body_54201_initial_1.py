@@ -1,0 +1,30 @@
+import warnings # pragma: no cover
+
+exception_type_from_error_code = lambda error_code: KeyError # pragma: no cover
+error_code = 1001 # pragma: no cover
+node_def = {'name': 'test_node', 'type': 'test_type'} # pragma: no cover
+op = 'test_operation' # pragma: no cover
+message = 'An error occurred during the operation.' # pragma: no cover
+UnknownError = type('UnknownError', (Exception,), {}) # pragma: no cover
+warnings = type('Mock', (object,), {'warn': lambda msg: print(msg)}) # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/framework/errors_impl.py
+from l3.Runtime import _l_
+try:
+    _l_(22047)
+
+    exc_type = exception_type_from_error_code(error_code)
+    _l_(22042)
+    aux = exc_type(node_def, op, message)
+    _l_(22043)
+    exit(aux)
+except KeyError:
+    _l_(22046)
+
+    warnings.warn("Unknown error code: %d" % error_code)
+    _l_(22044)
+    aux = UnknownError(node_def, op, message, error_code)
+    _l_(22045)
+    exit(aux)

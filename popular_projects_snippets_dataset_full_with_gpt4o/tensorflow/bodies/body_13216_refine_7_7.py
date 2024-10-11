@@ -1,0 +1,23 @@
+import numpy as np # pragma: no cover
+
+gen_functional_ops = type('Mock', (object,), {'fake_param': lambda dtype, shape: tf.fake_quant_with_min_max_args(np.zeros(shape), min=0, max=1)}) # pragma: no cover
+_convert_dynamic_dimension_to_zero = lambda shape: [dim if dim is not None else 0 for dim in shape] # pragma: no cover
+
+func_graph = type('MockFuncGraph', (object,), {'as_default': lambda self: ops.get_default_graph().as_default()})() # pragma: no cover
+_convert_dynamic_dimension_to_zero = lambda shape: [dim if dim is not None else 0 for dim in shape.as_list()] # pragma: no cover
+gen_functional_ops = type('MockGenFunctionalOps', (object,), {'fake_param': lambda dtype, shape: tf.zeros(shape, dtype)}) # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/cond_v2.py
+from l3.Runtime import _l_
+"""Creates FakeParams for the XLA case."""
+with func_graph.as_default():
+    _l_(16865)
+
+    aux = [
+        gen_functional_ops.fake_param(
+            dtype=t.dtype, shape=_convert_dynamic_dimension_to_zero(t.shape))
+        for t in template_tensors]
+    _l_(16864)
+    exit(aux)

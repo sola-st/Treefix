@@ -1,0 +1,62 @@
+from scrapy.spiders import Spider # pragma: no cover
+from scrapy.crawler import Crawler # pragma: no cover
+
+class MySpider(Spider): # pragma: no cover
+    name = 'my_spider' # pragma: no cover
+ # pragma: no cover
+def mock_create_crawler(spider_class): # pragma: no cover
+    class MockCrawler: # pragma: no cover
+        def crawl(self): # pragma: no cover
+            return 'Crawling...' # pragma: no cover
+    return MockCrawler() # pragma: no cover
+ # pragma: no cover
+def mock_crawl(crawler, *args, **kwargs): # pragma: no cover
+    print(crawler.crawl()) # pragma: no cover
+    return 0 # pragma: no cover
+ # pragma: no cover
+self = type('MockSelf', (object,), { # pragma: no cover
+    'create_crawler': mock_create_crawler, # pragma: no cover
+    '_crawl': mock_crawl # pragma: no cover
+})() # pragma: no cover
+ # pragma: no cover
+crawler_or_spidercls = MySpider() # pragma: no cover
+args = () # pragma: no cover
+kwargs = {} # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/scrapy/scrapy/crawler.py
+from l3.Runtime import _l_
+"""
+        Run a crawler with the provided arguments.
+
+        It will call the given Crawler's :meth:`~Crawler.crawl` method, while
+        keeping track of it so it can be stopped later.
+
+        If ``crawler_or_spidercls`` isn't a :class:`~scrapy.crawler.Crawler`
+        instance, this method will try to create one using this parameter as
+        the spider class given to it.
+
+        Returns a deferred that is fired when the crawling is finished.
+
+        :param crawler_or_spidercls: already created crawler, or a spider class
+            or spider's name inside the project to create it
+        :type crawler_or_spidercls: :class:`~scrapy.crawler.Crawler` instance,
+            :class:`~scrapy.spiders.Spider` subclass or string
+
+        :param args: arguments to initialize the spider
+
+        :param kwargs: keyword arguments to initialize the spider
+        """
+if isinstance(crawler_or_spidercls, Spider):
+    _l_(20424)
+
+    raise ValueError(
+        'The crawler_or_spidercls argument cannot be a spider object, '
+        'it must be a spider class (or a Crawler object)')
+    _l_(20423)
+crawler = self.create_crawler(crawler_or_spidercls)
+_l_(20425)
+aux = self._crawl(crawler, *args, **kwargs)
+_l_(20426)
+exit(aux)

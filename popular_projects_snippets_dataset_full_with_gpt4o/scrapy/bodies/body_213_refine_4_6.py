@@ -1,0 +1,66 @@
+from unittest.mock import Mock # pragma: no cover
+from scrapy.exceptions import NotConfigured # pragma: no cover
+from scrapy import signals # pragma: no cover
+
+crawler = Mock() # pragma: no cover
+crawler.settings = Mock() # pragma: no cover
+crawler.stats = Mock() # pragma: no cover
+crawler.signals = Mock() # pragma: no cover
+NotConfigured = NotConfigured # pragma: no cover
+cls = Mock() # pragma: no cover
+signals.spider_opened = signals.spider_opened # pragma: no cover
+signals.spider_closed = signals.spider_closed # pragma: no cover
+crawler.settings.getfloat = Mock(return_value=1.0) # pragma: no cover
+
+from scrapy.exceptions import NotConfigured # pragma: no cover
+from scrapy import signals # pragma: no cover
+
+class MockSettings:# pragma: no cover
+    def getfloat(self, name):# pragma: no cover
+        return 5.0# pragma: no cover
+# pragma: no cover
+class MockSignals:# pragma: no cover
+    def connect(self, handler, signal):# pragma: no cover
+        pass# pragma: no cover
+# pragma: no cover
+class MockCrawler:# pragma: no cover
+    settings = MockSettings()# pragma: no cover
+    stats = {}# pragma: no cover
+    signals = MockSignals()# pragma: no cover
+# pragma: no cover
+crawler = MockCrawler() # pragma: no cover
+class NotConfigured(Exception):# pragma: no cover
+    pass # pragma: no cover
+class MockClass:# pragma: no cover
+    def __init__(self, stats, interval):# pragma: no cover
+        self.stats = stats# pragma: no cover
+        self.interval = interval# pragma: no cover
+# pragma: no cover
+    def spider_opened(self, spider):# pragma: no cover
+        pass# pragma: no cover
+# pragma: no cover
+    def spider_closed(self, spider, reason):# pragma: no cover
+        pass# pragma: no cover
+cls = MockClass # pragma: no cover
+signals = type('MockSignalsModule', (object,), {'spider_opened': 'spider_opened_signal', 'spider_closed': 'spider_closed_signal'}) # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/scrapy/scrapy/extensions/logstats.py
+from l3.Runtime import _l_
+interval = crawler.settings.getfloat('LOGSTATS_INTERVAL')
+_l_(16577)
+if not interval:
+    _l_(16579)
+
+    raise NotConfigured
+    _l_(16578)
+o = cls(crawler.stats, interval)
+_l_(16580)
+crawler.signals.connect(o.spider_opened, signal=signals.spider_opened)
+_l_(16581)
+crawler.signals.connect(o.spider_closed, signal=signals.spider_closed)
+_l_(16582)
+aux = o
+_l_(16583)
+exit(aux)

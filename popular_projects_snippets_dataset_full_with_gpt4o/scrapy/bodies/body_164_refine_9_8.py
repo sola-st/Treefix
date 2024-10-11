@@ -1,0 +1,34 @@
+import time # pragma: no cover
+
+blob = type('Mock', (object,), {'md5_hash': 'd41d8cd98f00b204e9800998ecf8427e', 'updated': time.strptime('2023-01-01 00:00:00', '%Y-%m-%d %H:%M:%S')})() # pragma: no cover
+
+import time # pragma: no cover
+from datetime import datetime # pragma: no cover
+
+class MockBlob(object):# pragma: no cover
+    def __init__(self, md5_hash, updated):# pragma: no cover
+        self.md5_hash = md5_hash# pragma: no cover
+        self.updated = updated# pragma: no cover
+# pragma: no cover
+    def to_json(self):# pragma: no cover
+        return {'md5_hash': self.md5_hash, 'last_modified': time.mktime(self.updated.timetuple())}# pragma: no cover
+# pragma: no cover
+blob = MockBlob('d41d8cd98f00b204e9800998ecf8427e', datetime(2023, 1, 1, 0, 0, 0)) # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/scrapy/scrapy/pipelines/files.py
+from l3.Runtime import _l_
+if blob:
+    _l_(18337)
+
+    checksum = blob.md5_hash
+    _l_(18334)
+    last_modified = time.mktime(blob.updated.timetuple())
+    _l_(18335)
+    aux = {'checksum': checksum, 'last_modified': last_modified}
+    _l_(18336)
+    exit(aux)
+aux = {}
+_l_(18338)
+exit(aux)

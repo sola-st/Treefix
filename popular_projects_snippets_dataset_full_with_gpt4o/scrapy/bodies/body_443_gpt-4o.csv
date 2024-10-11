@@ -1,0 +1,517 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+from google.cloud import storage
+client = storage.Client(project=os.environ.get('GCS_PROJECT_ID'))
+bucket = client.get_bucket(bucket)
+blob = bucket.get_blob(path)
+content = blob.download_as_string()
+acl = list(blob.acl)  # loads acl before it will be deleted
+bucket.delete_blob(path)
+exit((content, acl, blob))
+
+# end code snippet
+
+# begin undefined variables
+os
+bucket
+path
+# end undefined variables
+
+# begin undefined attributes and methods
+os.environ
+bucket.get_blob
+bucket.delete_blob
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'}"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, x: type('MockBlob', (object,), {'download_as_string': lambda self: b'Test Content', 'acl': type('MockACL', (object,), {}), 'delete_blob': lambda self, y: None})()})()"",
+            ""path = 'path/to/blob'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""from google.cloud import storage""
+        ],
+        ""initialization"": [
+            ""os = type('MockOS', (object,), {'environ': {'GCS_PROJECT_ID': 'your-gcs-project-id'}})"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, path: MockBlob(), 'delete_blob': lambda self, path: None})()"",
+            ""path = 'your/path/here'"",
+            ""class MockBlob(object):"",
+            ""    def download_as_string(self):"",
+            ""        return b'some-blob-content'"",
+            ""    @property"",
+            ""    def acl(self):"",
+            ""        return ['ACL_ENTRY_1', 'ACL_ENTRY_2']""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""from google.cloud import storage""
+        ],
+        ""initialization"": [
+            ""os = type('Mock', (object,), {'environ': {'GCS_PROJECT_ID': 'your-project-id'}})()"",
+            ""bucket = type('Mock', (object,), {'get_blob': lambda x: type('Mock', (object,), {'download_as_string': lambda: b'dummy-content', 'acl': []})()})()"",
+            ""path = 'dummy/path'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""os = type('MockOS', (object,), {'environ': {'GCS_PROJECT_ID': 'your-project-id'}})()"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, path: type('MockBlob', (object,), {'acl': [], 'download_as_string': lambda: b'test content'})(), 'delete_blob': lambda self, path: None})()"",
+            ""path = 'test/path'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'}"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, path: type('MockBlob', (object,), {'acl': {'add': lambda *args: None}, 'download_as_string': lambda: b'content of the blob'})(), 'delete_blob': lambda self, path: None})()"",
+            ""path = 'your-blob-path'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'}"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, path: blob, 'delete_blob': lambda self, path: None})()"",
+            ""path = 'your/file/path'"",
+            ""blob = type('MockBlob', (object,), {'download_as_string': lambda self: b'sample content', 'acl': []})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""from google.cloud import storage""
+        ],
+        ""initialization"": [
+            ""os = type('Mock', (object,), {'environ': {'GCS_PROJECT_ID': 'your-gcs-project-id'}})()"",
+            ""bucket = type('Mock', (object,), {'get_blob': lambda self, path: type('MockBlob', (object,), {'download_as_string': lambda self: b'file content', 'acl': ['READER', 'WRITER']})(), 'delete_blob': lambda self, path: None})()"",
+            ""path = 'your-blob-path'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""os = SimpleNamespace(environ={'GCS_PROJECT_ID': 'my-gcs-project'})"",
+            ""bucket = type('Mock', (object,), {'get_blob': lambda self, path: blob, 'delete_blob': lambda self, path: None})()"",
+            ""path = 'path/to/my/object'"",
+            ""blob = type('Mock', (object,), {'download_as_string': lambda self: b'my blob content', 'acl': SimpleNamespace(__iter__=lambda self: iter([]))})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""os = type('Mock', (object,), {'environ': {'GCS_PROJECT_ID': 'your-gcp-project-id'}})()"",
+            ""bucket = type('Mock', (object,), {'get_blob': lambda self, path: type('MockBlob', (object,), {'download_as_string': lambda self: b'dummy content', 'acl': [], 'path': path})()})()"",
+            ""path = 'dummy/path'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""os""
+        ],
+        ""initialization"": [
+            ""os = type('Mock', (object,), {'environ': {'GCS_PROJECT_ID': 'my-gcs-project-id'}})()"",
+            ""bucket = type('Mock', (object,), {'get_blob': lambda self, path: type('Mock', (object,), {'download_as_string': lambda: b'file content', 'acl': 'Access Control List'})(), 'delete_blob': lambda self, path: None})()"",
+            ""path = 'some/path/to/blob'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'} # pragma: no cover"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, x: type('MockBlob', (object,), {'download_as_string': lambda self: b'Test Content', 'acl': type('MockACL', (object,), {}), 'delete_blob': lambda self, y: None})()})() # pragma: no cover"",
+            ""path = 'path/to/blob' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os = type('MockOS', (object,), {'environ': {'GCS_PROJECT_ID': 'your-gcs-project-id'}}) # pragma: no cover"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, path: MockBlob(), 'delete_blob': lambda self, path: None})() # pragma: no cover"",
+            ""path = 'your/path/here' # pragma: no cover"",
+            ""class MockBlob(object): # pragma: no cover"",
+            ""    def download_as_string(self): # pragma: no cover"",
+            ""        return b'some-blob-content' # pragma: no cover"",
+            ""    @property # pragma: no cover"",
+            ""    def acl(self): # pragma: no cover"",
+            ""        return ['ACL_ENTRY_1', 'ACL_ENTRY_2'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os = type('Mock', (object,), {'environ': {'GCS_PROJECT_ID': 'your-project-id'}})() # pragma: no cover"",
+            ""bucket = type('Mock', (object,), {'get_blob': lambda x: type('Mock', (object,), {'download_as_string': lambda: b'dummy-content', 'acl': []})()})() # pragma: no cover"",
+            ""path = 'dummy/path' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os = type('MockOS', (object,), {'environ': {'GCS_PROJECT_ID': 'your-project-id'}})() # pragma: no cover"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, path: type('MockBlob', (object,), {'acl': [], 'download_as_string': lambda: b'test content'})(), 'delete_blob': lambda self, path: None})() # pragma: no cover"",
+            ""path = 'test/path' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'} # pragma: no cover"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, path: type('MockBlob', (object,), {'acl': {'add': lambda *args: None}, 'download_as_string': lambda: b'content of the blob'})(), 'delete_blob': lambda self, path: None})() # pragma: no cover"",
+            ""path = 'your-blob-path' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'} # pragma: no cover"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, path: blob, 'delete_blob': lambda self, path: None})() # pragma: no cover"",
+            ""path = 'your/file/path' # pragma: no cover"",
+            ""blob = type('MockBlob', (object,), {'download_as_string': lambda self: b'sample content', 'acl': []})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os = type('Mock', (object,), {'environ': {'GCS_PROJECT_ID': 'your-gcs-project-id'}})() # pragma: no cover"",
+            ""bucket = type('Mock', (object,), {'get_blob': lambda self, path: type('MockBlob', (object,), {'download_as_string': lambda self: b'file content', 'acl': ['READER', 'WRITER']})(), 'delete_blob': lambda self, path: None})() # pragma: no cover"",
+            ""path = 'your-blob-path' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os = SimpleNamespace(environ={'GCS_PROJECT_ID': 'my-gcs-project'}) # pragma: no cover"",
+            ""bucket = type('Mock', (object,), {'get_blob': lambda self, path: blob, 'delete_blob': lambda self, path: None})() # pragma: no cover"",
+            ""path = 'path/to/my/object' # pragma: no cover"",
+            ""blob = type('Mock', (object,), {'download_as_string': lambda self: b'my blob content', 'acl': SimpleNamespace(__iter__=lambda self: iter([]))})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os = type('Mock', (object,), {'environ': {'GCS_PROJECT_ID': 'your-gcp-project-id'}})() # pragma: no cover"",
+            ""bucket = type('Mock', (object,), {'get_blob': lambda self, path: type('MockBlob', (object,), {'download_as_string': lambda self: b'dummy content', 'acl': [], 'path': path})()})() # pragma: no cover"",
+            ""path = 'dummy/path' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""os = type('Mock', (object,), {'environ': {'GCS_PROJECT_ID': 'my-gcs-project-id'}})() # pragma: no cover"",
+            ""bucket = type('Mock', (object,), {'get_blob': lambda self, path: type('Mock', (object,), {'download_as_string': lambda: b'file content', 'acl': 'Access Control List'})(), 'delete_blob': lambda self, path: None})() # pragma: no cover"",
+            ""path = 'some/path/to/blob' # pragma: no cover""
+        ]
+    }
+]",1,373,0.0001865,1318,0.001977,0.0021635
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 8:
+    from google.cloud import storage
+ModuleNotFoundError: No module named 'google.cloud'
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'}"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, x: type('MockBlob', (object,), {'download_as_string': lambda self: b'Test Content', 'acl': [], 'delete_blob': lambda self, y: None})()})()"",
+            ""path = 'path/to/blob'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""from google.cloud import storage""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'}"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, x: type('MockBlob', (object,), {'download_as_string': lambda self: b'Test Content', 'acl': type('MockACL', (object,), {}), 'delete_blob': lambda self, y: None})()})()"",
+            ""path = 'path/to/blob'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'}"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, x: type('MockBlob', (object,), {'download_as_string': lambda self: b'Test Content', 'acl': [{'entity': 'allUsers', 'role': 'READER'}]}, 'delete': lambda self, y: None})()})()"",
+            ""path = 'path/to/blob'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'dummy-gcs-project-id'}"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, x: type('MockBlob', (object,), {'download_as_string': lambda self: b'Test Content', 'acl': type('MockACL', (object,), {}), 'delete_blob': lambda self, y: None})()})()"",
+            ""path = 'path/to/blob'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'}"",
+            ""mock_blob = Mock()"",
+            ""mock_blob.download_as_string.return_value = b'Test Content'"",
+            ""mock_blob.acl = ['READER', 'WRITER']"",
+            ""bucket = Mock()"",
+            ""bucket.get_blob.return_value = mock_blob"",
+            ""path = 'path/to/blob'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'}"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, x: type('MockBlob', (object,), {'download_as_string': lambda self: b'Test Content', 'acl': {}, 'delete_blob': lambda self, y: None})()})()"",
+            ""path = 'path/to/blob'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'}"",
+            ""bucket = Mock()"",
+            ""path = 'path/to/blob'"",
+            ""blob = Mock()"",
+            ""blob.download_as_string.return_value = b'Test Content'"",
+            ""blob.acl = list(Mock())"",
+            ""bucket.get_blob.return_value = blob"",
+            ""bucket.delete_blob.return_value = None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""from google.cloud import storage"",
+            ""import sys"",
+            ""from unittest import mock""
+        ],
+        ""initialization"": [
+            ""sys.modules['google.cloud'] = mock.MagicMock()"",
+            ""sys.modules['google.cloud.storage'] = mock.MagicMock()"",
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'}"",
+            ""bucket = mock.MagicMock()"",
+            ""path = 'path/to/blob'"",
+            ""bucket.get_blob.return_value.download_as_string.return_value = b'Test Content'"",
+            ""bucket.get_blob.return_value.acl = 'mock_acl'"",
+            ""bucket.delete_blob = mock.MagicMock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'}"",
+            ""blob = type('MockBlob', (object,), {'download_as_string': lambda self: b'Test Content', 'acl': [], 'delete': lambda self: None})()"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, x: blob, 'delete_blob': lambda self, x: None})()"",
+            ""path = 'path/to/blob'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'}"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, x: type('MockBlob', (object,), {'download_as_string': lambda self: b'Test Content', 'acl': type('MockACL', (list,), {'__iter__': lambda self: iter([])}), 'delete_blob': lambda self: None})()})()"",
+            ""path = 'path/to/blob'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'} # pragma: no cover"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, x: type('MockBlob', (object,), {'download_as_string': lambda self: b'Test Content', 'acl': [], 'delete_blob': lambda self, y: None})()})() # pragma: no cover"",
+            ""path = 'path/to/blob' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'} # pragma: no cover"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, x: type('MockBlob', (object,), {'download_as_string': lambda self: b'Test Content', 'acl': type('MockACL', (object,), {}), 'delete_blob': lambda self, y: None})()})() # pragma: no cover"",
+            ""path = 'path/to/blob' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""path = 'path/to/blob' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'dummy-gcs-project-id'} # pragma: no cover"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, x: type('MockBlob', (object,), {'download_as_string': lambda self: b'Test Content', 'acl': type('MockACL', (object,), {}), 'delete_blob': lambda self, y: None})()})() # pragma: no cover"",
+            ""path = 'path/to/blob' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'} # pragma: no cover"",
+            ""mock_blob = Mock() # pragma: no cover"",
+            ""mock_blob.download_as_string.return_value = b'Test Content' # pragma: no cover"",
+            ""mock_blob.acl = ['READER', 'WRITER'] # pragma: no cover"",
+            ""bucket = Mock() # pragma: no cover"",
+            ""bucket.get_blob.return_value = mock_blob # pragma: no cover"",
+            ""path = 'path/to/blob' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'} # pragma: no cover"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, x: type('MockBlob', (object,), {'download_as_string': lambda self: b'Test Content', 'acl': {}, 'delete_blob': lambda self, y: None})()})() # pragma: no cover"",
+            ""path = 'path/to/blob' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'} # pragma: no cover"",
+            ""bucket = Mock() # pragma: no cover"",
+            ""path = 'path/to/blob' # pragma: no cover"",
+            ""blob = Mock() # pragma: no cover"",
+            ""blob.download_as_string.return_value = b'Test Content' # pragma: no cover"",
+            ""bucket.get_blob.return_value = blob # pragma: no cover"",
+            ""bucket.delete_blob.return_value = None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""from unittest import mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""sys.modules['google.cloud'] = mock.MagicMock() # pragma: no cover"",
+            ""sys.modules['google.cloud.storage'] = mock.MagicMock() # pragma: no cover"",
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'} # pragma: no cover"",
+            ""bucket = mock.MagicMock() # pragma: no cover"",
+            ""path = 'path/to/blob' # pragma: no cover"",
+            ""bucket.get_blob.return_value.download_as_string.return_value = b'Test Content' # pragma: no cover"",
+            ""bucket.get_blob.return_value.acl = 'mock_acl' # pragma: no cover"",
+            ""bucket.delete_blob = mock.MagicMock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'} # pragma: no cover"",
+            ""blob = type('MockBlob', (object,), {'download_as_string': lambda self: b'Test Content', 'acl': [], 'delete': lambda self: None})() # pragma: no cover"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, x: blob, 'delete_blob': lambda self, x: None})() # pragma: no cover"",
+            ""path = 'path/to/blob' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""os.environ = {'GCS_PROJECT_ID': 'your-gcs-project-id'} # pragma: no cover"",
+            ""bucket = type('MockBucket', (object,), {'get_blob': lambda self, x: type('MockBlob', (object,), {'download_as_string': lambda self: b'Test Content', 'acl': type('MockACL', (list,), {'__iter__': lambda self: iter([])}), 'delete_blob': lambda self: None})()})() # pragma: no cover"",
+            ""path = 'path/to/blob' # pragma: no cover""
+        ]
+    }
+]",2,790,0.000395,1283,0.0019245,0.0023195

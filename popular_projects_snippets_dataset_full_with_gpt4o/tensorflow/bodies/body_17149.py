@@ -1,0 +1,7 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/image_ops_test.py
+# Testing name scope requires a graph.
+with ops.Graph().as_default():
+    image = array_ops.placeholder(dtypes.float32, shape=[55, 66, 3])
+    y = image_ops.pad_to_bounding_box_internal(
+        image, 0, 0, 55, 66, check_dims=False)
+    self.assertTrue(y.op.name.startswith("pad_to_bounding_box"))

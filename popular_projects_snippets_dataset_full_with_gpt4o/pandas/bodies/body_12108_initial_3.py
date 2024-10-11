@@ -1,0 +1,51 @@
+import pandas as pd # pragma: no cover
+import numpy as np # pragma: no cover
+from pandas._testing import assert_extension_array_equal as tm_assert_extension_array_equal # pragma: no cover
+
+string_storage = 'python' # pragma: no cover
+val = 'c' # pragma: no cover
+def _maybe_upcast(arr, use_nullable_dtypes):# pragma: no cover
+    return pd.array(arr, dtype='string') if use_nullable_dtypes else np.array(arr) # pragma: no cover
+NA = pd.NA # pragma: no cover
+class StringArray(pd.arrays.StringArray):# pragma: no cover
+    def __init__(self, values):# pragma: no cover
+        super().__init__(values) # pragma: no cover
+class ArrowStringArray(pd.arrays.ArrowStringArray):# pragma: no cover
+    def __init__(self, values):# pragma: no cover
+        super().__init__(values) # pragma: no cover
+type('tm', (object,), {'assert_extension_array_equal': tm_assert_extension_array_equal})() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/pandas/pandas/tests/io/parser/test_upcast.py
+# GH#36712
+from l3.Runtime import _l_
+try:
+    import pyarrow as pa
+    _l_(20613)
+
+except ImportError:
+    pass
+
+with pd.option_context("mode.string_storage", string_storage):
+    _l_(20622)
+
+    arr = np.array(["a", "b", val], dtype=np.object_)
+    _l_(20614)
+    result = _maybe_upcast(arr, use_nullable_dtypes=True)
+    _l_(20615)
+
+    if string_storage == "python":
+        _l_(20620)
+
+        exp_val = "c" if val == "c" else NA
+        _l_(20616)
+        expected = StringArray(np.array(["a", "b", exp_val], dtype=np.object_))
+        _l_(20617)
+    else:
+        exp_val = "c" if val == "c" else None
+        _l_(20618)
+        expected = ArrowStringArray(pa.array(["a", "b", exp_val]))
+        _l_(20619)
+    tm.assert_extension_array_equal(result, expected)
+    _l_(20621)

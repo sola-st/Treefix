@@ -1,0 +1,2380 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Return True if `leaf` is a star or double star in a vararg or kwarg.
+
+    If `within` includes VARARGS_PARENTS, this applies to function signatures.
+    If `within` includes UNPACKING_PARENTS, it applies to right hand-side
+    extended iterable unpacking (PEP 3132) and additional unpacking
+    generalizations (PEP 448).
+    """"""
+if leaf.type not in VARARGS_SPECIALS or not leaf.parent:
+    exit(False)
+
+p = leaf.parent
+if p.type == syms.star_expr:
+    # Star expressions are also used as assignment targets in extended
+    # iterable unpacking (PEP 3132).  See what its parent is instead.
+    if not p.parent:
+        exit(False)
+
+    p = p.parent
+
+exit(p.type in within)
+
+# end code snippet
+
+# begin undefined variables
+leaf
+VARARGS_SPECIALS
+syms
+within
+# end undefined variables
+
+# begin undefined attributes and methods
+leaf.type
+leaf.parent
+syms.star_expr
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'type': 'TYPE_A', 'parent': type('MockParent', (object,), {'type': 'TYPE_B', 'parent': type('MockGrandparent', (object,), {'type': 'TYPE_C'})()})()})()"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'TYPE_B'})"",
+            ""within = {'TYPE_C', 'TYPE_D'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'type': 'star', 'parent': None})()"",
+            ""VARARGS_SPECIALS = ['star', 'double_star']"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'})()"",
+            ""within = ['star_expr']""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLeaf: pass"",
+            ""leaf = MockLeaf()"",
+            ""leaf.type = \""some_type\"""",
+            ""leaf.parent = MockLeaf()"",
+            ""VARARGS_SPECIALS = {\""some_type\""}"",
+            ""class MockSyms: pass"",
+            ""syms = MockSyms()"",
+            ""syms.star_expr = \""star_expr\"""",
+            ""within = {\""some_within_type\""}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'}"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('Mock', (object,), {'type': 'some_type'})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from dataclasses import dataclass""
+        ],
+        ""initialization"": [
+            ""@dataclass\nclass Leaf:\n    type: str\n    parent: 'Leaf' = None"",
+            ""VARARGS_SPECIALS = {'star', 'double_star'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'some_type', 'another_type'}"",
+            ""leaf = Leaf(type='star', parent=Leaf(type='some_type'))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""leaf = SimpleNamespace(type='type1', parent=None)"",
+            ""VARARGS_SPECIALS = {'type1', 'type2'}"",
+            ""syms = SimpleNamespace(star_expr='star_expr')"",
+            ""within = {'within_type1', 'within_type2'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_value, parent_value=None):\n        self.type = type_value\n        self.parent = parent_value\n\nleaf = MockLeaf(type_value='desired_type', parent_value='mock_parent')"",
+            ""VARARGS_SPECIALS = {'special_type_1', 'special_type_2'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'within_type_1', 'within_type_2'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""leaf = SimpleNamespace(type='VARARG_TYPE', parent=None)"",
+            ""VARARGS_SPECIALS = {'VARARG_TYPE', 'KWARG_TYPE'}"",
+            ""syms = SimpleNamespace(star_expr='STAR_EXPR_TYPE')"",
+            ""within = {'WITHIN_TYPE'}"",
+            ""leaf.type = 'VARARG_TYPE'"",
+            ""leaf.parent = SimpleNamespace(type='PARENT_TYPE', parent=SimpleNamespace(type='GRANDPARENT_TYPE'))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional"",
+            ""from types import SimpleNamespace"",
+            ""import enum""
+        ],
+        ""initialization"": [
+            ""class VARARGS_SPECIALS(enum.Enum):"",
+            ""    SPECIAL_1 = 1"",
+            ""    SPECIAL_2 = 2"",
+            ""    # Add other special types as necessary"",
+            """",
+            ""class syms:"",
+            ""    star_expr = 1  # Dummy value for the star_expr symbol"",
+            """",
+            ""within = {syms.star_expr}  # Dummy set of types within which the check is made"",
+            """",
+            ""leaf = SimpleNamespace("",
+            ""    type=VARARGS_SPECIALS.SPECIAL_1,"",
+            ""    parent=SimpleNamespace("",
+            ""        type=syms.star_expr,"",
+            ""        parent=SimpleNamespace("",
+            ""            type=syms.star_expr  # Can be None if applicable"",
+            ""        )"",
+            ""    )"",
+            "")""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Set"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS: Set[int] = {1, 2, 3}"",
+            ""within: Set[int] = {4, 5, 6}"",
+            ""syms = type('Mock', (object,), {'star_expr': 7})"",
+            ""leaf = SimpleNamespace(type=1, parent=SimpleNamespace(type=7, parent=SimpleNamespace(type=4)))""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'type': 'TYPE_A', 'parent': type('MockParent', (object,), {'type': 'TYPE_B', 'parent': type('MockGrandparent', (object,), {'type': 'TYPE_C'})()})()})() # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'TYPE_B'}) # pragma: no cover"",
+            ""within = {'TYPE_C', 'TYPE_D'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'type': 'star', 'parent': None})() # pragma: no cover"",
+            ""VARARGS_SPECIALS = ['star', 'double_star'] # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'})() # pragma: no cover"",
+            ""within = ['star_expr'] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLeaf: pass # pragma: no cover"",
+            ""leaf = MockLeaf() # pragma: no cover"",
+            ""leaf.type = \""some_type\"" # pragma: no cover"",
+            ""leaf.parent = MockLeaf() # pragma: no cover"",
+            ""VARARGS_SPECIALS = {\""some_type\""} # pragma: no cover"",
+            ""class MockSyms: pass # pragma: no cover"",
+            ""syms = MockSyms() # pragma: no cover"",
+            ""syms.star_expr = \""star_expr\"" # pragma: no cover"",
+            ""within = {\""some_within_type\""} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'} # pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('Mock', (object,), {'type': 'some_type'})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from dataclasses import dataclass # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""@dataclass# pragma: no cover"",
+            ""class Leaf:# pragma: no cover"",
+            ""    type: str# pragma: no cover"",
+            ""    parent: 'Leaf' = None # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'star', 'double_star'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type'} # pragma: no cover"",
+            ""leaf = Leaf(type='star', parent=Leaf(type='some_type')) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = SimpleNamespace(type='type1', parent=None) # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'type1', 'type2'} # pragma: no cover"",
+            ""syms = SimpleNamespace(star_expr='star_expr') # pragma: no cover"",
+            ""within = {'within_type1', 'within_type2'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_value, parent_value=None):# pragma: no cover"",
+            ""        self.type = type_value# pragma: no cover"",
+            ""        self.parent = parent_value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""leaf = MockLeaf(type_value='desired_type', parent_value='mock_parent') # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'special_type_1', 'special_type_2'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'within_type_1', 'within_type_2'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = SimpleNamespace(type='VARARG_TYPE', parent=None) # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'VARARG_TYPE', 'KWARG_TYPE'} # pragma: no cover"",
+            ""syms = SimpleNamespace(star_expr='STAR_EXPR_TYPE') # pragma: no cover"",
+            ""within = {'WITHIN_TYPE'} # pragma: no cover"",
+            ""leaf.type = 'VARARG_TYPE' # pragma: no cover"",
+            ""leaf.parent = SimpleNamespace(type='PARENT_TYPE', parent=SimpleNamespace(type='GRANDPARENT_TYPE')) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Optional # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover"",
+            ""import enum # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class VARARGS_SPECIALS(enum.Enum): # pragma: no cover"",
+            ""    SPECIAL_1 = 1 # pragma: no cover"",
+            ""    SPECIAL_2 = 2 # pragma: no cover"",
+            ""    # Add other special types as necessary # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class syms: # pragma: no cover"",
+            ""    star_expr = 1  # Dummy value for the star_expr symbol # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""within = {syms.star_expr}  # Dummy set of types within which the check is made # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""leaf = SimpleNamespace( # pragma: no cover"",
+            ""    type=VARARGS_SPECIALS.SPECIAL_1, # pragma: no cover"",
+            ""    parent=SimpleNamespace( # pragma: no cover"",
+            ""        type=syms.star_expr, # pragma: no cover"",
+            ""        parent=SimpleNamespace( # pragma: no cover"",
+            ""            type=syms.star_expr  # Can be None if applicable # pragma: no cover"",
+            ""        ) # pragma: no cover"",
+            ""    ) # pragma: no cover"",
+            "") # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Set # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS: Set[int] = {1, 2, 3} # pragma: no cover"",
+            ""within: Set[int] = {4, 5, 6} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 7}) # pragma: no cover"",
+            ""leaf = SimpleNamespace(type=1, parent=SimpleNamespace(type=7, parent=SimpleNamespace(type=4))) # pragma: no cover""
+        ]
+    }
+]",1,482,0.000241,1309,0.0019635,0.0022045
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import Set""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type, parent=None):\n        self.type = type\n        self.parent = parent\n\nclass MockSyms:\n    star_expr = 'TYPE_B'\n\nleaf = MockLeaf('TYPE_A', MockLeaf('TYPE_B', MockLeaf('TYPE_C')))\nVARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'}\nwithin = {'TYPE_C', 'TYPE_D'}\nsyms = MockSyms()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, leaf_type, parent=None):\n        self.type = leaf_type\n        self.parent = parent\n"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'}"",
+            ""class MockSyms:\n    star_expr = 'TYPE_B'\nsyms = MockSyms()"",
+            ""within = {'TYPE_C', 'TYPE_D'}"",
+            ""grandparent = MockLeaf('TYPE_C')\nparent = MockLeaf('TYPE_B', grandparent)\nleaf = MockLeaf('TYPE_A', parent)""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'}"",
+            ""within = {'TYPE_C', 'TYPE_D'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'TYPE_B'})()"",
+            ""leaf = type('MockLeaf', (object,), {'type': 'TYPE_A', 'parent': type('MockParent', (object,), {'type': 'TYPE_B', 'parent': type('MockGrandparent', (object,), {'type': 'TYPE_C', 'parent': None})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLeafParentParent:\n    def __init__(self):\n        self.type = 'TYPE_C'\n\nclass MockLeafParent:\n    def __init__(self):\n        self.type = 'TYPE_B'\n        self.parent = MockLeafParentParent()\n\nclass MockLeaf:\n    def __init__(self):\n        self.type = 'TYPE_A'\n        self.parent = MockLeafParent()\n\nleaf = MockLeaf()"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'TYPE_B'})"",
+            ""within = {'TYPE_C', 'TYPE_D'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""class MockLeaf: pass\nleaf = MockLeaf()"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_B'}"",
+            ""class MockSyms: pass\nsyms = MockSyms()\nsyms.star_expr = 'TYPE_C'"",
+            ""within = {'TYPE_C', 'TYPE_D'}"",
+            ""leaf.type = 'TYPE_A'"",
+            ""leaf.parent = type('MockParent', (object,), {'type': 'TYPE_B', 'parent': type('MockGrandparent', (object,), {'type': 'TYPE_C'})()})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'type': 'TYPE_A', 'parent': None})()"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'TYPE_B'})"",
+            ""within = {'TYPE_C', 'TYPE_D'}"",
+            ""leaf.parent = type('MockParent', (object,), {'type': 'TYPE_B', 'parent': type('MockGrandparent', (object,), {'type': 'TYPE_C'})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Set""
+        ],
+        ""initialization"": [
+            ""class MockType: pass"",
+            ""leaf = MockType()"",
+            ""leaf.type = 'TYPE_A'"",
+            ""leaf.parent = MockType()"",
+            ""leaf.parent.type = 'TYPE_B'"",
+            ""leaf.parent.parent = MockType()"",
+            ""leaf.parent.parent.type = 'TYPE_C'"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'}"",
+            ""class syms: pass"",
+            ""syms.star_expr = 'TYPE_B'"",
+            ""within = {'TYPE_C', 'TYPE_D'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockParent:\n    def __init__(self, parent=None):\n        self.type = \""TYPE_B\""\n        self.parent = parent\n\nleaf = type('Mock', (object,), {'type': \""TYPE_A\"", 'parent': MockParent(parent=type('Mock', (object,), {'type': \""TYPE_C\""})())})()"",
+            ""VARARGS_SPECIALS = {\""TYPE_A\"", \""TYPE_X\""}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': \""TYPE_B\""})"",
+            ""within = {\""TYPE_C\"", \""TYPE_D\""}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'type': 'type_a', 'parent': type('MockParent', (object,), {'type': 'type_b', 'parent': type('MockGrandparent', (object,), {'type': 'type_c'})()})()})()"",
+            ""VARARGS_SPECIALS = {'type_a', 'type_x'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'type_b'})"",
+            ""within = {'type_c', 'type_d'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'type': 'TYPE_A', 'parent': None})()"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'TYPE_B'})"",
+            ""within = {'TYPE_C', 'TYPE_D'}"",
+            ""leaf.parent = type('MockParent', (object,), {'type': 'TYPE_B', 'parent': type('MockGrandparent', (object,), {'type': 'TYPE_C'})()})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import Set # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type, parent=None):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""        self.parent = parent# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockSyms:# pragma: no cover"",
+            ""    star_expr = 'TYPE_B'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""leaf = MockLeaf('TYPE_A', MockLeaf('TYPE_B', MockLeaf('TYPE_C')))# pragma: no cover"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'}# pragma: no cover"",
+            ""within = {'TYPE_C', 'TYPE_D'}# pragma: no cover"",
+            ""syms = MockSyms() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, leaf_type, parent=None):# pragma: no cover"",
+            ""        self.type = leaf_type# pragma: no cover"",
+            ""        self.parent = parent# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'} # pragma: no cover"",
+            ""class MockSyms:# pragma: no cover"",
+            ""    star_expr = 'TYPE_B'# pragma: no cover"",
+            ""syms = MockSyms() # pragma: no cover"",
+            ""within = {'TYPE_C', 'TYPE_D'} # pragma: no cover"",
+            ""grandparent = MockLeaf('TYPE_C')# pragma: no cover"",
+            ""parent = MockLeaf('TYPE_B', grandparent)# pragma: no cover"",
+            ""leaf = MockLeaf('TYPE_A', parent) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'} # pragma: no cover"",
+            ""within = {'TYPE_C', 'TYPE_D'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'TYPE_B'})() # pragma: no cover"",
+            ""leaf = type('MockLeaf', (object,), {'type': 'TYPE_A', 'parent': type('MockParent', (object,), {'type': 'TYPE_B', 'parent': type('MockGrandparent', (object,), {'type': 'TYPE_C', 'parent': None})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLeafParentParent:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.type = 'TYPE_C'# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLeafParent:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.type = 'TYPE_B'# pragma: no cover"",
+            ""        self.parent = MockLeafParentParent()# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.type = 'TYPE_A'# pragma: no cover"",
+            ""        self.parent = MockLeafParent()# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""leaf = MockLeaf() # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'TYPE_B'}) # pragma: no cover"",
+            ""within = {'TYPE_C', 'TYPE_D'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf: pass# pragma: no cover"",
+            ""leaf = MockLeaf() # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_B'} # pragma: no cover"",
+            ""class MockSyms: pass# pragma: no cover"",
+            ""syms = MockSyms()# pragma: no cover"",
+            ""syms.star_expr = 'TYPE_C' # pragma: no cover"",
+            ""within = {'TYPE_C', 'TYPE_D'} # pragma: no cover"",
+            ""leaf.type = 'TYPE_A' # pragma: no cover"",
+            ""leaf.parent = type('MockParent', (object,), {'type': 'TYPE_B', 'parent': type('MockGrandparent', (object,), {'type': 'TYPE_C'})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'type': 'TYPE_A', 'parent': None})() # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'TYPE_B'}) # pragma: no cover"",
+            ""within = {'TYPE_C', 'TYPE_D'} # pragma: no cover"",
+            ""leaf.parent = type('MockParent', (object,), {'type': 'TYPE_B', 'parent': type('MockGrandparent', (object,), {'type': 'TYPE_C'})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Set # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockType: pass # pragma: no cover"",
+            ""leaf = MockType() # pragma: no cover"",
+            ""leaf.type = 'TYPE_A' # pragma: no cover"",
+            ""leaf.parent = MockType() # pragma: no cover"",
+            ""leaf.parent.type = 'TYPE_B' # pragma: no cover"",
+            ""leaf.parent.parent = MockType() # pragma: no cover"",
+            ""leaf.parent.parent.type = 'TYPE_C' # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'} # pragma: no cover"",
+            ""class syms: pass # pragma: no cover"",
+            ""syms.star_expr = 'TYPE_B' # pragma: no cover"",
+            ""within = {'TYPE_C', 'TYPE_D'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockParent:# pragma: no cover"",
+            ""    def __init__(self, parent=None):# pragma: no cover"",
+            ""        self.type = \""TYPE_B\""# pragma: no cover"",
+            ""        self.parent = parent# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'type': \""TYPE_A\"", 'parent': MockParent(parent=type('Mock', (object,), {'type': \""TYPE_C\""})())})() # pragma: no cover"",
+            ""VARARGS_SPECIALS = {\""TYPE_A\"", \""TYPE_X\""} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': \""TYPE_B\""}) # pragma: no cover"",
+            ""within = {\""TYPE_C\"", \""TYPE_D\""} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'type': 'type_a', 'parent': type('MockParent', (object,), {'type': 'type_b', 'parent': type('MockGrandparent', (object,), {'type': 'type_c'})()})()})() # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'type_a', 'type_x'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'type_b'}) # pragma: no cover"",
+            ""within = {'type_c', 'type_d'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'type': 'TYPE_A', 'parent': None})() # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'TYPE_B'}) # pragma: no cover"",
+            ""within = {'TYPE_C', 'TYPE_D'} # pragma: no cover"",
+            ""leaf.parent = type('MockParent', (object,), {'type': 'TYPE_B', 'parent': type('MockGrandparent', (object,), {'type': 'TYPE_C'})()})() # pragma: no cover""
+        ]
+    }
+]",2,895,0.0004475,1457,0.0021855,0.002633
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 23:
+    if p.type == syms.star_expr:
+AttributeError: 'MockLeaf' object has no attribute 'type'
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class Node: pass"",
+            ""leaf = Node()"",
+            ""leaf.type = 'some_type'"",
+            ""leaf.parent = Node()"",
+            ""leaf.parent.type = 'star_expr'"",
+            ""leaf.parent.parent = Node()"",
+            ""leaf.parent.parent.type = 'some_within_type'"",
+            ""VARARGS_SPECIALS = {'some_type'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'some_within_type'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class Mock: pass"",
+            ""leaf = Mock()"",
+            ""leaf.type = 'type_A'"",
+            ""leaf.parent = Mock()"",
+            ""leaf.parent.type = 'star_expr'"",
+            ""leaf.parent.parent = Mock()"",
+            ""leaf.parent.parent.type = 'some_within_type'"",
+            ""VARARGS_SPECIALS = {'type_A', 'other_type'}"",
+            ""syms = Mock()"",
+            ""syms.star_expr = 'star_expr'"",
+            ""within = {'some_within_type', 'another_within_type'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLeaf: pass"",
+            ""class MockParent: pass"",
+            ""class MockGrandparent: pass"",
+            """",
+            ""leaf = MockLeaf()"",
+            ""leaf.type = \""some_type\"""",
+            ""leaf.parent = MockParent()"",
+            ""leaf.parent.type = \""some_other_type\"""",
+            ""leaf.parent.parent = MockGrandparent()"",
+            ""leaf.parent.parent.type = \""some_within_type\"""",
+            """",
+            ""VARARGS_SPECIALS = {\""some_type\""}"",
+            """",
+            ""class MockSyms: pass"",
+            ""syms = MockSyms()"",
+            ""syms.star_expr = \""some_other_type\"""",
+            """",
+            ""within = {\""some_within_type\""}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockNode: pass"",
+            ""leaf = MockNode()"",
+            ""leaf.type = 'TYPE_A'"",
+            ""leaf.parent = MockNode()"",
+            ""leaf.parent.type = 'TYPE_B'"",
+            ""leaf.parent.parent = MockNode()"",
+            ""leaf.parent.parent.type = 'TYPE_C'"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'TYPE_B'})"",
+            ""within = {'TYPE_C', 'TYPE_D'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLeaf: pass"",
+            ""class MockNode: pass"",
+            ""leaf = MockLeaf()"",
+            ""leaf.type = \""some_type\"""",
+            ""leaf.parent = MockNode()"",
+            ""leaf.parent.type = \""star_expr\"""",
+            ""leaf.parent.parent = MockNode()"",
+            ""leaf.parent.parent.type = \""some_within_type\"""",
+            ""VARARGS_SPECIALS = {\""some_type\""}"",
+            ""syms = type('syms', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {\""some_within_type\""}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLeaf: pass"",
+            ""class MockParent: pass"",
+            ""class MockGrandparent: pass"",
+            ""leaf = MockLeaf()"",
+            ""leaf.type = 'TYPE_A'"",
+            ""leaf.parent = MockParent()"",
+            ""leaf.parent.type = 'TYPE_B'"",
+            ""leaf.parent.parent = MockGrandparent()"",
+            ""leaf.parent.parent.type = 'TYPE_C'"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'TYPE_B'})"",
+            ""within = {'TYPE_C', 'TYPE_D'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {'type': 'star_expr', 'parent': type('MockParent', (object,), {'type': 'some_within_type', 'parent': None})()})()"",
+            ""VARARGS_SPECIALS = {'star_expr'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'some_within_type'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {1, 2}"",
+            ""within = {3, 4}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 2})"",
+            ""leaf_grandparent = type('MockParent', (object,), {'type': 3, 'parent': None})()"",
+            ""leaf_parent = type('MockParent', (object,), {'type': 2, 'parent': leaf_grandparent})()"",
+            ""leaf = type('MockLeaf', (object,), {'type': 1, 'parent': leaf_parent})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockNode: pass"",
+            ""grandparent_node = MockNode()"",
+            ""grandparent_node.type = 'some_within_type'"",
+            ""parent_node = MockNode()"",
+            ""parent_node.type = 'star_expr'"",
+            ""parent_node.parent = grandparent_node"",
+            ""leaf = MockNode()"",
+            ""leaf.type = 'some_type'"",
+            ""leaf.parent = parent_node"",
+            ""VARARGS_SPECIALS = {'some_type'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'some_within_type'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""MockLeaf = type('MockLeaf', (object,), {'type': 'some_type', 'parent': None})"",
+            ""leaf = MockLeaf()"",
+            ""leaf.parent = MockLeaf()"",
+            ""leaf.parent.type = 'star_expr'"",
+            ""leaf.parent.parent = MockLeaf()"",
+            ""leaf.parent.parent.type = 'some_within_type'"",
+            ""VARARGS_SPECIALS = {'some_type'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'some_within_type'}""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Node: pass # pragma: no cover"",
+            ""leaf = Node() # pragma: no cover"",
+            ""leaf.type = 'some_type' # pragma: no cover"",
+            ""leaf.parent = Node() # pragma: no cover"",
+            ""leaf.parent.type = 'star_expr' # pragma: no cover"",
+            ""leaf.parent.parent = Node() # pragma: no cover"",
+            ""leaf.parent.parent.type = 'some_within_type' # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'some_type'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'some_within_type'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Mock: pass # pragma: no cover"",
+            ""leaf = Mock() # pragma: no cover"",
+            ""leaf.type = 'type_A' # pragma: no cover"",
+            ""leaf.parent = Mock() # pragma: no cover"",
+            ""leaf.parent.type = 'star_expr' # pragma: no cover"",
+            ""leaf.parent.parent = Mock() # pragma: no cover"",
+            ""leaf.parent.parent.type = 'some_within_type' # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'type_A', 'other_type'} # pragma: no cover"",
+            ""syms = Mock() # pragma: no cover"",
+            ""syms.star_expr = 'star_expr' # pragma: no cover"",
+            ""within = {'some_within_type', 'another_within_type'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLeaf: pass # pragma: no cover"",
+            ""class MockParent: pass # pragma: no cover"",
+            ""class MockGrandparent: pass # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""leaf = MockLeaf() # pragma: no cover"",
+            ""leaf.type = \""some_type\"" # pragma: no cover"",
+            ""leaf.parent = MockParent() # pragma: no cover"",
+            ""leaf.parent.type = \""some_other_type\"" # pragma: no cover"",
+            ""leaf.parent.parent = MockGrandparent() # pragma: no cover"",
+            ""leaf.parent.parent.type = \""some_within_type\"" # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""VARARGS_SPECIALS = {\""some_type\""} # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockSyms: pass # pragma: no cover"",
+            ""syms = MockSyms() # pragma: no cover"",
+            ""syms.star_expr = \""some_other_type\"" # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""within = {\""some_within_type\""} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockNode: pass # pragma: no cover"",
+            ""leaf = MockNode() # pragma: no cover"",
+            ""leaf.type = 'TYPE_A' # pragma: no cover"",
+            ""leaf.parent = MockNode() # pragma: no cover"",
+            ""leaf.parent.type = 'TYPE_B' # pragma: no cover"",
+            ""leaf.parent.parent = MockNode() # pragma: no cover"",
+            ""leaf.parent.parent.type = 'TYPE_C' # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'TYPE_B'}) # pragma: no cover"",
+            ""within = {'TYPE_C', 'TYPE_D'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLeaf: pass # pragma: no cover"",
+            ""class MockNode: pass # pragma: no cover"",
+            ""leaf = MockLeaf() # pragma: no cover"",
+            ""leaf.type = \""some_type\"" # pragma: no cover"",
+            ""leaf.parent = MockNode() # pragma: no cover"",
+            ""leaf.parent.type = \""star_expr\"" # pragma: no cover"",
+            ""leaf.parent.parent = MockNode() # pragma: no cover"",
+            ""leaf.parent.parent.type = \""some_within_type\"" # pragma: no cover"",
+            ""VARARGS_SPECIALS = {\""some_type\""} # pragma: no cover"",
+            ""syms = type('syms', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {\""some_within_type\""} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLeaf: pass # pragma: no cover"",
+            ""class MockParent: pass # pragma: no cover"",
+            ""class MockGrandparent: pass # pragma: no cover"",
+            ""leaf = MockLeaf() # pragma: no cover"",
+            ""leaf.type = 'TYPE_A' # pragma: no cover"",
+            ""leaf.parent = MockParent() # pragma: no cover"",
+            ""leaf.parent.type = 'TYPE_B' # pragma: no cover"",
+            ""leaf.parent.parent = MockGrandparent() # pragma: no cover"",
+            ""leaf.parent.parent.type = 'TYPE_C' # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_X'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'TYPE_B'}) # pragma: no cover"",
+            ""within = {'TYPE_C', 'TYPE_D'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {'type': 'star_expr', 'parent': type('MockParent', (object,), {'type': 'some_within_type', 'parent': None})()})() # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'star_expr'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'some_within_type'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {1, 2} # pragma: no cover"",
+            ""within = {3, 4} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 2}) # pragma: no cover"",
+            ""leaf_grandparent = type('MockParent', (object,), {'type': 3, 'parent': None})() # pragma: no cover"",
+            ""leaf_parent = type('MockParent', (object,), {'type': 2, 'parent': leaf_grandparent})() # pragma: no cover"",
+            ""leaf = type('MockLeaf', (object,), {'type': 1, 'parent': leaf_parent})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockNode: pass # pragma: no cover"",
+            ""grandparent_node = MockNode() # pragma: no cover"",
+            ""grandparent_node.type = 'some_within_type' # pragma: no cover"",
+            ""parent_node = MockNode() # pragma: no cover"",
+            ""parent_node.type = 'star_expr' # pragma: no cover"",
+            ""parent_node.parent = grandparent_node # pragma: no cover"",
+            ""leaf = MockNode() # pragma: no cover"",
+            ""leaf.type = 'some_type' # pragma: no cover"",
+            ""leaf.parent = parent_node # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'some_type'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'some_within_type'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""MockLeaf = type('MockLeaf', (object,), {'type': 'some_type', 'parent': None}) # pragma: no cover"",
+            ""leaf = MockLeaf() # pragma: no cover"",
+            ""leaf.parent = MockLeaf() # pragma: no cover"",
+            ""leaf.parent.type = 'star_expr' # pragma: no cover"",
+            ""leaf.parent.parent = MockLeaf() # pragma: no cover"",
+            ""leaf.parent.parent.type = 'some_within_type' # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'some_type'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'some_within_type'} # pragma: no cover""
+        ]
+    }
+]",2,1303,0.0006515,1430,0.002145,0.0027965
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'}"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('Mock', (object,), {'type': 'some_type', 'parent': None})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockNode: pass"",
+            ""leaf = MockNode()"",
+            ""leaf.type = 'VARARGS_TYPE_1'"",
+            ""leaf_parent = MockNode()"",
+            ""leaf_parent.type = 'star_expression_type'"",
+            ""p_parent = MockNode()"",
+            ""p_parent.type = 'some_type'"",
+            ""leaf_parent.parent = p_parent"",
+            ""leaf.parent = leaf_parent"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type'}"",
+            ""leaf = type('Leaf', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Parent', (object,), {'type': 'star_expression_type', 'parent': type('Grandparent', (object,), {'type': 'some_type'})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'}"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('Mock', (object,), {'type': 'some_type'})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'}"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('Mock', (object,), {'type': 'some_type'})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {'type': 'VARARGS_TYPE_1', 'parent': None})()"",
+            ""leaf.parent = type('MockParent', (object,), {'type': 'star_expression_type', 'parent': None})()"",
+            ""leaf.parent.parent = type('MockGrandparent', (object,), {'type': 'some_type'})()"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {'type': 'VARARGS_TYPE_1', 'parent': None})()"",
+            ""leaf.parent = type('MockParent', (object,), {'type': 'star_expression_type', 'parent': type('MockGrandParent', (object,), {'type': 'some_type', 'parent': None})()})()"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'}"",
+            ""leaf = type('Mock', (object,), {'parent': None, 'type': 'VARARGS_TYPE_1'})()"",
+            ""leaf_parent = type('Mock', (object,), {'parent': None, 'type': 'star_expression_type'})()"",
+            ""leaf.parent = leaf_parent"",
+            ""leaf_grandparent = type('Mock', (object,), {'parent': None, 'type': 'some_type'})()"",
+            ""leaf_parent.parent = leaf_grandparent""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLeaf: pass"",
+            ""leaf = MockLeaf()"",
+            ""leaf.type = 'VARARGS_TYPE_1'"",
+            ""class MockParent: pass"",
+            ""parent = MockParent()"",
+            ""parent.type = 'star_expression_type'"",
+            ""class MockGrandparent: pass"",
+            ""grandparent = MockGrandparent()"",
+            ""grandparent.type = 'some_type'"",
+            ""parent.parent = grandparent"",
+            ""leaf.parent = parent"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'}"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('MockParent', (object,), {'type': 'some_type'})()})()})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'} # pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('Mock', (object,), {'type': 'some_type', 'parent': None})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockNode: pass # pragma: no cover"",
+            ""leaf = MockNode() # pragma: no cover"",
+            ""leaf.type = 'VARARGS_TYPE_1' # pragma: no cover"",
+            ""leaf_parent = MockNode() # pragma: no cover"",
+            ""leaf_parent.type = 'star_expression_type' # pragma: no cover"",
+            ""p_parent = MockNode() # pragma: no cover"",
+            ""p_parent.type = 'some_type' # pragma: no cover"",
+            ""leaf_parent.parent = p_parent # pragma: no cover"",
+            ""leaf.parent = leaf_parent # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type'} # pragma: no cover"",
+            ""leaf = type('Leaf', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Parent', (object,), {'type': 'star_expression_type', 'parent': type('Grandparent', (object,), {'type': 'some_type'})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'} # pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('Mock', (object,), {'type': 'some_type'})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'} # pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('Mock', (object,), {'type': 'some_type'})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {'type': 'VARARGS_TYPE_1', 'parent': None})() # pragma: no cover"",
+            ""leaf.parent = type('MockParent', (object,), {'type': 'star_expression_type', 'parent': None})() # pragma: no cover"",
+            ""leaf.parent.parent = type('MockGrandparent', (object,), {'type': 'some_type'})() # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {'type': 'VARARGS_TYPE_1', 'parent': None})() # pragma: no cover"",
+            ""leaf.parent = type('MockParent', (object,), {'type': 'star_expression_type', 'parent': type('MockGrandParent', (object,), {'type': 'some_type', 'parent': None})()})() # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'} # pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'parent': None, 'type': 'VARARGS_TYPE_1'})() # pragma: no cover"",
+            ""leaf_parent = type('Mock', (object,), {'parent': None, 'type': 'star_expression_type'})() # pragma: no cover"",
+            ""leaf.parent = leaf_parent # pragma: no cover"",
+            ""leaf_grandparent = type('Mock', (object,), {'parent': None, 'type': 'some_type'})() # pragma: no cover"",
+            ""leaf_parent.parent = leaf_grandparent # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLeaf: pass # pragma: no cover"",
+            ""leaf = MockLeaf() # pragma: no cover"",
+            ""leaf.type = 'VARARGS_TYPE_1' # pragma: no cover"",
+            ""class MockParent: pass # pragma: no cover"",
+            ""parent = MockParent() # pragma: no cover"",
+            ""parent.type = 'star_expression_type' # pragma: no cover"",
+            ""class MockGrandparent: pass # pragma: no cover"",
+            ""grandparent = MockGrandparent() # pragma: no cover"",
+            ""grandparent.type = 'some_type' # pragma: no cover"",
+            ""parent.parent = grandparent # pragma: no cover"",
+            ""leaf.parent = parent # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'} # pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('MockParent', (object,), {'type': 'some_type'})()})()})() # pragma: no cover""
+        ]
+    }
+]",2,1719,0.0008595,1594,0.002391,0.0032505
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'star', 'double_star'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'some_type', 'another_type'}"",
+            ""leaf = type('MockLeaf', (object,), {'type': 'star', 'parent': type('MockLeafParent', (object,), {'type': 'star_expr', 'parent': type('MockLeafGrandparent', (object,), {'type': 'some_type'})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type_, parent=None):\n        self.type = type_\n        self.parent = parent"",
+            ""VARARGS_SPECIALS = {'star', 'double_star'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'some_type', 'another_type'}"",
+            ""leaf = MockLeaf('star', MockLeaf('star_expr', MockLeaf('some_type')))""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'}"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('Mock', (object,), {'type': 'some_type'})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = SimpleNamespace(star_expr='star_expression_type')"",
+            ""within = {'PARENT_TYPE_1', 'PARENT_TYPE_2'}"",
+            ""leaf = SimpleNamespace(type='VARARGS_TYPE_1', parent=SimpleNamespace(type='star_expression_type', parent=SimpleNamespace(type='PARENT_TYPE_1')))""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expr', 'parent': type('Mock', (object,), {'type': 'TYPE_C'})()})()})()"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'TYPE_C', 'TYPE_D'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'}"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('Mock', (object,), {'type': 'some_type', 'parent': None})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'}"",
+            ""class Leaf:\n    def __init__(self, leaf_type, parent=None):\n        self.type = leaf_type\n        self.parent = parent"",
+            ""leaf = Leaf('VARARGS_TYPE_1', Leaf('star_expression_type', Leaf('some_type')))""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, type, parent=None):\n        self.type = type\n        self.parent = parent"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'}"",
+            ""leaf = MockLeaf('VARARGS_TYPE_1', MockLeaf('star_expression_type', MockLeaf('some_type')))""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'}"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('Mock', (object,), {'type': 'some_type', 'parent': None})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'}"",
+            ""class MockParent:\n    def __init__(self, type_name, parent=None):\n        self.type = type_name\n        self.parent = parent"",
+            ""leaf = MockParent('VARARGS_TYPE_1', MockParent('star_expression_type', MockParent('some_type')))""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'star', 'double_star'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type'} # pragma: no cover"",
+            ""leaf = type('MockLeaf', (object,), {'type': 'star', 'parent': type('MockLeafParent', (object,), {'type': 'star_expr', 'parent': type('MockLeafGrandparent', (object,), {'type': 'some_type'})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type_, parent=None):# pragma: no cover"",
+            ""        self.type = type_# pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'star', 'double_star'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type'} # pragma: no cover"",
+            ""leaf = MockLeaf('star', MockLeaf('star_expr', MockLeaf('some_type'))) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'} # pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('Mock', (object,), {'type': 'some_type'})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = SimpleNamespace(star_expr='star_expression_type') # pragma: no cover"",
+            ""within = {'PARENT_TYPE_1', 'PARENT_TYPE_2'} # pragma: no cover"",
+            ""leaf = SimpleNamespace(type='VARARGS_TYPE_1', parent=SimpleNamespace(type='star_expression_type', parent=SimpleNamespace(type='PARENT_TYPE_1'))) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expr', 'parent': type('Mock', (object,), {'type': 'TYPE_C'})()})()})() # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'TYPE_C', 'TYPE_D'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'} # pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('Mock', (object,), {'type': 'some_type', 'parent': None})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'} # pragma: no cover"",
+            ""class Leaf:# pragma: no cover"",
+            ""    def __init__(self, leaf_type, parent=None):# pragma: no cover"",
+            ""        self.type = leaf_type# pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""leaf = Leaf('VARARGS_TYPE_1', Leaf('star_expression_type', Leaf('some_type'))) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, type, parent=None):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'} # pragma: no cover"",
+            ""leaf = MockLeaf('VARARGS_TYPE_1', MockLeaf('star_expression_type', MockLeaf('some_type'))) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'} # pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('Mock', (object,), {'type': 'some_type', 'parent': None})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'yet_another_type'} # pragma: no cover"",
+            ""class MockParent:# pragma: no cover"",
+            ""    def __init__(self, type_name, parent=None):# pragma: no cover"",
+            ""        self.type = type_name# pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""leaf = MockParent('VARARGS_TYPE_1', MockParent('star_expression_type', MockParent('some_type'))) # pragma: no cover""
+        ]
+    }
+]",2,2111,0.0010555,1398,0.002097,0.0031525
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {'type': 'VARARGS_TYPE_1', 'parent': None})()"",
+            ""leaf.parent = type('MockParent', (object,), {'type': 'STAR_EXPR', 'parent': None})()"",
+            ""leaf.parent.parent = type('MockGrandparent', (object,), {'type': 'WITHIN_TYPE_1'})()"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'STAR_EXPR'})"",
+            ""within = {'WITHIN_TYPE_1', 'WITHIN_TYPE_2'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockLeaf:"",
+            ""    def __init__(self, type, parent=None):"",
+            ""        self.type = type"",
+            ""        self.parent = parent"",
+            """",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            """",
+            ""class MockSyms:"",
+            ""    star_expr = 'STAR_EXPR_TYPE'"",
+            """",
+            ""syms = MockSyms()"",
+            """",
+            ""within = {'PARENT_TYPE_1', 'PARENT_TYPE_2'}"",
+            """",
+            ""leaf = MockLeaf('VARARGS_TYPE_1', MockLeaf('STAR_EXPR_TYPE', MockLeaf('PARENT_TYPE_1')))""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockParent:"",
+            ""    def __init__(self, type, parent=None):"",
+            ""        self.type = type"",
+            ""        self.parent = parent"",
+            """",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'within_type_1', 'within_type_2'}"",
+            """",
+            ""leaf = type('Mock', (object,), {"",
+            ""    'type': 'VARARGS_TYPE_1',"",
+            ""    'parent': MockParent('star_expr', MockParent('within_type_1'))"",
+            ""})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class Node:"",
+            ""    def __init__(self, type, parent=None):"",
+            ""        self.type = type"",
+            ""        self.parent = parent"",
+            """",
+            ""VARARGS_SPECIALS = {'star', 'double_star'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'some_type', 'another_type', 'star_expr'}"",
+            """",
+            ""leaf = Node(type='star', parent=Node(type='star_expr', parent=Node(type='some_type')))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'star', 'double_star'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'some_type', 'another_type', 'star_expr'}"",
+            ""leaf = SimpleNamespace(type='star', parent=SimpleNamespace(type='star_expr', parent=SimpleNamespace(type='some_type')))""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class Node:\n    def __init__(self, type, parent=None):\n        self.type = type\n        self.parent = parent"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'some_type', 'another_type'}"",
+            ""leaf = Node('VARARGS_TYPE_1', Node('star_expr', Node('some_type')))""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockParent:"",
+            ""    def __init__(self, type, parent=None):"",
+            ""        self.type = type"",
+            ""        self.parent = parent"",
+            """",
+            ""leaf = MockParent(type='VARARGS_TYPE_1', parent=MockParent(type='star_expr', parent=MockParent(type='some_type')))"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'some_type', 'another_type'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'})"",
+            ""within = {'some_type', 'another_type', 'star_expression_type'}"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('Mock', (object,), {'type': 'some_type'})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = SimpleNamespace(star_expr='star_expr')"",
+            ""within = {'some_type', 'another_type', 'star_expr'}"",
+            ""leaf = SimpleNamespace(type='VARARGS_TYPE_1', parent=SimpleNamespace(type='star_expr', parent=SimpleNamespace(type='some_type')))""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'star', 'double_star'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'func_signature', 'iterable_unpckg'}"",
+            ""leaf = type('Leaf', (object,), {'type': 'star', 'parent': None})()"",
+            ""leaf.parent = type('LeafParent', (object,), {'type': 'star_expr', 'parent': type('LeafGrandparent', (object,), {'type': 'func_signature'})()})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {'type': 'VARARGS_TYPE_1', 'parent': None})() # pragma: no cover"",
+            ""leaf.parent = type('MockParent', (object,), {'type': 'STAR_EXPR', 'parent': None})() # pragma: no cover"",
+            ""leaf.parent.parent = type('MockGrandparent', (object,), {'type': 'WITHIN_TYPE_1'})() # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'STAR_EXPR'}) # pragma: no cover"",
+            ""within = {'WITHIN_TYPE_1', 'WITHIN_TYPE_2'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockLeaf: # pragma: no cover"",
+            ""    def __init__(self, type, parent=None): # pragma: no cover"",
+            ""        self.type = type # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockSyms: # pragma: no cover"",
+            ""    star_expr = 'STAR_EXPR_TYPE' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""syms = MockSyms() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""within = {'PARENT_TYPE_1', 'PARENT_TYPE_2'} # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""leaf = MockLeaf('VARARGS_TYPE_1', MockLeaf('STAR_EXPR_TYPE', MockLeaf('PARENT_TYPE_1'))) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockParent: # pragma: no cover"",
+            ""    def __init__(self, type, parent=None): # pragma: no cover"",
+            ""        self.type = type # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'within_type_1', 'within_type_2'} # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""leaf = type('Mock', (object,), { # pragma: no cover"",
+            ""    'type': 'VARARGS_TYPE_1', # pragma: no cover"",
+            ""    'parent': MockParent('star_expr', MockParent('within_type_1')) # pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Node: # pragma: no cover"",
+            ""    def __init__(self, type, parent=None): # pragma: no cover"",
+            ""        self.type = type # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'star', 'double_star'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'star_expr'} # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""leaf = Node(type='star', parent=Node(type='star_expr', parent=Node(type='some_type'))) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'star', 'double_star'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'star_expr'} # pragma: no cover"",
+            ""leaf = SimpleNamespace(type='star', parent=SimpleNamespace(type='star_expr', parent=SimpleNamespace(type='some_type'))) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class Node:# pragma: no cover"",
+            ""    def __init__(self, type, parent=None):# pragma: no cover"",
+            ""        self.type = type# pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type'} # pragma: no cover"",
+            ""leaf = Node('VARARGS_TYPE_1', Node('star_expr', Node('some_type'))) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockParent: # pragma: no cover"",
+            ""    def __init__(self, type, parent=None): # pragma: no cover"",
+            ""        self.type = type # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""leaf = MockParent(type='VARARGS_TYPE_1', parent=MockParent(type='star_expr', parent=MockParent(type='some_type'))) # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expression_type'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'star_expression_type'} # pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expression_type', 'parent': type('Mock', (object,), {'type': 'some_type'})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = SimpleNamespace(star_expr='star_expr') # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'star_expr'} # pragma: no cover"",
+            ""leaf = SimpleNamespace(type='VARARGS_TYPE_1', parent=SimpleNamespace(type='star_expr', parent=SimpleNamespace(type='some_type'))) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'star', 'double_star'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'func_signature', 'iterable_unpckg'} # pragma: no cover"",
+            ""leaf = type('Leaf', (object,), {'type': 'star', 'parent': None})() # pragma: no cover"",
+            ""leaf.parent = type('LeafParent', (object,), {'type': 'star_expr', 'parent': type('LeafGrandparent', (object,), {'type': 'func_signature'})()})() # pragma: no cover""
+        ]
+    }
+]",2,2601,0.0013005,1445,0.0021675,0.003468
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_B'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr_type'})"",
+            ""within = {'type_in_within'}"",
+            ""leaf = type('MockLeaf', (object,), {'type': 'TYPE_A', 'parent': type('MockParent', (object,), {'type': 'star_expr_type', 'parent': type('MockGrandparent', (object,), {'type': 'type_in_within'})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'some_type', 'star_expr'}"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expr', 'parent': type('Mock', (object,), {'type': 'some_type'})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Set, Optional""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""    def __init__(self, type: str, parent: Optional['Leaf'] = None):"",
+            ""        self.type = type"",
+            ""        self.parent = parent"",
+            """",
+            ""VARARGS_SPECIALS: Set[str] = {'vararg_type', 'another_vararg_type'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr_type'})"",
+            ""within: Set[str] = {'within_type_1', 'within_type_2'}"",
+            ""leaf = Leaf(type='vararg_type', parent=Leaf(type='star_expr_type', parent=Leaf(type='within_type_1')))""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'STAR', 'DOUBLE_STAR'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'some_type', 'another_type', 'star_expr'}"",
+            ""leaf_parent = type('MockLeafParent', (object,), {'type': 'star_expr', 'parent': type('MockLeafGrandparent', (object,), {'type': 'some_type'})()})()"",
+            ""leaf = type('MockLeaf', (object,), {'type': 'STAR', 'parent': leaf_parent})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'}"",
+            ""syms = SimpleNamespace(star_expr='star_expr')"",
+            ""within = {'some_type', 'star_expr'}"",
+            ""leaf = SimpleNamespace(type='VARARGS_TYPE_1', parent=SimpleNamespace(type='star_expr', parent=SimpleNamespace(type='some_type')))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'special_type', 'double_star'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'some_type', 'another_type', 'star_expr'}"",
+            ""leaf = SimpleNamespace(type='special_type', parent=SimpleNamespace(type='star_expr', parent=SimpleNamespace(type='some_type')))""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARG', 'KWARG'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'func_signature', 'extended_unpacking'}"",
+            ""leaf = type('MockLeaf', (object,), {'type': 'VARARG', 'parent': type('MockLeaf', (object,), {'type': 'star_expr', 'parent': type('MockLeaf', (object,), {'type': 'func_signature', 'parent': None})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'star', 'double_star'}"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'})"",
+            ""within = {'some_type', 'another_type', 'star_expr'}"",
+            ""leaf = type('Mock', (object,), {'type': 'star', 'parent': type('Mock', (object,), {'type': 'star_expr', 'parent': type('Mock', (object,), {'type': 'some_type'})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARG_TYPE'}"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'STAR_EXPR_TYPE'})"",
+            ""within = {'WITHIN_TYPE'}"",
+            ""leaf = type('MockLeaf', (object,), {'type': 'VARARG_TYPE', 'parent': type('MockLeafParent', (object,), {'type': 'STAR_EXPR_TYPE', 'parent': type('MockLeafParentParent', (object,), {'type': 'WITHIN_TYPE'})()})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Set"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS: Set[int] = {1, 2, 3}"",
+            ""within: Set[int] = {4, 5, 6}"",
+            ""syms = type('Mock', (object,), {'star_expr': 7})"",
+            ""leaf = type('MockLeaf', (object,), {'type': 1, 'parent': type('MockParentLeaf', (object,), {'type': 7, 'parent': type('MockGrandparentLeaf', (object,), {'type': 4, 'parent': None})()})()})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'TYPE_A', 'TYPE_B'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr_type'}) # pragma: no cover"",
+            ""within = {'type_in_within'} # pragma: no cover"",
+            ""leaf = type('MockLeaf', (object,), {'type': 'TYPE_A', 'parent': type('MockParent', (object,), {'type': 'star_expr_type', 'parent': type('MockGrandparent', (object,), {'type': 'type_in_within'})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'some_type', 'star_expr'} # pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'type': 'VARARGS_TYPE_1', 'parent': type('Mock', (object,), {'type': 'star_expr', 'parent': type('Mock', (object,), {'type': 'some_type'})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Set, Optional # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf: # pragma: no cover"",
+            ""    def __init__(self, type: str, parent: Optional['Leaf'] = None): # pragma: no cover"",
+            ""        self.type = type # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""VARARGS_SPECIALS: Set[str] = {'vararg_type', 'another_vararg_type'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr_type'}) # pragma: no cover"",
+            ""within: Set[str] = {'within_type_1', 'within_type_2'} # pragma: no cover"",
+            ""leaf = Leaf(type='vararg_type', parent=Leaf(type='star_expr_type', parent=Leaf(type='within_type_1'))) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'STAR', 'DOUBLE_STAR'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'star_expr'} # pragma: no cover"",
+            ""leaf_parent = type('MockLeafParent', (object,), {'type': 'star_expr', 'parent': type('MockLeafGrandparent', (object,), {'type': 'some_type'})()})() # pragma: no cover"",
+            ""leaf = type('MockLeaf', (object,), {'type': 'STAR', 'parent': leaf_parent})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARGS_TYPE_1', 'VARARGS_TYPE_2'} # pragma: no cover"",
+            ""syms = SimpleNamespace(star_expr='star_expr') # pragma: no cover"",
+            ""within = {'some_type', 'star_expr'} # pragma: no cover"",
+            ""leaf = SimpleNamespace(type='VARARGS_TYPE_1', parent=SimpleNamespace(type='star_expr', parent=SimpleNamespace(type='some_type'))) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'special_type', 'double_star'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'star_expr'} # pragma: no cover"",
+            ""leaf = SimpleNamespace(type='special_type', parent=SimpleNamespace(type='star_expr', parent=SimpleNamespace(type='some_type'))) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARG', 'KWARG'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'func_signature', 'extended_unpacking'} # pragma: no cover"",
+            ""leaf = type('MockLeaf', (object,), {'type': 'VARARG', 'parent': type('MockLeaf', (object,), {'type': 'star_expr', 'parent': type('MockLeaf', (object,), {'type': 'func_signature', 'parent': None})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'star', 'double_star'} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = {'some_type', 'another_type', 'star_expr'} # pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'type': 'star', 'parent': type('Mock', (object,), {'type': 'star_expr', 'parent': type('Mock', (object,), {'type': 'some_type'})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'VARARG_TYPE'} # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'STAR_EXPR_TYPE'}) # pragma: no cover"",
+            ""within = {'WITHIN_TYPE'} # pragma: no cover"",
+            ""leaf = type('MockLeaf', (object,), {'type': 'VARARG_TYPE', 'parent': type('MockLeafParent', (object,), {'type': 'STAR_EXPR_TYPE', 'parent': type('MockLeafParentParent', (object,), {'type': 'WITHIN_TYPE'})()})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Set # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS: Set[int] = {1, 2, 3} # pragma: no cover"",
+            ""within: Set[int] = {4, 5, 6} # pragma: no cover"",
+            ""syms = type('Mock', (object,), {'star_expr': 7}) # pragma: no cover"",
+            ""leaf = type('MockLeaf', (object,), {'type': 1, 'parent': type('MockParentLeaf', (object,), {'type': 7, 'parent': type('MockGrandparentLeaf', (object,), {'type': 4, 'parent': None})()})()})() # pragma: no cover""
+        ]
+    }
+]",2,2993,0.0014965,1387,0.0020805,0.003577
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Return True if `leaf` is a star or double star in a vararg or kwarg.
+    If `within` includes VARARGS_PARENTS, this applies to function signatures.
+    If `within` includes UNPACKING_PARENTS, it applies to right hand-side
+    extended iterable unpacking (PEP 3132) and additional unpacking
+    generalizations (PEP 448).
+    """"""
+if leaf.type not in VARARGS_SPECIALS or not leaf.parent:
+    aux = False
+    exit(aux) # uncovered
+p = leaf.parent
+if p.type == syms.star_expr:
+    # Star expressions are also used as assignment targets in extended
+    # iterable unpacking (PEP 3132).  See what its parent is instead.
+    if not p.parent: # uncovered
+        aux = False # uncovered
+        exit(aux) # uncovered
+    p = p.parent
+aux = p.type in within
+exit(aux) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from collections import namedtuple"",
+            ""import sys"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = { 'VARARG', 'KWARG' }"",
+            ""syms = SimpleNamespace(star_expr='star_expr')"",
+            ""within = { 'func_sig', 'unpack' }"",
+            ""Leaf = namedtuple('Leaf', 'type parent')"",
+            ""leaf = Leaf(type='VARARG', parent=None)"",
+            ""exit = sys.exit""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import type"",
+            ""from collections import namedtuple""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {1, 2, 3}"",
+            ""syms = namedtuple('syms', ['star_expr'])(star_expr=1)"",
+            ""MockLeaf = type('MockLeaf', (object,), {'__init__': lambda self, t, p: setattr(self, 'type', t) or setattr(self, 'parent', p)})"",
+            ""leaf = MockLeaf(4, MockLeaf(1, None))"",
+            ""within = {1, 2, 3, 4}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import namedtuple""
+        ],
+        ""initialization"": [
+            ""Leaf = namedtuple('Leaf', ['type', 'parent'])"",
+            ""Node = namedtuple('Node', ['type', 'parent'])"",
+            ""VARARGS_SPECIALS = set(['VARARGS'])"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'})"",
+            ""within = set(['star_expr'])"",
+            ""leaf = Leaf(type='VARARGS', parent=Node(type='star_expr', parent=None))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from enum import Enum"",
+            ""class TokensEnum(Enum):"",
+            ""    TYPE1 = 1"",
+            ""    TYPE2 = 2"",
+            ""    star_expr = 3"",
+            ""    VARARGS = 4"",
+            ""syms = TokensEnum"",
+            ""leaf_type_options = [TokensEnum.TYPE1, TokensEnum.TYPE2]"",
+            ""VARARGS_SPECIALS = [TokensEnum.VARARGS]""
+        ],
+        ""initialization"": [
+            ""class Leaf:"",
+            ""    def __init__(self, type_value, parent_value=None):"",
+            ""        self.type = type_value"",
+            ""        self.parent = parent_value"",
+            ""parent_leaf = Leaf(syms.star_expr)"",
+            ""leaf = Leaf(syms.VARARGS, parent_leaf)"",
+            ""within = [syms.star_expr]"",
+            ""def exit(value):"",
+            ""    print('Exited with:', value)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from enum import Enum, auto""
+        ],
+        ""initialization"": [
+            ""class MockType(Enum):"",
+            ""    VARARGS = auto()"",
+            ""    STAR_EXPR = auto()"",
+            ""    UNPACKING_PARENTS = auto()"",
+            ""class MockNode:"",
+            ""    def __init__(self, type, parent=None):"",
+            ""        self.type = type"",
+            ""        self.parent = parent"",
+            ""VARARGS_SPECIALS = {MockType.VARARGS}"",
+            ""within = {MockType.UNPACKING_PARENTS}"",
+            ""syms = type('Syms', (object,), {'star_expr': MockType.STAR_EXPR})"",
+            ""leaf = MockNode(MockType.VARARGS, MockNode(MockType.STAR_EXPR))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {42, 43, 44}  # Some dummy types"",
+            ""UNPACKING_PARENTS = {45, 46, 47}  # Some dummy types"",
+            ""syms = SimpleNamespace(star_expr=48)  # Dummy symbol for star expression"",
+            ""within = {48, 49, 50}  # Some dummy types"",
+            ""leaf = SimpleNamespace(type=42, parent=SimpleNamespace(type=48, parent=None))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Tuple""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'varargs_special_type'}"",
+            ""VARARGS_PARENTS = {'varargs_parent_type'}"",
+            ""UNPACKING_PARENTS = {'unpacking_parent_type'}"",
+            ""syms = type('Syms', (object,), {'star_expr': 'star_expr'})"",
+            ""leaf = type('Leaf', (object,), {'type': 'varargs_special_type', 'parent': type('Node', (object,), {'type': 'not_star_expr', 'parent': None})()})"",
+            ""within = {'star_expr', 'another_parent_type'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""syms = type('Symbols', (object,), {'star_expr': 'star_expr'})"",
+            ""VARARGS_SPECIALS = {'some_special_type'}"",
+            ""VARARGS_PARENTS = {'parent_type'}"",
+            ""UNPACKING_PARENTS = {'another_parent_type'}"",
+            ""class MockLeaf:"",
+            ""    def __init__(self, type_: str, parent: 'MockParent' = None):"",
+            ""        self.type = type_"",
+            ""        self.parent = parent"",
+            ""class MockParent:"",
+            ""    def __init__(self, type_: str, parent: 'MockParent' = None):"",
+            ""        self.type = type_"",
+            ""        self.parent = parent"",
+            ""within = {'star_expr', 'parent_type'}"",
+            ""# Initialize a leaf with an appropriate type and a parent without a parent"",
+            ""leaf = MockLeaf('some_special_type', MockParent('star_expr'))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from enum import IntEnum, auto""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:"",
+            ""    def __init__(self, type_, parent=None):"",
+            ""        self.type = type_"",
+            ""        self.parent = parent"",
+            """",
+            ""class VARARGS_SPECIALS(IntEnum):"",
+            ""    TYPE1 = auto()"",
+            ""    TYPE2 = auto()"",
+            """",
+            ""class syms:"",
+            ""    star_expr = auto()"",
+            """",
+            ""VARARGS_PARENTS = {auto(), auto()}"",
+            ""UNPACKING_PARENTS = {auto(), auto()}"",
+            ""within = {syms.star_expr}"",
+            """",
+            ""leaf = MockLeaf(syms.star_expr, MockLeaf(syms.star_expr))"",
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace"",
+            ""import functools""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {1}"",
+            ""syms = SimpleNamespace(star_expr=2)"",
+            ""within = {2}"",
+            ""leaf_parent = type('MockParent', (object,), {'type': 2, 'parent': None})"",
+            ""leaf = type('MockLeaf', (object,), {'type': 1, 'parent': leaf_parent})""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from collections import namedtuple # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = { 'VARARG', 'KWARG' } # pragma: no cover"",
+            ""syms = SimpleNamespace(star_expr='star_expr') # pragma: no cover"",
+            ""within = { 'func_sig', 'unpack' } # pragma: no cover"",
+            ""Leaf = namedtuple('Leaf', 'type parent') # pragma: no cover"",
+            ""leaf = Leaf(type='VARARG', parent=None) # pragma: no cover"",
+            ""exit = sys.exit # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import namedtuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {1, 2, 3} # pragma: no cover"",
+            ""syms = namedtuple('syms', ['star_expr'])(star_expr=1) # pragma: no cover"",
+            ""MockLeaf = type('MockLeaf', (object,), {'__init__': lambda self, t, p: setattr(self, 'type', t) or setattr(self, 'parent', p)}) # pragma: no cover"",
+            ""leaf = MockLeaf(4, MockLeaf(1, None)) # pragma: no cover"",
+            ""within = {1, 2, 3, 4} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import namedtuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""Leaf = namedtuple('Leaf', ['type', 'parent']) # pragma: no cover"",
+            ""Node = namedtuple('Node', ['type', 'parent']) # pragma: no cover"",
+            ""VARARGS_SPECIALS = set(['VARARGS']) # pragma: no cover"",
+            ""syms = type('MockSyms', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""within = set(['star_expr']) # pragma: no cover"",
+            ""leaf = Leaf(type='VARARGS', parent=Node(type='star_expr', parent=None)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from enum import Enum # pragma: no cover"",
+            ""class TokensEnum(Enum): # pragma: no cover"",
+            ""    TYPE1 = 1 # pragma: no cover"",
+            ""    TYPE2 = 2 # pragma: no cover"",
+            ""    star_expr = 3 # pragma: no cover"",
+            ""    VARARGS = 4 # pragma: no cover"",
+            ""syms = TokensEnum # pragma: no cover"",
+            ""leaf_type_options = [TokensEnum.TYPE1, TokensEnum.TYPE2] # pragma: no cover"",
+            ""VARARGS_SPECIALS = [TokensEnum.VARARGS] # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Leaf: # pragma: no cover"",
+            ""    def __init__(self, type_value, parent_value=None): # pragma: no cover"",
+            ""        self.type = type_value # pragma: no cover"",
+            ""        self.parent = parent_value # pragma: no cover"",
+            ""parent_leaf = Leaf(syms.star_expr) # pragma: no cover"",
+            ""leaf = Leaf(syms.VARARGS, parent_leaf) # pragma: no cover"",
+            ""within = [syms.star_expr] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from enum import Enum, auto # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockType(Enum): # pragma: no cover"",
+            ""    VARARGS = auto() # pragma: no cover"",
+            ""    STAR_EXPR = auto() # pragma: no cover"",
+            ""    UNPACKING_PARENTS = auto() # pragma: no cover"",
+            ""class MockNode: # pragma: no cover"",
+            ""    def __init__(self, type, parent=None): # pragma: no cover"",
+            ""        self.type = type # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""VARARGS_SPECIALS = {MockType.VARARGS} # pragma: no cover"",
+            ""within = {MockType.UNPACKING_PARENTS} # pragma: no cover"",
+            ""syms = type('Syms', (object,), {'star_expr': MockType.STAR_EXPR}) # pragma: no cover"",
+            ""leaf = MockNode(MockType.VARARGS, MockNode(MockType.STAR_EXPR)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {42, 43, 44}  # Some dummy types # pragma: no cover"",
+            ""UNPACKING_PARENTS = {45, 46, 47}  # Some dummy types # pragma: no cover"",
+            ""syms = SimpleNamespace(star_expr=48)  # Dummy symbol for star expression # pragma: no cover"",
+            ""within = {48, 49, 50}  # Some dummy types # pragma: no cover"",
+            ""leaf = SimpleNamespace(type=42, parent=SimpleNamespace(type=48, parent=None)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {'varargs_special_type'} # pragma: no cover"",
+            ""VARARGS_PARENTS = {'varargs_parent_type'} # pragma: no cover"",
+            ""UNPACKING_PARENTS = {'unpacking_parent_type'} # pragma: no cover"",
+            ""syms = type('Syms', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""leaf = type('Leaf', (object,), {'type': 'varargs_special_type', 'parent': type('Node', (object,), {'type': 'not_star_expr', 'parent': None})()}) # pragma: no cover"",
+            ""within = {'star_expr', 'another_parent_type'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""syms = type('Symbols', (object,), {'star_expr': 'star_expr'}) # pragma: no cover"",
+            ""VARARGS_SPECIALS = {'some_special_type'} # pragma: no cover"",
+            ""VARARGS_PARENTS = {'parent_type'} # pragma: no cover"",
+            ""UNPACKING_PARENTS = {'another_parent_type'} # pragma: no cover"",
+            ""class MockLeaf: # pragma: no cover"",
+            ""    def __init__(self, type_: str, parent: 'MockParent' = None): # pragma: no cover"",
+            ""        self.type = type_ # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""class MockParent: # pragma: no cover"",
+            ""    def __init__(self, type_: str, parent: 'MockParent' = None): # pragma: no cover"",
+            ""        self.type = type_ # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            ""within = {'star_expr', 'parent_type'} # pragma: no cover"",
+            ""# Initialize a leaf with an appropriate type and a parent without a parent # pragma: no cover"",
+            ""leaf = MockLeaf('some_special_type', MockParent('star_expr')) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from enum import IntEnum, auto # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf: # pragma: no cover"",
+            ""    def __init__(self, type_, parent=None): # pragma: no cover"",
+            ""        self.type = type_ # pragma: no cover"",
+            ""        self.parent = parent # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class VARARGS_SPECIALS(IntEnum): # pragma: no cover"",
+            ""    TYPE1 = auto() # pragma: no cover"",
+            ""    TYPE2 = auto() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class syms: # pragma: no cover"",
+            ""    star_expr = auto() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""VARARGS_PARENTS = {auto(), auto()} # pragma: no cover"",
+            ""UNPACKING_PARENTS = {auto(), auto()} # pragma: no cover"",
+            ""within = {syms.star_expr} # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""leaf = MockLeaf(syms.star_expr, MockLeaf(syms.star_expr)) # pragma: no cover"",
+            "" # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover"",
+            ""import functools # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""VARARGS_SPECIALS = {1} # pragma: no cover"",
+            ""syms = SimpleNamespace(star_expr=2) # pragma: no cover"",
+            ""within = {2} # pragma: no cover"",
+            ""leaf_parent = type('MockParent', (object,), {'type': 2, 'parent': None}) # pragma: no cover"",
+            ""leaf = type('MockLeaf', (object,), {'type': 1, 'parent': leaf_parent}) # pragma: no cover""
+        ]
+    }
+]",3,496,0.000248,1620,0.00243,0.002678

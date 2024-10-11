@@ -1,0 +1,51 @@
+from flask import Flask, send_from_directory # pragma: no cover
+import typing as t # pragma: no cover
+
+self = type('Mock', (object,), {'has_static_folder': True, 'get_send_file_max_age': lambda self, filename: 3600, 'static_folder': '/path/to/static'})() # pragma: no cover
+filename = 'example.txt' # pragma: no cover
+t.cast = lambda typ, val: val # pragma: no cover
+
+from tempfile import TemporaryDirectory # pragma: no cover
+from flask import Flask, send_from_directory, request_finished # pragma: no cover
+import typing as t # pragma: no cover
+
+app = Flask(__name__) # pragma: no cover
+temp_dir = TemporaryDirectory() # pragma: no cover
+self = type('Mock', (object,), {'has_static_folder': True, 'get_send_file_max_age': lambda self, filename: 3600, 'static_folder': temp_dir.name})() # pragma: no cover
+filename = 'example.txt' # pragma: no cover
+t = type('Mock', (object,), {'cast': lambda typ, val: val}) # pragma: no cover
+with open(f'{self.static_folder}/{filename}', 'w') as f: f.write('This is a test file.') # pragma: no cover
+def setup():# pragma: no cover
+    pass # pragma: no cover
+@app.route('/')# pragma: no cover
+def index():# pragma: no cover
+    max_age = self.get_send_file_max_age(filename)# pragma: no cover
+    return send_from_directory(t.cast(str, self.static_folder), filename, max_age=max_age) # pragma: no cover
+with app.test_client() as client: client.get('/') # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/flask/src/flask/scaffold.py
+from l3.Runtime import _l_
+"""The view function used to serve files from
+        :attr:`static_folder`. A route is automatically registered for
+        this view at :attr:`static_url_path` if :attr:`static_folder` is
+        set.
+
+        .. versionadded:: 0.5
+        """
+if not self.has_static_folder:
+    _l_(22670)
+
+    raise RuntimeError("'static_folder' must be set to serve static_files.")
+    _l_(22669)
+
+# send_file only knows to call get_send_file_max_age on the app,
+# call it here so it works for blueprints too.
+max_age = self.get_send_file_max_age(filename)
+_l_(22671)
+aux = send_from_directory(
+    t.cast(str, self.static_folder), filename, max_age=max_age
+)
+_l_(22672)
+exit(aux)

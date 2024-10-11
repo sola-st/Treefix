@@ -1,0 +1,15 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/core/function/trace_type/trace_type_test.py
+v1 = resource_variable_ops.ResourceVariable([1])
+v2 = resource_variable_ops.ResourceVariable([1])
+v3 = resource_variable_ops.ResourceVariable([1])
+all_unique = trace_type.from_value((v1, v2, v3))
+all_same = trace_type.from_value((v1, v1, v1))
+self.assertNotEqual(all_unique, all_same)
+
+v3 = resource_variable_ops.ResourceVariable([2])
+v4 = resource_variable_ops.ResourceVariable([2])
+v5 = resource_variable_ops.ResourceVariable([2])
+all_unique_again = trace_type.from_value((v3, v4, v5))
+all_same_again = trace_type.from_value((v4, v4, v4))
+self.assertEqual(all_unique, all_unique_again)
+self.assertEqual(all_same, all_same_again)

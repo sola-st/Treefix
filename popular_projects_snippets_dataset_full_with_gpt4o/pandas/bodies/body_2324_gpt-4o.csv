@@ -1,0 +1,330 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+# GH#38729/GH#38742
+df = DataFrame({""A"": [1, 2, 3], ""B"": [4, 5, 6]})
+arr = pd.array([7, pd.NA, 9])
+ser = Series(arr)
+mask = np.ones(df.shape, dtype=bool)
+mask[1, :] = False
+
+# TODO: ideally we would get Int64 instead of object
+result = df.where(mask, ser, axis=0)
+expected = DataFrame({""A"": [1, pd.NA, 3], ""B"": [4, pd.NA, 6]}).astype(object)
+tm.assert_frame_equal(result, expected)
+
+ser2 = Series(arr[:2], index=[""A"", ""B""])
+expected = DataFrame({""A"": [1, 7, 3], ""B"": [4, pd.NA, 6]})
+expected[""B""] = expected[""B""].astype(object)
+result = df.where(mask, ser2, axis=1)
+tm.assert_frame_equal(result, expected)
+
+# end code snippet
+
+# begin undefined variables
+DataFrame
+pd
+Series
+np
+tm
+# end undefined variables
+
+# begin undefined attributes and methods
+pd.array
+pd.NA
+np.ones
+tm.assert_frame_equal
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""from pandas import DataFrame, Series"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class MockTM:\n    @staticmethod\n    def assert_frame_equal(left, right):\n        pd.testing.assert_frame_equal(left, right)\n\ntm = MockTM()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""import pandas.testing as tm""
+        ],
+        ""initialization"": [
+            ""DataFrame = pd.DataFrame"",
+            ""Series = pd.Series"",
+            ""pd.array = pd.array"",
+            ""pd.NA = pd.NA"",
+            ""np.ones = np.ones"",
+            ""tm.assert_frame_equal = tm.assert_frame_equal""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""import pandas.testing as tm"",
+            ""from pandas import DataFrame, Series""
+        ],
+        ""initialization"": [
+            ""pd.array = lambda x: pd.array(x, dtype='Int64')"",
+            ""pd.NA = pd.NA"",
+            ""np.ones = lambda shape, dtype: np.full(shape, 1, dtype)"",
+            ""tm.assert_frame_equal = tm.assert_frame_equal""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""from pandas import DataFrame, Series""
+        ],
+        ""initialization"": [
+            ""pd.array = pd.arrays.PandasArray"",
+            ""pd.NA = pd.NA"",
+            ""np.ones = np.ones"",
+            ""tm = type('Mock', (object,), {'assert_frame_equal': pd.testing.assert_frame_equal})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""import pandas.testing as tm""
+        ],
+        ""initialization"": [
+            ""DataFrame = pd.DataFrame"",
+            ""Series = pd.Series"",
+            ""pd.array = pd.array"",
+            ""pd.NA = pd.NA"",
+            ""np.ones = np.ones"",
+            ""tm.assert_frame_equal = tm.assert_frame_equal""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""import pandas.testing as tm""
+        ],
+        ""initialization"": [
+            ""DataFrame = pd.DataFrame"",
+            ""Series = pd.Series"",
+            ""pd.array = pd.array"",
+            ""pd.NA = pd.NA"",
+            ""np.ones = np.ones"",
+            ""tm = type('Mock', (object,), {'assert_frame_equal': tm.assert_frame_equal})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""import pandas.testing as tm""
+        ],
+        ""initialization"": [
+            ""DataFrame = pd.DataFrame"",
+            ""Series = pd.Series"",
+            ""pd.array = pd.arrays.PandasArray"",
+            ""pd.NA = pd._libs.missing.NA"",
+            ""np.ones = np.ones"",
+            ""tm.assert_frame_equal = pd.testing.assert_frame_equal""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""from pandas import DataFrame, Series""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'assert_frame_equal': lambda x, y: None})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""from pandas import DataFrame, Series"",
+            ""import numpy as np"",
+            ""import pandas._testing as tm""
+        ],
+        ""initialization"": [
+            ""DataFrame = pd.DataFrame"",
+            ""pd = pd"",
+            ""Series = pd.Series"",
+            ""np = np"",
+            ""tm = tm""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""import pandas.testing as tm""
+        ],
+        ""initialization"": [
+            ""DataFrame = pd.DataFrame"",
+            ""Series = pd.Series"",
+            ""pd.array = pd.array"",
+            ""pd.NA = pd.NA"",
+            ""np.ones = np.ones"",
+            ""tm.assert_frame_equal = tm.assert_frame_equal""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""from pandas import DataFrame, Series # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockTM:# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def assert_frame_equal(left, right):# pragma: no cover"",
+            ""        pd.testing.assert_frame_equal(left, right)# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""tm = MockTM() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas.testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""DataFrame = pd.DataFrame # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""pd.array = pd.array # pragma: no cover"",
+            ""pd.NA = pd.NA # pragma: no cover"",
+            ""np.ones = np.ones # pragma: no cover"",
+            ""tm.assert_frame_equal = tm.assert_frame_equal # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas.testing as tm # pragma: no cover"",
+            ""from pandas import DataFrame, Series # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""pd.array = lambda x: pd.array(x, dtype='Int64') # pragma: no cover"",
+            ""pd.NA = pd.NA # pragma: no cover"",
+            ""np.ones = lambda shape, dtype: np.full(shape, 1, dtype) # pragma: no cover"",
+            ""tm.assert_frame_equal = tm.assert_frame_equal # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import DataFrame, Series # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""pd.array = pd.arrays.PandasArray # pragma: no cover"",
+            ""pd.NA = pd.NA # pragma: no cover"",
+            ""np.ones = np.ones # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'assert_frame_equal': pd.testing.assert_frame_equal}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas.testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""DataFrame = pd.DataFrame # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""pd.array = pd.array # pragma: no cover"",
+            ""pd.NA = pd.NA # pragma: no cover"",
+            ""np.ones = np.ones # pragma: no cover"",
+            ""tm.assert_frame_equal = tm.assert_frame_equal # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas.testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""DataFrame = pd.DataFrame # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""pd.array = pd.array # pragma: no cover"",
+            ""pd.NA = pd.NA # pragma: no cover"",
+            ""np.ones = np.ones # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'assert_frame_equal': tm.assert_frame_equal}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas.testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""DataFrame = pd.DataFrame # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""pd.array = pd.arrays.PandasArray # pragma: no cover"",
+            ""pd.NA = pd._libs.missing.NA # pragma: no cover"",
+            ""np.ones = np.ones # pragma: no cover"",
+            ""tm.assert_frame_equal = pd.testing.assert_frame_equal # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas import DataFrame, Series # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'assert_frame_equal': lambda x, y: None}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""from pandas import DataFrame, Series # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas._testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""DataFrame = pd.DataFrame # pragma: no cover"",
+            ""pd = pd # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""np = np # pragma: no cover"",
+            ""tm = tm # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas.testing as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""DataFrame = pd.DataFrame # pragma: no cover"",
+            ""Series = pd.Series # pragma: no cover"",
+            ""pd.array = pd.array # pragma: no cover"",
+            ""pd.NA = pd.NA # pragma: no cover"",
+            ""np.ones = np.ones # pragma: no cover"",
+            ""tm.assert_frame_equal = tm.assert_frame_equal # pragma: no cover""
+        ]
+    }
+]",1,534,0.000267,967,0.0014505,0.0017174999999999998

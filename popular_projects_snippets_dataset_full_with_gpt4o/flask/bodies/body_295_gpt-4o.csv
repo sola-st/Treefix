@@ -1,0 +1,643 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Flashes a message to the next request.  In order to remove the
+    flashed message from the session and to display it to the user,
+    the template has to call :func:`get_flashed_messages`.
+
+    .. versionchanged:: 0.3
+       `category` parameter added.
+
+    :param message: the message to be flashed.
+    :param category: the category for the message.  The following values
+                     are recommended: ``'message'`` for any kind of message,
+                     ``'error'`` for errors, ``'info'`` for information
+                     messages and ``'warning'`` for warnings.  However any
+                     kind of string can be used as category.
+    """"""
+# Original implementation:
+#
+#     session.setdefault('_flashes', []).append((category, message))
+#
+# This assumed that changes made to mutable structures in the session are
+# always in sync with the session object, which is not true for session
+# implementations that use external storage for keeping their keys/values.
+flashes = session.get(""_flashes"", [])
+flashes.append((category, message))
+session[""_flashes""] = flashes
+message_flashed.send(
+    current_app._get_current_object(),  # type: ignore
+    message=message,
+    category=category,
+)
+
+# end code snippet
+
+# begin undefined variables
+session
+category
+message
+message_flashed
+current_app
+# end undefined variables
+
+# begin undefined attributes and methods
+session.get
+message_flashed.send
+current_app._get_current_object
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from flask import Flask, session, flash"",
+            ""from blinker import Namespace""
+        ],
+        ""initialization"": [
+            ""session = {}"",
+            ""category = 'info'"",
+            ""message = 'This is a test message'"",
+            ""message_flashed = Namespace().signal('message_flashed')"",
+            ""current_app = Flask(__name__)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session, flash, get_flashed_messages, copy_current_request_context"",
+            ""from blinker import Namespace""
+        ],
+        ""initialization"": [
+            ""session = {'_flashes': []}"",
+            ""category = 'info'"",
+            ""message = 'This is a sample message.'"",
+            ""namespace = Namespace()"",
+            ""message_flashed = namespace.signal('message-flashed')"",
+            ""current_app = Flask(__name__)"",
+            ""current_app._get_current_object = lambda: current_app""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session"",
+            ""from flask.signals import message_flashed""
+        ],
+        ""initialization"": [
+            ""session = {}"",
+            ""category = 'info'"",
+            ""message = 'This is a test message'"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda self: self})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session"",
+            ""from blinker import signal""
+        ],
+        ""initialization"": [
+            ""session = {}"",
+            ""category = 'info'"",
+            ""message = 'This is a flashed message.'"",
+            ""message_flashed = signal('message-flashed')"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: Flask(__name__)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session"",
+            ""from flask.signals import message_flashed""
+        ],
+        ""initialization"": [
+            ""session = {'_flashes': []}"",
+            ""category = 'info'"",
+            ""message = 'This is a test message.'"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda self: 'current_app'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session"",
+            ""from blinker import Signal""
+        ],
+        ""initialization"": [
+            ""session = {}"",
+            ""category = 'info'"",
+            ""message = 'This is a test message.'"",
+            ""message_flashed = Signal('message_flashed')"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda self: self})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session"",
+            ""from flask.signals import message_flashed""
+        ],
+        ""initialization"": [
+            ""session = {}"",
+            ""category = 'info'"",
+            ""message = 'This is a test message.'"",
+            ""message_flashed = type('Mock', (object,), {'send': lambda *args, **kwargs: None})()"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: Flask(__name__)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session"",
+            ""from blinker import Signal""
+        ],
+        ""initialization"": [
+            ""session = {}"",
+            ""category = 'info'"",
+            ""message = 'This is a test message.'"",
+            ""message_flashed = Signal('message_flashed')"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: 'current_app_object'})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session"",
+            ""from flask.signals import message_flashed""
+        ],
+        ""initialization"": [
+            ""session = {}"",
+            ""category = 'info'"",
+            ""message = 'This is a flash message.'"",
+            ""current_app = Flask(__name__)"",
+            ""current_app._get_current_object = lambda: current_app""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session"",
+            ""from blinker import Signal""
+        ],
+        ""initialization"": [
+            ""session = {}"",
+            ""category = 'message'"",
+            ""message = 'This is a test message.'"",
+            ""message_flashed = Signal('message-flashed')"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: 'mock app'})""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from flask import Flask, session, flash # pragma: no cover"",
+            ""from blinker import Namespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {} # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a test message' # pragma: no cover"",
+            ""message_flashed = Namespace().signal('message_flashed') # pragma: no cover"",
+            ""current_app = Flask(__name__) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session, flash, get_flashed_messages, copy_current_request_context # pragma: no cover"",
+            ""from blinker import Namespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {'_flashes': []} # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a sample message.' # pragma: no cover"",
+            ""namespace = Namespace() # pragma: no cover"",
+            ""message_flashed = namespace.signal('message-flashed') # pragma: no cover"",
+            ""current_app = Flask(__name__) # pragma: no cover"",
+            ""current_app._get_current_object = lambda: current_app # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session # pragma: no cover"",
+            ""from flask.signals import message_flashed # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {} # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a test message' # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda self: self})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session # pragma: no cover"",
+            ""from blinker import signal # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {} # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a flashed message.' # pragma: no cover"",
+            ""message_flashed = signal('message-flashed') # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: Flask(__name__)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session # pragma: no cover"",
+            ""from flask.signals import message_flashed # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {'_flashes': []} # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a test message.' # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda self: 'current_app'})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session # pragma: no cover"",
+            ""from blinker import Signal # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {} # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a test message.' # pragma: no cover"",
+            ""message_flashed = Signal('message_flashed') # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda self: self})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session # pragma: no cover"",
+            ""from flask.signals import message_flashed # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {} # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a test message.' # pragma: no cover"",
+            ""message_flashed = type('Mock', (object,), {'send': lambda *args, **kwargs: None})() # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: Flask(__name__)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session # pragma: no cover"",
+            ""from blinker import Signal # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {} # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a test message.' # pragma: no cover"",
+            ""message_flashed = Signal('message_flashed') # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: 'current_app_object'}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session # pragma: no cover"",
+            ""from flask.signals import message_flashed # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {} # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a flash message.' # pragma: no cover"",
+            ""current_app = Flask(__name__) # pragma: no cover"",
+            ""current_app._get_current_object = lambda: current_app # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session # pragma: no cover"",
+            ""from blinker import Signal # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {} # pragma: no cover"",
+            ""category = 'message' # pragma: no cover"",
+            ""message = 'This is a test message.' # pragma: no cover"",
+            ""message_flashed = Signal('message-flashed') # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: 'mock app'}) # pragma: no cover""
+        ]
+    }
+]",1,585,0.0002925,1044,0.001566,0.0018585
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Flashes a message to the next request.  In order to remove the
+    flashed message from the session and to display it to the user,
+    the template has to call :func:`get_flashed_messages`.
+
+    .. versionchanged:: 0.3
+       `category` parameter added.
+
+    :param message: the message to be flashed.
+    :param category: the category for the message.  The following values
+                     are recommended: ``'message'`` for any kind of message,
+                     ``'error'`` for errors, ``'info'`` for information
+                     messages and ``'warning'`` for warnings.  However any
+                     kind of string can be used as category.
+    """"""
+# Original implementation:
+#
+#     session.setdefault('_flashes', []).append((category, message))
+#
+# This assumed that changes made to mutable structures in the session are
+# always in sync with the session object, which is not true for session
+# implementations that use external storage for keeping their keys/values.
+flashes = session.get(""_flashes"", [])
+flashes.append((category, message))
+session[""_flashes""] = flashes
+message_flashed.send(
+    current_app._get_current_object(),  # type: ignore
+    message=message,
+    category=category,
+)
+
+# end code snippet
+
+# begin undefined variables
+session
+category
+message
+message_flashed
+current_app
+# end undefined variables
+
+# begin undefined attributes and methods
+session.get
+message_flashed.send
+current_app._get_current_object
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from flask import Flask, session as flask_session, got_request_exception"",
+            ""from blinker import Namespace""
+        ],
+        ""initialization"": [
+            ""session = flask_session"",
+            ""category = 'info'"",
+            ""message = 'This is a flash message.'"",
+            ""message_flashed = Namespace().signal('message-flashed')"",
+            ""current_app = Flask(__name__)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session as flask_session, Markup"",
+            ""from blinker import Namespace""
+        ],
+        ""initialization"": [
+            ""session = flask_session"",
+            ""category = 'info'"",
+            ""message = 'Test message'"",
+            ""namespace = Namespace()"",
+            ""message_flashed = namespace.signal('message-flashed')"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda self: Flask('test_app')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session"",
+            ""from blinker import Signal""
+        ],
+        ""initialization"": [
+            ""session = {}"",
+            ""category = 'info'"",
+            ""message = 'This is a test message'"",
+            ""message_flashed = Signal('message-flashed')"",
+            ""current_app = type('MockApp', (object,), {'_get_current_object': lambda self: 'mock_app'})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session"",
+            ""from blinker import Signal""
+        ],
+        ""initialization"": [
+            ""session = {}"",
+            ""category = 'message'"",
+            ""message = 'This is a test message'"",
+            ""message_flashed = Signal('message-flashed')"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda self: Flask(__name__)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session, g"",
+            ""from flask.signals import message_flashed""
+        ],
+        ""initialization"": [
+            ""session = {'_flashes': []}"",
+            ""category = 'info'"",
+            ""message = 'This is a test message.'"",
+            ""current_app = Flask(__name__)"",
+            ""current_app._get_current_object = lambda: current_app""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, Dict"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""session = {'_flashes': []}"",
+            ""category = 'info'"",
+            ""message = 'This is a flash message.'"",
+            ""message_flashed = type('Mock', (object,), {'send': lambda *args, **kwargs: None})()"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session"",
+            ""from blinker import Signal""
+        ],
+        ""initialization"": [
+            ""session = {}"",
+            ""category = 'info'"",
+            ""message = 'This is a flashed message.'"",
+            ""message_flashed = Signal('message-flashed')"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda self: Flask(__name__)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session"",
+            ""from flask.signals import message_flashed""
+        ],
+        ""initialization"": [
+            ""session = {}"",
+            ""category = 'info'"",
+            ""message = 'This is a test message.'"",
+            ""message_flashed = type('MockMessageFlashed', (object,), {'send': lambda *args, **kwargs: None})()"",
+            ""current_app = type('MockCurrentApp', (object,), {'_get_current_object': lambda: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session"",
+            ""from flask.signals import message_flashed""
+        ],
+        ""initialization"": [
+            ""session = {}"",
+            ""category = 'info'"",
+            ""message = 'This is a test message.'"",
+            ""message_flashed = type('Mock', (object,), {'send': lambda *args, **kwargs: None})"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session, Flask"",
+            ""from blinker import Namespace""
+        ],
+        ""initialization"": [
+            ""session = {'_flashes': []}"",
+            ""category = 'info'"",
+            ""message = 'This is a test message'"",
+            ""message_flashed = Namespace().signal('message-flashed')"",
+            ""current_app = type('Mock', (Flask,), {'_get_current_object': lambda self: self})(__name__)""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from flask import Flask, session as flask_session, got_request_exception # pragma: no cover"",
+            ""from blinker import Namespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = flask_session # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a flash message.' # pragma: no cover"",
+            ""message_flashed = Namespace().signal('message-flashed') # pragma: no cover"",
+            ""current_app = Flask(__name__) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from blinker import Namespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'Test message' # pragma: no cover"",
+            ""namespace = Namespace() # pragma: no cover"",
+            ""message_flashed = namespace.signal('message-flashed') # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda self: Flask('test_app')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session # pragma: no cover"",
+            ""from blinker import Signal # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {} # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a test message' # pragma: no cover"",
+            ""message_flashed = Signal('message-flashed') # pragma: no cover"",
+            ""current_app = type('MockApp', (object,), {'_get_current_object': lambda self: 'mock_app'})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session # pragma: no cover"",
+            ""from blinker import Signal # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {} # pragma: no cover"",
+            ""category = 'message' # pragma: no cover"",
+            ""message = 'This is a test message' # pragma: no cover"",
+            ""message_flashed = Signal('message-flashed') # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda self: Flask(__name__)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session, g # pragma: no cover"",
+            ""from flask.signals import message_flashed # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {'_flashes': []} # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a test message.' # pragma: no cover"",
+            ""current_app = Flask(__name__) # pragma: no cover"",
+            ""current_app._get_current_object = lambda: current_app # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, Dict # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {'_flashes': []} # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a flash message.' # pragma: no cover"",
+            ""message_flashed = type('Mock', (object,), {'send': lambda *args, **kwargs: None})() # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session # pragma: no cover"",
+            ""from blinker import Signal # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {} # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a flashed message.' # pragma: no cover"",
+            ""message_flashed = Signal('message-flashed') # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda self: Flask(__name__)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session # pragma: no cover"",
+            ""from flask.signals import message_flashed # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {} # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a test message.' # pragma: no cover"",
+            ""message_flashed = type('MockMessageFlashed', (object,), {'send': lambda *args, **kwargs: None})() # pragma: no cover"",
+            ""current_app = type('MockCurrentApp', (object,), {'_get_current_object': lambda: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session # pragma: no cover"",
+            ""from flask.signals import message_flashed # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {} # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a test message.' # pragma: no cover"",
+            ""message_flashed = type('Mock', (object,), {'send': lambda *args, **kwargs: None}) # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, session, Flask # pragma: no cover"",
+            ""from blinker import Namespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""session = {'_flashes': []} # pragma: no cover"",
+            ""category = 'info' # pragma: no cover"",
+            ""message = 'This is a test message' # pragma: no cover"",
+            ""message_flashed = Namespace().signal('message-flashed') # pragma: no cover"",
+            ""current_app = type('Mock', (Flask,), {'_get_current_object': lambda self: self})(__name__) # pragma: no cover""
+        ]
+    }
+]",1,585,0.0002925,1110,0.001665,0.0019575

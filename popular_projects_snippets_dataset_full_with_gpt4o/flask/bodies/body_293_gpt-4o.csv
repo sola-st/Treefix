@@ -1,0 +1,325 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Raise an :exc:`~werkzeug.exceptions.HTTPException` for the given
+    status code.
+
+    If :data:`~flask.current_app` is available, it will call its
+    :attr:`~flask.Flask.aborter` object, otherwise it will use
+    :func:`werkzeug.exceptions.abort`.
+
+    :param code: The status code for the exception, which must be
+        registered in ``app.aborter``.
+    :param args: Passed to the exception.
+    :param kwargs: Passed to the exception.
+
+    .. versionadded:: 2.2
+        Calls ``current_app.aborter`` if available instead of always
+        using Werkzeug's default ``abort``.
+    """"""
+if current_app:
+    current_app.aborter(code, *args, **kwargs)
+
+_wz_abort(code, *args, **kwargs)
+
+# end code snippet
+
+# begin undefined variables
+current_app
+code
+args
+kwargs
+_wz_abort
+# end undefined variables
+
+# begin undefined attributes and methods
+current_app.aborter
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app"",
+            ""from werkzeug.exceptions import abort as _wz_abort""
+        ],
+        ""initialization"": [
+            ""current_app = type('Mock', (object,), {'aborter': lambda code, *args, **kwargs: 'Exception raised'})()"",
+            ""code = 404"",
+            ""args = ()"",
+            ""kwargs = {}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app"",
+            ""from werkzeug.exceptions import HTTPException, abort as _wz_abort""
+        ],
+        ""initialization"": [
+            ""current_app = Flask(__name__).test_request_context().push()"",
+            ""current_app = type('Mock', (object,), {'aborter': lambda code, *args, **kwargs: None})"",
+            ""code = 404"",
+            ""args = ()"",
+            ""kwargs = {}"",
+            ""_wz_abort = lambda code, *args, **kwargs: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import abort as _wz_abort"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""current_app = SimpleNamespace(aborter=lambda code, *args, **kwargs: print(f\""Called aborter with code {code}, args {args}, kwargs {kwargs}\""))"",
+            ""code = 404"",
+            ""args = ('Resource not found',)"",
+            ""kwargs = {'description': 'The requested resource could not be found'}"",
+            ""_wz_abort = lambda code, *args, **kwargs: print(f\""Fallback abort called with code {code}, args {args}, kwargs {kwargs}\"")""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask"",
+            ""from flask import current_app as flask_current_app"",
+            ""import werkzeug.exceptions""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""_aborter = type('AborterMock', (object,), {'__call__': lambda self, code, *args, **kwargs: print(f'Current App Aborter called with code: {code}, args: {args}, kwargs: {kwargs}')})()"",
+            ""app.aborter = _aborter"",
+            ""flask_current_app = app.test_request_context().push()"",
+            ""code = 400"",
+            ""args = ()"",
+            ""kwargs = {}"",
+            ""_wz_abort = lambda code, *args, **kwargs: print(f'Werkzeug abort called with code: {code}, args: {args}, kwargs: {kwargs}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException"",
+            ""from flask import Flask""
+        ],
+        ""initialization"": [
+            ""current_app = type('Mock', (object,), {'aborter': lambda code, *args, **kwargs: HTTPException()})()"",
+            ""code = 404"",
+            ""args = ()"",
+            ""kwargs = {}"",
+            ""_wz_abort = lambda code, *args, **kwargs: HTTPException()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app as flask_current_app"",
+            ""from werkzeug.exceptions import abort as wz_abort""
+        ],
+        ""initialization"": [
+            ""current_app = type('MockApp', (object,), {'aborter': lambda code, *args, **kwargs: print(f'aborter called with code: {code}, args: {args}, kwargs: {kwargs}')})()"",
+            ""code = 404"",
+            ""args = ('Not Found',)"",
+            ""kwargs = {'description': 'The requested resource was not found.'}"",
+            ""_wz_abort = lambda code, *args, **kwargs: print(f'_wz_abort called with code: {code}, args: {args}, kwargs: {kwargs}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""ctx = app.app_context()"",
+            ""ctx.push()"",
+            ""current_app = app"",
+            ""code = 404"",
+            ""args = ('Page not found',)"",
+            ""kwargs = {'description': 'The requested URL was not found on the server.'}"",
+            ""_wz_abort = lambda code, *args, **kwargs: HTTPException(description=kwargs.get('description', ''))"",
+            ""current_app.aborter = lambda code, *args, **kwargs: HTTPException(description=kwargs.get('description', ''))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app"",
+            ""from werkzeug.exceptions import HTTPException""
+        ],
+        ""initialization"": [
+            ""current_app = type('MockCurrentApp', (object,), {'aborter': lambda code, *args, **kwargs: HTTPException(description=f'Mock aborter called with code: {code}, args: {args}, kwargs: {kwargs}')})()"",
+            ""code = 404"",
+            ""args = ('Not Found',)"",
+            ""kwargs = {}"",
+            ""def _wz_abort(code, *args, **kwargs): raise HTTPException(description=f'_wz_abort called with code: {code}, args: {args}, kwargs: {kwargs}')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app"",
+            ""from werkzeug.exceptions import abort""
+        ],
+        ""initialization"": [
+            ""code = 404"",
+            ""args = ('Resource not found',)"",
+            ""kwargs = {}"",
+            ""_wz_abort = abort"",
+            ""current_app = type('MockFlaskApp', (object,), {'aborter': abort})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app"",
+            ""from werkzeug.exceptions import abort as _wz_abort""
+        ],
+        ""initialization"": [
+            ""current_app = type('Mock', (object,), {'aborter': lambda code, *args, **kwargs: 'called aborter'})"",
+            ""code = 404"",
+            ""args = ('Not Found',)"",
+            ""kwargs = {'description': 'The requested resource could not be found.'}""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover"",
+            ""from werkzeug.exceptions import abort as _wz_abort # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""current_app = type('Mock', (object,), {'aborter': lambda code, *args, **kwargs: 'Exception raised'})() # pragma: no cover"",
+            ""code = 404 # pragma: no cover"",
+            ""args = () # pragma: no cover"",
+            ""kwargs = {} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover"",
+            ""from werkzeug.exceptions import HTTPException, abort as _wz_abort # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""current_app = Flask(__name__).test_request_context().push() # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'aborter': lambda code, *args, **kwargs: None}) # pragma: no cover"",
+            ""code = 404 # pragma: no cover"",
+            ""args = () # pragma: no cover"",
+            ""kwargs = {} # pragma: no cover"",
+            ""_wz_abort = lambda code, *args, **kwargs: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import abort as _wz_abort # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""current_app = SimpleNamespace(aborter=lambda code, *args, **kwargs: print(f\""Called aborter with code {code}, args {args}, kwargs {kwargs}\"")) # pragma: no cover"",
+            ""code = 404 # pragma: no cover"",
+            ""args = ('Resource not found',) # pragma: no cover"",
+            ""kwargs = {'description': 'The requested resource could not be found'} # pragma: no cover"",
+            ""_wz_abort = lambda code, *args, **kwargs: print(f\""Fallback abort called with code {code}, args {args}, kwargs {kwargs}\"") # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask # pragma: no cover"",
+            ""from flask import current_app as flask_current_app # pragma: no cover"",
+            ""import werkzeug.exceptions # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""_aborter = type('AborterMock', (object,), {'__call__': lambda self, code, *args, **kwargs: print(f'Current App Aborter called with code: {code}, args: {args}, kwargs: {kwargs}')})() # pragma: no cover"",
+            ""app.aborter = _aborter # pragma: no cover"",
+            ""flask_current_app = app.test_request_context().push() # pragma: no cover"",
+            ""code = 400 # pragma: no cover"",
+            ""args = () # pragma: no cover"",
+            ""kwargs = {} # pragma: no cover"",
+            ""_wz_abort = lambda code, *args, **kwargs: print(f'Werkzeug abort called with code: {code}, args: {args}, kwargs: {kwargs}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover"",
+            ""from flask import Flask # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""current_app = type('Mock', (object,), {'aborter': lambda code, *args, **kwargs: HTTPException()})() # pragma: no cover"",
+            ""code = 404 # pragma: no cover"",
+            ""args = () # pragma: no cover"",
+            ""kwargs = {} # pragma: no cover"",
+            ""_wz_abort = lambda code, *args, **kwargs: HTTPException() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app as flask_current_app # pragma: no cover"",
+            ""from werkzeug.exceptions import abort as wz_abort # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""current_app = type('MockApp', (object,), {'aborter': lambda code, *args, **kwargs: print(f'aborter called with code: {code}, args: {args}, kwargs: {kwargs}')})() # pragma: no cover"",
+            ""code = 404 # pragma: no cover"",
+            ""args = ('Not Found',) # pragma: no cover"",
+            ""kwargs = {'description': 'The requested resource was not found.'} # pragma: no cover"",
+            ""_wz_abort = lambda code, *args, **kwargs: print(f'_wz_abort called with code: {code}, args: {args}, kwargs: {kwargs}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover"",
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""ctx = app.app_context() # pragma: no cover"",
+            ""ctx.push() # pragma: no cover"",
+            ""current_app = app # pragma: no cover"",
+            ""code = 404 # pragma: no cover"",
+            ""args = ('Page not found',) # pragma: no cover"",
+            ""kwargs = {'description': 'The requested URL was not found on the server.'} # pragma: no cover"",
+            ""_wz_abort = lambda code, *args, **kwargs: HTTPException(description=kwargs.get('description', '')) # pragma: no cover"",
+            ""current_app.aborter = lambda code, *args, **kwargs: HTTPException(description=kwargs.get('description', '')) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover"",
+            ""from werkzeug.exceptions import HTTPException # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""current_app = type('MockCurrentApp', (object,), {'aborter': lambda code, *args, **kwargs: HTTPException(description=f'Mock aborter called with code: {code}, args: {args}, kwargs: {kwargs}')})() # pragma: no cover"",
+            ""code = 404 # pragma: no cover"",
+            ""args = ('Not Found',) # pragma: no cover"",
+            ""kwargs = {} # pragma: no cover"",
+            ""def _wz_abort(code, *args, **kwargs): raise HTTPException(description=f'_wz_abort called with code: {code}, args: {args}, kwargs: {kwargs}') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover"",
+            ""from werkzeug.exceptions import abort # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""code = 404 # pragma: no cover"",
+            ""args = ('Resource not found',) # pragma: no cover"",
+            ""kwargs = {} # pragma: no cover"",
+            ""_wz_abort = abort # pragma: no cover"",
+            ""current_app = type('MockFlaskApp', (object,), {'aborter': abort})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover"",
+            ""from werkzeug.exceptions import abort as _wz_abort # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""current_app = type('Mock', (object,), {'aborter': lambda code, *args, **kwargs: 'called aborter'}) # pragma: no cover"",
+            ""code = 404 # pragma: no cover"",
+            ""args = ('Not Found',) # pragma: no cover"",
+            ""kwargs = {'description': 'The requested resource could not be found.'} # pragma: no cover""
+        ]
+    }
+]",1,479,0.0002395,1382,0.002073,0.0023125000000000003

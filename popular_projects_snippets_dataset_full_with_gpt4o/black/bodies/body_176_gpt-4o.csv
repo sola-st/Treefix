@@ -1,0 +1,270 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""See `can_omit_invisible_parens`.""""""
+length = 4 * line.depth
+seen_other_brackets = False
+for _index, leaf, leaf_length in line.enumerate_with_length():
+    length += leaf_length
+    if leaf is last.opening_bracket:
+        if seen_other_brackets or length <= line_length:
+            exit(True)
+
+    elif leaf.type in OPENING_BRACKETS:
+        # There are brackets we can further split on.
+        seen_other_brackets = True
+
+exit(False)
+
+# end code snippet
+
+# begin undefined variables
+line
+last
+line_length
+OPENING_BRACKETS
+# end undefined variables
+
+# begin undefined attributes and methods
+line.depth
+line.enumerate_with_length
+last.opening_bracket
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""class MockLine:\n    def __init__(self, depth: int, leaves: List[Tuple[int, str, int]]):\n        self.depth = depth\n        self.leaves = leaves\n    def enumerate_with_length(self):\n        for item in self.leaves:\n            yield item"",
+            ""line = MockLine(depth=1, leaves=[(0, '(', 1), (1, 'a', 1), (2, ')', 1)])"",
+            ""class MockLast:\n    def __init__(self, opening_bracket: str):\n        self.opening_bracket = opening_bracket"",
+            ""last = MockLast(opening_bracket='(')"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""line = SimpleNamespace(depth=2, enumerate_with_length=lambda: enumerate([('leaf1', 1), ('leaf2', 2), ('leaf3', 3)]))"",
+            ""last = SimpleNamespace(opening_bracket='leaf2')"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple"",
+            ""from collections.abc import Iterator""
+        ],
+        ""initialization"": [
+            ""line = type('Mock', (object,), {'depth': 2, 'enumerate_with_length': lambda self: iter([(0, type('Leaf', (object,), {'type': 'bracket'})(), 1), (1, type('Leaf', (object,), {'type': 'bracket'})(), 1)])})()"",
+            ""last = type('Mock', (object,), {'opening_bracket': type('Leaf', (object,), {'type': 'bracket'})()})()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'bracket'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""line_length = 80"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}"",
+            ""line = type('Mock', (object,), {'depth': 1, 'enumerate_with_length': lambda self: enumerate([('leaf1', 10), ('leaf2', 20), ('(', 1)], start=1)})()"",
+            ""last = type('Mock', (object,), {'opening_bracket': '('})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import namedtuple""
+        ],
+        ""initialization"": [
+            ""line = type('Mock', (object,), {'depth': 2, 'enumerate_with_length': lambda self: enumerate([(None, 1), (None, 1), (None, 1), (None, 1)])})()"",
+            ""last = type('Mock', (object,), {'opening_bracket': None})()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""line = type('Mock', (object,), {'depth': 1, 'enumerate_with_length': lambda self: enumerate([(None, 'leaf1', 1), (None, 'leaf2', 1), (None, 'leaf3', 1)])})()"",
+            ""last = type('Mock', (object,), {'opening_bracket': 'leaf1'})()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'leaf1', 'leaf2'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""line = type('Mock', (object,), {'depth': 1, 'enumerate_with_length': lambda self: enumerate([(0, type('Leaf', (object,), {'length': 2, 'type': 'bracket'})(), 2)], 1)})()"",
+            ""last = type('Mock', (object,), {'opening_bracket': type('Leaf', (object,), {'type': 'bracket'})()})()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'bracket'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import namedtuple""
+        ],
+        ""initialization"": [
+            ""line = type(\""Mock\"", (object,), {\""depth\"": 1, \""enumerate_with_length\"": lambda: enumerate([('leaf1', 2), ('leaf2', 3)], start=1)})()"",
+            ""last = type(\""Mock\"", (object,), {\""opening_bracket\"": 'leaf2'})()"",
+            ""line_length = 10"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""line_length = 100"",
+            ""line = type('Mock', (object,), {'depth': 2, 'enumerate_with_length': lambda self: enumerate([(None, '(', 1), (None, 'a', 1), (None, '(', 1), (None, 'b', 1)], 1)})()"",
+            ""last = type('Mock', (object,), {'opening_bracket': '('})()"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""line = type('Mock', (object,), {'depth': 2, 'enumerate_with_length': lambda self: enumerate([('leaf', 'leaf_value', 5)], 1)})()"",
+            ""last = type('Mock', (object,), {'opening_bracket': 'leaf_value'})()"",
+            ""line_length = 20"",
+            ""OPENING_BRACKETS = {'(', '[', '{'}""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLine:# pragma: no cover"",
+            ""    def __init__(self, depth: int, leaves: List[Tuple[int, str, int]]):# pragma: no cover"",
+            ""        self.depth = depth# pragma: no cover"",
+            ""        self.leaves = leaves# pragma: no cover"",
+            ""    def enumerate_with_length(self):# pragma: no cover"",
+            ""        for item in self.leaves:# pragma: no cover"",
+            ""            yield item # pragma: no cover"",
+            ""line = MockLine(depth=1, leaves=[(0, '(', 1), (1, 'a', 1), (2, ')', 1)]) # pragma: no cover"",
+            ""class MockLast:# pragma: no cover"",
+            ""    def __init__(self, opening_bracket: str):# pragma: no cover"",
+            ""        self.opening_bracket = opening_bracket # pragma: no cover"",
+            ""last = MockLast(opening_bracket='(') # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""line = SimpleNamespace(depth=2, enumerate_with_length=lambda: enumerate([('leaf1', 1), ('leaf2', 2), ('leaf3', 3)])) # pragma: no cover"",
+            ""last = SimpleNamespace(opening_bracket='leaf2') # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Tuple # pragma: no cover"",
+            ""from collections.abc import Iterator # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""line = type('Mock', (object,), {'depth': 2, 'enumerate_with_length': lambda self: iter([(0, type('Leaf', (object,), {'type': 'bracket'})(), 1), (1, type('Leaf', (object,), {'type': 'bracket'})(), 1)])})() # pragma: no cover"",
+            ""last = type('Mock', (object,), {'opening_bracket': type('Leaf', (object,), {'type': 'bracket'})()})() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'bracket'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""line_length = 80 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover"",
+            ""line = type('Mock', (object,), {'depth': 1, 'enumerate_with_length': lambda self: enumerate([('leaf1', 10), ('leaf2', 20), ('(', 1)], start=1)})() # pragma: no cover"",
+            ""last = type('Mock', (object,), {'opening_bracket': '('}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import namedtuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""line = type('Mock', (object,), {'depth': 2, 'enumerate_with_length': lambda self: enumerate([(None, 1), (None, 1), (None, 1), (None, 1)])})() # pragma: no cover"",
+            ""last = type('Mock', (object,), {'opening_bracket': None})() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""line = type('Mock', (object,), {'depth': 1, 'enumerate_with_length': lambda self: enumerate([(None, 'leaf1', 1), (None, 'leaf2', 1), (None, 'leaf3', 1)])})() # pragma: no cover"",
+            ""last = type('Mock', (object,), {'opening_bracket': 'leaf1'})() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'leaf1', 'leaf2'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""line = type('Mock', (object,), {'depth': 1, 'enumerate_with_length': lambda self: enumerate([(0, type('Leaf', (object,), {'length': 2, 'type': 'bracket'})(), 2)], 1)})() # pragma: no cover"",
+            ""last = type('Mock', (object,), {'opening_bracket': type('Leaf', (object,), {'type': 'bracket'})()})() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'bracket'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import namedtuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""line = type(\""Mock\"", (object,), {\""depth\"": 1, \""enumerate_with_length\"": lambda: enumerate([('leaf1', 2), ('leaf2', 3)], start=1)})() # pragma: no cover"",
+            ""last = type(\""Mock\"", (object,), {\""opening_bracket\"": 'leaf2'})() # pragma: no cover"",
+            ""line_length = 10 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""line_length = 100 # pragma: no cover"",
+            ""line = type('Mock', (object,), {'depth': 2, 'enumerate_with_length': lambda self: enumerate([(None, '(', 1), (None, 'a', 1), (None, '(', 1), (None, 'b', 1)], 1)})() # pragma: no cover"",
+            ""last = type('Mock', (object,), {'opening_bracket': '('})() # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""line = type('Mock', (object,), {'depth': 2, 'enumerate_with_length': lambda self: enumerate([('leaf', 'leaf_value', 5)], 1)})() # pragma: no cover"",
+            ""last = type('Mock', (object,), {'opening_bracket': 'leaf_value'})() # pragma: no cover"",
+            ""line_length = 20 # pragma: no cover"",
+            ""OPENING_BRACKETS = {'(', '[', '{'} # pragma: no cover""
+        ]
+    }
+]",1,420,0.00021,1345,0.0020175,0.0022275000000000003

@@ -1,0 +1,15 @@
+class Mock: # pragma: no cover
+    def assertDatasetProduces(self, ds, expected_output): # pragma: no cover
+        actual_output = list(ds.as_numpy_iterator()) # pragma: no cover
+        expected_output_cleaned = [(x[0], None) for x in expected_output] # pragma: no cover
+        assert actual_output == expected_output_cleaned, f'Expected {expected_output}, but got {actual_output}' # pragma: no cover
+self = Mock() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/data/kernel_tests/as_numpy_iterator_test.py
+from l3.Runtime import _l_
+ds = dataset_ops.Dataset.from_tensors((2, None))
+_l_(21082)
+self.assertDatasetProduces(ds, [(2, None)])
+_l_(21083)

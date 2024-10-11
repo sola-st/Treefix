@@ -1,0 +1,21 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/tpu/client/client_test.py
+test_cases = [
+    ({
+        'projects/test-project/locations/us-central1-c/nodes/tpu_name': {
+            'state':
+                'READY',
+            'symptoms': [{
+                'createTime': '2000-01-01T00:29:30.123456Z',
+                'symptomType': 'OUT_OF_MEMORY',
+                'details': 'The TPU runtime has run OOM at timestamp '
+                           '2020-05-29T04:51:32.038721+00:00',
+                'workerId': '0'
+            }]
+        }
+    }, True),
+]
+
+for tpu_map, want in test_cases:
+    c = client.Client(tpu='grpc://1.2.3.4:8470',
+                      service=self.mock_service_client(tpu_map=tpu_map))
+    self.assertEqual(want, c.recoverable())

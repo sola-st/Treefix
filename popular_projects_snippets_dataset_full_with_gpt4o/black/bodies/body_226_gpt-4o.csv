@@ -1,0 +1,3594 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Reformat multiple files using a ProcessPoolExecutor.""""""
+maybe_install_uvloop()
+
+executor: Executor
+if workers is None:
+    workers = os.cpu_count() or 1
+if sys.platform == ""win32"":
+    # Work around https://bugs.python.org/issue26903
+    workers = min(workers, 60)
+try:
+    executor = ProcessPoolExecutor(max_workers=workers)
+except (ImportError, NotImplementedError, OSError):
+    # we arrive here if the underlying system does not support multi-processing
+    # like in AWS Lambda or Termux, in which case we gracefully fallback to
+    # a ThreadPoolExecutor with just a single worker (more workers would not do us
+    # any good due to the Global Interpreter Lock)
+    executor = ThreadPoolExecutor(max_workers=1)
+
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
+try:
+    loop.run_until_complete(
+        schedule_formatting(
+            sources=sources,
+            fast=fast,
+            write_back=write_back,
+            mode=mode,
+            report=report,
+            loop=loop,
+            executor=executor,
+        )
+    )
+finally:
+    try:
+        shutdown(loop)
+    finally:
+        asyncio.set_event_loop(None)
+    if executor is not None:
+        executor.shutdown()
+
+# end code snippet
+
+# begin undefined variables
+maybe_install_uvloop
+Executor
+workers
+os
+sys
+ProcessPoolExecutor
+ThreadPoolExecutor
+asyncio
+schedule_formatting
+sources
+fast
+write_back
+mode
+report
+shutdown
+# end undefined variables
+
+# begin undefined attributes and methods
+os.cpu_count
+sys.platform
+asyncio.new_event_loop
+asyncio.set_event_loop
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor"",
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None"",
+            ""workers = None"",
+            ""sources: List[str] = []"",
+            ""fast = False"",
+            ""write_back = 'diff'"",
+            ""mode = 'default_mode'"",
+            ""report = lambda x: None"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor):\n    return asyncio.sleep(0.1)"",
+            ""def shutdown(loop):\n    pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor"",
+            ""import asyncio"",
+            ""import os"",
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'no_write'"",
+            ""mode = 'default_mode'"",
+            ""report = 'default_report'"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'strict'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = True"",
+            ""write_back = True"",
+            ""mode = 'default'"",
+            ""report = 'report.txt'"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor"",
+            ""import asyncio""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop():\n    pass"",
+            ""workers = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor):\n    pass"",
+            ""sources = []"",
+            ""fast = True"",
+            ""write_back = None"",
+            ""mode = None"",
+            ""report = None"",
+            ""def shutdown(loop):\n    pass"",
+            ""os.cpu_count = lambda: 4"",
+            ""sys.platform = 'linux'"",
+            ""asyncio.new_event_loop = lambda: asyncio.get_event_loop()"",
+            ""asyncio.set_event_loop = lambda loop: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""schedule_formatting = type('Mock', (object,), {'__init__': lambda self, **kwargs: None, '__call__': asyncio.coroutine(lambda self, *args: None)})()"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'test-mode'"",
+            ""report = 'test-report'"",
+            ""shutdown = lambda loop: loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None"",
+            ""Executor = type('MockExecutor', (object,), {})"",
+            ""workers = None"",
+            ""schedule_formatting = lambda sources, fast, write_back, mode, report, loop, executor: asyncio.sleep(0)"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""shutdown = lambda loop: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None"",
+            ""Executor = type('Executor', (object,), {})"",
+            ""workers = None"",
+            ""os.cpu_count = lambda: 4"",
+            ""sys.platform = 'win32'"",
+            ""schedule_formatting = async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""shutdown = lambda loop: loop.close()"",
+            ""asyncio.new_event_loop = asyncio.new_event_loop"",
+            ""asyncio.set_event_loop = asyncio.set_event_loop""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop():\n    pass"",
+            ""workers = None"",
+            ""class MockExecutor(Executor):\n    def submit(self, fn, *args, **kwargs):\n        pass\n    def shutdown(self, wait=True):\n        pass"",
+            ""Executor = MockExecutor"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor):\n    async def dummy_task():\n        pass\n    return dummy_task()"",
+            ""def shutdown(loop):\n    loop.close()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover"",
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources: List[str] = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'diff' # pragma: no cover"",
+            ""mode = 'default_mode' # pragma: no cover"",
+            ""report = lambda x: None # pragma: no cover"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor):# pragma: no cover"",
+            ""    return asyncio.sleep(0.1) # pragma: no cover"",
+            ""def shutdown(loop):# pragma: no cover"",
+            ""    pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'no_write' # pragma: no cover"",
+            ""mode = 'default_mode' # pragma: no cover"",
+            ""report = 'default_report' # pragma: no cover"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'strict' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = True # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = 'report.txt' # pragma: no cover"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover"",
+            ""import asyncio # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop():# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor):# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = None # pragma: no cover"",
+            ""mode = None # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""def shutdown(loop):# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""os.cpu_count = lambda: 4 # pragma: no cover"",
+            ""sys.platform = 'linux' # pragma: no cover"",
+            ""asyncio.new_event_loop = lambda: asyncio.get_event_loop() # pragma: no cover"",
+            ""asyncio.set_event_loop = lambda loop: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""schedule_formatting = type('Mock', (object,), {'__init__': lambda self, **kwargs: None, '__call__': asyncio.coroutine(lambda self, *args: None)})() # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'test-mode' # pragma: no cover"",
+            ""report = 'test-report' # pragma: no cover"",
+            ""shutdown = lambda loop: loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None # pragma: no cover"",
+            ""Executor = type('MockExecutor', (object,), {}) # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""schedule_formatting = lambda sources, fast, write_back, mode, report, loop, executor: asyncio.sleep(0) # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""shutdown = lambda loop: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None # pragma: no cover"",
+            ""Executor = type('Executor', (object,), {}) # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""os.cpu_count = lambda: 4 # pragma: no cover"",
+            ""sys.platform = 'win32' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop():# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""class MockExecutor(Executor):# pragma: no cover"",
+            ""    def submit(self, fn, *args, **kwargs):# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    def shutdown(self, wait=True):# pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""Executor = MockExecutor # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor):# pragma: no cover"",
+            ""    async def dummy_task():# pragma: no cover"",
+            ""        pass# pragma: no cover"",
+            ""    return dummy_task() # pragma: no cover"",
+            ""def shutdown(loop):# pragma: no cover"",
+            ""    loop.close() # pragma: no cover""
+        ]
+    }
+]",1,610,0.000305,1624,0.002436,0.002741
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 39:
+    raise TypeError('An asyncio.Future, a coroutine or an awaitable is '
+TypeError: An asyncio.Future, a coroutine or an awaitable is required
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor"",
+            ""import asyncio"",
+            ""import os"",
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor):"",
+            ""    # Simulate async processing"",
+            ""    await asyncio.sleep(0.1)"",
+            ""def shutdown(loop):"",
+            ""    loop.stop()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor"",
+            ""import asyncio"",
+            ""import os"",
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor"",
+            ""import asyncio"",
+            ""import os"",
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor"",
+            ""import asyncio"",
+            ""import os"",
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor"",
+            ""import asyncio"",
+            ""import os"",
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def dummy_coroutine(): pass"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): await dummy_coroutine()"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor"",
+            ""import asyncio"",
+            ""import os"",
+            ""import sys"",
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources: List[str] = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor"",
+            ""import asyncio"",
+            ""import os"",
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = ['source1.py', 'source2.py']"",
+            ""fast = True"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def example_coro(): pass"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): return example_coro()"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor"",
+            ""import asyncio"",
+            ""import os"",
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = True"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor):"",
+            ""    await asyncio.sleep(1)"",
+            ""def shutdown(loop):"",
+            ""    loop.stop()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor"",
+            ""import asyncio"",
+            ""import os"",
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): return"",
+            ""async def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor"",
+            ""import asyncio"",
+            ""import os"",
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): await asyncio.sleep(0.1)"",
+            ""def shutdown(loop): loop.stop()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): # pragma: no cover"",
+            ""    # Simulate async processing # pragma: no cover"",
+            ""    await asyncio.sleep(0.1) # pragma: no cover"",
+            ""def shutdown(loop): # pragma: no cover"",
+            ""    loop.stop() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def dummy_coroutine(): pass # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): await dummy_coroutine() # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources: List[str] = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['source1.py', 'source2.py'] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def example_coro(): pass # pragma: no cover"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): return example_coro() # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): # pragma: no cover"",
+            ""    await asyncio.sleep(1) # pragma: no cover"",
+            ""def shutdown(loop): # pragma: no cover"",
+            ""    loop.stop() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): return # pragma: no cover"",
+            ""async def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): await asyncio.sleep(0.1) # pragma: no cover"",
+            ""def shutdown(loop): loop.stop() # pragma: no cover""
+        ]
+    }
+]",2,1055,0.0005275,1562,0.002343,0.0028705
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 38:
+    raise TypeError('An asyncio.Future, a coroutine or an awaitable is '
+TypeError: An asyncio.Future, a coroutine or an awaitable is required
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'no_write'"",
+            ""mode = 'default_mode'"",
+            ""report = 'default_report'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""async def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'no_write'"",
+            ""mode = 'default_mode'"",
+            ""report = 'default_report'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'no_write'"",
+            ""mode = 'default_mode'"",
+            ""report = 'default_report'"",
+            ""async def dummy_coroutine(): return"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): return dummy_coroutine()"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None"",
+            ""workers = None"",
+            ""sources = ['file1.txt', 'file2.txt']"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'default'"",
+            ""report = 'default_report'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = True"",
+            ""write_back = 'replace'"",
+            ""mode = 'mode_config'"",
+            ""report = 'report_config'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): await asyncio.sleep(1)"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'no_write' # pragma: no cover"",
+            ""mode = 'default_mode' # pragma: no cover"",
+            ""report = 'default_report' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""async def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'no_write' # pragma: no cover"",
+            ""mode = 'default_mode' # pragma: no cover"",
+            ""report = 'default_report' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'no_write' # pragma: no cover"",
+            ""mode = 'default_mode' # pragma: no cover"",
+            ""report = 'default_report' # pragma: no cover"",
+            ""async def dummy_coroutine(): return # pragma: no cover"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): return dummy_coroutine() # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.txt', 'file2.txt'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = 'default_report' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'mode_config' # pragma: no cover"",
+            ""report = 'report_config' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): await asyncio.sleep(1) # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    }
+]",2,1501,0.0007505,1472,0.002208,0.0029584999999999
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 38:
+    raise TypeError('An asyncio.Future, a coroutine or an awaitable is '
+TypeError: An asyncio.Future, a coroutine or an awaitable is required
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = True"",
+            ""write_back = True"",
+            ""mode = 'default'"",
+            ""report = 'report.txt'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = ['file1.txt', 'file2.txt']"",
+            ""fast = False"",
+            ""write_back = True"",
+            ""mode = 'default_mode'"",
+            ""report = 'default_report'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): await asyncio.sleep(0)"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = True"",
+            ""write_back = 'replace'"",
+            ""mode = 'default_mode'"",
+            ""report = object()"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): return"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = True"",
+            ""write_back = True"",
+            ""mode = 'default'"",
+            ""report = 'report.txt'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): return"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = ['file1.txt', 'file2.txt']"",
+            ""fast = True"",
+            ""write_back = True"",
+            ""mode = 'default'"",
+            ""report = 'default_report'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = True"",
+            ""write_back = True"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = True"",
+            ""write_back = True"",
+            ""mode = 'default'"",
+            ""report = 'default_report'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): return"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = True"",
+            ""write_back = True"",
+            ""mode = 'default'"",
+            ""report = 'report.txt'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = ['source_file.py']"",
+            ""fast = True"",
+            ""write_back = False"",
+            ""mode = 'default'"",
+            ""report = 'default_report'"",
+            ""async def sample_coroutine(): pass"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): return sample_coroutine()"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor"",
+            ""from concurrent.futures import Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = True"",
+            ""write_back = True"",
+            ""mode = 'default'"",
+            ""report = 'report.txt'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = True # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = 'report.txt' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.txt', 'file2.txt'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = True # pragma: no cover"",
+            ""mode = 'default_mode' # pragma: no cover"",
+            ""report = 'default_report' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): await asyncio.sleep(0) # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'default_mode' # pragma: no cover"",
+            ""report = object() # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): return # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = True # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = 'report.txt' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): return # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.txt', 'file2.txt'] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = True # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = 'default_report' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = True # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = True # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = 'default_report' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): return # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = True # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = 'report.txt' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['source_file.py'] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = 'default_report' # pragma: no cover"",
+            ""async def sample_coroutine(): pass # pragma: no cover"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): return sample_coroutine() # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover"",
+            ""from concurrent.futures import Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = True # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = 'report.txt' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    }
+]",2,1943,0.0009715,1458,0.002187,0.0031585
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 38:
+    res = func(*args, **kw)
+TypeError: <lambda>() got an unexpected keyword argument 'sources'
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'default'"",
+            ""report = 'report.txt'"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = True"",
+            ""mode = 'test-mode'"",
+            ""report = 'test-report'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'test-mode'"",
+            ""report = None"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = True"",
+            ""write_back = 'in-place'"",
+            ""mode = 'default'"",
+            ""report = 'verbose'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = True"",
+            ""mode = 'mode'"",
+            ""report = 'report'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): return"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'test-mode'"",
+            ""report = 'test-report'"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = True"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = True"",
+            ""write_back = False"",
+            ""mode = 'test-mode'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = True"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'default_write_back'"",
+            ""mode = 'default_mode'"",
+            ""report = 'default_report'"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = 'report.txt' # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = True # pragma: no cover"",
+            ""mode = 'test-mode' # pragma: no cover"",
+            ""report = 'test-report' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'test-mode' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = 'in-place' # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = 'verbose' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = True # pragma: no cover"",
+            ""mode = 'mode' # pragma: no cover"",
+            ""report = 'report' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): return # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'test-mode' # pragma: no cover"",
+            ""report = 'test-report' # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'test-mode' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'default_write_back' # pragma: no cover"",
+            ""mode = 'default_mode' # pragma: no cover"",
+            ""report = 'default_report' # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    }
+]",2,2400,0.0012,1472,0.002208,0.0034079999999999
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line 47:
+    shutdown(loop)
+NameError: name 'shutdown' is not defined
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None"",
+            ""Executor = type('Executor', (object,), {})"",
+            ""workers = None"",
+            ""os.cpu_count = lambda: 4"",
+            ""sys.platform = 'win32'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""def shutdown(loop): loop.close()"",
+            ""asyncio.new_event_loop = asyncio.new_event_loop"",
+            ""asyncio.set_event_loop = asyncio.set_event_loop""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = type('Executor', (object,), {})"",
+            ""workers = None"",
+            ""os.cpu_count = lambda: 4"",
+            ""sys.platform = 'win32'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""def shutdown(loop): loop.close()"",
+            ""asyncio.new_event_loop = asyncio.new_event_loop"",
+            ""asyncio.set_event_loop = asyncio.set_event_loop""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None"",
+            ""Executor = type('Executor', (object,), {})"",
+            ""workers = None"",
+            ""os.cpu_count = lambda: 4"",
+            ""sys.platform = 'win32'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""def shutdown(loop): loop.close()"",
+            ""asyncio.new_event_loop = asyncio.new_event_loop"",
+            ""asyncio.set_event_loop = asyncio.set_event_loop""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = type('Executor', (object,), {})"",
+            ""workers = None"",
+            ""os.cpu_count = lambda: 4"",
+            ""sys.platform = 'win32'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): await asyncio.sleep(0)"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = True"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = type('Executor', (object,), {})"",
+            ""workers = None"",
+            ""os.cpu_count = lambda: 4"",
+            ""sys.platform = 'win32'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = 'report.txt'"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = type('Executor', (object,), {})"",
+            ""workers = None"",
+            ""os.cpu_count = lambda: 4"",
+            ""sys.platform = 'win32'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = type('Executor', (object,), {})"",
+            ""workers = None"",
+            ""os.cpu_count = lambda: 4"",
+            ""sys.platform = 'win32'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None"",
+            ""Executor = type('Executor', (object,), {})"",
+            ""workers = None"",
+            ""os.cpu_count = lambda: 4"",
+            ""sys.platform = 'win32'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None"",
+            ""Executor = type('Executor', (object,), {})"",
+            ""workers = None"",
+            ""os.cpu_count = lambda: 4"",
+            ""sys.platform = 'win32'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""def shutdown(loop): loop.close()"",
+            ""asyncio.new_event_loop = asyncio.new_event_loop"",
+            ""asyncio.set_event_loop = asyncio.set_event_loop""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""Executor = object"",
+            ""workers = None"",
+            ""os.cpu_count = lambda: 4"",
+            ""sys.platform = 'win32'"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""def shutdown(loop): pass""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None # pragma: no cover"",
+            ""Executor = type('Executor', (object,), {}) # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""os.cpu_count = lambda: 4 # pragma: no cover"",
+            ""sys.platform = 'win32' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover"",
+            ""asyncio.new_event_loop = asyncio.new_event_loop # pragma: no cover"",
+            ""asyncio.set_event_loop = asyncio.set_event_loop # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = type('Executor', (object,), {}) # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""os.cpu_count = lambda: 4 # pragma: no cover"",
+            ""sys.platform = 'win32' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover"",
+            ""asyncio.new_event_loop = asyncio.new_event_loop # pragma: no cover"",
+            ""asyncio.set_event_loop = asyncio.set_event_loop # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None # pragma: no cover"",
+            ""Executor = type('Executor', (object,), {}) # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""os.cpu_count = lambda: 4 # pragma: no cover"",
+            ""sys.platform = 'win32' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover"",
+            ""asyncio.new_event_loop = asyncio.new_event_loop # pragma: no cover"",
+            ""asyncio.set_event_loop = asyncio.set_event_loop # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = type('Executor', (object,), {}) # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""os.cpu_count = lambda: 4 # pragma: no cover"",
+            ""sys.platform = 'win32' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): await asyncio.sleep(0) # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = True # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = type('Executor', (object,), {}) # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""os.cpu_count = lambda: 4 # pragma: no cover"",
+            ""sys.platform = 'win32' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = 'report.txt' # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = type('Executor', (object,), {}) # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""os.cpu_count = lambda: 4 # pragma: no cover"",
+            ""sys.platform = 'win32' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = type('Executor', (object,), {}) # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""os.cpu_count = lambda: 4 # pragma: no cover"",
+            ""sys.platform = 'win32' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None # pragma: no cover"",
+            ""Executor = type('Executor', (object,), {}) # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""os.cpu_count = lambda: 4 # pragma: no cover"",
+            ""sys.platform = 'win32' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""maybe_install_uvloop = lambda: None # pragma: no cover"",
+            ""Executor = type('Executor', (object,), {}) # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""os.cpu_count = lambda: 4 # pragma: no cover"",
+            ""sys.platform = 'win32' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover"",
+            ""asyncio.new_event_loop = asyncio.new_event_loop # pragma: no cover"",
+            ""asyncio.set_event_loop = asyncio.set_event_loop # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""Executor = object # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""os.cpu_count = lambda: 4 # pragma: no cover"",
+            ""sys.platform = 'win32' # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    }
+]",2,2888,0.001444,1802,0.002703,0.004147
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Reformat multiple files using a ProcessPoolExecutor.""""""
+maybe_install_uvloop()
+executor: Executor
+if workers is None:
+    workers = os.cpu_count() or 1
+if sys.platform == ""win32"":
+    # Work around https://bugs.python.org/issue26903
+    workers = min(workers, 60)
+try:
+    executor = ProcessPoolExecutor(max_workers=workers)
+except (ImportError, NotImplementedError, OSError): # uncovered
+    # we arrive here if the underlying system does not support multi-processing
+    # like in AWS Lambda or Termux, in which case we gracefully fallback to
+    # a ThreadPoolExecutor with just a single worker (more workers would not do us
+    # any good due to the Global Interpreter Lock)
+    executor = ThreadPoolExecutor(max_workers=1) # uncovered
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
+try:
+    loop.run_until_complete( # uncovered
+        schedule_formatting( # uncovered
+            sources=sources, # uncovered
+            fast=fast, # uncovered
+            write_back=write_back, # uncovered
+            mode=mode, # uncovered
+            report=report, # uncovered
+            loop=loop, # uncovered
+            executor=executor, # uncovered
+        ) # uncovered
+    )
+finally:
+    try:
+        shutdown(loop)
+    finally:
+        asyncio.set_event_loop(None)
+    if executor is not None:
+        executor.shutdown()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor"",
+            ""from typing import Tuple, Dict, Any""
+        ],
+        ""initialization"": [
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = None"",
+            ""mode = None"",
+            ""report = None"",
+            ""def maybe_install_uvloop(): pass"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor"",
+            ""import os"",
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'diff'"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""workers = None"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor):\n    async def dummy(): pass\n    loop.run_until_complete(dummy())"",
+            ""def shutdown(loop):\n    loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor"",
+            ""from concurrent.futures import Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""def shutdown(loop): pass"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'NONE'"",
+            ""mode = None"",
+            ""report = type('Mock', (object,), {'__call__': lambda self, *args, **kwargs: None})()"",
+            ""workers = None"",
+            ""executor = None"",
+            ""async def schedule_formatting(*, sources, fast, write_back, mode, report, loop, executor): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop():"",
+            ""    pass"",
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = \""\"""",
+            ""mode = \""\"""",
+            ""report = \""\"""",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor):"",
+            ""    async def async_task():"",
+            ""        pass"",
+            ""    return async_task()"",
+            ""def shutdown(loop):"",
+            ""    loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor"",
+            ""from typing import Optional, Union""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop():"",
+            ""    pass"",
+            ""workers: Optional[int] = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = True"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor):"",
+            ""    pass"",
+            ""def shutdown(loop):"",
+            ""    pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'diff'"",
+            ""mode = type('Mock', (object,), {'from_config': lambda x: x})"",
+            ""report = type('Mock', (object,), {'add_success': lambda self, x: x, 'done': lambda self: None})"",
+            ""workers = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor"",
+            ""from asyncio import AbstractEventLoop"",
+            ""type('Mock', (object,), dict(maybe_install_uvloop=lambda: None, shutdown=lambda loop: None, schedule_formatting=lambda **kwargs: asyncio.sleep(0))(maybe_install_uvloop))""
+        ],
+        ""initialization"": [
+            ""workers = None"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'diff'"",
+            ""mode = type('Mode', (object,), {})()"",
+            ""report = type('Report', (object,), {})()"",
+            ""executor = None"",
+            ""loop = None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import Executor, ProcessPoolExecutor, ThreadPoolExecutor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = None"",
+            ""report = type(\""Mock\"", (object,), {})()"",
+            ""workers = None"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor"",
+            ""from typing import Optional, Iterable""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""sources: Iterable[str] = ['file1.py', 'file2.py']"",
+            ""fast: bool = False"",
+            ""write_back: bool = True"",
+            ""mode: str = 'replace'"",
+            ""report: Optional[object] = None"",
+            ""workers: Optional[int] = 1,"",
+            ""async def schedule_formatting(sources: Iterable[str], fast: bool, write_back: bool, mode: str, report: Optional[object], loop: asyncio.AbstractEventLoop, executor: Executor) -> None:"",
+            ""    print('Formatting scheduled')"",
+            ""def shutdown(loop: asyncio.AbstractEventLoop): pass""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover"",
+            ""from typing import Tuple, Dict, Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = None # pragma: no cover"",
+            ""mode = None # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'diff' # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor):# pragma: no cover"",
+            ""    async def dummy(): pass# pragma: no cover"",
+            ""    loop.run_until_complete(dummy()) # pragma: no cover"",
+            ""def shutdown(loop):# pragma: no cover"",
+            ""    loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover"",
+            ""from concurrent.futures import Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'NONE' # pragma: no cover"",
+            ""mode = None # pragma: no cover"",
+            ""report = type('Mock', (object,), {'__call__': lambda self, *args, **kwargs: None})() # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""executor = None # pragma: no cover"",
+            ""async def schedule_formatting(*, sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = \""\"" # pragma: no cover"",
+            ""mode = \""\"" # pragma: no cover"",
+            ""report = \""\"" # pragma: no cover"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): # pragma: no cover"",
+            ""    async def async_task(): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""    return async_task() # pragma: no cover"",
+            ""def shutdown(loop): # pragma: no cover"",
+            ""    loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover"",
+            ""from typing import Optional, Union # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""workers: Optional[int] = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = True # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""def shutdown(loop): # pragma: no cover"",
+            ""    pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'diff' # pragma: no cover"",
+            ""mode = type('Mock', (object,), {'from_config': lambda x: x}) # pragma: no cover"",
+            ""report = type('Mock', (object,), {'add_success': lambda self, x: x, 'done': lambda self: None}) # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover"",
+            ""from asyncio import AbstractEventLoop # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""workers = None # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'diff' # pragma: no cover"",
+            ""mode = type('Mode', (object,), {})() # pragma: no cover"",
+            ""report = type('Report', (object,), {})() # pragma: no cover"",
+            ""executor = None # pragma: no cover"",
+            ""loop = None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import Executor, ProcessPoolExecutor, ThreadPoolExecutor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = None # pragma: no cover"",
+            ""report = type(\""Mock\"", (object,), {})() # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover"",
+            ""from typing import Optional, Iterable # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""sources: Iterable[str] = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast: bool = False # pragma: no cover"",
+            ""write_back: bool = True # pragma: no cover"",
+            ""mode: str = 'replace' # pragma: no cover"",
+            ""report: Optional[object] = None # pragma: no cover"",
+            ""workers: Optional[int] = 1, # pragma: no cover"",
+            ""async def schedule_formatting(sources: Iterable[str], fast: bool, write_back: bool, mode: str, report: Optional[object], loop: asyncio.AbstractEventLoop, executor: Executor) -> None: # pragma: no cover"",
+            ""    print('Formatting scheduled') # pragma: no cover"",
+            ""def shutdown(loop: asyncio.AbstractEventLoop): pass # pragma: no cover""
+        ]
+    }
+]",3,595,0.0002975,1636,0.002454,0.0027515
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Reformat multiple files using a ProcessPoolExecutor.""""""
+maybe_install_uvloop()
+executor: Executor
+if workers is None:
+    workers = os.cpu_count() or 1
+if sys.platform == ""win32"":
+    # Work around https://bugs.python.org/issue26903
+    workers = min(workers, 60)
+try:
+    executor = ProcessPoolExecutor(max_workers=workers)
+except (ImportError, NotImplementedError, OSError): # uncovered
+    # we arrive here if the underlying system does not support multi-processing
+    # like in AWS Lambda or Termux, in which case we gracefully fallback to
+    # a ThreadPoolExecutor with just a single worker (more workers would not do us
+    # any good due to the Global Interpreter Lock)
+    executor = ThreadPoolExecutor(max_workers=1) # uncovered
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
+try:
+    loop.run_until_complete( # uncovered
+        schedule_formatting( # uncovered
+            sources=sources, # uncovered
+            fast=fast, # uncovered
+            write_back=write_back, # uncovered
+            mode=mode, # uncovered
+            report=report, # uncovered
+            loop=loop, # uncovered
+            executor=executor, # uncovered
+        ) # uncovered
+    )
+finally:
+    try:
+        shutdown(loop)
+    finally:
+        asyncio.set_event_loop(None)
+    if executor is not None:
+        executor.shutdown()
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = 1"",
+            ""sources = ['file1.py']"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = type('Mode', (object,), {})()"",
+            ""report = type('Report', (object,), {})()"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass"",
+            ""import builtins"",
+            ""builtins.ImportError = OSError""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""class MockExecutor(Executor):"",
+            ""    def __init__(self, *args, **kwargs): pass"",
+            ""    def submit(self, fn, *args, **kwargs): pass"",
+            ""workers = 1"",
+            ""def maybe_install_uvloop(): pass"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'auto'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor):"",
+            ""    await asyncio.sleep(0)"",
+            ""def shutdown(loop):"",
+            ""    loop.close()"",
+            ""raise ImportError()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = 0"",
+            ""# Setting workers to 0 will always trigger the fallback to ThreadPoolExecutor."",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = None"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = 1"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = 'replace'"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""class MockExecutor(ThreadPoolExecutor): pass"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""sources = []"",
+            ""fast = False"",
+            ""write_back = 'diff'"",
+            ""mode = 'default'"",
+            ""report = type('Mock', (object,), {})()"",
+            ""workers = None"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor):"",
+            ""    async def task():"",
+            ""        pass"",
+            ""    return task()"",
+            ""def shutdown(loop):"",
+            ""    loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = ['example.py']"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = 'default'"",
+            ""report = 'report'"",
+            ""class CallableMock:"",
+            ""    def __call__(self, *args, **kwargs):"",
+            ""        pass"",
+            ""schedule_formatting = CallableMock()"",
+            ""def shutdown(loop): pass"",
+            ""original_ProcessPoolExecutor = ProcessPoolExecutor"",
+            ""class MockPoolExecutor:"",
+            ""    def __init__(self, *args, **kwargs):"",
+            ""        raise ImportError"",
+            ""ProcessPoolExecutor = MockPoolExecutor""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = 0  # forces entering the except block"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = True"",
+            ""mode = 'default'"",
+            ""report = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""workers = None"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = 'diff'"",
+            ""mode = 'default'"",
+            ""report = type('Mock', (object,), {'add_success': lambda self, x: None, 'done': lambda self: None})()"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor):"",
+            ""    await asyncio.sleep(0)"",
+            ""def shutdown(loop): pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = 'in-place'"",
+            ""mode = type('Mode', (object,), {})()"",
+            ""report = type('Report', (object,), {})()"",
+            ""workers = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor):"",
+            ""    pass"",
+            ""def shutdown(loop):"",
+            ""    pass"",
+            ""executor = None"",
+            ""try: raise NotImplementedError"",
+            ""except (ImportError, NotImplementedError, OSError):"",
+            ""    executor = ThreadPoolExecutor(max_workers=1)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import asyncio"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass"",
+            ""sources = ['file1.py', 'file2.py']"",
+            ""fast = False"",
+            ""write_back = False"",
+            ""mode = type('Mock', (object,), {})()"",
+            ""report = type('Mock', (object,), {})()"",
+            ""workers = 0"",
+            ""executor = None"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass"",
+            ""def shutdown(loop): loop.close()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = 1 # pragma: no cover"",
+            ""sources = ['file1.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = type('Mode', (object,), {})() # pragma: no cover"",
+            ""report = type('Report', (object,), {})() # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover"",
+            ""builtins.ImportError = OSError # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockExecutor(Executor): # pragma: no cover"",
+            ""    def __init__(self, *args, **kwargs): pass # pragma: no cover"",
+            ""    def submit(self, fn, *args, **kwargs): pass # pragma: no cover"",
+            ""workers = 1 # pragma: no cover"",
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'auto' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): # pragma: no cover"",
+            ""    await asyncio.sleep(0) # pragma: no cover"",
+            ""def shutdown(loop): # pragma: no cover"",
+            ""    loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = 0 # pragma: no cover"",
+            ""# Setting workers to 0 will always trigger the fallback to ThreadPoolExecutor. # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = None # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = 1 # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'replace' # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""class MockExecutor(ThreadPoolExecutor): pass # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""sources = [] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'diff' # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = type('Mock', (object,), {})() # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): # pragma: no cover"",
+            ""    async def task(): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""    return task() # pragma: no cover"",
+            ""def shutdown(loop): # pragma: no cover"",
+            ""    loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['example.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = 'report' # pragma: no cover"",
+            ""class CallableMock: # pragma: no cover"",
+            ""    def __call__(self, *args, **kwargs): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""schedule_formatting = CallableMock() # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover"",
+            ""original_ProcessPoolExecutor = ProcessPoolExecutor # pragma: no cover"",
+            ""class MockPoolExecutor: # pragma: no cover"",
+            ""    def __init__(self, *args, **kwargs): # pragma: no cover"",
+            ""        raise ImportError # pragma: no cover"",
+            ""ProcessPoolExecutor = MockPoolExecutor # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = 0  # forces entering the except block # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = True # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'diff' # pragma: no cover"",
+            ""mode = 'default' # pragma: no cover"",
+            ""report = type('Mock', (object,), {'add_success': lambda self, x: None, 'done': lambda self: None})() # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): # pragma: no cover"",
+            ""    await asyncio.sleep(0) # pragma: no cover"",
+            ""def shutdown(loop): pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = 'in-place' # pragma: no cover"",
+            ""mode = type('Mode', (object,), {})() # pragma: no cover"",
+            ""report = type('Report', (object,), {})() # pragma: no cover"",
+            ""workers = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""def shutdown(loop): # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""executor = None # pragma: no cover"",
+            ""try: raise NotImplementedError # pragma: no cover"",
+            ""except (ImportError, NotImplementedError, OSError): # pragma: no cover"",
+            ""    executor = ThreadPoolExecutor(max_workers=1) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import asyncio # pragma: no cover"",
+            ""from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, Executor # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def maybe_install_uvloop(): pass # pragma: no cover"",
+            ""sources = ['file1.py', 'file2.py'] # pragma: no cover"",
+            ""fast = False # pragma: no cover"",
+            ""write_back = False # pragma: no cover"",
+            ""mode = type('Mock', (object,), {})() # pragma: no cover"",
+            ""report = type('Mock', (object,), {})() # pragma: no cover"",
+            ""workers = 0 # pragma: no cover"",
+            ""executor = None # pragma: no cover"",
+            ""async def schedule_formatting(sources, fast, write_back, mode, report, loop, executor): pass # pragma: no cover"",
+            ""def shutdown(loop): loop.close() # pragma: no cover""
+        ]
+    }
+]",3,2803,0.0014015,1784,0.002676,0.0040774999999999995

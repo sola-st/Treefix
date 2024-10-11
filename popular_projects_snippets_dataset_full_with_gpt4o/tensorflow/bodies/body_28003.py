@@ -1,0 +1,16 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/data/kernel_tests/fixed_length_record_dataset_test.py
+test_filenames = self._createFiles()
+test_filenames = [pathlib.Path(f) for f in test_filenames]
+dataset = readers.FixedLengthRecordDataset(
+    test_filenames,
+    self._record_bytes,
+    self._header_bytes,
+    self._footer_bytes,
+    buffer_size=10,
+    num_parallel_reads=4)
+expected_output = []
+for j in range(self._num_files):
+    expected_output.extend(
+        [self._record(j, i) for i in range(self._num_records)])
+self.assertDatasetProduces(dataset, expected_output=expected_output,
+                           assert_items_equal=True)

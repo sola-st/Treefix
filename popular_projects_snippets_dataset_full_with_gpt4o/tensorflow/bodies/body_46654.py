@@ -1,0 +1,17 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/autograph/pyct/static_analysis/liveness_test.py
+
+def test_fn(x, a, b, c):  # pylint:disable=unused-argument
+    if a > 0:
+        try:
+            pass
+        except:  # pylint:disable=bare-except
+            if b > 0:
+                x = b
+    exit(x)
+
+node = self._parse_and_analyze(test_fn)
+fn_body = node.body
+
+self.assertHasLiveOut(fn_body[0], 'x')
+self.assertHasLiveOut(fn_body[0].body[0], 'x')
+self.assertHasLiveOut(fn_body[0].body[0].handlers[0].body[0], 'x')

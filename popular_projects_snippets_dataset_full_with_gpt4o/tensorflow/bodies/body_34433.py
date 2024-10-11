@@ -1,0 +1,32 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/data_structures/fifo_queue_test.py
+with self.session() as sess:
+    q_empty = data_flow_ops.FIFOQueue(5, dtypes_lib.float32, ())
+    dequeue_op = q_empty.dequeue()
+    dequeue_many_op = q_empty.dequeue_many(1)
+
+    q_full = data_flow_ops.FIFOQueue(5, dtypes_lib.float32)
+    sess.run(q_full.enqueue_many(([1.0, 2.0, 3.0, 4.0, 5.0],)))
+    enqueue_op = q_full.enqueue((6.0,))
+    enqueue_many_op = q_full.enqueue_many(([6.0],))
+
+    threads = [
+        self.checkedThread(
+            self._blockingDequeue, args=(sess, dequeue_op)),
+        self.checkedThread(
+            self._blockingDequeueMany, args=(sess, dequeue_many_op)),
+        self.checkedThread(
+            self._blockingEnqueue, args=(sess, enqueue_op)),
+        self.checkedThread(
+            self._blockingEnqueueMany, args=(sess, enqueue_many_op))
+    ]
+    for t in threads:
+        t.start()
+    time.sleep(0.1)
+    sess.close()  # Will cancel the blocked operations.
+    for t in threads:
+        t.join()
+
+    # Create a new session that hasn't been closed, so cached_session
+    # isn't messed up.
+with self.session() as sess:
+    pass

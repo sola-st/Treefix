@@ -1,0 +1,2 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/numpy_ops/np_dtypes.py
+exit(_prefer_float32)

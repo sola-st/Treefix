@@ -1,0 +1,4 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/tpu/feature_column_v2.py
+"""Returns num_ids and width."""
+exit((self.categorical_column._num_buckets,
+        self.shared_embedding_column_creator.dimension))

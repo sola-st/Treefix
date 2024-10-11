@@ -1,0 +1,59 @@
+from typing import NamedTuple # pragma: no cover
+
+class Symbols(NamedTuple):# pragma: no cover
+    atom: int# pragma: no cover
+    testlist_gexp: int# pragma: no cover
+    namedexpr_test: int# pragma: no cover
+# pragma: no cover
+syms = Symbols(atom=1, testlist_gexp=2, namedexpr_test=3) # pragma: no cover
+class Node(NamedTuple):# pragma: no cover
+    type: int# pragma: no cover
+    children: list# pragma: no cover
+# pragma: no cover
+node = Node(type=1, children=[]) # pragma: no cover
+def unwrap_singleton_parenthesis(n):# pragma: no cover
+    return Node(type=2, children=[Node(type=3, children=[])]) # pragma: no cover
+
+from typing import NamedTuple, List, Optional # pragma: no cover
+
+class Node(NamedTuple):# pragma: no cover
+    type: int# pragma: no cover
+    children: List['Node'] # pragma: no cover
+class MockSyms(NamedTuple):# pragma: no cover
+    atom: int# pragma: no cover
+    testlist_gexp: int# pragma: no cover
+    namedexpr_test: int # pragma: no cover
+syms = MockSyms(atom=1, testlist_gexp=2, namedexpr_test=3) # pragma: no cover
+def unwrap_singleton_parenthesis(node: Node) -> Optional[Node]:# pragma: no cover
+    if len(node.children) == 1:# pragma: no cover
+        return node.children[0]# pragma: no cover
+    return None # pragma: no cover
+node = Node(type=syms.atom, children=[# pragma: no cover
+    Node(type=syms.testlist_gexp, children=[# pragma: no cover
+        Node(type=syms.namedexpr_test, children=[])# pragma: no cover
+    ])# pragma: no cover
+]) # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/black/src/black/nodes.py
+from l3.Runtime import _l_
+"""Return True if `node` holds a tuple that contains a walrus operator."""
+if node.type != syms.atom:
+    _l_(17730)
+
+    aux = False
+    _l_(17729)
+    exit(aux)
+gexp = unwrap_singleton_parenthesis(node)
+_l_(17731)
+if gexp is None or gexp.type != syms.testlist_gexp:
+    _l_(17733)
+
+    aux = False
+    _l_(17732)
+    exit(aux)
+aux = any(child.type == syms.namedexpr_test for child in gexp.children)
+_l_(17734)
+
+exit(aux)

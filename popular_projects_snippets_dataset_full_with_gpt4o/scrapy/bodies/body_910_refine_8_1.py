@@ -1,0 +1,86 @@
+from typing import NamedTuple, Dict # pragma: no cover
+from types import SimpleNamespace # pragma: no cover
+
+url = 'http://example.com' # pragma: no cover
+result = { 'txresponse': SimpleNamespace(version=(b'HTTP', 1, 1), code=200), 'body': b'<!DOCTYPE html>', 'flags': [], 'certificate': None, 'ip_address': '127.0.0.1', 'failure': None } # pragma: no cover
+to_unicode = lambda x: x.decode('utf-8') if isinstance(x, bytes) else str(x) # pragma: no cover
+
+from typing import NamedTuple, Dict, Any # pragma: no cover
+
+class MockSelf: # pragma: no cover
+    def _headers_from_twisted_response(self, response: Any) -> Dict[str, Any]: # pragma: no cover
+        return {'Content-Type': 'text/html'} # pragma: no cover
+ # pragma: no cover
+class MockResponse(NamedTuple): # pragma: no cover
+    url: str # pragma: no cover
+    status: int # pragma: no cover
+    headers: Dict[str, Any] # pragma: no cover
+    body: bytes # pragma: no cover
+    flags: list # pragma: no cover
+    certificate: Any # pragma: no cover
+    ip_address: str # pragma: no cover
+    protocol: str # pragma: no cover
+ # pragma: no cover
+class MockResponsetypes: # pragma: no cover
+    def from_args(self, headers: Dict[str, Any], url: str, body: bytes) -> Any: # pragma: no cover
+        return MockResponse # pragma: no cover
+ # pragma: no cover
+self = MockSelf() # pragma: no cover
+ # pragma: no cover
+url = 'http://example.com' # pragma: no cover
+ # pragma: no cover
+result = { # pragma: no cover
+    'txresponse': type('txresponse', (object,), { 'version': (b'HTTP', 1, 1), 'code': 200 })(), # pragma: no cover
+    'body': b'<html></html>', # pragma: no cover
+    'flags': [], # pragma: no cover
+    'certificate': None, # pragma: no cover
+    'ip_address': '127.0.0.1', # pragma: no cover
+    'failure': None # pragma: no cover
+} # pragma: no cover
+ # pragma: no cover
+responsetypes = MockResponsetypes() # pragma: no cover
+ # pragma: no cover
+to_unicode = lambda x: x.decode('utf-8') if isinstance(x, bytes) else str(x) # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/scrapy/scrapy/core/downloader/handlers/http11.py
+from l3.Runtime import _l_
+headers = self._headers_from_twisted_response(result["txresponse"])
+_l_(18561)
+respcls = responsetypes.from_args(headers=headers, url=url, body=result["body"])
+_l_(18562)
+try:
+    _l_(18567)
+
+    version = result["txresponse"].version
+    _l_(18563)
+    protocol = f"{to_unicode(version[0])}/{version[1]}.{version[2]}"
+    _l_(18564)
+except (AttributeError, TypeError, IndexError):
+    _l_(18566)
+
+    protocol = None
+    _l_(18565)
+response = respcls(
+    url=url,
+    status=int(result["txresponse"].code),
+    headers=headers,
+    body=result["body"],
+    flags=result["flags"],
+    certificate=result["certificate"],
+    ip_address=result["ip_address"],
+    protocol=protocol,
+)
+_l_(18568)
+if result.get("failure"):
+    _l_(18571)
+
+    result["failure"].value.response = response
+    _l_(18569)
+    aux = result["failure"]
+    _l_(18570)
+    exit(aux)
+aux = response
+_l_(18572)
+exit(aux)

@@ -1,0 +1,25 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/strings_ops/unicode_transcode_op_test.py
+strings = [[b"a", b"abc"], [b"ABC", b"DEF"]]
+
+with self.cached_session() as sess:
+    outputs = string_ops.unicode_transcode(
+        strings,
+        input_encoding="invalid",
+        output_encoding="UTF-8",
+        errors="replace",
+        replacement_char=ord(" "),
+        replace_control_characters=False)
+    with self.assertRaisesOpError(
+        "Could not create converter for input encoding: invalid"):
+        self.evaluate(outputs)
+
+with self.assertRaisesRegex(ValueError, "Op passed string 'invalid'"):
+    with self.cached_session() as sess:
+        outputs = string_ops.unicode_transcode(
+            strings,
+            input_encoding="UTF-8",
+            output_encoding="invalid",
+            errors="replace",
+            replacement_char=ord(" "),
+            replace_control_characters=False)
+        self.evaluate(outputs)

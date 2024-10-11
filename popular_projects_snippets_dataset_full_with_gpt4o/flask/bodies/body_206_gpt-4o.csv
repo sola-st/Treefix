@@ -1,0 +1,375 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Serialize data as JSON.
+
+    If :data:`~flask.current_app` is available, it will use its
+    :meth:`app.json.dumps() <flask.json.provider.JSONProvider.dumps>`
+    method, otherwise it will use :func:`json.dumps`.
+
+    :param obj: The data to serialize.
+    :param kwargs: Arguments passed to the ``dumps`` implementation.
+
+    .. versionchanged:: 2.2
+        Calls ``current_app.json.dumps``, allowing an app to override
+        the behavior.
+
+    .. versionchanged:: 2.2
+        The ``app`` parameter will be removed in Flask 2.3.
+
+    .. versionchanged:: 2.0.2
+        :class:`decimal.Decimal` is supported by converting to a string.
+
+    .. versionchanged:: 2.0
+        ``encoding`` will be removed in Flask 2.1.
+
+    .. versionchanged:: 1.0.3
+        ``app`` can be passed directly, rather than requiring an app
+        context for configuration.
+    """"""
+if app is not None:
+    import warnings
+
+    warnings.warn(
+        ""The 'app' parameter is deprecated and will be removed in""
+        "" Flask 2.3. Call 'app.json.dumps' directly instead."",
+        DeprecationWarning,
+        stacklevel=2,
+    )
+else:
+    app = current_app
+
+if app:
+    exit(app.json.dumps(obj, **kwargs))
+
+kwargs.setdefault(""default"", _default)
+exit(_json.dumps(obj, **kwargs))
+
+# end code snippet
+
+# begin undefined variables
+app
+current_app
+obj
+kwargs
+_default
+_json
+# end undefined variables
+
+# begin undefined attributes and methods
+app.json
+kwargs.setdefault
+_json.dumps
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import warnings"",
+            ""from flask import Flask, current_app"",
+            ""import json""
+        ],
+        ""initialization"": [
+            ""app = None"",
+            ""current_app = Flask(__name__).app_context().push()"",
+            ""obj = {'key': 'value'}"",
+            ""kwargs = {}"",
+            ""_default = str"",
+            ""_json = json""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import json"",
+            ""from flask import Flask, current_app""
+        ],
+        ""initialization"": [
+            ""app = None"",
+            ""current_app = Flask(__name__)"",
+            ""obj = {'key': 'value'}"",
+            ""kwargs = {}"",
+            ""_default = str"",
+            ""_json = type('Mock', (object,), {'dumps': json.dumps})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import json"",
+            ""from types import SimpleNamespace"",
+            ""import warnings""
+        ],
+        ""initialization"": [
+            ""app = type('Mock', (object,), {'json': type('MockJSON', (object,), {'dumps': lambda x, **kwargs: json.dumps(x, **kwargs)})})()"",
+            ""current_app = type('Mock', (object,), {'json': type('MockJSON', (object,), {'dumps': lambda x, **kwargs: json.dumps(x, **kwargs)})})()"",
+            ""obj = {'key': 'value'}"",
+            ""kwargs = {}"",
+            ""_default = lambda x: str(x)"",
+            ""_json = type('Mock', (object,), {'dumps': lambda x, **kwargs: json.dumps(x, **kwargs)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import json"",
+            ""from flask import Flask, current_app""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""current_app = app"",
+            ""obj = {'key': 'value'}"",
+            ""kwargs = {}"",
+            ""_default = str"",
+            ""_json = json"",
+            ""type('MockJSONProvider', (object,), {'dumps': staticmethod(json.dumps)})"",
+            ""app.json = type('MockJSONProvider', (object,), {'dumps': staticmethod(json.dumps)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import json"",
+            ""import warnings"",
+            ""from flask import Flask""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""current_app = app"",
+            ""obj = {'key': 'value'}"",
+            ""kwargs = {'indent': 2}"",
+            ""_default = str"",
+            ""_json = type('Mock', (object,), {'dumps': json.dumps})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import current_app"",
+            ""import warnings"",
+            ""import json""
+        ],
+        ""initialization"": [
+            ""app = None"",
+            ""current_app = type('Mock', (object,), {'json': type('MockJSON', (object,), {'dumps': lambda obj, **kwargs: json.dumps(obj, **kwargs)})()})()"",
+            ""obj = {'data': 'example'}"",
+            ""kwargs = {}"",
+            ""_default = lambda o: o.__dict__"",
+            ""_json = type('MockJSON', (object,), {'dumps': json.dumps})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import json"",
+            ""from decimal import Decimal"",
+            ""from flask import Flask, current_app""
+        ],
+        ""initialization"": [
+            ""app = None"",
+            ""current_app = type('Mock', (object,), {'json': type('MockJson', (object,), {'dumps': lambda obj, **kwargs: json.dumps(obj)})()})()"",
+            ""obj = {'key': 'value', 'decimal': Decimal('123.45')}"",
+            ""kwargs = {}"",
+            ""_default = lambda o: str(o) if isinstance(o, Decimal) else o"",
+            ""_json = type('MockJsonLib', (object,), {'dumps': json.dumps})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app, json"",
+            ""import warnings"",
+            ""import decimal""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""current_app = app"",
+            ""obj = {'key': 'value'}"",
+            ""kwargs = {}"",
+            ""_default = str(decimal.Decimal)"",
+            ""_json = json""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import json"",
+            ""from flask import current_app"",
+            ""from warnings import warn""
+        ],
+        ""initialization"": [
+            ""app = type('MockApp', (object,), {'json': type('MockJSONProvider', (object,), {'dumps': staticmethod(lambda obj, **kwargs: json.dumps(obj, **kwargs))})()})()"",
+            ""current_app = app"",
+            ""obj = {'key': 'value'}"",
+            ""kwargs = {}"",
+            ""_default = lambda o: str(o)"",
+            ""_json = type('MockJSON', (object,), {'dumps': staticmethod(json.dumps)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import decimal"",
+            ""import json""
+        ],
+        ""initialization"": [
+            ""app = type('MockApp', (object,), {'json': type('MockJSON', (object,), {'dumps': lambda obj, **kwargs: json.dumps(obj, **kwargs)})()})()"",
+            ""current_app = type('MockApp', (object,), {'json': type('MockJSON', (object,), {'dumps': lambda obj, **kwargs: json.dumps(obj, **kwargs)})()})()"",
+            ""obj = {'key': 'value'}"",
+            ""kwargs = {}"",
+            ""_default = lambda x: str(x) if isinstance(x, decimal.Decimal) else None"",
+            ""_json = type('MockJSON', (object,), {'dumps': json.dumps})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import warnings # pragma: no cover"",
+            ""from flask import Flask, current_app # pragma: no cover"",
+            ""import json # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = None # pragma: no cover"",
+            ""current_app = Flask(__name__).app_context().push() # pragma: no cover"",
+            ""obj = {'key': 'value'} # pragma: no cover"",
+            ""kwargs = {} # pragma: no cover"",
+            ""_default = str # pragma: no cover"",
+            ""_json = json # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import json # pragma: no cover"",
+            ""from flask import Flask, current_app # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = None # pragma: no cover"",
+            ""current_app = Flask(__name__) # pragma: no cover"",
+            ""obj = {'key': 'value'} # pragma: no cover"",
+            ""kwargs = {} # pragma: no cover"",
+            ""_default = str # pragma: no cover"",
+            ""_json = type('Mock', (object,), {'dumps': json.dumps}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import json # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover"",
+            ""import warnings # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = type('Mock', (object,), {'json': type('MockJSON', (object,), {'dumps': lambda x, **kwargs: json.dumps(x, **kwargs)})})() # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'json': type('MockJSON', (object,), {'dumps': lambda x, **kwargs: json.dumps(x, **kwargs)})})() # pragma: no cover"",
+            ""obj = {'key': 'value'} # pragma: no cover"",
+            ""kwargs = {} # pragma: no cover"",
+            ""_default = lambda x: str(x) # pragma: no cover"",
+            ""_json = type('Mock', (object,), {'dumps': lambda x, **kwargs: json.dumps(x, **kwargs)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import json # pragma: no cover"",
+            ""from flask import Flask, current_app # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""current_app = app # pragma: no cover"",
+            ""obj = {'key': 'value'} # pragma: no cover"",
+            ""kwargs = {} # pragma: no cover"",
+            ""_default = str # pragma: no cover"",
+            ""_json = json # pragma: no cover"",
+            ""type('MockJSONProvider', (object,), {'dumps': staticmethod(json.dumps)}) # pragma: no cover"",
+            ""app.json = type('MockJSONProvider', (object,), {'dumps': staticmethod(json.dumps)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import json # pragma: no cover"",
+            ""import warnings # pragma: no cover"",
+            ""from flask import Flask # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""current_app = app # pragma: no cover"",
+            ""obj = {'key': 'value'} # pragma: no cover"",
+            ""kwargs = {'indent': 2} # pragma: no cover"",
+            ""_default = str # pragma: no cover"",
+            ""_json = type('Mock', (object,), {'dumps': json.dumps}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import current_app # pragma: no cover"",
+            ""import warnings # pragma: no cover"",
+            ""import json # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = None # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'json': type('MockJSON', (object,), {'dumps': lambda obj, **kwargs: json.dumps(obj, **kwargs)})()})() # pragma: no cover"",
+            ""obj = {'data': 'example'} # pragma: no cover"",
+            ""kwargs = {} # pragma: no cover"",
+            ""_default = lambda o: o.__dict__ # pragma: no cover"",
+            ""_json = type('MockJSON', (object,), {'dumps': json.dumps}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import json # pragma: no cover"",
+            ""from decimal import Decimal # pragma: no cover"",
+            ""from flask import Flask, current_app # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = None # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'json': type('MockJson', (object,), {'dumps': lambda obj, **kwargs: json.dumps(obj)})()})() # pragma: no cover"",
+            ""obj = {'key': 'value', 'decimal': Decimal('123.45')} # pragma: no cover"",
+            ""kwargs = {} # pragma: no cover"",
+            ""_default = lambda o: str(o) if isinstance(o, Decimal) else o # pragma: no cover"",
+            ""_json = type('MockJsonLib', (object,), {'dumps': json.dumps}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app, json # pragma: no cover"",
+            ""import warnings # pragma: no cover"",
+            ""import decimal # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""current_app = app # pragma: no cover"",
+            ""obj = {'key': 'value'} # pragma: no cover"",
+            ""kwargs = {} # pragma: no cover"",
+            ""_default = str(decimal.Decimal) # pragma: no cover"",
+            ""_json = json # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import json # pragma: no cover"",
+            ""from flask import current_app # pragma: no cover"",
+            ""from warnings import warn # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = type('MockApp', (object,), {'json': type('MockJSONProvider', (object,), {'dumps': staticmethod(lambda obj, **kwargs: json.dumps(obj, **kwargs))})()})() # pragma: no cover"",
+            ""current_app = app # pragma: no cover"",
+            ""obj = {'key': 'value'} # pragma: no cover"",
+            ""kwargs = {} # pragma: no cover"",
+            ""_default = lambda o: str(o) # pragma: no cover"",
+            ""_json = type('MockJSON', (object,), {'dumps': staticmethod(json.dumps)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import decimal # pragma: no cover"",
+            ""import json # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = type('MockApp', (object,), {'json': type('MockJSON', (object,), {'dumps': lambda obj, **kwargs: json.dumps(obj, **kwargs)})()})() # pragma: no cover"",
+            ""current_app = type('MockApp', (object,), {'json': type('MockJSON', (object,), {'dumps': lambda obj, **kwargs: json.dumps(obj, **kwargs)})()})() # pragma: no cover"",
+            ""obj = {'key': 'value'} # pragma: no cover"",
+            ""kwargs = {} # pragma: no cover"",
+            ""_default = lambda x: str(x) if isinstance(x, decimal.Decimal) else None # pragma: no cover"",
+            ""_json = type('MockJSON', (object,), {'dumps': json.dumps})() # pragma: no cover""
+        ]
+    }
+]",1,625,0.0003125,1331,0.0019965,0.002309

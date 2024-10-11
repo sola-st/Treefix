@@ -1,0 +1,367 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+df = tm.makeCustomDataframe(2, 2, data_gen_f=f, c_idx_type=""p"", r_idx_type=""i"")
+
+e = df < 2
+r = self.eval(""df < 2"", local_dict={""df"": df})
+x = df < 2
+
+tm.assert_frame_equal(r, e)
+tm.assert_frame_equal(x, e)
+
+# end code snippet
+
+# begin undefined variables
+tm
+f
+self
+# end undefined variables
+
+# begin undefined attributes and methods
+tm.makeCustomDataframe
+self.eval
+tm.assert_frame_equal
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), { 'makeCustomDataframe': lambda self, rows, cols, data_gen_f, c_idx_type, r_idx_type: pd.DataFrame(data_gen_f(rows, cols)), 'assert_frame_equal': pd.testing.assert_frame_equal })"",
+            ""f = lambda rows, cols: np.random.randint(0, 3, size=(rows, cols))"",
+            ""self = type('Mock', (object,), { 'eval': lambda self, expression, local_dict: eval(expression, {}, local_dict) })()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'makeCustomDataframe': lambda self, rows, cols, data_gen_f, c_idx_type, r_idx_type: pd.DataFrame(data_gen_f(size=(rows, cols)), columns=pd.Index(['c1', 'c2']), index=pd.Index(['r1', 'r2'])), 'assert_frame_equal': pd.testing.assert_frame_equal})"",
+            ""f = np.random.rand"",
+            ""self = type('Mock', (object,), {'eval': lambda self, expr, local_dict: eval(expr, {}, local_dict)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class MockTM:"",
+            ""    @staticmethod"",
+            ""    def makeCustomDataframe(rows, cols, data_gen_f, c_idx_type, r_idx_type):"",
+            ""        idx = pd.Index([data_gen_f() for _ in range(rows)], name=r_idx_type)"",
+            ""        cols = pd.Index([c_idx_type + str(i) for i in range(cols)], name=c_idx_type)"",
+            ""        data = np.array([[data_gen_f() for _ in range(cols)] for _ in range(rows)])"",
+            ""        return pd.DataFrame(data, index=idx, columns=cols)"",
+            ""    @staticmethod"",
+            ""    def assert_frame_equal(df1, df2):"",
+            ""        pd.testing.assert_frame_equal(df1, df2)"",
+            ""tm = MockTM()"",
+            """",
+            ""def f():"",
+            ""    return 1"",
+            """",
+            ""class MockSelf:"",
+            ""    @staticmethod"",
+            ""    def eval(expr, local_dict):"",
+            ""        return eval(expr, {}, local_dict)"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'makeCustomDataframe': lambda self, rows, cols, data_gen_f, c_idx_type, r_idx_type: pd.DataFrame(np.arange(rows * cols).reshape(rows, cols), columns=pd.Index(['C1', 'C2'], name=c_idx_type), index=pd.Index([0, 1], name=r_idx_type)), 'assert_frame_equal': pd.testing.assert_frame_equal})()"",
+            ""f = lambda r, c: np.arange(r * c).reshape(r, c)"",
+            ""self = type('Mock', (object,), {'eval': lambda self, expr, local_dict: eval(expr, {}, local_dict)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {"",
+            ""    'makeCustomDataframe': lambda self, x, y, data_gen_f, c_idx_type, r_idx_type: pd.DataFrame(data_gen_f(x, y)),"",
+            ""    'assert_frame_equal': pd.testing.assert_frame_equal"",
+            ""})()"",
+            """",
+            ""def f(x, y):"",
+            ""    return np.arange(x * y).reshape(x, y)"",
+            """",
+            ""self = type('Mock', (object,), {"",
+            ""    'eval': lambda self, expr, local_dict: eval(expr, {}, local_dict)"",
+            ""})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""class MockTM:"",
+            ""    @staticmethod"",
+            ""    def makeCustomDataframe(rows, cols, data_gen_f, c_idx_type, r_idx_type):"",
+            ""        data = data_gen_f(rows * cols)"",
+            ""        return pd.DataFrame(data.reshape(rows, cols), columns=[c_idx_type + str(i) for i in range(cols)], index=[r_idx_type + str(i) for i in range(rows)])"",
+            """",
+            ""    @staticmethod"",
+            ""    def assert_frame_equal(result, expected):"",
+            ""        pd.testing.assert_frame_equal(result, expected)"",
+            """",
+            ""class MockSelf:"",
+            ""    @staticmethod"",
+            ""    def eval(expression, local_dict):"",
+            ""        return eval(expression, {}, local_dict)"",
+            """",
+            ""tm = MockTM()"",
+            ""f = lambda n: [i for i in range(n)]"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'makeCustomDataframe': lambda *args, **kwargs: pd.DataFrame(np.array([[1, 2], [3, 4]])), 'assert_frame_equal': pd.testing.assert_frame_equal})"",
+            ""f = lambda r, c: np.array([[1, 2], [3, 4]])"",
+            ""self = type('Mock', (object,), {'eval': lambda self, expr, local_dict: eval(expr, {}, local_dict)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np"",
+            ""from pandas.testing import assert_frame_equal""
+        ],
+        ""initialization"": [
+            ""class MockSelf:"",
+            ""    def eval(self, expr, local_dict):"",
+            ""        return eval(expr, local_dict)"",
+            ""self = MockSelf()"",
+            """",
+            ""class MockTM:"",
+            ""    @staticmethod"",
+            ""    def makeCustomDataframe(rows, cols, data_gen_f, c_idx_type, r_idx_type):"",
+            ""        return pd.DataFrame(data_gen_f(rows, cols))"",
+            """",
+            ""    @staticmethod"",
+            ""    def assert_frame_equal(left, right):"",
+            ""        assert_frame_equal(left, right)"",
+            ""tm = MockTM()"",
+            """",
+            ""def f(rows, cols):"",
+            ""    return np.random.randint(0, 5, size=(rows, cols))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""tm = type('TestModule', (object,), {'makeCustomDataframe': lambda *args, **kwargs: pd.DataFrame([[1, 2], [3, 4]], columns=pd.Index(['c0', 'c1'], name='p'), index=pd.Index([0, 1], name='i')), 'assert_frame_equal': pd.testing.assert_frame_equal})"",
+            ""f = lambda r, c: np.arange(r * c).reshape(r, c)"",
+            ""self = type('MockSelf', (object,), {'eval': lambda self, expr, local_dict: eval(expr, {}, local_dict)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'makeCustomDataframe': lambda self, n, m, data_gen_f, c_idx_type, r_idx_type: pd.DataFrame(data_gen_f(n * m).reshape(n, m), index=np.arange(n), columns=pd.Index([chr(97 + i) for i in range(m)], name='p')), 'assert_frame_equal': pd.testing.assert_frame_equal})()"",
+            ""f = lambda n: np.array(range(n)) % 4"",
+            ""self = type('Mock', (object,), {'eval': lambda self, expr, local_dict: eval(expr, {}, local_dict)})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), { 'makeCustomDataframe': lambda self, rows, cols, data_gen_f, c_idx_type, r_idx_type: pd.DataFrame(data_gen_f(rows, cols)), 'assert_frame_equal': pd.testing.assert_frame_equal }) # pragma: no cover"",
+            ""f = lambda rows, cols: np.random.randint(0, 3, size=(rows, cols)) # pragma: no cover"",
+            ""self = type('Mock', (object,), { 'eval': lambda self, expression, local_dict: eval(expression, {}, local_dict) })() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'makeCustomDataframe': lambda self, rows, cols, data_gen_f, c_idx_type, r_idx_type: pd.DataFrame(data_gen_f(size=(rows, cols)), columns=pd.Index(['c1', 'c2']), index=pd.Index(['r1', 'r2'])), 'assert_frame_equal': pd.testing.assert_frame_equal}) # pragma: no cover"",
+            ""f = np.random.rand # pragma: no cover"",
+            ""self = type('Mock', (object,), {'eval': lambda self, expr, local_dict: eval(expr, {}, local_dict)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockTM: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def makeCustomDataframe(rows, cols, data_gen_f, c_idx_type, r_idx_type): # pragma: no cover"",
+            ""        idx = pd.Index([data_gen_f() for _ in range(rows)], name=r_idx_type) # pragma: no cover"",
+            ""        cols = pd.Index([c_idx_type + str(i) for i in range(cols)], name=c_idx_type) # pragma: no cover"",
+            ""        data = np.array([[data_gen_f() for _ in range(cols)] for _ in range(rows)]) # pragma: no cover"",
+            ""        return pd.DataFrame(data, index=idx, columns=cols) # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def assert_frame_equal(df1, df2): # pragma: no cover"",
+            ""        pd.testing.assert_frame_equal(df1, df2) # pragma: no cover"",
+            ""tm = MockTM() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def f(): # pragma: no cover"",
+            ""    return 1 # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockSelf: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def eval(expr, local_dict): # pragma: no cover"",
+            ""        return eval(expr, {}, local_dict) # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'makeCustomDataframe': lambda self, rows, cols, data_gen_f, c_idx_type, r_idx_type: pd.DataFrame(np.arange(rows * cols).reshape(rows, cols), columns=pd.Index(['C1', 'C2'], name=c_idx_type), index=pd.Index([0, 1], name=r_idx_type)), 'assert_frame_equal': pd.testing.assert_frame_equal})() # pragma: no cover"",
+            ""f = lambda r, c: np.arange(r * c).reshape(r, c) # pragma: no cover"",
+            ""self = type('Mock', (object,), {'eval': lambda self, expr, local_dict: eval(expr, {}, local_dict)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), { # pragma: no cover"",
+            ""    'makeCustomDataframe': lambda self, x, y, data_gen_f, c_idx_type, r_idx_type: pd.DataFrame(data_gen_f(x, y)), # pragma: no cover"",
+            ""    'assert_frame_equal': pd.testing.assert_frame_equal # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def f(x, y): # pragma: no cover"",
+            ""    return np.arange(x * y).reshape(x, y) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = type('Mock', (object,), { # pragma: no cover"",
+            ""    'eval': lambda self, expr, local_dict: eval(expr, {}, local_dict) # pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockTM: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def makeCustomDataframe(rows, cols, data_gen_f, c_idx_type, r_idx_type): # pragma: no cover"",
+            ""        data = data_gen_f(rows * cols) # pragma: no cover"",
+            ""        return pd.DataFrame(data.reshape(rows, cols), columns=[c_idx_type + str(i) for i in range(cols)], index=[r_idx_type + str(i) for i in range(rows)]) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def assert_frame_equal(result, expected): # pragma: no cover"",
+            ""        pd.testing.assert_frame_equal(result, expected) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockSelf: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def eval(expression, local_dict): # pragma: no cover"",
+            ""        return eval(expression, {}, local_dict) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""tm = MockTM() # pragma: no cover"",
+            ""f = lambda n: [i for i in range(n)] # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'makeCustomDataframe': lambda *args, **kwargs: pd.DataFrame(np.array([[1, 2], [3, 4]])), 'assert_frame_equal': pd.testing.assert_frame_equal}) # pragma: no cover"",
+            ""f = lambda r, c: np.array([[1, 2], [3, 4]]) # pragma: no cover"",
+            ""self = type('Mock', (object,), {'eval': lambda self, expr, local_dict: eval(expr, {}, local_dict)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas.testing import assert_frame_equal # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockSelf: # pragma: no cover"",
+            ""    def eval(self, expr, local_dict): # pragma: no cover"",
+            ""        return eval(expr, local_dict) # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockTM: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def makeCustomDataframe(rows, cols, data_gen_f, c_idx_type, r_idx_type): # pragma: no cover"",
+            ""        return pd.DataFrame(data_gen_f(rows, cols)) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def assert_frame_equal(left, right): # pragma: no cover"",
+            ""        assert_frame_equal(left, right) # pragma: no cover"",
+            ""tm = MockTM() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def f(rows, cols): # pragma: no cover"",
+            ""    return np.random.randint(0, 5, size=(rows, cols)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tm = type('TestModule', (object,), {'makeCustomDataframe': lambda *args, **kwargs: pd.DataFrame([[1, 2], [3, 4]], columns=pd.Index(['c0', 'c1'], name='p'), index=pd.Index([0, 1], name='i')), 'assert_frame_equal': pd.testing.assert_frame_equal}) # pragma: no cover"",
+            ""f = lambda r, c: np.arange(r * c).reshape(r, c) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'eval': lambda self, expr, local_dict: eval(expr, {}, local_dict)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tm = type('Mock', (object,), {'makeCustomDataframe': lambda self, n, m, data_gen_f, c_idx_type, r_idx_type: pd.DataFrame(data_gen_f(n * m).reshape(n, m), index=np.arange(n), columns=pd.Index([chr(97 + i) for i in range(m)], name='p')), 'assert_frame_equal': pd.testing.assert_frame_equal})() # pragma: no cover"",
+            ""f = lambda n: np.array(range(n)) % 4 # pragma: no cover"",
+            ""self = type('Mock', (object,), {'eval': lambda self, expr, local_dict: eval(expr, {}, local_dict)})() # pragma: no cover""
+        ]
+    }
+]",1,382,0.000191,1850,0.002775,0.0029660000000000003

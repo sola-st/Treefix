@@ -1,0 +1,504 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Return a new shape where the rows are broadcasted.
+
+        *--self--->*
+        |          |
+        rp       result
+        |          |
+        V          V
+        *--------->*
+
+    This is equivalent to:
+      return RowPartition.from_row_lengths(self.broadcast(rp.row_lengths()))
+
+    However, if the shape has uniform row length, then that property is
+    maintained.
+
+    Args:
+      rp: a row partition.
+
+    Returns:
+      a RowPartition representing a broadcast version of this row partition.
+    """"""
+if not rp.is_uniform():
+    exit(RowPartition.from_row_lengths(
+        self.broadcast_tensor(rp.row_lengths())))
+else:
+    exit(RowPartition.from_uniform_row_length(
+        rp.uniform_row_length(),
+        nvals=rp.uniform_row_length() * self.dest_nrows(),
+        nrows=self.dest_nrows()))
+
+# end code snippet
+
+# begin undefined variables
+rp
+RowPartition
+self
+# end undefined variables
+
+# begin undefined attributes and methods
+rp.is_uniform
+RowPartition.from_row_lengths
+self.broadcast_tensor
+rp.row_lengths
+RowPartition.from_uniform_row_length
+rp.uniform_row_length
+self.dest_nrows
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:"",
+            ""    def __init__(self, uniform=False):"",
+            ""        self._row_lengths = np.array([3, 3, 3]) if uniform else np.array([2, 3, 4])"",
+            ""    def is_uniform(self):"",
+            ""        return len(set(self._row_lengths)) == 1"",
+            ""    def row_lengths(self):"",
+            ""        return self._row_lengths"",
+            ""    def uniform_row_length(self):"",
+            ""        if self.is_uniform():"",
+            ""            return self._row_lengths[0]"",
+            ""        raise ValueError('Row lengths are not uniform.')"",
+            ""    @classmethod"",
+            ""    def from_row_lengths(cls, row_lengths):"",
+            ""        instance = cls()"",
+            ""        instance._row_lengths = row_lengths"",
+            ""        return instance"",
+            ""    @classmethod"",
+            ""    def from_uniform_row_length(cls, row_length, nvals, nrows):"",
+            ""        instance = cls(True)"",
+            ""        instance._row_lengths = np.full((nrows,), row_length)"",
+            ""        return instance"",
+            """",
+            ""class MockSelf:"",
+            ""    def broadcast_tensor(self, tensor):"",
+            ""        return np.broadcast_to(tensor, (len(tensor),))"",
+            ""    def dest_nrows(self):"",
+            ""        return 3"",
+            """",
+            ""rp = MockRowPartition()"",
+            ""RowPartition = MockRowPartition"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""rp = type('Mock', (object,), {'is_uniform': lambda self: False, 'row_lengths': lambda self: np.array([1, 2, 3]), 'uniform_row_length': lambda self: 2})()"",
+            ""RowPartition = type('Mock', (object,), {'from_row_lengths': lambda x: 'Broadcast result with row lengths', 'from_uniform_row_length': lambda row_len, nvals, nrows: 'Broadcast result with uniform row length'})"",
+            ""self = type('Mock', (object,), {'broadcast_tensor': lambda self, tensor: tensor * 2, 'dest_nrows': lambda self: 5})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""rp = type('RowPartitionMock', (object,), {"",
+            ""    'is_uniform': lambda self: False,"",
+            ""    'row_lengths': lambda self: [1, 2, 3],"",
+            ""    'uniform_row_length': lambda self: 3"",
+            ""})()"",
+            """",
+            ""RowPartition = type('RowPartitionMock', (object,), {"",
+            ""    'from_row_lengths': classmethod(lambda cls, x: 'RowPartition from row lengths'),"",
+            ""    'from_uniform_row_length': classmethod(lambda cls, length, nvals, nrows: 'RowPartition from uniform row length')"",
+            ""})"",
+            """",
+            ""self = type('SelfMock', (object,), {"",
+            ""    'broadcast_tensor': lambda self, x: [item * 2 for item in x],"",
+            ""    'dest_nrows': lambda self: 10"",
+            ""})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""rp = type('MockRP', (object,), {'is_uniform': lambda s: True, 'row_lengths': lambda s: np.array([3, 3, 3]), 'uniform_row_length': lambda s: 3})()"",
+            ""RowPartition = type('MockRowPartition', (object,), {'from_row_lengths': staticmethod(lambda lengths: 'Broadcasted RowPartition with lengths {}'.format(lengths)), 'from_uniform_row_length': staticmethod(lambda length, nvals, nrows: 'Uniform RowPartition with length {}, nvals {}, nrows {}'.format(length, nvals, nrows))})"",
+            ""self = type('MockSelf', (object,), {'broadcast_tensor': lambda s, lengths: lengths * 2, 'dest_nrows': lambda s: 3})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class RowPartition:\n    @staticmethod\n    def from_row_lengths(lengths):\n        return f\""RowPartition created from row lengths: {lengths}\""\n\n    @staticmethod\n    def from_uniform_row_length(length, nvals, nrows):\n        return f\""RowPartition created with uniform row length: {length}, nvals: {nvals}, nrows: {nrows}\"""",
+            ""rp = type(\""RowPartitionMock\"", (object,), {\n    \""is_uniform\"": lambda self: True,\n    \""row_lengths\"": lambda self: np.array([3, 3, 3]),\n    \""uniform_row_length\"": lambda self: 3\n})()"",
+            ""self = type(\""SelfMock\"", (object,), {\n    \""broadcast_tensor\"": lambda self, x: x + 1,\n    \""dest_nrows\"": lambda self: 3\n})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition:"",
+            ""    def __init__(self, row_lengths, uniform=False):"",
+            ""        self._row_lengths = np.array(row_lengths)"",
+            ""        self._uniform = uniform"",
+            """",
+            ""    def is_uniform(self):"",
+            ""        return self._uniform"",
+            """",
+            ""    def row_lengths(self):"",
+            ""        return self._row_lengths"",
+            """",
+            ""    def uniform_row_length(self):"",
+            ""        if self._uniform:"",
+            ""            return self._row_lengths[0]"",
+            ""        else:"",
+            ""            raise ValueError('Row partition is not uniform')"",
+            """",
+            ""class MockRowPartitionMethods:"",
+            ""    @staticmethod"",
+            ""    def from_row_lengths(lengths):"",
+            ""        return f'RowPartition created with lengths: {lengths}'"",
+            """",
+            ""    @staticmethod"",
+            ""    def from_uniform_row_length(length, nvals, nrows):"",
+            ""        return f'Uniform RowPartition of length {length}, with {nvals} values and {nrows} rows'"",
+            """",
+            ""class MockSelf:"",
+            ""    def broadcast_tensor(self, tensor):"",
+            ""        return tensor * 2"",
+            ""# Example of some broadcast operation"",
+            """",
+            ""    def dest_nrows(self):"",
+            ""        return 10"",
+            ""# Example number of destination rows"",
+            """",
+            ""row_lengths = [3, 3, 3]"",
+            ""rp = MockRowPartition(row_lengths, uniform=True)"",
+            ""RowPartition = MockRowPartitionMethods"",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""rp = type('MockRP', (object,), {'is_uniform': lambda self: False, 'row_lengths': lambda self: np.array([1, 2]), 'uniform_row_length': lambda self: 2})()"",
+            ""RowPartition = type('MockRPClass', (object,), {'from_row_lengths': lambda cls, lengths: f'from_row_lengths called with {lengths}', 'from_uniform_row_length': lambda cls, length, nvals, nrows: f'from_uniform_row_length called with length={length}, nvals={nvals}, nrows={nrows}'})()"",
+            ""self = type('MockSelf', (object,), {'broadcast_tensor': lambda self, tensor: tensor * 2, 'dest_nrows': lambda self: 3})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class RowPartition:"",
+            ""    def __init__(self, row_lengths=None, nrows=None, nvals=None):"",
+            ""        self._row_lengths = row_lengths"",
+            ""        self._nrows = nrows"",
+            ""        self._nvals = nvals"",
+            """",
+            ""    @classmethod"",
+            ""    def from_row_lengths(cls, row_lengths):"",
+            ""        return cls(row_lengths=row_lengths)"",
+            """",
+            ""    @classmethod"",
+            ""    def from_uniform_row_length(cls, uniform_row_length, nvals, nrows):"",
+            ""        return cls(nrows=nrows, nvals=nvals)"",
+            """",
+            ""    def is_uniform(self):"",
+            ""        return True # For simplicity, assuming it's always uniform"",
+            """",
+            ""    def row_lengths(self):"",
+            ""        return self._row_lengths"",
+            """",
+            ""    def uniform_row_length(self):"",
+            ""        return self._row_lengths if self._row_lengths else 1"",
+            """",
+            ""rp = RowPartition(row_lengths=[2, 2, 2])"",
+            """",
+            ""class MockSelf:"",
+            ""    def broadcast_tensor(self, row_lengths):"",
+            ""        return row_lengths"",
+            """",
+            ""    def dest_nrows(self):"",
+            ""        return len(rp.row_lengths()) if rp.row_lengths() is not None else 1"",
+            """",
+            ""self = MockSelf()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""rp = type(\""MockRowPartition\"", (object,), {"",
+            ""    \""is_uniform\"": lambda self: False,"",
+            ""    \""row_lengths\"": lambda self: np.array([2, 2]),"",
+            ""    \""uniform_row_length\"": lambda self: 2"",
+            ""})()"",
+            ""RowPartition = type(\""MockRowPartitionClass\"", (object,), {"",
+            ""    \""from_row_lengths\"": staticmethod(lambda lengths: f\""RowPartition with lengths: {lengths}\""),"",
+            ""    \""from_uniform_row_length\"": staticmethod(lambda length, nvals, nrows: f\""RowPartition with uniform length: {length}, nvals: {nvals}, nrows: {nrows}\"")"",
+            ""})"",
+            ""self = type(\""MockSelf\"", (object,), {"",
+            ""    \""broadcast_tensor\"": lambda self, lengths: np.array(lengths) * 2,"",
+            ""    \""dest_nrows\"": lambda self: 3"",
+            ""})()""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""rp = type('Mock', (object,), {'is_uniform': lambda self: True, 'uniform_row_length': lambda self: 5, 'row_lengths': lambda self: [5, 5, 5]})()"",
+            ""RowPartition = type('Mock', (object,), {'from_row_lengths': classmethod(lambda cls, lengths: cls()), 'from_uniform_row_length': classmethod(lambda cls, length, nvals, nrows: cls())})"",
+            ""self = type('Mock', (object,), {'broadcast_tensor': lambda self, lengths: [length * 2 for length in lengths], 'dest_nrows': lambda self: 3})()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition: # pragma: no cover"",
+            ""    def __init__(self, uniform=False): # pragma: no cover"",
+            ""        self._row_lengths = np.array([3, 3, 3]) if uniform else np.array([2, 3, 4]) # pragma: no cover"",
+            ""    def is_uniform(self): # pragma: no cover"",
+            ""        return len(set(self._row_lengths)) == 1 # pragma: no cover"",
+            ""    def row_lengths(self): # pragma: no cover"",
+            ""        return self._row_lengths # pragma: no cover"",
+            ""    def uniform_row_length(self): # pragma: no cover"",
+            ""        if self.is_uniform(): # pragma: no cover"",
+            ""            return self._row_lengths[0] # pragma: no cover"",
+            ""        raise ValueError('Row lengths are not uniform.') # pragma: no cover"",
+            ""    @classmethod # pragma: no cover"",
+            ""    def from_row_lengths(cls, row_lengths): # pragma: no cover"",
+            ""        instance = cls() # pragma: no cover"",
+            ""        instance._row_lengths = row_lengths # pragma: no cover"",
+            ""        return instance # pragma: no cover"",
+            ""    @classmethod # pragma: no cover"",
+            ""    def from_uniform_row_length(cls, row_length, nvals, nrows): # pragma: no cover"",
+            ""        instance = cls(True) # pragma: no cover"",
+            ""        instance._row_lengths = np.full((nrows,), row_length) # pragma: no cover"",
+            ""        return instance # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockSelf: # pragma: no cover"",
+            ""    def broadcast_tensor(self, tensor): # pragma: no cover"",
+            ""        return np.broadcast_to(tensor, (len(tensor),)) # pragma: no cover"",
+            ""    def dest_nrows(self): # pragma: no cover"",
+            ""        return 3 # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""rp = MockRowPartition() # pragma: no cover"",
+            ""RowPartition = MockRowPartition # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""rp = type('Mock', (object,), {'is_uniform': lambda self: False, 'row_lengths': lambda self: np.array([1, 2, 3]), 'uniform_row_length': lambda self: 2})() # pragma: no cover"",
+            ""RowPartition = type('Mock', (object,), {'from_row_lengths': lambda x: 'Broadcast result with row lengths', 'from_uniform_row_length': lambda row_len, nvals, nrows: 'Broadcast result with uniform row length'}) # pragma: no cover"",
+            ""self = type('Mock', (object,), {'broadcast_tensor': lambda self, tensor: tensor * 2, 'dest_nrows': lambda self: 5})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""rp = type('RowPartitionMock', (object,), { # pragma: no cover"",
+            ""    'is_uniform': lambda self: False, # pragma: no cover"",
+            ""    'row_lengths': lambda self: [1, 2, 3], # pragma: no cover"",
+            ""    'uniform_row_length': lambda self: 3 # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""RowPartition = type('RowPartitionMock', (object,), { # pragma: no cover"",
+            ""    'from_row_lengths': classmethod(lambda cls, x: 'RowPartition from row lengths'), # pragma: no cover"",
+            ""    'from_uniform_row_length': classmethod(lambda cls, length, nvals, nrows: 'RowPartition from uniform row length') # pragma: no cover"",
+            ""}) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = type('SelfMock', (object,), { # pragma: no cover"",
+            ""    'broadcast_tensor': lambda self, x: [item * 2 for item in x], # pragma: no cover"",
+            ""    'dest_nrows': lambda self: 10 # pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""rp = type('MockRP', (object,), {'is_uniform': lambda s: True, 'row_lengths': lambda s: np.array([3, 3, 3]), 'uniform_row_length': lambda s: 3})() # pragma: no cover"",
+            ""RowPartition = type('MockRowPartition', (object,), {'from_row_lengths': staticmethod(lambda lengths: 'Broadcasted RowPartition with lengths {}'.format(lengths)), 'from_uniform_row_length': staticmethod(lambda length, nvals, nrows: 'Uniform RowPartition with length {}, nvals {}, nrows {}'.format(length, nvals, nrows))}) # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'broadcast_tensor': lambda s, lengths: lengths * 2, 'dest_nrows': lambda s: 3})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class RowPartition:# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def from_row_lengths(lengths):# pragma: no cover"",
+            ""        return f\""RowPartition created from row lengths: {lengths}\""# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    @staticmethod# pragma: no cover"",
+            ""    def from_uniform_row_length(length, nvals, nrows):# pragma: no cover"",
+            ""        return f\""RowPartition created with uniform row length: {length}, nvals: {nvals}, nrows: {nrows}\"" # pragma: no cover"",
+            ""rp = type(\""RowPartitionMock\"", (object,), {# pragma: no cover"",
+            ""    \""is_uniform\"": lambda self: True,# pragma: no cover"",
+            ""    \""row_lengths\"": lambda self: np.array([3, 3, 3]),# pragma: no cover"",
+            ""    \""uniform_row_length\"": lambda self: 3# pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""self = type(\""SelfMock\"", (object,), {# pragma: no cover"",
+            ""    \""broadcast_tensor\"": lambda self, x: x + 1,# pragma: no cover"",
+            ""    \""dest_nrows\"": lambda self: 3# pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockRowPartition: # pragma: no cover"",
+            ""    def __init__(self, row_lengths, uniform=False): # pragma: no cover"",
+            ""        self._row_lengths = np.array(row_lengths) # pragma: no cover"",
+            ""        self._uniform = uniform # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def is_uniform(self): # pragma: no cover"",
+            ""        return self._uniform # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def row_lengths(self): # pragma: no cover"",
+            ""        return self._row_lengths # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def uniform_row_length(self): # pragma: no cover"",
+            ""        if self._uniform: # pragma: no cover"",
+            ""            return self._row_lengths[0] # pragma: no cover"",
+            ""        else: # pragma: no cover"",
+            ""            raise ValueError('Row partition is not uniform') # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockRowPartitionMethods: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def from_row_lengths(lengths): # pragma: no cover"",
+            ""        return f'RowPartition created with lengths: {lengths}' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def from_uniform_row_length(length, nvals, nrows): # pragma: no cover"",
+            ""        return f'Uniform RowPartition of length {length}, with {nvals} values and {nrows} rows' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockSelf: # pragma: no cover"",
+            ""    def broadcast_tensor(self, tensor): # pragma: no cover"",
+            ""        return tensor * 2 # pragma: no cover"",
+            ""# Example of some broadcast operation # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def dest_nrows(self): # pragma: no cover"",
+            ""        return 10 # pragma: no cover"",
+            ""# Example number of destination rows # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""row_lengths = [3, 3, 3] # pragma: no cover"",
+            ""rp = MockRowPartition(row_lengths, uniform=True) # pragma: no cover"",
+            ""RowPartition = MockRowPartitionMethods # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""rp = type('MockRP', (object,), {'is_uniform': lambda self: False, 'row_lengths': lambda self: np.array([1, 2]), 'uniform_row_length': lambda self: 2})() # pragma: no cover"",
+            ""RowPartition = type('MockRPClass', (object,), {'from_row_lengths': lambda cls, lengths: f'from_row_lengths called with {lengths}', 'from_uniform_row_length': lambda cls, length, nvals, nrows: f'from_uniform_row_length called with length={length}, nvals={nvals}, nrows={nrows}'})() # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'broadcast_tensor': lambda self, tensor: tensor * 2, 'dest_nrows': lambda self: 3})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class RowPartition: # pragma: no cover"",
+            ""    def __init__(self, row_lengths=None, nrows=None, nvals=None): # pragma: no cover"",
+            ""        self._row_lengths = row_lengths # pragma: no cover"",
+            ""        self._nrows = nrows # pragma: no cover"",
+            ""        self._nvals = nvals # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    @classmethod # pragma: no cover"",
+            ""    def from_row_lengths(cls, row_lengths): # pragma: no cover"",
+            ""        return cls(row_lengths=row_lengths) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    @classmethod # pragma: no cover"",
+            ""    def from_uniform_row_length(cls, uniform_row_length, nvals, nrows): # pragma: no cover"",
+            ""        return cls(nrows=nrows, nvals=nvals) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def is_uniform(self): # pragma: no cover"",
+            ""        return True # For simplicity, assuming it's always uniform # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def row_lengths(self): # pragma: no cover"",
+            ""        return self._row_lengths # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def uniform_row_length(self): # pragma: no cover"",
+            ""        return self._row_lengths if self._row_lengths else 1 # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""rp = RowPartition(row_lengths=[2, 2, 2]) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockSelf: # pragma: no cover"",
+            ""    def broadcast_tensor(self, row_lengths): # pragma: no cover"",
+            ""        return row_lengths # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def dest_nrows(self): # pragma: no cover"",
+            ""        return len(rp.row_lengths()) if rp.row_lengths() is not None else 1 # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""rp = type(\""MockRowPartition\"", (object,), { # pragma: no cover"",
+            ""    \""is_uniform\"": lambda self: False, # pragma: no cover"",
+            ""    \""row_lengths\"": lambda self: np.array([2, 2]), # pragma: no cover"",
+            ""    \""uniform_row_length\"": lambda self: 2 # pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""RowPartition = type(\""MockRowPartitionClass\"", (object,), { # pragma: no cover"",
+            ""    \""from_row_lengths\"": staticmethod(lambda lengths: f\""RowPartition with lengths: {lengths}\""), # pragma: no cover"",
+            ""    \""from_uniform_row_length\"": staticmethod(lambda length, nvals, nrows: f\""RowPartition with uniform length: {length}, nvals: {nvals}, nrows: {nrows}\"") # pragma: no cover"",
+            ""}) # pragma: no cover"",
+            ""self = type(\""MockSelf\"", (object,), { # pragma: no cover"",
+            ""    \""broadcast_tensor\"": lambda self, lengths: np.array(lengths) * 2, # pragma: no cover"",
+            ""    \""dest_nrows\"": lambda self: 3 # pragma: no cover"",
+            ""})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""rp = type('Mock', (object,), {'is_uniform': lambda self: True, 'uniform_row_length': lambda self: 5, 'row_lengths': lambda self: [5, 5, 5]})() # pragma: no cover"",
+            ""RowPartition = type('Mock', (object,), {'from_row_lengths': classmethod(lambda cls, lengths: cls()), 'from_uniform_row_length': classmethod(lambda cls, length, nvals, nrows: cls())}) # pragma: no cover"",
+            ""self = type('Mock', (object,), {'broadcast_tensor': lambda self, lengths: [length * 2 for length in lengths], 'dest_nrows': lambda self: 3})() # pragma: no cover""
+        ]
+    }
+]",1,499,0.0002495,2458,0.003687,0.0039365

@@ -1,0 +1,7 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/data/kernel_tests/sample_from_datasets_test.py
+options = options_lib.Options()
+options.experimental_symbolic_checkpoint = symbolic_checkpoint
+verify_fn(
+    self,
+    lambda: self._build_dataset([0.5, 0.5], 100, options),
+    num_outputs=100)

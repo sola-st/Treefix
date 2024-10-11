@@ -1,0 +1,31 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/image_ops_test.py
+# Input image has 0-length dimension(s).
+# Each line is a test configuration:
+#   x_shape, target_height, target_width
+test_config = (([0, 2, 2], 2, 2), ([2, 0, 2], 2, 2), ([2, 2, 0], 2, 2))
+offset_height, offset_width = [0, 0]
+x = []
+
+for x_shape, target_height, target_width in test_config:
+    self._assertRaises(
+        x,
+        x_shape,
+        offset_height,
+        offset_width,
+        target_height,
+        target_width,
+        "inner 3 dims of 'image.shape' must be > 0",
+        use_tensor_inputs_options=[False])
+
+    # The original error message does not contain back slashes. However, they
+    # are added by either the assert op or the runtime. If this behavior
+    # changes in the future, the match string will also needs to be changed.
+    self._assertRaises(
+        x,
+        x_shape,
+        offset_height,
+        offset_width,
+        target_height,
+        target_width,
+        "inner 3 dims of \\'image.shape\\' must be > 0",
+        use_tensor_inputs_options=[True])

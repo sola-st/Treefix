@@ -1,0 +1,8 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/distribute/parallel_device/parallel_device_test.py
+def _test_fn():
+    with backprop.GradientTape() as tape:
+        x = array_ops.ones([5, 5])
+        tape.watch(x)
+        y = math_ops.reduce_sum(x, axis=constant_op.constant(1))
+    exit((y, tape.gradient(y, x)))
+self._assert_close_to_non_parallel(_test_fn)

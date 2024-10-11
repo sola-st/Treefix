@@ -1,0 +1,3211 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Replace hex codes in Unicode escape sequences with lowercase representation.""""""
+text = leaf.value
+prefix = get_string_prefix(text)
+if ""r"" in prefix.lower():
+    exit()
+
+def replace(m: Match[str]) -> str:
+    groups = m.groupdict()
+    back_slashes = groups[""backslashes""]
+
+    if len(back_slashes) % 2 == 0:
+        exit(back_slashes + groups[""body""])
+
+    if groups[""u""]:
+        # \u
+        exit(back_slashes + ""u"" + groups[""u""].lower())
+    elif groups[""U""]:
+        # \U
+        exit(back_slashes + ""U"" + groups[""U""].lower())
+    elif groups[""x""]:
+        # \x
+        exit(back_slashes + ""x"" + groups[""x""].lower())
+    else:
+        assert groups[""N""], f""Unexpected match: {m}""
+        # \N{}
+        exit(back_slashes + ""N{"" + groups[""N""].upper() + ""}"")
+
+leaf.value = re.sub(UNICODE_ESCAPE_RE, replace, text)
+
+# end code snippet
+
+# begin undefined variables
+leaf
+get_string_prefix
+Match
+re
+UNICODE_ESCAPE_RE
+# end undefined variables
+
+# begin undefined attributes and methods
+leaf.value
+re.sub
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {})()"",
+            ""leaf.value = '\\u0048ello \\U00010437orld! \\xae\\u20ac'"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)\\\\(u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|x(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^\\}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': '\\u0041\\U0001F3C3\\x41\\N{snowman}\\r'})()"",
+            ""def get_string_prefix(text: str) -> str:\n    return 'u'"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {'value': '\\u0a0B'})()"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:\\\\u(?P<u>[0-9A-Fa-f]{4})|\\\\U(?P<U>[0-9A-Fa-f]{8})|\\\\x(?P<x>[0-9A-Fa-f]{2})|\\\\N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'ExampleUnicodeString'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:\\\\u(?P<u>[0-9a-fA-F]{4})|\\\\U(?P<U>[0-9a-fA-F]{8})|\\\\x(?P<x>[0-9a-fA-F]{2})|\\\\N\\{(?P<N>[^\\}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': ''})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(P<backslashes>\\\\+)(P<body>(?:uP<u>[0-9A-Fa-f]{4})|(?:UP<U>[0-9A-Fa-f]{8})|(?:xP<x>[0-9A-Fa-f]{2})|(?:NP<N>[A-Za-z0-9]+))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:\n    def __init__(self, value):\n        self.value = value\n\nleaf = MockLeaf(\""Some initial text with Unicode escapes: \\u0041 \\U0001f600 \\x41 \\N{LATIN CAPITAL LETTER A}\"")"",
+            ""def get_string_prefix(text: str) -> str:\n    # Assuming the prefix for this example\n    return 'u'"",
+            ""UNICODE_ESCAPE_RE = re.compile(r\""(?P<backslashes>\\\\+)(?:(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^\\}]+\\}))\"")""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041.'})"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Leaf', (object,), {'value': ''})()"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(\\\\(?P<backslashes>\\\\*)((?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]*)\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {'value': 'Sample Text'})()"",
+            ""def get_string_prefix(text: str) -> str: return 'u'"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:u(?P<u>[0-9a-fA-F]{4})|U(?P<U>[0-9a-fA-F]{8})|x(?P<x>[0-9a-fA-F]{2})|N\\{(?P<N>[^}]*)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Any, Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {'value': 'Some sample text with Unicode escape sequences \\uabcd and \\U0001F600'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?P<body>(?P<u>u[a-fA-F0-9]{4})|(?P<U>U[a-fA-F0-9]{8})|(?P<x>x[a-fA-F0-9]{2})|N{(?P<N>[^}]*)})')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {})() # pragma: no cover"",
+            ""leaf.value = '\\u0048ello \\U00010437orld! \\xae\\u20ac' # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)\\\\(u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|x(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^\\}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': '\\u0041\\U0001F3C3\\x41\\N{snowman}\\r'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str:# pragma: no cover"",
+            ""    return 'u' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {'value': '\\u0a0B'})() # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:\\\\u(?P<u>[0-9A-Fa-f]{4})|\\\\U(?P<U>[0-9A-Fa-f]{8})|\\\\x(?P<x>[0-9A-Fa-f]{2})|\\\\N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'ExampleUnicodeString'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:\\\\u(?P<u>[0-9a-fA-F]{4})|\\\\U(?P<U>[0-9a-fA-F]{8})|\\\\x(?P<x>[0-9a-fA-F]{2})|\\\\N\\{(?P<N>[^\\}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': ''})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(P<backslashes>\\\\+)(P<body>(?:uP<u>[0-9A-Fa-f]{4})|(?:UP<U>[0-9A-Fa-f]{8})|(?:xP<x>[0-9A-Fa-f]{2})|(?:NP<N>[A-Za-z0-9]+))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLeaf:# pragma: no cover"",
+            ""    def __init__(self, value):# pragma: no cover"",
+            ""        self.value = value# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""leaf = MockLeaf(\""Some initial text with Unicode escapes: \\u0041 \\U0001f600 \\x41 \\N{LATIN CAPITAL LETTER A}\"") # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str:# pragma: no cover"",
+            ""    # Assuming the prefix for this example# pragma: no cover"",
+            ""    return 'u' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r\""(?P<backslashes>\\\\+)(?:(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^\\}]+\\}))\"") # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041.'}) # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Leaf', (object,), {'value': ''})() # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(\\\\(?P<backslashes>\\\\*)((?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]*)\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {'value': 'Sample Text'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return 'u' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:u(?P<u>[0-9a-fA-F]{4})|U(?P<U>[0-9a-fA-F]{8})|x(?P<x>[0-9a-fA-F]{2})|N\\{(?P<N>[^}]*)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Any, Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('MockLeaf', (object,), {'value': 'Some sample text with Unicode escape sequences \\uabcd and \\U0001F600'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?P<body>(?P<u>u[a-fA-F0-9]{4})|(?P<U>U[a-fA-F0-9]{8})|(?P<x>x[a-fA-F0-9]{2})|N{(?P<N>[^}]*)})') # pragma: no cover""
+        ]
+    }
+]",1,529,0.0002645,1661,0.0024915,0.0027559999999999
+"When trying to execute the code snippet with the provided imports and initialization, the following error happens:
+# begin error message
+Execution error at line :
+\uu0041
+# end error message
+
+Please, provide self-contained and concrete Python fixed values of the imports and initialization to solve the error and make the code snippet executable.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041.'})()"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\u0041.'})()"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041.'})()"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\[u0041].'})"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041.'})()"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041'})()"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041'})"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041'})()"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041.'})()"",
+            ""def get_string_prefix(text): return 'u'"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041.'})()"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041.'})() # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\u0041.'})() # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041.'})() # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\[u0041].'}) # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041.'})() # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041'}) # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041.'})() # pragma: no cover"",
+            ""def get_string_prefix(text): return 'u' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Sample text with Unicode escapes \\\\u0041.'})() # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    }
+]",2,965,0.0004825,1605,0.0024075,0.0028899999999999
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Replace hex codes in Unicode escape sequences with lowercase representation.""""""
+text = leaf.value
+prefix = get_string_prefix(text)
+if ""r"" in prefix.lower(): # uncovered
+    exit() # uncovered
+def replace(m: Match[str]) -> str:
+    groups = m.groupdict()
+    back_slashes = groups[""backslashes""]
+    if len(back_slashes) % 2 == 0: # uncovered
+        aux = back_slashes + groups[""body""] # uncovered
+        exit(aux) # uncovered
+    if groups[""u""]:
+        aux = back_slashes + ""u"" + groups[""u""].lower()
+        # \u
+        exit(aux) # uncovered
+    elif groups[""U""]: # uncovered
+        aux = back_slashes + ""U"" + groups[""U""].lower() # uncovered
+        # \U
+        exit(aux) # uncovered
+    elif groups[""x""]: # uncovered
+        aux = back_slashes + ""x"" + groups[""x""].lower() # uncovered
+        # \x
+        exit(aux) # uncovered
+    else: # uncovered
+        assert groups[""N""], f""Unexpected match: {m}"" # uncovered
+        aux = back_slashes + ""N{"" + groups[""N""].upper() + ""}"" # uncovered
+        # \N{}
+        exit(aux) # uncovered
+leaf.value = re.sub(UNICODE_ESCAPE_RE, replace, text)
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import re"",
+            ""from re import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Hello world! \\u0041'})()"",
+            ""get_string_prefix = lambda text: ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\u0041'})()"",
+            ""def get_string_prefix(s): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?P<body>(u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|x(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from re import Match""
+        ],
+        ""initialization"": [
+            ""UNICODE_ESCAPE_RE = re.compile(r'(\\\\*)(?P<body>N{(?P<N>[a-zA-Z]+)}|x(?P<x>[0-9a-fA-F]{2})|U(?P<U>[0-9a-fA-F]{8})|u(?P<u>[0-9a-fA-F]{4}))')"",
+            ""text = '\\\\u0041'"",
+            ""prefix = ''"",
+            ""class LeafMock: value = text"",
+            ""leaf = LeafMock()"",
+            ""def get_string_prefix(text): return 'r'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from re import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': '\\\\x41'})()"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^{}]+\\}))'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u(?P<uval>[0-9A-Fa-f]{4}))|(?P<U>U(?P<Uval>[0-9A-Fa-f]{8}))|(?P<x>x(?P<xval>[0-9A-Fa-f]{2}))|(?P<N>N\\{(?P<Nval>[a-zA-Z0-9\\s]+)\\}))')"",
+            ""text = r'\\U0001f600'"",
+            ""prefix = ''"",
+            ""leaf = type('Mock', (object,), {'value': text})"",
+            ""def get_string_prefix(text): return ''""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')"",
+            ""leaf = type('MockLeaf', (object,), {'value': r'test \\\\\\\\u1234'})"",
+            ""def get_string_prefix(text): return ''""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""text = 'Example text with \\u1234 and \\xAB representations'"",
+            ""prefix = ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?:(?P<u>u)(?P<ux>[0-9A-Fa-f]{4})|(?P<U>U)(?P<Ux>[0-9A-Fa-f]{8})|(?P<x>x)(?P<xx>[0-9A-Fa-f]{2})|(?P<N>N\\{(?P<Nx>[ -~]+)\\}))')"",
+            ""leaf = type('Mock', (object,), {'value': text})"",
+            ""def get_string_prefix(text): return ''""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?P<small_x>x?(?P<x>[0-9A-Fa-f]{2}))?')"",
+            ""def get_string_prefix(text): return ''"",
+            ""leaf = type('Mock', (object,), {'value': '\\UlD83D\\udc4d'})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'unicode string with \\u1234 and \\U0010FFFF'})()"",
+            ""get_string_prefix = lambda text: ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)\\\\(?:(?P<u>u)(?P<u_bytes>[0-9A-Fa-f]{4})|(?P<U>U)(?P<U_bytes>[0-9A-Fa-f]{8})|(?P<x>x)(?P<x_bytes>[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')"",
+            ""leaf = type('Mock', (object,), {'value': r'\\u0048'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from re import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Hello world! \\u0041'})() # pragma: no cover"",
+            ""get_string_prefix = lambda text: '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(s): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?P<body>(u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|x(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from re import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""UNICODE_ESCAPE_RE = re.compile(r'(\\\\*)(?P<body>N{(?P<N>[a-zA-Z]+)}|x(?P<x>[0-9a-fA-F]{2})|U(?P<U>[0-9a-fA-F]{8})|u(?P<u>[0-9a-fA-F]{4}))') # pragma: no cover"",
+            ""text = '\\\\u0041' # pragma: no cover"",
+            ""prefix = '' # pragma: no cover"",
+            ""class LeafMock: value = text # pragma: no cover"",
+            ""leaf = LeafMock() # pragma: no cover"",
+            ""def get_string_prefix(text): return 'r' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from re import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': '\\\\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^{}]+\\}))' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u(?P<uval>[0-9A-Fa-f]{4}))|(?P<U>U(?P<Uval>[0-9A-Fa-f]{8}))|(?P<x>x(?P<xval>[0-9A-Fa-f]{2}))|(?P<N>N\\{(?P<Nval>[a-zA-Z0-9\\s]+)\\}))') # pragma: no cover"",
+            ""text = r'\\U0001f600' # pragma: no cover"",
+            ""prefix = '' # pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'value': text}) # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover"",
+            ""leaf = type('MockLeaf', (object,), {'value': r'test \\\\\\\\u1234'}) # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""text = 'Example text with \\u1234 and \\xAB representations' # pragma: no cover"",
+            ""prefix = '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?:(?P<u>u)(?P<ux>[0-9A-Fa-f]{4})|(?P<U>U)(?P<Ux>[0-9A-Fa-f]{8})|(?P<x>x)(?P<xx>[0-9A-Fa-f]{2})|(?P<N>N\\{(?P<Nx>[ -~]+)\\}))') # pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'value': text}) # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?P<small_x>x?(?P<x>[0-9A-Fa-f]{2}))?') # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'unicode string with \\u1234 and \\U0010FFFF'})() # pragma: no cover"",
+            ""get_string_prefix = lambda text: '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9a-fA-F]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)\\\\(?:(?P<u>u)(?P<u_bytes>[0-9A-Fa-f]{4})|(?P<U>U)(?P<U_bytes>[0-9A-Fa-f]{8})|(?P<x>x)(?P<x_bytes>[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'value': r'\\u0048'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover""
+        ]
+    }
+]",3,590,0.000295,1609,0.0024135,0.0027085
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Replace hex codes in Unicode escape sequences with lowercase representation.""""""
+text = leaf.value
+prefix = get_string_prefix(text)
+if ""r"" in prefix.lower():
+    exit() # uncovered
+def replace(m: Match[str]) -> str:
+    groups = m.groupdict()
+    back_slashes = groups[""backslashes""]
+    if len(back_slashes) % 2 == 0:
+        aux = back_slashes + groups[""body""]
+        exit(aux) # uncovered
+    if groups[""u""]:
+        aux = back_slashes + ""u"" + groups[""u""].lower()
+        # \u
+        exit(aux) # uncovered
+    elif groups[""U""]:
+        aux = back_slashes + ""U"" + groups[""U""].lower()
+        # \U
+        exit(aux) # uncovered
+    elif groups[""x""]: # uncovered
+        aux = back_slashes + ""x"" + groups[""x""].lower() # uncovered
+        # \x
+        exit(aux) # uncovered
+    else: # uncovered
+        assert groups[""N""], f""Unexpected match: {m}"" # uncovered
+        aux = back_slashes + ""N{"" + groups[""N""].upper() + ""}"" # uncovered
+        # \N{}
+        exit(aux) # uncovered
+leaf.value = re.sub(UNICODE_ESCAPE_RE, replace, text)
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'test \\x41'})"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'unicode text with \\x4E'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x41'})()"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'\\\\+(?P<backslashes>)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'This is an example with \\xAB'})()"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x41'})()"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)((?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x41'})()"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>x(?P<x>[0-9A-Fa-f]{2})|u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\})')"",
+            ""leaf = type('Mock', (object,), {'value': r'\\x4A'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Some text with \\x4A'})()"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'test \\x41'}) # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'unicode text with \\x4E'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'\\\\+(?P<backslashes>)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'This is an example with \\xAB'})() # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)((?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>x(?P<x>[0-9A-Fa-f]{2})|u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover"",
+            ""leaf = type('Mock', (object,), {'value': r'\\x4A'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'Some text with \\x4A'})() # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    }
+]",3,2751,0.0013755,1555,0.0023325,0.003708
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Replace hex codes in Unicode escape sequences with lowercase representation.""""""
+text = leaf.value
+prefix = get_string_prefix(text)
+if ""r"" in prefix.lower():
+    exit() # uncovered
+def replace(m: Match[str]) -> str:
+    groups = m.groupdict()
+    back_slashes = groups[""backslashes""]
+    if len(back_slashes) % 2 == 0:
+        aux = back_slashes + groups[""body""]
+        exit(aux) # uncovered
+    if groups[""u""]:
+        aux = back_slashes + ""u"" + groups[""u""].lower()
+        # \u
+        exit(aux) # uncovered
+    elif groups[""U""]:
+        aux = back_slashes + ""U"" + groups[""U""].lower()
+        # \U
+        exit(aux) # uncovered
+    elif groups[""x""]:
+        aux = back_slashes + ""x"" + groups[""x""].lower()
+        # \x
+        exit(aux) # uncovered
+    else: # uncovered
+        assert groups[""N""], f""Unexpected match: {m}"" # uncovered
+        aux = back_slashes + ""N{"" + groups[""N""].upper() + ""}"" # uncovered
+        # \N{}
+        exit(aux) # uncovered
+leaf.value = re.sub(UNICODE_ESCAPE_RE, replace, text)
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?:(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'This text has \\x4A in it.'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'unicode string with \\U0010FFFF'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'xN{example}'})()"",
+            ""def get_string_prefix(text): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{(?P<Nval>[^}]*)\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example text with \\x4B'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'test \\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'unicode text with \\U0010FFFF'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return 'r'"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'This text has \\x4A in it.'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'unicode string with \\U0010FFFF'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'xN{example}'})() # pragma: no cover"",
+            ""def get_string_prefix(text): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9a-fA-F]{4})|(?P<U>U[0-9a-fA-F]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{(?P<Nval>[^}]*)\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example text with \\x4B'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'test \\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'unicode text with \\U0010FFFF'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return 'r' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    }
+]",3,4852,0.002426,1598,0.002397,0.004823
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Replace hex codes in Unicode escape sequences with lowercase representation.""""""
+text = leaf.value
+prefix = get_string_prefix(text)
+if ""r"" in prefix.lower():
+    exit() # uncovered
+def replace(m: Match[str]) -> str:
+    groups = m.groupdict()
+    back_slashes = groups[""backslashes""]
+    if len(back_slashes) % 2 == 0:
+        aux = back_slashes + groups[""body""]
+        exit(aux) # uncovered
+    if groups[""u""]:
+        aux = back_slashes + ""u"" + groups[""u""].lower()
+        # \u
+        exit(aux) # uncovered
+    elif groups[""U""]:
+        aux = back_slashes + ""U"" + groups[""U""].lower()
+        # \U
+        exit(aux) # uncovered
+    elif groups[""x""]:
+        aux = back_slashes + ""x"" + groups[""x""].lower()
+        # \x
+        exit(aux) # uncovered
+    else: # uncovered
+        assert groups[""N""], f""Unexpected match: {m}"" # uncovered
+        aux = back_slashes + ""N{"" + groups[""N""].upper() + ""}"" # uncovered
+        # \N{}
+        exit(aux) # uncovered
+leaf.value = re.sub(UNICODE_ESCAPE_RE, replace, text)
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'This is a test \\x4E'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'unicode text with \\xAB'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'text with \\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u(?P<uval>[0-9A-Fa-f]{4}))|(?P<U>U(?P<Uval>[0-9A-Fa-f]{8}))|(?P<x>x(?P<xval>[0-9A-Fa-f]{2}))|(?P<N>N\\{(?P<Nval>[^}]+)\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x41'})()"",
+            ""def get_string_prefix(text: str): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x4F'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example with \\\\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x4A'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<body>x)(?P<x>[0-9A-Fa-f]{2})|(?:(?P<u>u)(?P<uval>[0-9A-Fa-f]{4})|(?:(?P<U>U)(?P<Uval>[0-9A-Fa-f]{8})|(?:(?P<N>N\\{)(?P<Nval>[^}]+)\\})))))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example \\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<x>x[0-9A-Fa-f]{2})|(?P<u>u[0-9A-Fa-f]{4})|(?:(?P<U>U[0-9A-Fa-f]{8})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'This is a test \\x4E'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'unicode text with \\xAB'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'text with \\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u(?P<uval>[0-9A-Fa-f]{4}))|(?P<U>U(?P<Uval>[0-9A-Fa-f]{8}))|(?P<x>x(?P<xval>[0-9A-Fa-f]{2}))|(?P<N>N\\{(?P<Nval>[^}]+)\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x4F'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example with \\\\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x4A'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example \\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover""
+        ]
+    }
+]",3,6996,0.003498,1619,0.0024285,0.0059264999999999
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Replace hex codes in Unicode escape sequences with lowercase representation.""""""
+text = leaf.value
+prefix = get_string_prefix(text)
+if ""r"" in prefix.lower():
+    exit() # uncovered
+def replace(m: Match[str]) -> str:
+    groups = m.groupdict()
+    back_slashes = groups[""backslashes""]
+    if len(back_slashes) % 2 == 0:
+        aux = back_slashes + groups[""body""]
+        exit(aux) # uncovered
+    if groups[""u""]:
+        aux = back_slashes + ""u"" + groups[""u""].lower()
+        # \u
+        exit(aux) # uncovered
+    elif groups[""U""]:
+        aux = back_slashes + ""U"" + groups[""U""].lower()
+        # \U
+        exit(aux) # uncovered
+    elif groups[""x""]:
+        aux = back_slashes + ""x"" + groups[""x""].lower()
+        # \x
+        exit(aux) # uncovered
+    else: # uncovered
+        assert groups[""N""], f""Unexpected match: {m}"" # uncovered
+        aux = back_slashes + ""N{"" + groups[""N""].upper() + ""}"" # uncovered
+        # \N{}
+        exit(aux) # uncovered
+leaf.value = re.sub(UNICODE_ESCAPE_RE, replace, text)
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\\\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\u1234'})()"",
+            ""def get_string_prefix(text: str): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\N{LATIN SMALL LETTER A}'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Example with \\x4A'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': '\\\\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<body>u[0-9A-Fa-f]{4})|(?P<body>U[0-9A-Fa-f]{8})|(?P<body>x[0-9A-Fa-f]{2})|(?P<body>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example text with \\x41 character'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u(?P<uval>[0-9A-Fa-f]{4}))|(?P<U>U(?P<Uval>[0-9A-Fa-f]{8}))|(?P<x>x(?P<xval>[0-9A-Fa-f]{2}))|(?P<N>N\\{(?P<Nval>[^}]+)\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Example \\x41 Text'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<x>x[0-9A-Fa-f]{2})|(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Testing with \\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?:(?P<u>u(?P<u_val>[0-9A-Fa-f]{4}))|(?P<U>U(?P<U_val>[0-9A-Fa-f]{8}))|(?P<x>x(?P<x_val>[0-9A-Fa-f]{2}))|(?P<N>N\\{(?P<N_val>[^}]+)\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>x(?P<x>[0-9A-Fa-f]{2})|u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\\\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\u1234'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\N{LATIN SMALL LETTER A}'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Example with \\x4A'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': '\\\\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example text with \\x41 character'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u(?P<uval>[0-9A-Fa-f]{4}))|(?P<U>U(?P<Uval>[0-9A-Fa-f]{8}))|(?P<x>x(?P<xval>[0-9A-Fa-f]{2}))|(?P<N>N\\{(?P<Nval>[^}]+)\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Example \\x41 Text'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<x>x[0-9A-Fa-f]{2})|(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Testing with \\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?:(?P<u>u(?P<u_val>[0-9A-Fa-f]{4}))|(?P<U>U(?P<U_val>[0-9A-Fa-f]{8}))|(?P<x>x(?P<x_val>[0-9A-Fa-f]{2}))|(?P<N>N\\{(?P<N_val>[^}]+)\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>x(?P<x>[0-9A-Fa-f]{2})|u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    }
+]",3,9161,0.0045805,1616,0.002424,0.0070045
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Replace hex codes in Unicode escape sequences with lowercase representation.""""""
+text = leaf.value
+prefix = get_string_prefix(text)
+if ""r"" in prefix.lower():
+    exit() # uncovered
+def replace(m: Match[str]) -> str:
+    groups = m.groupdict()
+    back_slashes = groups[""backslashes""]
+    if len(back_slashes) % 2 == 0:
+        aux = back_slashes + groups[""body""]
+        exit(aux) # uncovered
+    if groups[""u""]:
+        aux = back_slashes + ""u"" + groups[""u""].lower()
+        # \u
+        exit(aux) # uncovered
+    elif groups[""U""]:
+        aux = back_slashes + ""U"" + groups[""U""].lower()
+        # \U
+        exit(aux) # uncovered
+    elif groups[""x""]:
+        aux = back_slashes + ""x"" + groups[""x""].lower()
+        # \x
+        exit(aux) # uncovered
+    else: # uncovered
+        assert groups[""N""], f""Unexpected match: {m}"" # uncovered
+        aux = back_slashes + ""N{"" + groups[""N""].upper() + ""}"" # uncovered
+        # \N{}
+        exit(aux) # uncovered
+leaf.value = re.sub(UNICODE_ESCAPE_RE, replace, text)
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\\\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example with \\\\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x4B'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': '\\\\U0001F600'})()"",
+            ""def get_string_prefix(text: str): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(\\\\*)(?P<body>(u[0-9A-Fa-f]{4})|(U[0-9A-Fa-f]{8})|(x[0-9A-Fa-f]{2})|(N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Example \\xABC'})()"",
+            ""def get_string_prefix(text: str): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u(?P<uval>[0-9A-Fa-f]{4}))|(?P<U>U(?P<Uval>[0-9A-Fa-f]{8}))|(?P<x>x(?P<xval>[0-9A-Fa-f]{2}))|(?P<N>N\\{(?P<Nval>[^}]+)\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'text with \\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(u[0-9A-Fa-f]{4})|(U[0-9A-Fa-f]{8})|(x[0-9A-Fa-f]{2})|(N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example \\N{LATIN SMALL LETTER A}'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\\\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?P<body>x(?P<x>[0-9A-Fa-f]{2})|u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\\\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example with \\\\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x4B'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': '\\\\U0001F600'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(\\\\*)(?P<body>(u[0-9A-Fa-f]{4})|(U[0-9A-Fa-f]{8})|(x[0-9A-Fa-f]{2})|(N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Example \\xABC'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u(?P<uval>[0-9A-Fa-f]{4}))|(?P<U>U(?P<Uval>[0-9A-Fa-f]{8}))|(?P<x>x(?P<xval>[0-9A-Fa-f]{2}))|(?P<N>N\\{(?P<Nval>[^}]+)\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'text with \\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(u[0-9A-Fa-f]{4})|(U[0-9A-Fa-f]{8})|(x[0-9A-Fa-f]{2})|(N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example \\N{LATIN SMALL LETTER A}'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\\\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?P<body>x(?P<x>[0-9A-Fa-f]{2})|u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    }
+]",3,11323,0.0056615,1575,0.0023625,0.008024
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Replace hex codes in Unicode escape sequences with lowercase representation.""""""
+text = leaf.value
+prefix = get_string_prefix(text)
+if ""r"" in prefix.lower():
+    exit() # uncovered
+def replace(m: Match[str]) -> str:
+    groups = m.groupdict()
+    back_slashes = groups[""backslashes""]
+    if len(back_slashes) % 2 == 0:
+        aux = back_slashes + groups[""body""]
+        exit(aux) # uncovered
+    if groups[""u""]:
+        aux = back_slashes + ""u"" + groups[""u""].lower()
+        # \u
+        exit(aux) # uncovered
+    elif groups[""U""]:
+        aux = back_slashes + ""U"" + groups[""U""].lower()
+        # \U
+        exit(aux) # uncovered
+    elif groups[""x""]:
+        aux = back_slashes + ""x"" + groups[""x""].lower()
+        # \x
+        exit(aux) # uncovered
+    else: # uncovered
+        assert groups[""N""], f""Unexpected match: {m}""
+        aux = back_slashes + ""N{"" + groups[""N""].upper() + ""}""
+        # \N{}
+        exit(aux) # uncovered
+leaf.value = re.sub(UNICODE_ESCAPE_RE, replace, text)
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\\\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x4E'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\\\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'\\\\+(?P<backslashes>\\\\*)(?P<body>x(?P<x>[0-9A-Fa-f]{2})|u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Test with \\N{Latin_Small_Letter_A}'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?P<body>((?P<x>x[0-9A-Fa-f]{2})|(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\U0010FFFF'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': '\\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?:(?P<u>u[0-9A-Fa-f]{4}))|(?:(?P<U>U[0-9A-Fa-f]{8}))|(?:(?P<x>x[0-9A-Fa-f]{2}))|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Example with \\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>x(?P<x>[0-9A-Fa-f]{2})|u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example \\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?P<body>((?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x4A'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\\\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x4E'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\\\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'\\\\+(?P<backslashes>\\\\*)(?P<body>x(?P<x>[0-9A-Fa-f]{2})|u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Test with \\N{Latin_Small_Letter_A}'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?P<body>((?P<x>x[0-9A-Fa-f]{2})|(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\U0010FFFF'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': '\\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?:(?P<u>u[0-9A-Fa-f]{4}))|(?:(?P<U>U[0-9A-Fa-f]{8}))|(?:(?P<x>x[0-9A-Fa-f]{2}))|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Example with \\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>x(?P<x>[0-9A-Fa-f]{2})|u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example \\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\+)(?P<body>((?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x4A'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    }
+]",3,11262,0.005631,1610,0.002415,0.008046
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Replace hex codes in Unicode escape sequences with lowercase representation.""""""
+text = leaf.value
+prefix = get_string_prefix(text)
+if ""r"" in prefix.lower():
+    exit() # uncovered
+def replace(m: Match[str]) -> str:
+    groups = m.groupdict()
+    back_slashes = groups[""backslashes""]
+    if len(back_slashes) % 2 == 0:
+        aux = back_slashes + groups[""body""]
+        exit(aux) # uncovered
+    if groups[""u""]:
+        aux = back_slashes + ""u"" + groups[""u""].lower()
+        # \u
+        exit(aux) # uncovered
+    elif groups[""U""]:
+        aux = back_slashes + ""U"" + groups[""U""].lower()
+        # \U
+        exit(aux) # uncovered
+    elif groups[""x""]:
+        aux = back_slashes + ""x"" + groups[""x""].lower()
+        # \x
+        exit(aux) # uncovered
+    else: # uncovered
+        assert groups[""N""], f""Unexpected match: {m}""
+        aux = back_slashes + ""N{"" + groups[""N""].upper() + ""}""
+        # \N{}
+        exit(aux) # uncovered
+leaf.value = re.sub(UNICODE_ESCAPE_RE, replace, text)
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Example \\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Test with \\uAB12'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\\\u1234'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example \\x4A'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\\\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': '\\u0041'})()"",
+            ""def get_string_prefix(text: str): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\\\u1234'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<body>x[0-9A-Fa-f]{2})|u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x4A'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\})))')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Example \\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Test with \\uAB12'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\\\u1234'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example \\x4A'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\\\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': '\\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\\\u1234'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<body>x[0-9A-Fa-f]{2})|u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\x4A'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\})))') # pragma: no cover""
+        ]
+    }
+]",3,11305,0.0056525,1572,0.002358,0.0080105
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Replace hex codes in Unicode escape sequences with lowercase representation.""""""
+text = leaf.value
+prefix = get_string_prefix(text)
+if ""r"" in prefix.lower():
+    exit() # uncovered
+def replace(m: Match[str]) -> str:
+    groups = m.groupdict()
+    back_slashes = groups[""backslashes""]
+    if len(back_slashes) % 2 == 0:
+        aux = back_slashes + groups[""body""]
+        exit(aux) # uncovered
+    if groups[""u""]:
+        aux = back_slashes + ""u"" + groups[""u""].lower()
+        # \u
+        exit(aux) # uncovered
+    elif groups[""U""]:
+        aux = back_slashes + ""U"" + groups[""U""].lower()
+        # \U
+        exit(aux) # uncovered
+    elif groups[""x""]:
+        aux = back_slashes + ""x"" + groups[""x""].lower()
+        # \x
+        exit(aux) # uncovered
+    else: # uncovered
+        assert groups[""N""], f""Unexpected match: {m}""
+        aux = back_slashes + ""N{"" + groups[""N""].upper() + ""}""
+        # \N{}
+        exit(aux) # uncovered
+leaf.value = re.sub(UNICODE_ESCAPE_RE, replace, text)
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<body>u[0-9A-Fa-f]{4})|(?P<body>U[0-9A-Fa-f]{8})|(?P<body>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u(?P<body>[0-9A-Fa-f]{4}))|(?P<U>U(?P<body>[0-9A-Fa-f]{8}))|(?P<x>x(?P<body>[0-9A-Fa-f]{2}))|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Example \\uxxxx'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<body>x[0-9A-Fa-f]{2})|u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\\\x4E'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example text with \\x4A character'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Example with hex \\x4A'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<body>x(?P<x>[0-9A-Fa-f]{2}))|(?P<body>u(?P<u>[0-9A-Fa-f]{4}))|(?P<body>U(?P<U>[0-9A-Fa-f]{8}))|(?P<body>N\\{(?P<N>[^}]+)\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example \\x4E'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\u1234'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<body>u[0-9A-Fa-f]{4})|(?P<body>U[0-9A-Fa-f]{8})|(?P<body>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Example \\uxxxx'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<body>x[0-9A-Fa-f]{2})|u(?P<u>[0-9A-Fa-f]{4})|U(?P<U>[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\\\x4E'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example text with \\x4A character'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|(?P<N>N\\{[^}]+\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Example with hex \\x4A'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example \\x4E'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\u1234'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover""
+        ]
+    }
+]",3,11273,0.0056365,1617,0.0024255,0.008062
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+""""""Replace hex codes in Unicode escape sequences with lowercase representation.""""""
+text = leaf.value
+prefix = get_string_prefix(text)
+if ""r"" in prefix.lower():
+    exit() # uncovered
+def replace(m: Match[str]) -> str:
+    groups = m.groupdict()
+    back_slashes = groups[""backslashes""]
+    if len(back_slashes) % 2 == 0:
+        aux = back_slashes + groups[""body""]
+        exit(aux) # uncovered
+    if groups[""u""]:
+        aux = back_slashes + ""u"" + groups[""u""].lower()
+        # \u
+        exit(aux) # uncovered
+    elif groups[""U""]:
+        aux = back_slashes + ""U"" + groups[""U""].lower()
+        # \U
+        exit(aux) # uncovered
+    elif groups[""x""]:
+        aux = back_slashes + ""x"" + groups[""x""].lower()
+        # \x
+        exit(aux) # uncovered
+    else: # uncovered
+        assert groups[""N""], f""Unexpected match: {m}""
+        aux = back_slashes + ""N{"" + groups[""N""].upper() + ""}""
+        # \N{}
+        exit(aux) # uncovered
+leaf.value = re.sub(UNICODE_ESCAPE_RE, replace, text)
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example \\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<x>x[0-9A-Fa-f]{2})|(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Test \\u0041'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<body>(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\}))')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example \\N{LATIN SMALL LETTER A}'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x4A'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\N{LATIN SMALL LETTER A}'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Test \\\\U00400001'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Example \\x41'})()"",
+            ""def get_string_prefix(text: str): return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x4A'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\U12345678'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<body>u[0-9A-Fa-f]{4})|(?P<body>U[0-9A-Fa-f]{8})|(?P<body>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re"",
+            ""from typing import Match""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\\\x41'})()"",
+            ""def get_string_prefix(text: str) -> str: return ''"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example \\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<x>x[0-9A-Fa-f]{2})|(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Test \\u0041'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<body>(?P<u>[0-9A-Fa-f]{4})|(?P<U>[0-9A-Fa-f]{8})|(?P<x>[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\}))') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'example \\N{LATIN SMALL LETTER A}'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x4A'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'test \\N{LATIN SMALL LETTER A}'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?P<body>(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Test \\\\U00400001'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'Example \\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str): return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': 'example \\x4A'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\U12345678'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import re # pragma: no cover"",
+            ""from typing import Match # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""leaf = type('Mock', (object,), {'value': r'\\\\x41'})() # pragma: no cover"",
+            ""def get_string_prefix(text: str) -> str: return '' # pragma: no cover"",
+            ""UNICODE_ESCAPE_RE = re.compile(r'(?P<backslashes>\\\\*)(?:(?P<u>u[0-9A-Fa-f]{4})|(?P<U>U[0-9A-Fa-f]{8})|(?P<x>x[0-9A-Fa-f]{2})|N\\{(?P<N>[^}]+)\\})') # pragma: no cover""
+        ]
+    }
+]",3,11265,0.0056325,1605,0.0024075,0.00804

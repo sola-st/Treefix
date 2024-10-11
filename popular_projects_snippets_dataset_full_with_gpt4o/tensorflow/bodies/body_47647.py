@@ -1,0 +1,20 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/keras/layers/convolutional.py
+super(Conv3D, self).__init__(
+    rank=3,
+    filters=filters,
+    kernel_size=kernel_size,
+    strides=strides,
+    padding=padding,
+    data_format=data_format,
+    dilation_rate=dilation_rate,
+    groups=groups,
+    activation=activations.get(activation),
+    use_bias=use_bias,
+    kernel_initializer=initializers.get(kernel_initializer),
+    bias_initializer=initializers.get(bias_initializer),
+    kernel_regularizer=regularizers.get(kernel_regularizer),
+    bias_regularizer=regularizers.get(bias_regularizer),
+    activity_regularizer=regularizers.get(activity_regularizer),
+    kernel_constraint=constraints.get(kernel_constraint),
+    bias_constraint=constraints.get(bias_constraint),
+    **kwargs)

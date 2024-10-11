@@ -1,0 +1,1153 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Send the contents of a file to the client.
+
+    The first argument can be a file path or a file-like object. Paths
+    are preferred in most cases because Werkzeug can manage the file and
+    get extra information from the path. Passing a file-like object
+    requires that the file is opened in binary mode, and is mostly
+    useful when building a file in memory with :class:`io.BytesIO`.
+
+    Never pass file paths provided by a user. The path is assumed to be
+    trusted, so a user could craft a path to access a file you didn't
+    intend. Use :func:`send_from_directory` to safely serve
+    user-requested paths from within a directory.
+
+    If the WSGI server sets a ``file_wrapper`` in ``environ``, it is
+    used, otherwise Werkzeug's built-in wrapper is used. Alternatively,
+    if the HTTP server supports ``X-Sendfile``, configuring Flask with
+    ``USE_X_SENDFILE = True`` will tell the server to send the given
+    path, which is much more efficient than reading it in Python.
+
+    :param path_or_file: The path to the file to send, relative to the
+        current working directory if a relative path is given.
+        Alternatively, a file-like object opened in binary mode. Make
+        sure the file pointer is seeked to the start of the data.
+    :param mimetype: The MIME type to send for the file. If not
+        provided, it will try to detect it from the file name.
+    :param as_attachment: Indicate to a browser that it should offer to
+        save the file instead of displaying it.
+    :param download_name: The default name browsers will use when saving
+        the file. Defaults to the passed file name.
+    :param conditional: Enable conditional and range responses based on
+        request headers. Requires passing a file path and ``environ``.
+    :param etag: Calculate an ETag for the file, which requires passing
+        a file path. Can also be a string to use instead.
+    :param last_modified: The last modified time to send for the file,
+        in seconds. If not provided, it will try to detect it from the
+        file path.
+    :param max_age: How long the client should cache the file, in
+        seconds. If set, ``Cache-Control`` will be ``public``, otherwise
+        it will be ``no-cache`` to prefer conditional caching.
+
+    .. versionchanged:: 2.0
+        ``download_name`` replaces the ``attachment_filename``
+        parameter. If ``as_attachment=False``, it is passed with
+        ``Content-Disposition: inline`` instead.
+
+    .. versionchanged:: 2.0
+        ``max_age`` replaces the ``cache_timeout`` parameter.
+        ``conditional`` is enabled and ``max_age`` is not set by
+        default.
+
+    .. versionchanged:: 2.0
+        ``etag`` replaces the ``add_etags`` parameter. It can be a
+        string to use instead of generating one.
+
+    .. versionchanged:: 2.0
+        Passing a file-like object that inherits from
+        :class:`~io.TextIOBase` will raise a :exc:`ValueError` rather
+        than sending an empty file.
+
+    .. versionadded:: 2.0
+        Moved the implementation to Werkzeug. This is now a wrapper to
+        pass some Flask-specific arguments.
+
+    .. versionchanged:: 1.1
+        ``filename`` may be a :class:`~os.PathLike` object.
+
+    .. versionchanged:: 1.1
+        Passing a :class:`~io.BytesIO` object supports range requests.
+
+    .. versionchanged:: 1.0.3
+        Filenames are encoded with ASCII instead of Latin-1 for broader
+        compatibility with WSGI servers.
+
+    .. versionchanged:: 1.0
+        UTF-8 filenames as specified in :rfc:`2231` are supported.
+
+    .. versionchanged:: 0.12
+        The filename is no longer automatically inferred from file
+        objects. If you want to use automatic MIME and etag support,
+        pass a filename via ``filename_or_fp`` or
+        ``attachment_filename``.
+
+    .. versionchanged:: 0.12
+        ``attachment_filename`` is preferred over ``filename`` for MIME
+        detection.
+
+    .. versionchanged:: 0.9
+        ``cache_timeout`` defaults to
+        :meth:`Flask.get_send_file_max_age`.
+
+    .. versionchanged:: 0.7
+        MIME guessing and etag support for file-like objects was
+        deprecated because it was unreliable. Pass a filename if you are
+        able to, otherwise attach an etag yourself.
+
+    .. versionchanged:: 0.5
+        The ``add_etags``, ``cache_timeout`` and ``conditional``
+        parameters were added. The default behavior is to add etags.
+
+    .. versionadded:: 0.2
+    """"""
+exit(werkzeug.utils.send_file(  # type: ignore[return-value]
+    **_prepare_send_file_kwargs(
+        path_or_file=path_or_file,
+        environ=request.environ,
+        mimetype=mimetype,
+        as_attachment=as_attachment,
+        download_name=download_name,
+        conditional=conditional,
+        etag=etag,
+        last_modified=last_modified,
+        max_age=max_age,
+    )
+))
+
+# end code snippet
+
+# begin undefined variables
+werkzeug
+_prepare_send_file_kwargs
+path_or_file
+request
+mimetype
+as_attachment
+download_name
+conditional
+etag
+last_modified
+max_age
+# end undefined variables
+
+# begin undefined attributes and methods
+werkzeug.utils
+request.environ
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import werkzeug"",
+            ""import io"",
+            ""from flask import Flask, request""
+        ],
+        ""initialization"": [
+            ""werkzeug.utils = type('Mock', (object,), {'send_file': lambda *args, **kwargs: None})()"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs"",
+            ""path_or_file = io.BytesIO(b'This is a test file')"",
+            ""request = type('Mock', (object,), {'environ': {}})()"",
+            ""mimetype = 'text/plain'"",
+            ""as_attachment = False"",
+            ""download_name = 'test.txt'"",
+            ""conditional = False"",
+            ""etag = 'test-etag'"",
+            ""last_modified = None"",
+            ""max_age = 3600""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug.utils"",
+            ""from io import BytesIO"",
+            ""from werkzeug.datastructures import EnvironBuilder"",
+            ""from werkzeug.wrappers import Request, Response""
+        ],
+        ""initialization"": [
+            ""path_or_file = BytesIO(b'Some file content')"",
+            ""request = Request(EnvironBuilder().get_environ())"",
+            ""mimetype = 'text/plain'"",
+            ""as_attachment = True"",
+            ""download_name = 'example.txt'"",
+            ""conditional = True"",
+            ""etag = 'some-etag-value'"",
+            ""last_modified = 1672531200  # Example timestamp in seconds (Jan 1, 2023)"",
+            ""max_age = 3600"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug.utils"",
+            ""from io import BytesIO"",
+            ""import os""
+        ],
+        ""initialization"": [
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs"",
+            ""path_or_file = BytesIO(b'This is a test file content.')"",
+            ""request = type('MockRequest', (object,), {'environ': {}})()"",
+            ""mimetype = 'application/octet-stream'"",
+            ""as_attachment = True"",
+            ""download_name = 'test.txt'"",
+            ""conditional = False"",
+            ""etag = 'W/\\\""etag\\\""'"",
+            ""last_modified = int(os.path.getmtime(__file__))"",
+            ""max_age = 3600""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug"",
+            ""from werkzeug.wrappers import Request"",
+            ""from io import BytesIO"",
+            ""import datetime""
+        ],
+        ""initialization"": [
+            ""werkzeug.utils = type('Mock', (object,), {'send_file': lambda *args, **kwargs: 'file sent'})"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs"",
+            ""path_or_file = BytesIO(b'Sample file content')"",
+            ""request = type('Mock', (object,), {'environ': {}})()"",
+            ""mimetype = 'text/plain'"",
+            ""as_attachment = True"",
+            ""download_name = 'example.txt'"",
+            ""conditional = True"",
+            ""etag = '12345'"",
+            ""last_modified = int(datetime.datetime.now().timestamp())"",
+            ""max_age = 3600""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from io import BytesIO"",
+            ""from flask import Flask, request"",
+            ""import werkzeug.utils""
+        ],
+        ""initialization"": [
+            ""werkzeug = type('Mock', (object,), {'utils': werkzeug.utils})"",
+            ""def _prepare_send_file_kwargs(**kwargs): return kwargs"",
+            ""path_or_file = BytesIO(b'This is a test file content')"",
+            ""request = type('Mock', (object,), {'environ': {}})"",
+            ""mimetype = 'text/plain'"",
+            ""as_attachment = False"",
+            ""download_name = 'test.txt'"",
+            ""conditional = False"",
+            ""etag = None"",
+            ""last_modified = None"",
+            ""max_age = None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import io"",
+            ""import datetime"",
+            ""import werkzeug"",
+            ""from werkzeug.utils import send_file"",
+            ""from typing import Any""
+        ],
+        ""initialization"": [
+            ""_prepare_send_file_kwargs = lambda path_or_file, environ, mimetype, as_attachment, download_name, conditional, etag, last_modified, max_age: { 'path_or_file': path_or_file, 'environ': environ, 'mimetype': mimetype, 'as_attachment': as_attachment, 'download_name': download_name, 'conditional': conditional, 'etag': etag, 'last_modified': last_modified, 'max_age': max_age }"",
+            ""path_or_file = 'example.txt'"",
+            ""request = type('Mock', (object,), {'environ': {}})()"",
+            ""mimetype = 'text/plain'"",
+            ""as_attachment = False"",
+            ""download_name = 'example.txt'"",
+            ""conditional = True"",
+            ""etag = '1234567890'"",
+            ""last_modified = int(datetime.datetime.now().timestamp())"",
+            ""max_age = 3600""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug.utils"",
+            ""from io import BytesIO"",
+            ""import os"",
+            ""from datetime import datetime""
+        ],
+        ""initialization"": [
+            ""path_or_file = 'example.txt'"",
+            ""request = type('Mock', (object,), {'environ': {}})()"",
+            ""mimetype = 'text/plain'"",
+            ""as_attachment = False"",
+            ""download_name = 'example.txt'"",
+            ""conditional = False"",
+            ""etag = '1234567890abcdef'"",
+            ""last_modified = int(datetime.timestamp(datetime.now()))"",
+            ""max_age = 3600"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug.utils"",
+            ""import io"",
+            ""from flask import request""
+        ],
+        ""initialization"": [
+            ""path_or_file = io.BytesIO(b\""example file content\"")"",
+            ""mimetype = 'application/octet-stream'"",
+            ""as_attachment = True"",
+            ""download_name = 'example.txt'"",
+            ""conditional = False"",
+            ""etag = 'exampleetag'"",
+            ""last_modified = 1652323200"",
+            ""max_age = 3600"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs"",
+            ""request = type('Mock', (object,), {'environ': {}})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug"",
+            ""from werkzeug.utils import send_file"",
+            ""from io import BytesIO"",
+            ""import os"",
+            ""from datetime import datetime"",
+            ""import mimetypes""
+        ],
+        ""initialization"": [
+            ""def _prepare_send_file_kwargs(path_or_file, environ, mimetype, as_attachment, download_name, conditional, etag, last_modified, max_age):\n    return {\n        'path_or_file': path_or_file,\n        'environ': environ,\n        'mimetype': mimetype,\n        'as_attachment': as_attachment,\n        'download_name': download_name,\n        'conditional': conditional,\n        'etag': etag,\n        'last_modified': last_modified,\n        'max_age': max_age\n    }"",
+            ""path_or_file = os.path.abspath('example.txt')"",
+            ""request = type('Mock', (object,), {'environ': {}})()"",
+            ""mimetype = mimetypes.guess_type(path_or_file)[0]"",
+            ""as_attachment = True"",
+            ""download_name = os.path.basename(path_or_file)"",
+            ""conditional = True"",
+            ""etag = 'example-etag'"",
+            ""last_modified = int(datetime.now().timestamp())"",
+            ""max_age = 3600""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug"",
+            ""import io"",
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""werkzeug = Mock()"",
+            ""_prepare_send_file_kwargs = Mock(return_value={})"",
+            ""path_or_file = io.BytesIO(b'This is a test file content.')"",
+            ""request = Mock()"",
+            ""request.environ = {}"",
+            ""mimetype = 'text/plain'"",
+            ""as_attachment = False"",
+            ""download_name = 'test.txt'"",
+            ""conditional = False"",
+            ""etag = None"",
+            ""last_modified = None"",
+            ""max_age = None"",
+            ""werkzeug.utils = Mock()"",
+            ""werkzeug.utils.send_file = Mock()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import werkzeug # pragma: no cover"",
+            ""import io # pragma: no cover"",
+            ""from flask import Flask, request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""werkzeug.utils = type('Mock', (object,), {'send_file': lambda *args, **kwargs: None})() # pragma: no cover"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs # pragma: no cover"",
+            ""path_or_file = io.BytesIO(b'This is a test file') # pragma: no cover"",
+            ""request = type('Mock', (object,), {'environ': {}})() # pragma: no cover"",
+            ""mimetype = 'text/plain' # pragma: no cover"",
+            ""as_attachment = False # pragma: no cover"",
+            ""download_name = 'test.txt' # pragma: no cover"",
+            ""conditional = False # pragma: no cover"",
+            ""etag = 'test-etag' # pragma: no cover"",
+            ""last_modified = None # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug.utils # pragma: no cover"",
+            ""from io import BytesIO # pragma: no cover"",
+            ""from werkzeug.wrappers import Request, Response # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""path_or_file = BytesIO(b'Some file content') # pragma: no cover"",
+            ""mimetype = 'text/plain' # pragma: no cover"",
+            ""as_attachment = True # pragma: no cover"",
+            ""download_name = 'example.txt' # pragma: no cover"",
+            ""conditional = True # pragma: no cover"",
+            ""etag = 'some-etag-value' # pragma: no cover"",
+            ""last_modified = 1672531200  # Example timestamp in seconds (Jan 1, 2023) # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug.utils # pragma: no cover"",
+            ""from io import BytesIO # pragma: no cover"",
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs # pragma: no cover"",
+            ""path_or_file = BytesIO(b'This is a test file content.') # pragma: no cover"",
+            ""request = type('MockRequest', (object,), {'environ': {}})() # pragma: no cover"",
+            ""mimetype = 'application/octet-stream' # pragma: no cover"",
+            ""as_attachment = True # pragma: no cover"",
+            ""download_name = 'test.txt' # pragma: no cover"",
+            ""conditional = False # pragma: no cover"",
+            ""etag = 'W/\\\""etag\\\""' # pragma: no cover"",
+            ""last_modified = int(os.path.getmtime(__file__)) # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug # pragma: no cover"",
+            ""from werkzeug.wrappers import Request # pragma: no cover"",
+            ""from io import BytesIO # pragma: no cover"",
+            ""import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""werkzeug.utils = type('Mock', (object,), {'send_file': lambda *args, **kwargs: 'file sent'}) # pragma: no cover"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs # pragma: no cover"",
+            ""path_or_file = BytesIO(b'Sample file content') # pragma: no cover"",
+            ""request = type('Mock', (object,), {'environ': {}})() # pragma: no cover"",
+            ""mimetype = 'text/plain' # pragma: no cover"",
+            ""as_attachment = True # pragma: no cover"",
+            ""download_name = 'example.txt' # pragma: no cover"",
+            ""conditional = True # pragma: no cover"",
+            ""etag = '12345' # pragma: no cover"",
+            ""last_modified = int(datetime.datetime.now().timestamp()) # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from io import BytesIO # pragma: no cover"",
+            ""from flask import Flask, request # pragma: no cover"",
+            ""import werkzeug.utils # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""werkzeug = type('Mock', (object,), {'utils': werkzeug.utils}) # pragma: no cover"",
+            ""def _prepare_send_file_kwargs(**kwargs): return kwargs # pragma: no cover"",
+            ""path_or_file = BytesIO(b'This is a test file content') # pragma: no cover"",
+            ""request = type('Mock', (object,), {'environ': {}}) # pragma: no cover"",
+            ""mimetype = 'text/plain' # pragma: no cover"",
+            ""as_attachment = False # pragma: no cover"",
+            ""download_name = 'test.txt' # pragma: no cover"",
+            ""conditional = False # pragma: no cover"",
+            ""etag = None # pragma: no cover"",
+            ""last_modified = None # pragma: no cover"",
+            ""max_age = None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import io # pragma: no cover"",
+            ""import datetime # pragma: no cover"",
+            ""import werkzeug # pragma: no cover"",
+            ""from werkzeug.utils import send_file # pragma: no cover"",
+            ""from typing import Any # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_prepare_send_file_kwargs = lambda path_or_file, environ, mimetype, as_attachment, download_name, conditional, etag, last_modified, max_age: { 'path_or_file': path_or_file, 'environ': environ, 'mimetype': mimetype, 'as_attachment': as_attachment, 'download_name': download_name, 'conditional': conditional, 'etag': etag, 'last_modified': last_modified, 'max_age': max_age } # pragma: no cover"",
+            ""path_or_file = 'example.txt' # pragma: no cover"",
+            ""request = type('Mock', (object,), {'environ': {}})() # pragma: no cover"",
+            ""mimetype = 'text/plain' # pragma: no cover"",
+            ""as_attachment = False # pragma: no cover"",
+            ""download_name = 'example.txt' # pragma: no cover"",
+            ""conditional = True # pragma: no cover"",
+            ""etag = '1234567890' # pragma: no cover"",
+            ""last_modified = int(datetime.datetime.now().timestamp()) # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug.utils # pragma: no cover"",
+            ""from io import BytesIO # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""path_or_file = 'example.txt' # pragma: no cover"",
+            ""request = type('Mock', (object,), {'environ': {}})() # pragma: no cover"",
+            ""mimetype = 'text/plain' # pragma: no cover"",
+            ""as_attachment = False # pragma: no cover"",
+            ""download_name = 'example.txt' # pragma: no cover"",
+            ""conditional = False # pragma: no cover"",
+            ""etag = '1234567890abcdef' # pragma: no cover"",
+            ""last_modified = int(datetime.timestamp(datetime.now())) # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug.utils # pragma: no cover"",
+            ""import io # pragma: no cover"",
+            ""from flask import request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""path_or_file = io.BytesIO(b\""example file content\"") # pragma: no cover"",
+            ""mimetype = 'application/octet-stream' # pragma: no cover"",
+            ""as_attachment = True # pragma: no cover"",
+            ""download_name = 'example.txt' # pragma: no cover"",
+            ""conditional = False # pragma: no cover"",
+            ""etag = 'exampleetag' # pragma: no cover"",
+            ""last_modified = 1652323200 # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs # pragma: no cover"",
+            ""request = type('Mock', (object,), {'environ': {}}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug # pragma: no cover"",
+            ""from werkzeug.utils import send_file # pragma: no cover"",
+            ""from io import BytesIO # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover"",
+            ""import mimetypes # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def _prepare_send_file_kwargs(path_or_file, environ, mimetype, as_attachment, download_name, conditional, etag, last_modified, max_age):# pragma: no cover"",
+            ""    return {# pragma: no cover"",
+            ""        'path_or_file': path_or_file,# pragma: no cover"",
+            ""        'environ': environ,# pragma: no cover"",
+            ""        'mimetype': mimetype,# pragma: no cover"",
+            ""        'as_attachment': as_attachment,# pragma: no cover"",
+            ""        'download_name': download_name,# pragma: no cover"",
+            ""        'conditional': conditional,# pragma: no cover"",
+            ""        'etag': etag,# pragma: no cover"",
+            ""        'last_modified': last_modified,# pragma: no cover"",
+            ""        'max_age': max_age# pragma: no cover"",
+            ""    } # pragma: no cover"",
+            ""path_or_file = os.path.abspath('example.txt') # pragma: no cover"",
+            ""request = type('Mock', (object,), {'environ': {}})() # pragma: no cover"",
+            ""mimetype = mimetypes.guess_type(path_or_file)[0] # pragma: no cover"",
+            ""as_attachment = True # pragma: no cover"",
+            ""download_name = os.path.basename(path_or_file) # pragma: no cover"",
+            ""conditional = True # pragma: no cover"",
+            ""etag = 'example-etag' # pragma: no cover"",
+            ""last_modified = int(datetime.now().timestamp()) # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug # pragma: no cover"",
+            ""import io # pragma: no cover"",
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""werkzeug = Mock() # pragma: no cover"",
+            ""_prepare_send_file_kwargs = Mock(return_value={}) # pragma: no cover"",
+            ""path_or_file = io.BytesIO(b'This is a test file content.') # pragma: no cover"",
+            ""request = Mock() # pragma: no cover"",
+            ""request.environ = {} # pragma: no cover"",
+            ""mimetype = 'text/plain' # pragma: no cover"",
+            ""as_attachment = False # pragma: no cover"",
+            ""download_name = 'test.txt' # pragma: no cover"",
+            ""conditional = False # pragma: no cover"",
+            ""etag = None # pragma: no cover"",
+            ""last_modified = None # pragma: no cover"",
+            ""max_age = None # pragma: no cover"",
+            ""werkzeug.utils = Mock() # pragma: no cover"",
+            ""werkzeug.utils.send_file = Mock() # pragma: no cover""
+        ]
+    }
+]",1,1464,0.000732,1884,0.002826,0.003558
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Send the contents of a file to the client.
+
+    The first argument can be a file path or a file-like object. Paths
+    are preferred in most cases because Werkzeug can manage the file and
+    get extra information from the path. Passing a file-like object
+    requires that the file is opened in binary mode, and is mostly
+    useful when building a file in memory with :class:`io.BytesIO`.
+
+    Never pass file paths provided by a user. The path is assumed to be
+    trusted, so a user could craft a path to access a file you didn't
+    intend. Use :func:`send_from_directory` to safely serve
+    user-requested paths from within a directory.
+
+    If the WSGI server sets a ``file_wrapper`` in ``environ``, it is
+    used, otherwise Werkzeug's built-in wrapper is used. Alternatively,
+    if the HTTP server supports ``X-Sendfile``, configuring Flask with
+    ``USE_X_SENDFILE = True`` will tell the server to send the given
+    path, which is much more efficient than reading it in Python.
+
+    :param path_or_file: The path to the file to send, relative to the
+        current working directory if a relative path is given.
+        Alternatively, a file-like object opened in binary mode. Make
+        sure the file pointer is seeked to the start of the data.
+    :param mimetype: The MIME type to send for the file. If not
+        provided, it will try to detect it from the file name.
+    :param as_attachment: Indicate to a browser that it should offer to
+        save the file instead of displaying it.
+    :param download_name: The default name browsers will use when saving
+        the file. Defaults to the passed file name.
+    :param conditional: Enable conditional and range responses based on
+        request headers. Requires passing a file path and ``environ``.
+    :param etag: Calculate an ETag for the file, which requires passing
+        a file path. Can also be a string to use instead.
+    :param last_modified: The last modified time to send for the file,
+        in seconds. If not provided, it will try to detect it from the
+        file path.
+    :param max_age: How long the client should cache the file, in
+        seconds. If set, ``Cache-Control`` will be ``public``, otherwise
+        it will be ``no-cache`` to prefer conditional caching.
+
+    .. versionchanged:: 2.0
+        ``download_name`` replaces the ``attachment_filename``
+        parameter. If ``as_attachment=False``, it is passed with
+        ``Content-Disposition: inline`` instead.
+
+    .. versionchanged:: 2.0
+        ``max_age`` replaces the ``cache_timeout`` parameter.
+        ``conditional`` is enabled and ``max_age`` is not set by
+        default.
+
+    .. versionchanged:: 2.0
+        ``etag`` replaces the ``add_etags`` parameter. It can be a
+        string to use instead of generating one.
+
+    .. versionchanged:: 2.0
+        Passing a file-like object that inherits from
+        :class:`~io.TextIOBase` will raise a :exc:`ValueError` rather
+        than sending an empty file.
+
+    .. versionadded:: 2.0
+        Moved the implementation to Werkzeug. This is now a wrapper to
+        pass some Flask-specific arguments.
+
+    .. versionchanged:: 1.1
+        ``filename`` may be a :class:`~os.PathLike` object.
+
+    .. versionchanged:: 1.1
+        Passing a :class:`~io.BytesIO` object supports range requests.
+
+    .. versionchanged:: 1.0.3
+        Filenames are encoded with ASCII instead of Latin-1 for broader
+        compatibility with WSGI servers.
+
+    .. versionchanged:: 1.0
+        UTF-8 filenames as specified in :rfc:`2231` are supported.
+
+    .. versionchanged:: 0.12
+        The filename is no longer automatically inferred from file
+        objects. If you want to use automatic MIME and etag support,
+        pass a filename via ``filename_or_fp`` or
+        ``attachment_filename``.
+
+    .. versionchanged:: 0.12
+        ``attachment_filename`` is preferred over ``filename`` for MIME
+        detection.
+
+    .. versionchanged:: 0.9
+        ``cache_timeout`` defaults to
+        :meth:`Flask.get_send_file_max_age`.
+
+    .. versionchanged:: 0.7
+        MIME guessing and etag support for file-like objects was
+        deprecated because it was unreliable. Pass a filename if you are
+        able to, otherwise attach an etag yourself.
+
+    .. versionchanged:: 0.5
+        The ``add_etags``, ``cache_timeout`` and ``conditional``
+        parameters were added. The default behavior is to add etags.
+
+    .. versionadded:: 0.2
+    """"""
+exit(werkzeug.utils.send_file(  # type: ignore[return-value]
+    **_prepare_send_file_kwargs(
+        path_or_file=path_or_file,
+        environ=request.environ,
+        mimetype=mimetype,
+        as_attachment=as_attachment,
+        download_name=download_name,
+        conditional=conditional,
+        etag=etag,
+        last_modified=last_modified,
+        max_age=max_age,
+    )
+))
+
+# end code snippet
+
+# begin undefined variables
+werkzeug
+_prepare_send_file_kwargs
+path_or_file
+request
+mimetype
+as_attachment
+download_name
+conditional
+etag
+last_modified
+max_age
+# end undefined variables
+
+# begin undefined attributes and methods
+werkzeug.utils
+request.environ
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import werkzeug.utils"",
+            ""from io import BytesIO"",
+            ""import os"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""werkzeug = werkzeug"",
+            ""_prepare_send_file_kwargs = lambda path_or_file, environ, mimetype, as_attachment, download_name, conditional, etag, last_modified, max_age: {\n    'path_or_file': path_or_file,\n    'mimetype': mimetype,\n    'as_attachment': as_attachment,\n    'download_name': download_name,\n    'conditional': conditional,\n    'etag': etag,\n    'last_modified': last_modified,\n    'max_age': max_age\n}"",
+            ""path_or_file = BytesIO(b'Test data')"",
+            ""request = type('MockRequest', (object,), {'environ': {'file_wrapper': None}})()"",
+            ""mimetype = 'text/plain'"",
+            ""as_attachment = True"",
+            ""download_name = 'test.txt'"",
+            ""conditional = True"",
+            ""etag = 'test-etag'"",
+            ""last_modified = os.path.getmtime(__file__)"",
+            ""max_age = 3600""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from io import BytesIO"",
+            ""import werkzeug"",
+            ""import os"",
+            ""import time""
+        ],
+        ""initialization"": [
+            ""werkzeug = type('Mock', (object,), {'utils': type('MockUtils', (object,), {'send_file': lambda **kwargs: None})})()"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs"",
+            ""path_or_file = 'path/to/file.txt'"",
+            ""request = type('MockRequest', (object,), {'environ': {}})()"",
+            ""mimetype = 'text/plain'"",
+            ""as_attachment = True"",
+            ""download_name = 'file.txt'"",
+            ""conditional = False"",
+            ""etag = None"",
+            ""last_modified = int(time.time())"",
+            ""max_age = 3600""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug"",
+            ""from werkzeug import utils"",
+            ""from io import BytesIO"",
+            ""import os"",
+            ""import datetime""
+        ],
+        ""initialization"": [
+            ""werkzeug = type('MockWerkzeug', (object,), {'utils': type('MockUtils', (object,), {'send_file': lambda *args, **kwargs: None})})()"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs"",
+            ""path_or_file = 'example.txt'"",
+            ""request = type('MockRequest', (object,), {'environ': {}})()"",
+            ""mimetype = 'text/plain'"",
+            ""as_attachment = True"",
+            ""download_name = 'downloaded_example.txt'"",
+            ""conditional = True"",
+            ""etag = 'example-etag'"",
+            ""last_modified = int(datetime.datetime.now().timestamp())"",
+            ""max_age = 3600""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug"",
+            ""import werkzeug.utils"",
+            ""from io import BytesIO"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""def _prepare_send_file_kwargs(path_or_file, environ, mimetype, as_attachment, download_name, conditional, etag, last_modified, max_age):\n    return {\n        'path_or_file': path_or_file,\n        'environ': environ,\n        'mimetype': mimetype,\n        'as_attachment': as_attachment,\n        'download_name': download_name,\n        'conditional': conditional,\n        'etag': etag,\n        'last_modified': last_modified,\n        'max_age': max_age,\n    }"",
+            ""path_or_file = BytesIO(b'Example file content')"",
+            ""request = SimpleNamespace(environ={})"",
+            ""mimetype = 'application/octet-stream'"",
+            ""as_attachment = True"",
+            ""download_name = 'example.txt'"",
+            ""conditional = True"",
+            ""etag = 'example_etag'"",
+            ""last_modified = 1633036800"",
+            ""max_age = 3600""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.utils import send_file"",
+            ""from io import BytesIO"",
+            ""import os"",
+            ""import datetime""
+        ],
+        ""initialization"": [
+            ""werkzeug = type('Mock', (object,), {'utils': type('MockUtils', (object,), {'send_file': send_file})})"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs"",
+            ""path_or_file = BytesIO(b'some file content')"",
+            ""request = type('MockRequest', (object,), {'environ': {}})()"",
+            ""mimetype = 'application/octet-stream'"",
+            ""as_attachment = True"",
+            ""download_name = 'example.txt'"",
+            ""conditional = True"",
+            ""etag = 'some-etag'"",
+            ""last_modified = int(datetime.datetime.now().timestamp())"",
+            ""max_age = 3600""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug.utils"",
+            ""from io import BytesIO"",
+            ""import os"",
+            ""import time""
+        ],
+        ""initialization"": [
+            ""werkzeug = __import__('werkzeug')"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs"",
+            ""path_or_file = BytesIO(b'Some binary data')"",
+            ""request = type('Mock', (object,), {'environ': {}})()"",
+            ""mimetype = 'application/octet-stream'"",
+            ""as_attachment = True"",
+            ""download_name = 'example.bin'"",
+            ""conditional = False"",
+            ""etag = '1234567890'"",
+            ""last_modified = int(time.time())"",
+            ""max_age = 3600""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug"",
+            ""from io import BytesIO"",
+            ""from werkzeug.wrappers import Request""
+        ],
+        ""initialization"": [
+            ""werkzeug.utils = type('Mock', (object,), {})"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs"",
+            ""path_or_file = '/path/to/file.txt'"",
+            ""request = type('Mock', (object,), {'environ': {}})"",
+            ""mimetype = 'text/plain'"",
+            ""as_attachment = False"",
+            ""download_name = 'file.txt'"",
+            ""conditional = False"",
+            ""etag = '123456789'"",
+            ""last_modified = 1609459200"",
+            ""max_age = 3600""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug.utils"",
+            ""from io import BytesIO"",
+            ""from datetime import datetime"",
+            ""import os""
+        ],
+        ""initialization"": [
+            ""werkzeug = type('Mock', (object,), {'utils': werkzeug.utils})"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs"",
+            ""path_or_file = 'example.txt'"",
+            ""request = type('Mock', (object,), {'environ': {}})()"",
+            ""mimetype = 'text/plain'"",
+            ""as_attachment = True"",
+            ""download_name = 'example.txt'"",
+            ""conditional = True"",
+            ""etag = '12345etag'"",
+            ""last_modified = int(datetime.now().timestamp())"",
+            ""max_age = 3600""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug"",
+            ""from io import BytesIO"",
+            ""from datetime import datetime"",
+            ""import os""
+        ],
+        ""initialization"": [
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs"",
+            ""path_or_file = BytesIO(b'This is a test file content in binary mode')"",
+            ""request = type('Mock', (object,), {'environ': {}})()"",
+            ""mimetype = 'application/octet-stream'"",
+            ""as_attachment = True"",
+            ""download_name = 'testfile.txt'"",
+            ""conditional = True"",
+            ""etag = '12345etag'"",
+            ""last_modified = int(datetime.now().timestamp())"",
+            ""max_age = 3600""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug"",
+            ""from io import BytesIO""
+        ],
+        ""initialization"": [
+            ""werkzeug = type('MockWerkzeug', (object,), {'utils': type('MockUtils', (object,), {'send_file': lambda *args, **kwargs: 'Mocked send_file'})})()"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs"",
+            ""path_or_file = BytesIO(b'Sample file content')"",
+            ""request = type('MockRequest', (object,), {'environ': {}})()"",
+            ""mimetype = 'text/plain'"",
+            ""as_attachment = True"",
+            ""download_name = 'sample.txt'"",
+            ""conditional = True"",
+            ""etag = 'sample-etag'"",
+            ""last_modified = 1683024000"",
+            ""max_age = 3600""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import werkzeug.utils # pragma: no cover"",
+            ""from io import BytesIO # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""werkzeug = werkzeug # pragma: no cover"",
+            ""_prepare_send_file_kwargs = lambda path_or_file, environ, mimetype, as_attachment, download_name, conditional, etag, last_modified, max_age: {# pragma: no cover"",
+            ""    'path_or_file': path_or_file,# pragma: no cover"",
+            ""    'mimetype': mimetype,# pragma: no cover"",
+            ""    'as_attachment': as_attachment,# pragma: no cover"",
+            ""    'download_name': download_name,# pragma: no cover"",
+            ""    'conditional': conditional,# pragma: no cover"",
+            ""    'etag': etag,# pragma: no cover"",
+            ""    'last_modified': last_modified,# pragma: no cover"",
+            ""    'max_age': max_age# pragma: no cover"",
+            ""} # pragma: no cover"",
+            ""path_or_file = BytesIO(b'Test data') # pragma: no cover"",
+            ""request = type('MockRequest', (object,), {'environ': {'file_wrapper': None}})() # pragma: no cover"",
+            ""mimetype = 'text/plain' # pragma: no cover"",
+            ""as_attachment = True # pragma: no cover"",
+            ""download_name = 'test.txt' # pragma: no cover"",
+            ""conditional = True # pragma: no cover"",
+            ""etag = 'test-etag' # pragma: no cover"",
+            ""last_modified = os.path.getmtime(__file__) # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from io import BytesIO # pragma: no cover"",
+            ""import werkzeug # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""werkzeug = type('Mock', (object,), {'utils': type('MockUtils', (object,), {'send_file': lambda **kwargs: None})})() # pragma: no cover"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs # pragma: no cover"",
+            ""path_or_file = 'path/to/file.txt' # pragma: no cover"",
+            ""request = type('MockRequest', (object,), {'environ': {}})() # pragma: no cover"",
+            ""mimetype = 'text/plain' # pragma: no cover"",
+            ""as_attachment = True # pragma: no cover"",
+            ""download_name = 'file.txt' # pragma: no cover"",
+            ""conditional = False # pragma: no cover"",
+            ""etag = None # pragma: no cover"",
+            ""last_modified = int(time.time()) # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug # pragma: no cover"",
+            ""from werkzeug import utils # pragma: no cover"",
+            ""from io import BytesIO # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""werkzeug = type('MockWerkzeug', (object,), {'utils': type('MockUtils', (object,), {'send_file': lambda *args, **kwargs: None})})() # pragma: no cover"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs # pragma: no cover"",
+            ""path_or_file = 'example.txt' # pragma: no cover"",
+            ""request = type('MockRequest', (object,), {'environ': {}})() # pragma: no cover"",
+            ""mimetype = 'text/plain' # pragma: no cover"",
+            ""as_attachment = True # pragma: no cover"",
+            ""download_name = 'downloaded_example.txt' # pragma: no cover"",
+            ""conditional = True # pragma: no cover"",
+            ""etag = 'example-etag' # pragma: no cover"",
+            ""last_modified = int(datetime.datetime.now().timestamp()) # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug # pragma: no cover"",
+            ""import werkzeug.utils # pragma: no cover"",
+            ""from io import BytesIO # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def _prepare_send_file_kwargs(path_or_file, environ, mimetype, as_attachment, download_name, conditional, etag, last_modified, max_age):# pragma: no cover"",
+            ""    return {# pragma: no cover"",
+            ""        'path_or_file': path_or_file,# pragma: no cover"",
+            ""        'environ': environ,# pragma: no cover"",
+            ""        'mimetype': mimetype,# pragma: no cover"",
+            ""        'as_attachment': as_attachment,# pragma: no cover"",
+            ""        'download_name': download_name,# pragma: no cover"",
+            ""        'conditional': conditional,# pragma: no cover"",
+            ""        'etag': etag,# pragma: no cover"",
+            ""        'last_modified': last_modified,# pragma: no cover"",
+            ""        'max_age': max_age,# pragma: no cover"",
+            ""    } # pragma: no cover"",
+            ""path_or_file = BytesIO(b'Example file content') # pragma: no cover"",
+            ""request = SimpleNamespace(environ={}) # pragma: no cover"",
+            ""mimetype = 'application/octet-stream' # pragma: no cover"",
+            ""as_attachment = True # pragma: no cover"",
+            ""download_name = 'example.txt' # pragma: no cover"",
+            ""conditional = True # pragma: no cover"",
+            ""etag = 'example_etag' # pragma: no cover"",
+            ""last_modified = 1633036800 # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from werkzeug.utils import send_file # pragma: no cover"",
+            ""from io import BytesIO # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""werkzeug = type('Mock', (object,), {'utils': type('MockUtils', (object,), {'send_file': send_file})}) # pragma: no cover"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs # pragma: no cover"",
+            ""path_or_file = BytesIO(b'some file content') # pragma: no cover"",
+            ""request = type('MockRequest', (object,), {'environ': {}})() # pragma: no cover"",
+            ""mimetype = 'application/octet-stream' # pragma: no cover"",
+            ""as_attachment = True # pragma: no cover"",
+            ""download_name = 'example.txt' # pragma: no cover"",
+            ""conditional = True # pragma: no cover"",
+            ""etag = 'some-etag' # pragma: no cover"",
+            ""last_modified = int(datetime.datetime.now().timestamp()) # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug.utils # pragma: no cover"",
+            ""from io import BytesIO # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs # pragma: no cover"",
+            ""path_or_file = BytesIO(b'Some binary data') # pragma: no cover"",
+            ""request = type('Mock', (object,), {'environ': {}})() # pragma: no cover"",
+            ""mimetype = 'application/octet-stream' # pragma: no cover"",
+            ""as_attachment = True # pragma: no cover"",
+            ""download_name = 'example.bin' # pragma: no cover"",
+            ""conditional = False # pragma: no cover"",
+            ""etag = '1234567890' # pragma: no cover"",
+            ""last_modified = int(time.time()) # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug # pragma: no cover"",
+            ""from io import BytesIO # pragma: no cover"",
+            ""from werkzeug.wrappers import Request # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""werkzeug.utils = type('Mock', (object,), {}) # pragma: no cover"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs # pragma: no cover"",
+            ""path_or_file = '/path/to/file.txt' # pragma: no cover"",
+            ""request = type('Mock', (object,), {'environ': {}}) # pragma: no cover"",
+            ""mimetype = 'text/plain' # pragma: no cover"",
+            ""as_attachment = False # pragma: no cover"",
+            ""download_name = 'file.txt' # pragma: no cover"",
+            ""conditional = False # pragma: no cover"",
+            ""etag = '123456789' # pragma: no cover"",
+            ""last_modified = 1609459200 # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug.utils # pragma: no cover"",
+            ""from io import BytesIO # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover"",
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""werkzeug = type('Mock', (object,), {'utils': werkzeug.utils}) # pragma: no cover"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs # pragma: no cover"",
+            ""path_or_file = 'example.txt' # pragma: no cover"",
+            ""request = type('Mock', (object,), {'environ': {}})() # pragma: no cover"",
+            ""mimetype = 'text/plain' # pragma: no cover"",
+            ""as_attachment = True # pragma: no cover"",
+            ""download_name = 'example.txt' # pragma: no cover"",
+            ""conditional = True # pragma: no cover"",
+            ""etag = '12345etag' # pragma: no cover"",
+            ""last_modified = int(datetime.now().timestamp()) # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug # pragma: no cover"",
+            ""from io import BytesIO # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover"",
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs # pragma: no cover"",
+            ""path_or_file = BytesIO(b'This is a test file content in binary mode') # pragma: no cover"",
+            ""request = type('Mock', (object,), {'environ': {}})() # pragma: no cover"",
+            ""mimetype = 'application/octet-stream' # pragma: no cover"",
+            ""as_attachment = True # pragma: no cover"",
+            ""download_name = 'testfile.txt' # pragma: no cover"",
+            ""conditional = True # pragma: no cover"",
+            ""etag = '12345etag' # pragma: no cover"",
+            ""last_modified = int(datetime.now().timestamp()) # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import werkzeug # pragma: no cover"",
+            ""from io import BytesIO # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""werkzeug = type('MockWerkzeug', (object,), {'utils': type('MockUtils', (object,), {'send_file': lambda *args, **kwargs: 'Mocked send_file'})})() # pragma: no cover"",
+            ""_prepare_send_file_kwargs = lambda **kwargs: kwargs # pragma: no cover"",
+            ""path_or_file = BytesIO(b'Sample file content') # pragma: no cover"",
+            ""request = type('MockRequest', (object,), {'environ': {}})() # pragma: no cover"",
+            ""mimetype = 'text/plain' # pragma: no cover"",
+            ""as_attachment = True # pragma: no cover"",
+            ""download_name = 'sample.txt' # pragma: no cover"",
+            ""conditional = True # pragma: no cover"",
+            ""etag = 'sample-etag' # pragma: no cover"",
+            ""last_modified = 1683024000 # pragma: no cover"",
+            ""max_age = 3600 # pragma: no cover""
+        ]
+    }
+]",1,1464,0.000732,1972,0.002958,0.00369

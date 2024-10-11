@@ -1,0 +1,33 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/examples/speech_commands/train_test.py
+flags = {
+    'data_url': '',
+    'data_dir': self._prepareDummyTrainingData(),
+    'wanted_words': 'a,b,c',
+    'sample_rate': 16000,
+    'clip_duration_ms': 1000,
+    'window_size_ms': 30,
+    'window_stride_ms': 20,
+    'feature_bin_count': 40,
+    'preprocess': 'mfcc',
+    'silence_percentage': 25,
+    'unknown_percentage': 25,
+    'validation_percentage': 10,
+    'testing_percentage': 10,
+    'summaries_dir': os.path.join(self.get_temp_dir(), 'summaries'),
+    'train_dir': os.path.join(self.get_temp_dir(), 'train'),
+    'time_shift_ms': 100,
+    'how_many_training_steps': '2',
+    'learning_rate': '0.01',
+    'quantize': False,
+    'model_architecture': 'conv',
+    'check_nans': False,
+    'start_checkpoint': '',
+    'batch_size': 1,
+    'background_volume': 0.25,
+    'background_frequency': 0.8,
+    'eval_step_interval': 1,
+    'save_step_interval': 1,
+    'verbosity': tf.compat.v1.logging.INFO,
+    'optimizer': 'gradient_descent'
+}
+exit(DictStruct(**flags))

@@ -1,0 +1,105 @@
+from typing import List # pragma: no cover
+import ast # pragma: no cover
+from typing import NamedTuple # pragma: no cover
+Mock = type('Mock', (object,), {}) # pragma: no cover
+
+class Replacement(NamedTuple): pass # pragma: no cover
+src = '''%matplotlib inline\nfoo''' # pragma: no cover
+def replace_cell_magics(transformed: str): return transformed, [] # pragma: no cover
+def replace_magics(transformed: str): return transformed, [] # pragma: no cover
+NothingChanged = type('NothingChanged', (Exception,), {}) # pragma: no cover
+ast.parse = lambda x: None # pragma: no cover
+
+from typing import List # pragma: no cover
+import ast # pragma: no cover
+from typing import NamedTuple # pragma: no cover
+import re # pragma: no cover
+
+class Replacement(NamedTuple): # pragma: no cover
+    start: str # pragma: no cover
+    end: str # pragma: no cover
+    text: str # pragma: no cover
+src = '''%matplotlib inline\nfoo''' # pragma: no cover
+def replace_cell_magics(code: str): # pragma: no cover
+    pattern = re.compile(r"^%\w+.*", re.MULTILINE) # pragma: no cover
+    start_end_pairs = [(m.start(), m.end()) for m in pattern.finditer(code)] # pragma: no cover
+    replacements = [Replacement(start, end, '25716f358c32750e') for start, end in start_end_pairs] # pragma: no cover
+    for start, end, text in replacements: # pragma: no cover
+        code = code[:start] + text + code[end:] # pragma: no cover
+    return code, replacements # pragma: no cover
+def replace_magics(code: str): # pragma: no cover
+    pattern = re.compile(r"^%\w+.*", re.MULTILINE) # pragma: no cover
+    start_end_pairs = [(m.start(), m.end()) for m in pattern.finditer(code)] # pragma: no cover
+    replacements = [Replacement(start, end, '25716f358c32750e') for start, end in start_end_pairs] # pragma: no cover
+    for start, end, text in replacements: # pragma: no cover
+        code = code[:start] + text + code[end:] # pragma: no cover
+    return code, replacements # pragma: no cover
+class NothingChanged(Exception): # pragma: no cover
+    pass # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/black/src/black/handle_ipynb_magics.py
+from l3.Runtime import _l_
+"""Mask IPython magics so content becomes parseable Python code.
+
+    For example,
+
+        %matplotlib inline
+        'foo'
+
+    becomes
+
+        "25716f358c32750e"
+        'foo'
+
+    The replacements are returned, along with the transformed code.
+    """
+replacements: List[Replacement] = []
+_l_(16412)
+try:
+    _l_(16417)
+
+    ast.parse(src)
+    _l_(16413)
+except SyntaxError:
+    _l_(16415)
+
+    # Might have IPython magics, will process below.
+    pass
+    _l_(16414)
+else:
+    aux = (src, replacements)
+    _l_(16416)
+    # Syntax is fine, nothing to mask, early return.
+    exit(aux)
+try:
+    from IPython.core.inputtransformer2 import TransformerManager
+    _l_(16419)
+
+except ImportError:
+    pass
+
+transformer_manager = TransformerManager()
+_l_(16420)
+transformed = transformer_manager.transform_cell(src)
+_l_(16421)
+transformed, cell_magic_replacements = replace_cell_magics(transformed)
+_l_(16422)
+replacements += cell_magic_replacements
+_l_(16423)
+transformed = transformer_manager.transform_cell(transformed)
+_l_(16424)
+transformed, magic_replacements = replace_magics(transformed)
+_l_(16425)
+if len(transformed.splitlines()) != len(src.splitlines()):
+    _l_(16427)
+
+    # Multi-line magic, not supported.
+    raise NothingChanged
+    _l_(16426)
+replacements += magic_replacements
+_l_(16428)
+aux = (transformed, replacements)
+_l_(16429)
+exit(aux)

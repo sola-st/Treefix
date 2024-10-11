@@ -1,0 +1,29 @@
+import numpy as np # pragma: no cover
+
+test = type('Mock', (object,), {'is_gpu_available': lambda: True})() # pragma: no cover
+self = type('Mock', (object,), {'skipTest': lambda self, msg: None, '_testCrelu': lambda self, x: None})() # pragma: no cover
+np.float16 = np.dtype('float16').type # pragma: no cover
+np.float32 = np.dtype('float32').type # pragma: no cover
+np.float64 = np.dtype('float64').type # pragma: no cover
+np.array = np.core.array # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/nn_ops/relu_op_test.py
+from l3.Runtime import _l_
+if not test.is_gpu_available():
+    _l_(21650)
+
+    self.skipTest("No GPU available")
+    _l_(21649)
+for t in [
+    np.float16,
+    np.float32,
+    np.float64,
+    dtypes.bfloat16.as_numpy_dtype,
+]:
+    _l_(21652)
+
+    self._testCrelu(
+        np.array([[-9, 7, -5, 3, -1], [1, -3, 5, -7, 9]]).astype(t))
+    _l_(21651)

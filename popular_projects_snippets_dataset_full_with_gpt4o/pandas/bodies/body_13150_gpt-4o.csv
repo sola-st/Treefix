@@ -1,0 +1,359 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+# cross-compat with differing reading/writing engines
+df = df_cross_compat
+with tm.ensure_clean() as path:
+    df.to_parquet(path, engine=fp, compression=None)
+
+    with catch_warnings(record=True):
+        result = read_parquet(path, engine=pa)
+        tm.assert_frame_equal(result, df)
+
+        result = read_parquet(path, engine=pa, columns=[""a"", ""d""])
+        tm.assert_frame_equal(result, df[[""a"", ""d""]])
+
+# end code snippet
+
+# begin undefined variables
+df_cross_compat
+tm
+fp
+catch_warnings
+read_parquet
+pa
+# end undefined variables
+
+# begin undefined attributes and methods
+tm.ensure_clean
+tm.assert_frame_equal
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import warnings"",
+            ""import pyarrow as pa"",
+            ""import tempfile"",
+            ""from pandas.testing import assert_frame_equal""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({ 'a': [1, 2, 3], 'b': [4, 5, 6], 'c': [7, 8, 9], 'd': [10, 11, 12] })"",
+            ""tm = type('Mock', (object,), {'ensure_clean': tempfile.NamedTemporaryFile, 'assert_frame_equal': assert_frame_equal})"",
+            ""fp = 'pyarrow'"",
+            ""catch_warnings = warnings.catch_warnings"",
+            ""def read_parquet(path, engine, columns=None): return pd.read_parquet(path, engine=engine, columns=columns)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import pyarrow as pa"",
+            ""import warnings"",
+            ""from pandas.util import testing as tm""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({'a': range(3), 'd': range(3, 6)})"",
+            ""fp = 'pyarrow'"",
+            ""catch_warnings = warnings.catch_warnings"",
+            ""def read_parquet(path, engine, columns=None): return pd.read_parquet(path, engine=engine, columns=columns)"",
+            ""tm = type('Mock', (object,), {'ensure_clean': tm.ensure_clean, 'assert_frame_equal': tm.assert_frame_equal})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""from warnings import catch_warnings"",
+            ""import pyarrow as pa"",
+            ""import tempfile as tm""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({'a': [1, 2, 3], 'd': [4, 5, 6]})"",
+            ""type('Mock', (object,), {'ensure_clean': lambda: tm.NamedTemporaryFile(delete=False).__enter__(), 'assert_frame_equal': pd.testing.assert_frame_equal})"",
+            ""fp = 'pyarrow'"",
+            ""read_parquet = pd.read_parquet"",
+            ""pa = 'pyarrow'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""from pandas.testing import assert_frame_equal"",
+            ""from pandas.util import testing as tm"",
+            ""import warnings"",
+            ""import pyarrow as pa"",
+            ""import fastparquet as fp""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({ 'a': [1, 2, 3], 'b': [4, 5, 6], 'c': [7, 8, 9], 'd': [10, 11, 12] })"",
+            ""tm.ensure_clean = lambda: type('MockPath', (object,), {'__enter__': lambda self: 'mock_path.parquet', '__exit__': lambda self, exc_type, exc_val, exc_tb: None})()"",
+            ""tm.assert_frame_equal = assert_frame_equal"",
+            ""fp = 'fastparquet'"",
+            ""catch_warnings = warnings.catch_warnings"",
+            ""read_parquet = lambda path, engine, columns=None: pd.read_parquet(path, engine=engine, columns=columns)"",
+            ""pa = 'pyarrow'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import warnings"",
+            ""from unittest import mock"",
+            ""import pyarrow as pa"",
+            ""import fastparquet as fp""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({'a': [1, 2, 3], 'd': [4, 5, 6]})"",
+            ""catch_warnings = warnings.catch_warnings"",
+            ""read_parquet = pd.read_parquet"",
+            ""tm = type('Mock', (object,), { 'ensure_clean': mock.MagicMock(return_value=mock.MagicMock()), 'assert_frame_equal': pd.testing.assert_frame_equal, })()"",
+            ""pa = 'pyarrow'"",
+            ""fp = 'fastparquet'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import warnings"",
+            ""from pandas.testing import assert_frame_equal"",
+            ""import pyarrow as pa"",
+            ""import fastparquet as fp""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6], 'c': [7, 8, 9], 'd': [10, 11, 12]})"",
+            ""tm = type('Mock', (object,), {'ensure_clean': type('MockEnsureClean', (object,), {'__enter__': lambda self: 'mock_path', '__exit__': lambda self, exc_type, exc_val, exc_tb: None})(), 'assert_frame_equal': assert_frame_equal})"",
+            ""fp = 'fastparquet'"",
+            ""catch_warnings = warnings.catch_warnings"",
+            ""read_parquet = pd.read_parquet"",
+            ""pa = 'pyarrow'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import warnings"",
+            ""from unittest import mock"",
+            ""import pyarrow as pa"",
+            ""import pyarrow.parquet as pq""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({'a': [1, 2], 'b': [3, 4], 'c': [5, 6], 'd': [7, 8]})"",
+            ""tm = type('Mock', (object,), {'ensure_clean': mock.MagicMock(), 'assert_frame_equal': pd.testing.assert_frame_equal})"",
+            ""fp = 'pyarrow'"",
+            ""catch_warnings = warnings.catch_warnings"",
+            ""read_parquet = pq.read_table"",
+            ""pa = 'pyarrow'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import warnings"",
+            ""from pandas.testing import assert_frame_equal"",
+            ""import pyarrow.parquet as pq"",
+            ""import tempfile""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6], 'c': [7, 8, 9], 'd': [10, 11, 12]})"",
+            ""tm = type('Mock', (object,), { 'ensure_clean': tempfile.NamedTemporaryFile, 'assert_frame_equal': assert_frame_equal })"",
+            ""fp = 'pyarrow'"",
+            ""catch_warnings = warnings.catch_warnings"",
+            ""read_parquet = lambda path, engine, columns=None: pd.read_parquet(path, engine=engine, columns=columns)"",
+            ""pa = 'pyarrow'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""from warnings import catch_warnings""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({'a': [1, 2], 'b': [3, 4], 'c': [5, 6], 'd': [7, 8]})"",
+            ""tm = type('Mock', (object,), {'ensure_clean': lambda: __import__('contextlib').contextmanager(lambda: iter(['mock_path'])), 'assert_frame_equal': pd.testing.assert_frame_equal})()"",
+            ""fp = 'fastparquet'"",
+            ""pa = 'pyarrow'"",
+            ""read_parquet = lambda path, engine, columns=None: pd.read_parquet(path, engine=engine, columns=columns)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import warnings"",
+            ""import pyarrow as pa"",
+            ""import tempfile""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6], 'c': [7, 8, 9], 'd': [10, 11, 12]})"",
+            ""tm = type('Mock', (object,), {'ensure_clean': tempfile.NamedTemporaryFile, 'assert_frame_equal': pd.testing.assert_frame_equal})"",
+            ""fp = 'pyarrow'"",
+            ""catch_warnings = warnings.catch_warnings"",
+            ""read_parquet = pd.read_parquet"",
+            ""pa = 'pyarrow'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import warnings # pragma: no cover"",
+            ""import pyarrow as pa # pragma: no cover"",
+            ""import tempfile # pragma: no cover"",
+            ""from pandas.testing import assert_frame_equal # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({ 'a': [1, 2, 3], 'b': [4, 5, 6], 'c': [7, 8, 9], 'd': [10, 11, 12] }) # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'ensure_clean': tempfile.NamedTemporaryFile, 'assert_frame_equal': assert_frame_equal}) # pragma: no cover"",
+            ""fp = 'pyarrow' # pragma: no cover"",
+            ""catch_warnings = warnings.catch_warnings # pragma: no cover"",
+            ""def read_parquet(path, engine, columns=None): return pd.read_parquet(path, engine=engine, columns=columns) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import pyarrow as pa # pragma: no cover"",
+            ""import warnings # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({'a': range(3), 'd': range(3, 6)}) # pragma: no cover"",
+            ""fp = 'pyarrow' # pragma: no cover"",
+            ""catch_warnings = warnings.catch_warnings # pragma: no cover"",
+            ""def read_parquet(path, engine, columns=None): return pd.read_parquet(path, engine=engine, columns=columns) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""from warnings import catch_warnings # pragma: no cover"",
+            ""import pyarrow as pa # pragma: no cover"",
+            ""import tempfile as tm # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({'a': [1, 2, 3], 'd': [4, 5, 6]}) # pragma: no cover"",
+            ""type('Mock', (object,), {'ensure_clean': lambda: tm.NamedTemporaryFile(delete=False).__enter__(), 'assert_frame_equal': pd.testing.assert_frame_equal}) # pragma: no cover"",
+            ""fp = 'pyarrow' # pragma: no cover"",
+            ""read_parquet = pd.read_parquet # pragma: no cover"",
+            ""pa = 'pyarrow' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""from pandas.testing import assert_frame_equal # pragma: no cover"",
+            ""import warnings # pragma: no cover"",
+            ""import pyarrow as pa # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({ 'a': [1, 2, 3], 'b': [4, 5, 6], 'c': [7, 8, 9], 'd': [10, 11, 12] }) # pragma: no cover"",
+            ""fp = 'fastparquet' # pragma: no cover"",
+            ""catch_warnings = warnings.catch_warnings # pragma: no cover"",
+            ""read_parquet = lambda path, engine, columns=None: pd.read_parquet(path, engine=engine, columns=columns) # pragma: no cover"",
+            ""pa = 'pyarrow' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import warnings # pragma: no cover"",
+            ""from unittest import mock # pragma: no cover"",
+            ""import pyarrow as pa # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({'a': [1, 2, 3], 'd': [4, 5, 6]}) # pragma: no cover"",
+            ""catch_warnings = warnings.catch_warnings # pragma: no cover"",
+            ""read_parquet = pd.read_parquet # pragma: no cover"",
+            ""tm = type('Mock', (object,), { 'ensure_clean': mock.MagicMock(return_value=mock.MagicMock()), 'assert_frame_equal': pd.testing.assert_frame_equal, })() # pragma: no cover"",
+            ""pa = 'pyarrow' # pragma: no cover"",
+            ""fp = 'fastparquet' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import warnings # pragma: no cover"",
+            ""from pandas.testing import assert_frame_equal # pragma: no cover"",
+            ""import pyarrow as pa # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6], 'c': [7, 8, 9], 'd': [10, 11, 12]}) # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'ensure_clean': type('MockEnsureClean', (object,), {'__enter__': lambda self: 'mock_path', '__exit__': lambda self, exc_type, exc_val, exc_tb: None})(), 'assert_frame_equal': assert_frame_equal}) # pragma: no cover"",
+            ""fp = 'fastparquet' # pragma: no cover"",
+            ""catch_warnings = warnings.catch_warnings # pragma: no cover"",
+            ""read_parquet = pd.read_parquet # pragma: no cover"",
+            ""pa = 'pyarrow' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import warnings # pragma: no cover"",
+            ""from unittest import mock # pragma: no cover"",
+            ""import pyarrow as pa # pragma: no cover"",
+            ""import pyarrow.parquet as pq # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({'a': [1, 2], 'b': [3, 4], 'c': [5, 6], 'd': [7, 8]}) # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'ensure_clean': mock.MagicMock(), 'assert_frame_equal': pd.testing.assert_frame_equal}) # pragma: no cover"",
+            ""fp = 'pyarrow' # pragma: no cover"",
+            ""catch_warnings = warnings.catch_warnings # pragma: no cover"",
+            ""read_parquet = pq.read_table # pragma: no cover"",
+            ""pa = 'pyarrow' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import warnings # pragma: no cover"",
+            ""from pandas.testing import assert_frame_equal # pragma: no cover"",
+            ""import pyarrow.parquet as pq # pragma: no cover"",
+            ""import tempfile # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6], 'c': [7, 8, 9], 'd': [10, 11, 12]}) # pragma: no cover"",
+            ""tm = type('Mock', (object,), { 'ensure_clean': tempfile.NamedTemporaryFile, 'assert_frame_equal': assert_frame_equal }) # pragma: no cover"",
+            ""fp = 'pyarrow' # pragma: no cover"",
+            ""catch_warnings = warnings.catch_warnings # pragma: no cover"",
+            ""read_parquet = lambda path, engine, columns=None: pd.read_parquet(path, engine=engine, columns=columns) # pragma: no cover"",
+            ""pa = 'pyarrow' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""from warnings import catch_warnings # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({'a': [1, 2], 'b': [3, 4], 'c': [5, 6], 'd': [7, 8]}) # pragma: no cover"",
+            ""fp = 'fastparquet' # pragma: no cover"",
+            ""pa = 'pyarrow' # pragma: no cover"",
+            ""read_parquet = lambda path, engine, columns=None: pd.read_parquet(path, engine=engine, columns=columns) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import warnings # pragma: no cover"",
+            ""import pyarrow as pa # pragma: no cover"",
+            ""import tempfile # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_cross_compat = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6], 'c': [7, 8, 9], 'd': [10, 11, 12]}) # pragma: no cover"",
+            ""tm = type('Mock', (object,), {'ensure_clean': tempfile.NamedTemporaryFile, 'assert_frame_equal': pd.testing.assert_frame_equal}) # pragma: no cover"",
+            ""fp = 'pyarrow' # pragma: no cover"",
+            ""catch_warnings = warnings.catch_warnings # pragma: no cover"",
+            ""read_parquet = pd.read_parquet # pragma: no cover"",
+            ""pa = 'pyarrow' # pragma: no cover""
+        ]
+    }
+]",1,417,0.0002085,1890,0.002835,0.0030434999999999998

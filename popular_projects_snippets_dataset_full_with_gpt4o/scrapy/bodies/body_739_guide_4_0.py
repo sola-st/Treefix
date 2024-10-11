@@ -1,0 +1,51 @@
+from scrapy.commands import ScrapyCommand # pragma: no cover
+from scrapy.exceptions import UsageError # pragma: no cover
+from scrapy.utils.conf import arglist_to_dict # pragma: no cover
+
+class MockSettings: # pragma: no cover
+    def set(self, key, value, priority): # pragma: no cover
+        print(f'Setting {key} to {value} with priority {priority}') # pragma: no cover
+ # pragma: no cover
+def mock_process_options(self, args, opts): # pragma: no cover
+    pass # pragma: no cover
+ScrapyCommand.process_options = mock_process_options # pragma: no cover
+ # pragma: no cover
+def mock_arglist_to_dict(spargs): # pragma: no cover
+    raise ValueError('Invalid argument') # pragma: no cover
+arglist_to_dict = mock_arglist_to_dict # pragma: no cover
+ # pragma: no cover
+def feed_process_params_from_cli(settings, output, output_format, overwrite_output): # pragma: no cover
+    return {'output': output, 'format': output_format, 'overwrite': overwrite_output} # pragma: no cover
+ # pragma: no cover
+self = type('MockScrapyCommand', (ScrapyCommand,), {'settings': MockSettings()})() # pragma: no cover
+args = [] # pragma: no cover
+opts = type('Mock', (object,), {'spargs': ['invalid=value'], 'output': None, 'overwrite_output': False, 'output_format': None})() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/scrapy/scrapy/commands/__init__.py
+from l3.Runtime import _l_
+ScrapyCommand.process_options(self, args, opts)
+_l_(17589)
+try:
+    _l_(17593)
+
+    opts.spargs = arglist_to_dict(opts.spargs)
+    _l_(17590)
+except ValueError:
+    _l_(17592)
+
+    raise UsageError("Invalid -a value, use -a NAME=VALUE", print_help=False)
+    _l_(17591)
+if opts.output or opts.overwrite_output:
+    _l_(17596)
+
+    feeds = feed_process_params_from_cli(
+        self.settings,
+        opts.output,
+        opts.output_format,
+        opts.overwrite_output,
+    )
+    _l_(17594)
+    self.settings.set('FEEDS', feeds, priority='cmdline')
+    _l_(17595)

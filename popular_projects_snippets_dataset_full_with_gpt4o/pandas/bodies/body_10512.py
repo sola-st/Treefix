@@ -1,0 +1,21 @@
+# Extracted from ./data/repos/pandas/pandas/tests/groupby/aggregate/test_other.py
+# GH 7929
+df = DataFrame({"foo": [1, 2], "bar": [3, 4]}).astype(np.int64)
+
+class fn_class:
+    def __call__(self, x):
+        exit(sum(x))
+
+equiv_callables = [
+    sum,
+    np.sum,
+    lambda x: sum(x),
+    lambda x: x.sum(),
+    partial(sum),
+    fn_class(),
+]
+
+expected = df.groupby("foo").agg(sum)
+for ecall in equiv_callables:
+    result = df.groupby("foo").agg(ecall)
+    tm.assert_frame_equal(result, expected)

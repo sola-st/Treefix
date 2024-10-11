@@ -1,0 +1,624 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Render a template from the given source string with the given
+    context as a stream. This returns an iterator of strings, which can
+    be used as a streaming response from a view.
+
+    :param source: The source code of the template to render.
+    :param context: The variables to make available in the template.
+
+    .. versionadded:: 2.2
+    """"""
+app = current_app._get_current_object()  # type: ignore[attr-defined]
+template = app.jinja_env.from_string(source)
+exit(_stream(app, template, context))
+
+# end code snippet
+
+# begin undefined variables
+current_app
+source
+_stream
+context
+# end undefined variables
+
+# begin undefined attributes and methods
+current_app._get_current_object
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app, render_template_string"",
+            ""from typing import Iterator, Dict""
+        ],
+        ""initialization"": [
+            ""app: Flask = Flask(__name__)"",
+            ""current_app._get_current_object = type('Mock', (object,), {'_get_current_object': lambda self: app})()"",
+            ""source: str = '<h1>Hello {{ name }}!</h1>'"",
+            ""_stream: callable = lambda app, template, context: iter([template.render(context)])"",
+            ""context: Dict[str, str] = {'name': 'World'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app"",
+            ""import jinja2""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""with app.app_context():"",
+            ""    current_app = Flask(__name__)"",
+            ""source = 'Hello, {{ name }}!'"",
+            ""context = {'name': 'World'}"",
+            ""_stream = lambda app, template, context: iter([template.render(context)])"",
+            ""current_app._get_current_object = lambda: current_app""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app"",
+            ""from jinja2 import Environment""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""env = Environment()"",
+            ""current_app = app"",
+            ""current_app._get_current_object = lambda: app"",
+            ""source = '<h1>{{ title }}</h1>'"",
+            ""_stream = lambda app, template, context: iter([template.render(context)])"",
+            ""context = {'title': 'Hello, World!'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask"",
+            ""from jinja2 import Environment"",
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""source = 'Hello, {{ name }}!'"",
+            ""_stream = lambda app, template, context: template.stream(context)"",
+            ""context = {'name': 'World'}"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: app})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app"",
+            ""from jinja2 import Template""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: app})()"",
+            ""source = '{{ variable }}'"",
+            ""context = {'variable': 'Hello, World!'}"",
+            ""_stream = lambda app, template, context: (template.render(context),)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app"",
+            ""from jinja2 import Template""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""with app.app_context():"",
+            ""    current_app = app"",
+            """",
+            ""source = 'Hello, {{ name }}!'"",
+            ""def _stream(app, template, context):"",
+            ""    def generator():"",
+            ""        yield template.render(context)"",
+            ""    return generator()"",
+            ""context = {'name': 'World'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app"",
+            ""from jinja2 import Template""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""current_app = app.app_context().push()"",
+            ""source = '{{ key }}: {{ value }}'"",
+            ""context = {'key': 'example_key', 'value': 'example_value'}"",
+            ""_stream = lambda app, template, context: (template.render(context),)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app""
+        ],
+        ""initialization"": [
+            ""current_app = Flask(__name__)"",
+            ""source = \""<h1>Hello, {{ name }}!</h1>\"""",
+            ""_stream = lambda app, template, context: [template.render(context)]"",
+            ""context = {\""name\"": \""World\""}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from jinja2 import Environment"",
+            ""from flask import Flask, current_app""
+        ],
+        ""initialization"": [
+            ""source = 'Hello {{ name }}!'"",
+            ""context = {'name': 'World'}"",
+            ""class MockApp: def _get_current_object(self): return self"",
+            ""current_app = MockApp()"",
+            ""current_app.jinja_env = Environment()"",
+            ""def _stream(app, template, context): yield template.render(context)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app"",
+            ""from jinja2 import Template""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""with app.app_context():"",
+            ""    current_app._get_current_object = lambda: app"",
+            ""source = '{{ variable }}'"",
+            ""_stream = lambda app, template, context: iter([template.render(context)])"",
+            ""context = {'variable': 'value'}""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app, render_template_string # pragma: no cover"",
+            ""from typing import Iterator, Dict # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app: Flask = Flask(__name__) # pragma: no cover"",
+            ""source: str = '<h1>Hello {{ name }}!</h1>' # pragma: no cover"",
+            ""_stream: callable = lambda app, template, context: iter([template.render(context)]) # pragma: no cover"",
+            ""context: Dict[str, str] = {'name': 'World'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover"",
+            ""import jinja2 # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""with app.app_context(): # pragma: no cover"",
+            ""    current_app = Flask(__name__) # pragma: no cover"",
+            ""source = 'Hello, {{ name }}!' # pragma: no cover"",
+            ""context = {'name': 'World'} # pragma: no cover"",
+            ""_stream = lambda app, template, context: iter([template.render(context)]) # pragma: no cover"",
+            ""current_app._get_current_object = lambda: current_app # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover"",
+            ""from jinja2 import Environment # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""env = Environment() # pragma: no cover"",
+            ""current_app = app # pragma: no cover"",
+            ""current_app._get_current_object = lambda: app # pragma: no cover"",
+            ""source = '<h1>{{ title }}</h1>' # pragma: no cover"",
+            ""_stream = lambda app, template, context: iter([template.render(context)]) # pragma: no cover"",
+            ""context = {'title': 'Hello, World!'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask # pragma: no cover"",
+            ""from jinja2 import Environment # pragma: no cover"",
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""source = 'Hello, {{ name }}!' # pragma: no cover"",
+            ""_stream = lambda app, template, context: template.stream(context) # pragma: no cover"",
+            ""context = {'name': 'World'} # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: app})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover"",
+            ""from jinja2 import Template # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: app})() # pragma: no cover"",
+            ""source = '{{ variable }}' # pragma: no cover"",
+            ""context = {'variable': 'Hello, World!'} # pragma: no cover"",
+            ""_stream = lambda app, template, context: (template.render(context),) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover"",
+            ""from jinja2 import Template # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""with app.app_context(): # pragma: no cover"",
+            ""    current_app = app # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""source = 'Hello, {{ name }}!' # pragma: no cover"",
+            ""def _stream(app, template, context): # pragma: no cover"",
+            ""    def generator(): # pragma: no cover"",
+            ""        yield template.render(context) # pragma: no cover"",
+            ""    return generator() # pragma: no cover"",
+            ""context = {'name': 'World'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover"",
+            ""from jinja2 import Template # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""current_app = app.app_context().push() # pragma: no cover"",
+            ""source = '{{ key }}: {{ value }}' # pragma: no cover"",
+            ""context = {'key': 'example_key', 'value': 'example_value'} # pragma: no cover"",
+            ""_stream = lambda app, template, context: (template.render(context),) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""current_app = Flask(__name__) # pragma: no cover"",
+            ""source = \""<h1>Hello, {{ name }}!</h1>\"" # pragma: no cover"",
+            ""_stream = lambda app, template, context: [template.render(context)] # pragma: no cover"",
+            ""context = {\""name\"": \""World\""} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from jinja2 import Environment # pragma: no cover"",
+            ""from flask import Flask, current_app # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""source = 'Hello {{ name }}!' # pragma: no cover"",
+            ""context = {'name': 'World'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover"",
+            ""from jinja2 import Template # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""with app.app_context(): # pragma: no cover"",
+            ""    current_app._get_current_object = lambda: app # pragma: no cover"",
+            ""source = '{{ variable }}' # pragma: no cover"",
+            ""_stream = lambda app, template, context: iter([template.render(context)]) # pragma: no cover"",
+            ""context = {'variable': 'value'} # pragma: no cover""
+        ]
+    }
+]",1,417,0.0002085,1162,0.001743,0.0019515
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Render a template from the given source string with the given
+    context as a stream. This returns an iterator of strings, which can
+    be used as a streaming response from a view.
+
+    :param source: The source code of the template to render.
+    :param context: The variables to make available in the template.
+
+    .. versionadded:: 2.2
+    """"""
+app = current_app._get_current_object()  # type: ignore[attr-defined]
+template = app.jinja_env.from_string(source)
+exit(_stream(app, template, context))
+
+# end code snippet
+
+# begin undefined variables
+current_app
+source
+_stream
+context
+# end undefined variables
+
+# begin undefined attributes and methods
+current_app._get_current_object
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app, Response"",
+            ""from jinja2 import Environment""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""source = '<h1>{{ title }}</h1>'"",
+            ""context = {'title': 'Hello, World!'}"",
+            ""def _stream(app, template, context): return iter([template.render(context)])"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: app})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app"",
+            ""import types""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""current_app = app"",
+            ""current_app._get_current_object = types.MethodType(lambda self: self, current_app)"",
+            ""source = '<h1>Hello {{ name }}</h1>'"",
+            ""_stream = lambda app, template, context: (template.render(context),)"",
+            ""context = {'name': 'World'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""with app.app_context():"",
+            ""    current_app = app"",
+            ""source = 'Hello, {{ name }}!'"",
+            ""context = {'name': 'World'}"",
+            """",
+            ""_stream = type('Mock', (object,), {'__call__': lambda self, app, template, context: iter([template.render(context)])})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app, Request"",
+            ""from jinja2 import Environment, BaseLoader""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""with app.app_context():\n    current_app = app"",
+            ""source = '{{ greeting }} World!'"",
+            ""context = {'greeting': 'Hello'}"",
+            ""_stream = lambda app, template, context: iter([template.render(context)])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app"",
+            ""from jinja2 import Template""
+        ],
+        ""initialization"": [
+            ""current_app = Flask(__name__).app_context().push()"",
+            ""source = 'Hello, {{ name }}!'"",
+            ""context = {'name': 'World'}"",
+            ""def _stream(app, template, context):\n    return [template.render(context)]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask"",
+            ""from jinja2 import Environment, BaseLoader""
+        ],
+        ""initialization"": [
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda self: self})()"",
+            ""source = '{{ variable }} is a value'"",
+            ""_stream = lambda app, template, context: (template.render(context),)"",
+            ""context = {'variable': 'test'}"",
+            ""app = Flask(__name__)"",
+            ""app.jinja_env = Environment(loader=BaseLoader())"",
+            ""current_app._get_current_object = lambda: app""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app, render_template_string"",
+            ""from typing import Any, Dict, Iterator""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""with app.app_context():"",
+            ""    current_app = _current_app = app"",
+            ""source = '<p>{{ message }}</p>'"",
+            ""def _stream(app: Any, template: Any, context: Dict[str, Any]) -> Iterator[str]:"",
+            ""    yield template.render(context)"",
+            ""context = {'message': 'Hello, World!'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app"",
+            ""from jinja2 import Template""
+        ],
+        ""initialization"": [
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: current_app})()"",
+            ""source = '<h1>{{ title }}</h1>'"",
+            ""_stream = lambda app, template, context: iter(template.render(context))"",
+            ""context = {'title': 'Hello, World!'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""current_app = SimpleNamespace(_get_current_object=lambda: SimpleNamespace(jinja_env=SimpleNamespace(from_string=lambda src: src)))"",
+            ""source = 'Hello {{ name }}!'"",
+            ""_stream = lambda app, template, context: iter([template.replace('{{ name }}', context['name'])])"",
+            ""context = {'name': 'World'}""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__)"",
+            ""current_app_ctx = type('Mock', (object,), {'_get_current_object': lambda self: app})()"",
+            ""current_app = current_app_ctx"",
+            ""source = '{{ greeting }}, {{ name }}!'"",
+            ""context = {'greeting': 'Hello', 'name': 'World'}"",
+            ""_stream = lambda app, template, context: (template.render(context),)""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app, Response # pragma: no cover"",
+            ""from jinja2 import Environment # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""source = '<h1>{{ title }}</h1>' # pragma: no cover"",
+            ""context = {'title': 'Hello, World!'} # pragma: no cover"",
+            ""def _stream(app, template, context): return iter([template.render(context)]) # pragma: no cover"",
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: app})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover"",
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""current_app = app # pragma: no cover"",
+            ""current_app._get_current_object = types.MethodType(lambda self: self, current_app) # pragma: no cover"",
+            ""source = '<h1>Hello {{ name }}</h1>' # pragma: no cover"",
+            ""_stream = lambda app, template, context: (template.render(context),) # pragma: no cover"",
+            ""context = {'name': 'World'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""with app.app_context(): # pragma: no cover"",
+            ""    current_app = app # pragma: no cover"",
+            ""source = 'Hello, {{ name }}!' # pragma: no cover"",
+            ""context = {'name': 'World'} # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""_stream = type('Mock', (object,), {'__call__': lambda self, app, template, context: iter([template.render(context)])})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app, Request # pragma: no cover"",
+            ""from jinja2 import Environment, BaseLoader # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""with app.app_context():# pragma: no cover"",
+            ""    current_app = app # pragma: no cover"",
+            ""source = '{{ greeting }} World!' # pragma: no cover"",
+            ""context = {'greeting': 'Hello'} # pragma: no cover"",
+            ""_stream = lambda app, template, context: iter([template.render(context)]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover"",
+            ""from jinja2 import Template # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""current_app = Flask(__name__).app_context().push() # pragma: no cover"",
+            ""source = 'Hello, {{ name }}!' # pragma: no cover"",
+            ""context = {'name': 'World'} # pragma: no cover"",
+            ""def _stream(app, template, context):# pragma: no cover"",
+            ""    return [template.render(context)] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask # pragma: no cover"",
+            ""from jinja2 import Environment, BaseLoader # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda self: self})() # pragma: no cover"",
+            ""source = '{{ variable }} is a value' # pragma: no cover"",
+            ""_stream = lambda app, template, context: (template.render(context),) # pragma: no cover"",
+            ""context = {'variable': 'test'} # pragma: no cover"",
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""app.jinja_env = Environment(loader=BaseLoader()) # pragma: no cover"",
+            ""current_app._get_current_object = lambda: app # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app, render_template_string # pragma: no cover"",
+            ""from typing import Any, Dict, Iterator # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""with app.app_context(): # pragma: no cover"",
+            ""    current_app = _current_app = app # pragma: no cover"",
+            ""source = '<p>{{ message }}</p>' # pragma: no cover"",
+            ""def _stream(app: Any, template: Any, context: Dict[str, Any]) -> Iterator[str]: # pragma: no cover"",
+            ""    yield template.render(context) # pragma: no cover"",
+            ""context = {'message': 'Hello, World!'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover"",
+            ""from jinja2 import Template # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""current_app = type('Mock', (object,), {'_get_current_object': lambda: current_app})() # pragma: no cover"",
+            ""source = '<h1>{{ title }}</h1>' # pragma: no cover"",
+            ""_stream = lambda app, template, context: iter(template.render(context)) # pragma: no cover"",
+            ""context = {'title': 'Hello, World!'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""current_app = SimpleNamespace(_get_current_object=lambda: SimpleNamespace(jinja_env=SimpleNamespace(from_string=lambda src: src))) # pragma: no cover"",
+            ""source = 'Hello {{ name }}!' # pragma: no cover"",
+            ""_stream = lambda app, template, context: iter([template.replace('{{ name }}', context['name'])]) # pragma: no cover"",
+            ""context = {'name': 'World'} # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from flask import Flask, current_app # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""app = Flask(__name__) # pragma: no cover"",
+            ""current_app_ctx = type('Mock', (object,), {'_get_current_object': lambda self: app})() # pragma: no cover"",
+            ""current_app = current_app_ctx # pragma: no cover"",
+            ""source = '{{ greeting }}, {{ name }}!' # pragma: no cover"",
+            ""context = {'greeting': 'Hello', 'name': 'World'} # pragma: no cover"",
+            ""_stream = lambda app, template, context: (template.render(context),) # pragma: no cover""
+        ]
+    }
+]",1,417,0.0002085,1182,0.001773,0.0019815

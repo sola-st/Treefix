@@ -1,0 +1,3 @@
+# Extracted from ./data/repos/pandas/pandas/_typing.py
+# for zip.ZipFile, read_stata, to_stata
+...

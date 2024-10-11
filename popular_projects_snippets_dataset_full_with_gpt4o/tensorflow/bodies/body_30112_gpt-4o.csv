@@ -1,0 +1,353 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+for tensor_type in STRIDED_SLICE_TYPES:
+    with self.subTest(tensor_type=tensor_type, use_gpu=True):
+        checker = StridedSliceChecker(
+            self, StridedSliceChecker.REF_TENSOR, tensor_type=tensor_type)
+        _ = checker[:, :, :]
+        # Various ways of representing identity slice
+        _ = checker[:, :, :]
+        _ = checker[::, ::, ::]
+        _ = checker[::1, ::1, ::1]
+        # Not zero slice
+        _ = checker[::1, ::5, ::2]
+        # Reverse in each dimension independently
+        _ = checker[::-1, :, :]
+        _ = checker[:, ::-1, :]
+        _ = checker[:, :, ::-1]
+        ## negative index tests i.e. n-2 in first component
+        _ = checker[-2::-1, :, ::1]
+        # negative index tests i.e. n-2 in first component, non-unit stride
+        _ = checker[-2::-1, :, ::2]
+
+        # Check rank-0 examples
+        checker2 = StridedSliceChecker(self, 5, tensor_type=tensor_type)
+        _ = checker2[None]
+        _ = checker2[...]
+        _ = checker2[tuple()]
+
+# end code snippet
+
+# begin undefined variables
+STRIDED_SLICE_TYPES
+self
+StridedSliceChecker
+# end undefined variables
+
+# begin undefined attributes and methods
+self.subTest
+StridedSliceChecker.REF_TENSOR
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import unittest""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = [int, float, complex, list]"",
+            ""class StridedSliceChecker:\n    REF_TENSOR = [1, 2, 3, 4, 5]\n    def __init__(self, testcase, ref_tensor, tensor_type):\n        self.testcase = testcase\n        self.ref_tensor = ref_tensor\n        self.tensor_type = tensor_type\n    def __getitem__(self, slices):\n        return self.ref_tensor"",
+            ""self = type('MockSelf', (object,), {'subTest': lambda self, tensor_type, use_gpu: unittest.TestCase.subTest(self, tensor_type=tensor_type, use_gpu=use_gpu)})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = ['type1', 'type2', 'type3']"",
+            ""self = type('MockSelf', (object,), {'subTest': unittest.TestCase().subTest})()"",
+            ""class StridedSliceChecker:\n    REF_TENSOR = 'reference_tensor'\n    def __init__(self, test_instance, tensor_value, tensor_type):\n        self.test_instance = test_instance\n        self.tensor_value = tensor_value\n        self.tensor_type = tensor_type\n    def __getitem__(self, key):\n        pass""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = [np.ndarray]"",
+            ""self = type('MockSelf', (object,), {'subTest': unittest.TestCase().subTest})()"",
+            ""class StridedSliceChecker:"",
+            ""    REF_TENSOR = np.random.rand(10, 10, 10)"",
+            ""    def __init__(self, self_ref, reference_tensor, tensor_type):"",
+            ""        self.tensor = np.array(reference_tensor)"",
+            ""    def __getitem__(self, item):"",
+            ""        return self.tensor[item]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = ['tensor_type_1', 'tensor_type_2']"",
+            ""self = type('Mock', (object,), {'subTest': unittest.TestCase().subTest})()"",
+            ""class StridedSliceChecker:\n    REF_TENSOR = [[1, 2], [3, 4]]\n    def __init__(self, self_reference, reference_tensor, tensor_type):\n        self.self_reference = self_reference\n        self.reference_tensor = reference_tensor\n        self.tensor_type = tensor_type\n    def __getitem__(self, item):\n        return self.reference_tensor"",
+            ""StridedSliceChecker.REF_TENSOR""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = [np.ndarray]"",
+            ""self = type('Mock', (object,), {'subTest': unittest.TestCase().subTest})()"",
+            ""class StridedSliceChecker:\n    REF_TENSOR = np.random.rand(4, 4, 4)\n    def __init__(self, test_self, ref_tensor, tensor_type):\n        self.tensor = np.array(ref_tensor, dtype=tensor_type)\n    def __getitem__(self, idx):\n        return self.tensor[idx]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = [float, int, str]"",
+            ""class MockChecker:\n    def __init__(self, instance, ref_tensor, tensor_type=None):\n        self.instance = instance\n        self.ref_tensor = ref_tensor\n        self.tensor_type = tensor_type\n\n    def __getitem__(self, slices):\n        return slices\n\nStridedSliceChecker = MockChecker"",
+            ""self = type('Mock', (object,), {'subTest': unittest.TestCase().subTest})()"",
+            ""StridedSliceChecker.REF_TENSOR = 'REF_TENSOR'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = [np.array]"",
+            ""self = type('Mock', (object,), {})()"",
+            ""StridedSliceChecker = type('Mock', (object,), { 'REF_TENSOR': np.random.rand(3,3,3), '__init__': lambda self, *args, **kwargs: None, '__getitem__': lambda self, idx: np.random.rand(3,3,3)[idx] })"",
+            ""self.subTest = lambda tensor_type, use_gpu: unittest.mock.MagicMock()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = [np.array]"",
+            ""self = type('MockSelf', (object,), {'subTest': lambda self, **kwargs: unittest.TestCase.subTest(unittest.TestCase(), **kwargs)})()"",
+            ""class StridedSliceChecker:"",
+            ""    REF_TENSOR = np.random.rand(10, 10, 10)"",
+            ""    def __init__(self, test_instance, ref_tensor, tensor_type):"",
+            ""        self.test_instance = test_instance"",
+            ""        self.ref_tensor = ref_tensor"",
+            ""        self.tensor_type = tensor_type(self.ref_tensor)"",
+            ""    def __getitem__(self, key):"",
+            ""        return self.tensor_type[key]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = [np.array, np.ndarray]"",
+            ""self = type('Mock', (object,), {'subTest': lambda self, **kwargs: unittest.TestCase.subTest(self, **kwargs)})()"",
+            ""class StridedSliceChecker:"",
+            ""    REF_TENSOR = np.array([1, 2, 3, 4, 5])"",
+            ""    def __init__(self, test_case, tensor, tensor_type):"",
+            ""        self.tensor = tensor"",
+            ""        if isinstance(tensor, int):"",
+            ""            self.tensor = np.array(tensor)"",
+            ""        self.tensor_type = tensor_type"",
+            ""    def __getitem__(self, item):"",
+            ""        return self.tensor[item]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = [np.array, np.matrix]"",
+            ""self = type('MockSelf', (object,), {'subTest': unittest.TestCase().subTest})()"",
+            ""class StridedSliceChecker:\n    REF_TENSOR = np.random.rand(10, 10, 10)\n    def __init__(self, self_instance, tensor, tensor_type):\n        self.tensor = tensor_type(tensor)\n    def __getitem__(self, key):\n        return self.tensor[key]""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import unittest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = [int, float, complex, list] # pragma: no cover"",
+            ""class StridedSliceChecker:# pragma: no cover"",
+            ""    REF_TENSOR = [1, 2, 3, 4, 5]# pragma: no cover"",
+            ""    def __init__(self, testcase, ref_tensor, tensor_type):# pragma: no cover"",
+            ""        self.testcase = testcase# pragma: no cover"",
+            ""        self.ref_tensor = ref_tensor# pragma: no cover"",
+            ""        self.tensor_type = tensor_type# pragma: no cover"",
+            ""    def __getitem__(self, slices):# pragma: no cover"",
+            ""        return self.ref_tensor # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'subTest': lambda self, tensor_type, use_gpu: unittest.TestCase.subTest(self, tensor_type=tensor_type, use_gpu=use_gpu)})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = ['type1', 'type2', 'type3'] # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'subTest': unittest.TestCase().subTest})() # pragma: no cover"",
+            ""class StridedSliceChecker:# pragma: no cover"",
+            ""    REF_TENSOR = 'reference_tensor'# pragma: no cover"",
+            ""    def __init__(self, test_instance, tensor_value, tensor_type):# pragma: no cover"",
+            ""        self.test_instance = test_instance# pragma: no cover"",
+            ""        self.tensor_value = tensor_value# pragma: no cover"",
+            ""        self.tensor_type = tensor_type# pragma: no cover"",
+            ""    def __getitem__(self, key):# pragma: no cover"",
+            ""        pass # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = [np.ndarray] # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'subTest': unittest.TestCase().subTest})() # pragma: no cover"",
+            ""class StridedSliceChecker: # pragma: no cover"",
+            ""    REF_TENSOR = np.random.rand(10, 10, 10) # pragma: no cover"",
+            ""    def __init__(self, self_ref, reference_tensor, tensor_type): # pragma: no cover"",
+            ""        self.tensor = np.array(reference_tensor) # pragma: no cover"",
+            ""    def __getitem__(self, item): # pragma: no cover"",
+            ""        return self.tensor[item] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = ['tensor_type_1', 'tensor_type_2'] # pragma: no cover"",
+            ""self = type('Mock', (object,), {'subTest': unittest.TestCase().subTest})() # pragma: no cover"",
+            ""class StridedSliceChecker:# pragma: no cover"",
+            ""    REF_TENSOR = [[1, 2], [3, 4]]# pragma: no cover"",
+            ""    def __init__(self, self_reference, reference_tensor, tensor_type):# pragma: no cover"",
+            ""        self.self_reference = self_reference# pragma: no cover"",
+            ""        self.reference_tensor = reference_tensor# pragma: no cover"",
+            ""        self.tensor_type = tensor_type# pragma: no cover"",
+            ""    def __getitem__(self, item):# pragma: no cover"",
+            ""        return self.reference_tensor # pragma: no cover"",
+            ""StridedSliceChecker.REF_TENSOR # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = [np.ndarray] # pragma: no cover"",
+            ""self = type('Mock', (object,), {'subTest': unittest.TestCase().subTest})() # pragma: no cover"",
+            ""class StridedSliceChecker:# pragma: no cover"",
+            ""    REF_TENSOR = np.random.rand(4, 4, 4)# pragma: no cover"",
+            ""    def __init__(self, test_self, ref_tensor, tensor_type):# pragma: no cover"",
+            ""        self.tensor = np.array(ref_tensor, dtype=tensor_type)# pragma: no cover"",
+            ""    def __getitem__(self, idx):# pragma: no cover"",
+            ""        return self.tensor[idx] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = [float, int, str] # pragma: no cover"",
+            ""class MockChecker:# pragma: no cover"",
+            ""    def __init__(self, instance, ref_tensor, tensor_type=None):# pragma: no cover"",
+            ""        self.instance = instance# pragma: no cover"",
+            ""        self.ref_tensor = ref_tensor# pragma: no cover"",
+            ""        self.tensor_type = tensor_type# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def __getitem__(self, slices):# pragma: no cover"",
+            ""        return slices# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""StridedSliceChecker = MockChecker # pragma: no cover"",
+            ""self = type('Mock', (object,), {'subTest': unittest.TestCase().subTest})() # pragma: no cover"",
+            ""StridedSliceChecker.REF_TENSOR = 'REF_TENSOR' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = [np.array] # pragma: no cover"",
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""StridedSliceChecker = type('Mock', (object,), { 'REF_TENSOR': np.random.rand(3,3,3), '__init__': lambda self, *args, **kwargs: None, '__getitem__': lambda self, idx: np.random.rand(3,3,3)[idx] }) # pragma: no cover"",
+            ""self.subTest = lambda tensor_type, use_gpu: unittest.mock.MagicMock() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = [np.array] # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'subTest': lambda self, **kwargs: unittest.TestCase.subTest(unittest.TestCase(), **kwargs)})() # pragma: no cover"",
+            ""class StridedSliceChecker: # pragma: no cover"",
+            ""    REF_TENSOR = np.random.rand(10, 10, 10) # pragma: no cover"",
+            ""    def __init__(self, test_instance, ref_tensor, tensor_type): # pragma: no cover"",
+            ""        self.test_instance = test_instance # pragma: no cover"",
+            ""        self.ref_tensor = ref_tensor # pragma: no cover"",
+            ""        self.tensor_type = tensor_type(self.ref_tensor) # pragma: no cover"",
+            ""    def __getitem__(self, key): # pragma: no cover"",
+            ""        return self.tensor_type[key] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = [np.array, np.ndarray] # pragma: no cover"",
+            ""self = type('Mock', (object,), {'subTest': lambda self, **kwargs: unittest.TestCase.subTest(self, **kwargs)})() # pragma: no cover"",
+            ""class StridedSliceChecker: # pragma: no cover"",
+            ""    REF_TENSOR = np.array([1, 2, 3, 4, 5]) # pragma: no cover"",
+            ""    def __init__(self, test_case, tensor, tensor_type): # pragma: no cover"",
+            ""        self.tensor = tensor # pragma: no cover"",
+            ""        if isinstance(tensor, int): # pragma: no cover"",
+            ""            self.tensor = np.array(tensor) # pragma: no cover"",
+            ""        self.tensor_type = tensor_type # pragma: no cover"",
+            ""    def __getitem__(self, item): # pragma: no cover"",
+            ""        return self.tensor[item] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import unittest # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""STRIDED_SLICE_TYPES = [np.array, np.matrix] # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'subTest': unittest.TestCase().subTest})() # pragma: no cover"",
+            ""class StridedSliceChecker:# pragma: no cover"",
+            ""    REF_TENSOR = np.random.rand(10, 10, 10)# pragma: no cover"",
+            ""    def __init__(self, self_instance, tensor, tensor_type):# pragma: no cover"",
+            ""        self.tensor = tensor_type(tensor)# pragma: no cover"",
+            ""    def __getitem__(self, key):# pragma: no cover"",
+            ""        return self.tensor[key] # pragma: no cover""
+        ]
+    }
+]",1,582,0.000291,1625,0.0024375,0.0027285

@@ -1,0 +1,2 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/array_ops/where_op_test.py
+self._testRandom(np.bool_, None, array_ops.where_v2)

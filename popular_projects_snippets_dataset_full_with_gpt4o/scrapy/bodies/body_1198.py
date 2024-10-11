@@ -1,0 +1,7 @@
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/scrapy/scrapy/http/response/text.py
+from l3.Runtime import _l_
+aux = self.selector.css(query)
+_l_(20897)
+exit(aux)

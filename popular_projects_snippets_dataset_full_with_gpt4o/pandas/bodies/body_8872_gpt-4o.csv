@@ -1,0 +1,253 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+# GH#49684
+utc_vals = np.array(
+    [1320552000, 1320555600, 1320559200, 1320562800], dtype=np.int64
+)
+utc_vals *= 1_000_000_000
+
+dta = DatetimeArray(utc_vals).tz_localize(""UTC"").tz_convert(tz)
+
+left = dta[2]
+right = list(dta)[2]
+assert str(left) == str(right)
+# previously there was a bug where with non-pytz right would be
+#  Timestamp('2011-11-06 01:00:00-0400', tz='US/Eastern')
+# while left would be
+#  Timestamp('2011-11-06 01:00:00-0500', tz='US/Eastern')
+# The .value's would match (so they would compare as equal),
+#  but the folds would not
+assert left.utcoffset() == right.utcoffset()
+
+# The same bug in ints_to_pydatetime affected .astype, so we test
+#  that here.
+right2 = dta.astype(object)[2]
+assert str(left) == str(right2)
+assert left.utcoffset() == right2.utcoffset()
+
+# end code snippet
+
+# begin undefined variables
+np
+DatetimeArray
+tz
+# end undefined variables
+
+# begin undefined attributes and methods
+np.array
+np.int64
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas.core.arrays.datetimelike import DatetimeArray"",
+            ""from pytz import timezone""
+        ],
+        ""initialization"": [
+            ""tz = timezone('US/Eastern')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas.arrays import DatetimeArray"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""tz = \""US/Eastern\""""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""DatetimeArray = pd.arrays.DatetimeArray"",
+            ""tz = 'US/Eastern'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas.core.arrays import DatetimeArray"",
+            ""import pytz""
+        ],
+        ""initialization"": [
+            ""tz = pytz.timezone('US/Eastern')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas.core.arrays import DatetimeArray"",
+            ""import pytz""
+        ],
+        ""initialization"": [
+            ""tz = pytz.timezone('US/Eastern')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas.core.arrays.datetimes import DatetimeArray"",
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""tz = 'US/Eastern'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas.api.extensions import register_extension_dtype"",
+            ""import pandas as pd"",
+            ""from pandas.core.arrays import DatetimeArray""
+        ],
+        ""initialization"": [
+            ""tz = 'US/Eastern'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas.arrays import DatetimeArray"",
+            ""import pytz""
+        ],
+        ""initialization"": [
+            ""tz = pytz.timezone('US/Eastern')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas.arrays import DatetimeArray""
+        ],
+        ""initialization"": [
+            ""tz = 'US/Eastern'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from pandas.arrays import DatetimeArray"",
+            ""import pytz""
+        ],
+        ""initialization"": [
+            ""tz = pytz.timezone('US/Eastern')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pytz import timezone # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tz = timezone('US/Eastern') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas.arrays import DatetimeArray # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tz = \""US/Eastern\"" # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""DatetimeArray = pd.arrays.DatetimeArray # pragma: no cover"",
+            ""tz = 'US/Eastern' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas.core.arrays import DatetimeArray # pragma: no cover"",
+            ""import pytz # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tz = pytz.timezone('US/Eastern') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas.core.arrays import DatetimeArray # pragma: no cover"",
+            ""import pytz # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tz = pytz.timezone('US/Eastern') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas.core.arrays.datetimes import DatetimeArray # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tz = 'US/Eastern' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas.api.extensions import register_extension_dtype # pragma: no cover"",
+            ""import pandas as pd # pragma: no cover"",
+            ""from pandas.core.arrays import DatetimeArray # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tz = 'US/Eastern' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas.arrays import DatetimeArray # pragma: no cover"",
+            ""import pytz # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tz = pytz.timezone('US/Eastern') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas.arrays import DatetimeArray # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tz = 'US/Eastern' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from pandas.arrays import DatetimeArray # pragma: no cover"",
+            ""import pytz # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""tz = pytz.timezone('US/Eastern') # pragma: no cover""
+        ]
+    }
+]",1,562,0.000281,596,0.000894,0.001175

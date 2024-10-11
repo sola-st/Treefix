@@ -1,0 +1,25 @@
+from pandas import Timestamp, to_datetime, DatetimeIndex # pragma: no cover
+import pandas._testing as tm # pragma: no cover
+
+cache = True # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/pandas/pandas/tests/tools/test_to_datetime.py
+
+# xref 8260
+# uniform returns a DatetimeIndex
+from l3.Runtime import _l_
+arr = [
+    Timestamp("2013-01-01 13:00:00-0800", tz="US/Pacific"),
+    Timestamp("2013-01-02 14:00:00-0800", tz="US/Pacific"),
+]
+_l_(19696)
+result = to_datetime(arr, cache=cache)
+_l_(19697)
+expected = DatetimeIndex(
+    ["2013-01-01 13:00:00", "2013-01-02 14:00:00"], tz="US/Pacific"
+)
+_l_(19698)
+tm.assert_index_equal(result, expected)
+_l_(19699)

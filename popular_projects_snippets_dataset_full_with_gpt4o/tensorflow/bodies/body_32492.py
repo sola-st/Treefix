@@ -1,0 +1,11 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/check_ops_test.py
+placeholder = array_ops.placeholder(dtypes.int32)
+derived = placeholder / 3
+derived = check_ops.ensure_shape(derived, (None, None, 3))
+feed_val = [[1], [2]]
+with self.cached_session() as sess:
+    with self.assertRaisesWithPredicateMatch(
+        errors.InvalidArgumentError,
+        r"Shape of tensor [A-Za-z_]* \[2,1\] is not compatible with "
+        r"expected shape \[\?,\?,3\]."):
+        sess.run(derived, feed_dict={placeholder: feed_val})

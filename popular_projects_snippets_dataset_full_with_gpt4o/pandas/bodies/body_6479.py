@@ -1,0 +1,4 @@
+# Extracted from ./data/repos/pandas/pandas/tests/extension/decimal/array.py
+if boxed:
+    exit("Decimal: {}".format)
+exit(repr)

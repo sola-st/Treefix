@@ -1,0 +1,53 @@
+import numpy as np # pragma: no cover
+import pandas as pd # pragma: no cover
+
+df = pd.DataFrame({'A': ['val1', 'val2', 'val3'], 'B': ['val4', '...', 'val6']}) # pragma: no cover
+np.array = type('Mock', (object,), {'splitlines': lambda self: ['A B', 'val1 val4', 'val2 ...', 'val3 val6'], 'split': lambda self: self.splitlines()[0].split()}) # pragma: no cover
+np.where = lambda condition: (lambda x: [i for i, val in enumerate(x) if val == False])(condition) # pragma: no cover
+
+import numpy as np # pragma: no cover
+import pandas as pd # pragma: no cover
+
+df = pd.DataFrame({'A': ['val1', 'val2', 'val3'], 'B': ['val4', '...', 'val6']}) # pragma: no cover
+np.array = lambda x: MockArray(x) # pragma: no cover
+np.where = lambda condition: (lambda x: [i for i, val in enumerate(x) if val == condition])(condition) # pragma: no cover
+class MockArray(list): # pragma: no cover
+    def __init__(self, x): # pragma: no cover
+        self.extend(x) # pragma: no cover
+    def splitlines(self): # pragma: no cover
+        return ['A B', 'val1 val4', 'val2 ...', 'val3 val6'] # pragma: no cover
+    def split(self): # pragma: no cover
+        return self.splitlines()[0].split() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/pandas/pandas/tests/io/formats/test_format.py
+from l3.Runtime import _l_
+try:
+    _l_(18205)
+
+    fst_line = np.array(repr(df).splitlines()[0].split())
+    _l_(18201)
+    cand_col = np.where(fst_line == "...")[0][0]
+    _l_(18202)
+except IndexError:
+    _l_(18204)
+
+    aux = False
+    _l_(18203)
+    exit(aux)
+# Make sure each row has this ... in the same place
+r = repr(df)
+_l_(18206)
+for ix, _ in enumerate(r.splitlines()):
+    _l_(18209)
+
+    if not r.split()[cand_col] == "...":
+        _l_(18208)
+
+        aux = False
+        _l_(18207)
+        exit(aux)
+aux = True
+_l_(18210)
+exit(aux)

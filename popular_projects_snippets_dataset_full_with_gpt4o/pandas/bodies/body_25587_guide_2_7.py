@@ -1,0 +1,60 @@
+from functools import wraps # pragma: no cover
+from typing import Callable, Any, cast # pragma: no cover
+import inspect # pragma: no cover
+
+def func(*args, **kwargs): # pragma: no cover
+    return 'Function Executed' # pragma: no cover
+ # pragma: no cover
+name = 'example_name' # pragma: no cover
+ # pragma: no cover
+extra_params = [('extra_param1', None), ('extra_param2', None)] # pragma: no cover
+ # pragma: no cover
+class MockExit: # pragma: no cover
+    def __call__(self, value): # pragma: no cover
+        print('Exit called with:', value) # pragma: no cover
+exit = MockExit() # pragma: no cover
+ # pragma: no cover
+class MockCallable: # pragma: no cover
+    __signature__ = None # pragma: no cover
+    def __call__(self, *args, **kwargs): pass # pragma: no cover
+F = cast(Callable[..., Any], MockCallable) # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/pandas/pandas/util/_decorators.py
+from l3.Runtime import _l_
+@wraps(func)
+def wrapper(*args, **kwargs) -> Callable[..., Any]:
+    _l_(21459)
+
+    aux = func(*args, **kwargs)
+    _l_(21458)
+    exit(aux)
+
+kind = inspect.Parameter.POSITIONAL_OR_KEYWORD
+_l_(21460)
+params = [
+    inspect.Parameter("self", kind),
+    inspect.Parameter(name, kind, default=None),
+    inspect.Parameter("index", kind, default=None),
+    inspect.Parameter("columns", kind, default=None),
+    inspect.Parameter("axis", kind, default=None),
+]
+_l_(21461)
+
+for pname, default in extra_params:
+    _l_(21463)
+
+    params.append(inspect.Parameter(pname, kind, default=default))
+    _l_(21462)
+
+sig = inspect.Signature(params)
+_l_(21464)
+
+# https://github.com/python/typing/issues/598
+# error: "F" has no attribute "__signature__"
+func.__signature__ = sig  # type: ignore[attr-defined]
+_l_(21465)  # type: ignore[attr-defined]
+aux = cast(F, wrapper)
+_l_(21466)
+exit(aux)

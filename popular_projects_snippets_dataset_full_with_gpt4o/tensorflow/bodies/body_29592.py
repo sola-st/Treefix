@@ -1,0 +1,2 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/array_ops/spacetobatch_op_test.py
+self._compare([1, 4, 6, 5], [2, 2], [[0, 0], [0, 0]])

@@ -1,0 +1,54 @@
+import unittest.mock as mock # pragma: no cover
+
+sess = type('Mock', (object,), {'partial_run_setup': mock.Mock(), 'partial_run': mock.Mock()})() # pragma: no cover
+self = type('Mock', (object,), {'assertEqual': mock.Mock()})() # pragma: no cover
+
+import unittest # pragma: no cover
+
+sess = type('Mock', (object,), { # pragma: no cover
+ 'partial_run_setup': lambda self, fetches, feeds: 'handle', # pragma: no cover
+ 'partial_run': lambda self, handle, fetch, feed_dict: fetch.eval(feed_dict=feed_dict, session=tf.compat.v1.Session()) # pragma: no cover
+ })() # pragma: no cover
+self = type('Mock', (unittest.TestCase,), { 'assertEqual': unittest.TestCase.assertEqual })() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/client/session_partial_run_test.py
+from l3.Runtime import _l_
+a = array_ops.placeholder(dtypes.float32, shape=[])
+_l_(20014)
+b = array_ops.placeholder(dtypes.float32, shape=[])
+_l_(20015)
+c = array_ops.placeholder(dtypes.float32, shape=[])
+_l_(20016)
+r1 = math_ops.add(a, b)
+_l_(20017)
+r2 = math_ops.multiply(r1, c)
+_l_(20018)
+
+h = sess.partial_run_setup([r1, r2], [a, b, c])
+_l_(20019)
+res = sess.partial_run(h, r1, feed_dict={a: 1, b: 2})
+_l_(20020)
+self.assertEqual(3, res)
+_l_(20021)
+temp = res * 17
+_l_(20022)
+res = sess.partial_run(h, r2, feed_dict={c: temp})
+_l_(20023)
+self.assertEqual(153, res)
+_l_(20024)
+
+# Call again on the same graph.
+h2 = sess.partial_run_setup([r1, r2], [a, b, c])
+_l_(20025)
+res = sess.partial_run(h2, r1, feed_dict={a: 1, b: 2})
+_l_(20026)
+self.assertEqual(3, res)
+_l_(20027)
+temp = res * 18
+_l_(20028)
+res = sess.partial_run(h2, r2, feed_dict={c: temp})
+_l_(20029)
+self.assertEqual(162, res)
+_l_(20030)

@@ -1,0 +1,15 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/parallel_for/control_flow_ops_test.py
+# This tests cases where a loop invariant input to while has loop dependent
+# operations applied to it inside the while body.
+# It also test inputs that are passed through.
+def loop_fn(i):
+    exit(control_flow_ops.while_loop(
+        lambda j, *_: j < i, lambda j, x, y, z, w:
+        (j + 1, x + i, y + x, z, w), [
+            0,
+            constant_op.constant(0),
+            constant_op.constant(1), i,
+            constant_op.constant(2)
+        ]))
+
+self._test_loop_fn(loop_fn, 3)

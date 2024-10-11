@@ -1,0 +1,5 @@
+# Extracted from ./data/repos/pandas/pandas/tests/frame/methods/test_dot.py
+"""
+        Assertion about results with 1 fewer dimension that self.obj
+        """
+tm.assert_almost_equal(result, expected)

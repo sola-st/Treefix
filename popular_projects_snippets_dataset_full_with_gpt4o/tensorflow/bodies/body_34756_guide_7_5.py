@@ -1,0 +1,48 @@
+context = type('MockContext', (object,), {'executing_eagerly': staticmethod(lambda: False)})() # pragma: no cover
+class MockSelf: # pragma: no cover
+    def assertRaises(self, exception): # pragma: no cover
+        class ContextManager: # pragma: no cover
+            def __enter__(self): return self # pragma: no cover
+            def __exit__(self, exc_type, exc_value, traceback): # pragma: no cover
+                if exc_type is None: # pragma: no cover
+                    raise AssertionError(f'Expected exception {exception} to be raised, but none was raised') # pragma: no cover
+                if not issubclass(exc_type, exception): # pragma: no cover
+                    raise AssertionError(f'Unexpected exception type: {exc_type}') # pragma: no cover
+                return True # pragma: no cover
+        return ContextManager() # pragma: no cover
+    def evaluate(self, tensor): # pragma: no cover
+        with tf.compat.v1.Session() as sess: # pragma: no cover
+            sess.run(tf.compat.v1.tables_initializer()) # pragma: no cover
+            return sess.run(tensor) # pragma: no cover
+    def assertAllEqual(self, a, b): # pragma: no cover
+        assert list(a) == list(b), f'Expected {a}, but got {b}' # pragma: no cover
+self = MockSelf() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/data_structures/lookup_ops_test.py
+from l3.Runtime import _l_
+table = lookup_ops.index_table_from_tensor(
+    vocabulary_list=("brain", "salad", "surgery"), num_oov_buckets=1)
+_l_(21219)
+
+if not context.executing_eagerly():
+    _l_(21223)
+
+    with self.assertRaises(errors_impl.OpError):
+        _l_(21221)
+
+        self.evaluate(
+            table.lookup(constant_op.constant(("salad", "surgery", "tarkus"))))
+        _l_(21220)
+else:
+    # Reinitializing a table in eager should work.
+    table = lookup_ops.index_table_from_tensor(
+        vocabulary_list=("brain", "salad", "surgery"), num_oov_buckets=1)
+    _l_(21222)
+self.evaluate(lookup_ops.tables_initializer())
+_l_(21224)
+ids = table.lookup(constant_op.constant(("salad", "surgery", "tarkus")))
+_l_(21225)
+self.assertAllEqual((1, 2, 3), self.evaluate(ids))
+_l_(21226)

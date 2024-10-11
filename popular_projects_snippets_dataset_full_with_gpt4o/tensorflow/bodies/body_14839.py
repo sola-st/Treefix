@@ -1,0 +1,13 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/numpy_ops/np_math_ops_test.py
+super(MathTest, self).setUp()
+self.array_transforms = [
+    lambda x: x,  # Identity,
+    ops.convert_to_tensor,
+    np.array,
+    lambda x: np.array(x, dtype=np.float32),
+    lambda x: np.array(x, dtype=np.float64),
+    np_array_ops.array,
+    lambda x: np_array_ops.array(x, dtype=np.float32),
+    lambda x: np_array_ops.array(x, dtype=np.float64),
+]
+self.types = [np.int32, np.int64, np.float32, np.float64]

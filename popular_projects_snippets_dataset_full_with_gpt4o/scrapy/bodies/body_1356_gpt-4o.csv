@@ -1,0 +1,279 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+links = [x for x in links if self._link_allowed(x)]
+if self.canonicalize:
+    for link in links:
+        link.url = canonicalize_url(link.url)
+links = self.link_extractor._process_links(links)
+exit(links)
+
+# end code snippet
+
+# begin undefined variables
+links
+self
+canonicalize_url
+# end undefined variables
+
+# begin undefined attributes and methods
+self._link_allowed
+self.canonicalize
+self.link_extractor
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from urllib.parse import urlparse, urlunparse, urlencode""
+        ],
+        ""initialization"": [
+            ""links = [type('Link', (object,), {'url': 'http://example.com'})()]"",
+            ""self = type('Mock', (object,), { '_link_allowed': lambda x: True, 'canonicalize': True, 'link_extractor': type('LinkExtractor', (object,), {'_process_links': lambda self, links: links})() })()"",
+            ""def canonicalize_url(url: str) -> str: parsed_url = urlparse(url); query_string = urlencode(sorted(urlparse(url).query.split('&'))); return urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path, parsed_url.params, query_string, parsed_url.fragment))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from urllib.parse import urlparse""
+        ],
+        ""initialization"": [
+            ""links = [type('Link', (object,), {'url': 'http://example.com/page1'}), type('Link', (object,), {'url': 'http://example.com/page2'})]"",
+            ""self = type('Mock', (object,), {'_link_allowed': lambda self, x: True, 'canonicalize': True, 'link_extractor': type('MockLinkExtractor', (object,), {'_process_links': lambda self, links: links})()})()"",
+            ""canonicalize_url = lambda url: urlparse(url)._replace(scheme='https').geturl()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from dataclasses import dataclass""
+        ],
+        ""initialization"": [
+            ""links = [Link(url='http://example.com'), Link(url='http://example.org')]"",
+            ""@dataclass\nclass Link:\n    url: str"",
+            ""class MockLinkExtractor:\n    def _process_links(self, links: List[Link]) -> List[Link]:\n        return links"",
+            ""self = type('Mock', (object,), {\n    '_link_allowed': lambda self, x: True,\n    'canonicalize': True,\n    'link_extractor': MockLinkExtractor()\n})()"",
+            ""def canonicalize_url(url: str) -> str:\n    return url + '/canonical'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""links = [{'url': 'http://example.com'}, {'url': 'http://example.org'}]"",
+            ""self = type('Mock', (object,), {\n  '_link_allowed': lambda self, x: True,\n  'canonicalize': True,\n  'link_extractor': type('LinkExtractor', (object,), {\n    '_process_links': lambda self, links: links\n  })()\n})()"",
+            ""def canonicalize_url(url): return url.replace('http:', 'https:')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""links = [Mock(url=f'http://example.com/page{i}') for i in range(5)]"",
+            ""self = Mock()"",
+            ""canonicalize_url = lambda url: url.lower()"",
+            ""self._link_allowed = lambda x: True"",
+            ""self.canonicalize = True"",
+            ""self.link_extractor = Mock()"",
+            ""self.link_extractor._process_links = lambda links: links""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import dataclasses""
+        ],
+        ""initialization"": [
+            ""links: List = [{'url': 'http://example.com'}, {'url': 'http://example.org'}]"",
+            ""canonicalize_url = lambda url: f'{url}/canonical'"",
+            ""self = type('Mock', (object,), {'_link_allowed': lambda self, x: 'http' in x['url'], 'canonicalize': True, 'link_extractor': type('MockLinkExtractor', (object,), {'_process_links': lambda self, links: links})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""links = [SimpleNamespace(url='http://example.com'), SimpleNamespace(url='http://test.com')]"",
+            ""self = type('Mock', (object,), {'_link_allowed': lambda self, x: True, 'canonicalize': True, 'link_extractor': type('MockExtractor', (object,), {'_process_links': lambda self, links: links})()})()"",
+            ""canonicalize_url = lambda url: url.lower()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from dataclasses import dataclass""
+        ],
+        ""initialization"": [
+            ""links = [type('Link', (object,), {'url': 'http://example.com'})(), type('Link', (object,), {'url': 'http://example.net'})()]"",
+            ""self = type('Mock', (object,), {'_link_allowed': lambda x: True, 'canonicalize': True, 'link_extractor': type('Mock', (object,), {'_process_links': lambda x: x})()})()"",
+            ""canonicalize_url = lambda url: url + '/canonical'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any"",
+            ""from urllib.parse import urlparse""
+        ],
+        ""initialization"": [
+            ""links = [{'url': 'http://example.com/page1'}, {'url': 'http://example.com/page2'}, {'url': 'http://example.com/page3'}]"",
+            ""canonicalize_url = lambda url: urlparse(url).geturl() + '?canonical'"",
+            ""self = type('Mock', (object,), {'_link_allowed': lambda self, x: True, 'canonicalize': True, 'link_extractor': type('Mock', (object,), {'_process_links': lambda self, links: links})()})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""links = [{'url': 'http://example.com/page1'}, {'url': 'http://example.com/page2'}, {'url': 'http://example.com/page3'}]"",
+            ""self = type('Mock', (object,), {'_link_allowed': lambda self, x: True, 'canonicalize': True, 'link_extractor': type('LinkExtractorMock', (object,), {'_process_links': lambda self, links: [{'url': link['url'], 'processed': True} for link in links]})()})()"",
+            ""canonicalize_url = lambda url: url + '?canonical=true'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from urllib.parse import urlparse, urlunparse, urlencode # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""links = [type('Link', (object,), {'url': 'http://example.com'})()] # pragma: no cover"",
+            ""self = type('Mock', (object,), { '_link_allowed': lambda x: True, 'canonicalize': True, 'link_extractor': type('LinkExtractor', (object,), {'_process_links': lambda self, links: links})() })() # pragma: no cover"",
+            ""def canonicalize_url(url: str) -> str: parsed_url = urlparse(url); query_string = urlencode(sorted(urlparse(url).query.split('&'))); return urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path, parsed_url.params, query_string, parsed_url.fragment)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from urllib.parse import urlparse # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""links = [type('Link', (object,), {'url': 'http://example.com/page1'}), type('Link', (object,), {'url': 'http://example.com/page2'})] # pragma: no cover"",
+            ""self = type('Mock', (object,), {'_link_allowed': lambda self, x: True, 'canonicalize': True, 'link_extractor': type('MockLinkExtractor', (object,), {'_process_links': lambda self, links: links})()})() # pragma: no cover"",
+            ""canonicalize_url = lambda url: urlparse(url)._replace(scheme='https').geturl() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from dataclasses import dataclass # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""@dataclass# pragma: no cover"",
+            ""class Link:# pragma: no cover"",
+            ""    url: str # pragma: no cover"",
+            ""class MockLinkExtractor:# pragma: no cover"",
+            ""    def _process_links(self, links: List[Link]) -> List[Link]:# pragma: no cover"",
+            ""        return links # pragma: no cover"",
+            ""self = type('Mock', (object,), {# pragma: no cover"",
+            ""    '_link_allowed': lambda self, x: True,# pragma: no cover"",
+            ""    'canonicalize': True,# pragma: no cover"",
+            ""    'link_extractor': MockLinkExtractor()# pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""def canonicalize_url(url: str) -> str:# pragma: no cover"",
+            ""    return url + '/canonical' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""links = [{'url': 'http://example.com'}, {'url': 'http://example.org'}] # pragma: no cover"",
+            ""self = type('Mock', (object,), {# pragma: no cover"",
+            ""  '_link_allowed': lambda self, x: True,# pragma: no cover"",
+            ""  'canonicalize': True,# pragma: no cover"",
+            ""  'link_extractor': type('LinkExtractor', (object,), {# pragma: no cover"",
+            ""    '_process_links': lambda self, links: links# pragma: no cover"",
+            ""  })()# pragma: no cover"",
+            ""})() # pragma: no cover"",
+            ""def canonicalize_url(url): return url.replace('http:', 'https:') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""links = [Mock(url=f'http://example.com/page{i}') for i in range(5)] # pragma: no cover"",
+            ""self = Mock() # pragma: no cover"",
+            ""canonicalize_url = lambda url: url.lower() # pragma: no cover"",
+            ""self._link_allowed = lambda x: True # pragma: no cover"",
+            ""self.canonicalize = True # pragma: no cover"",
+            ""self.link_extractor = Mock() # pragma: no cover"",
+            ""self.link_extractor._process_links = lambda links: links # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import dataclasses # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""links: List = [{'url': 'http://example.com'}, {'url': 'http://example.org'}] # pragma: no cover"",
+            ""canonicalize_url = lambda url: f'{url}/canonical' # pragma: no cover"",
+            ""self = type('Mock', (object,), {'_link_allowed': lambda self, x: 'http' in x['url'], 'canonicalize': True, 'link_extractor': type('MockLinkExtractor', (object,), {'_process_links': lambda self, links: links})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""links = [SimpleNamespace(url='http://example.com'), SimpleNamespace(url='http://test.com')] # pragma: no cover"",
+            ""self = type('Mock', (object,), {'_link_allowed': lambda self, x: True, 'canonicalize': True, 'link_extractor': type('MockExtractor', (object,), {'_process_links': lambda self, links: links})()})() # pragma: no cover"",
+            ""canonicalize_url = lambda url: url.lower() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from dataclasses import dataclass # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""links = [type('Link', (object,), {'url': 'http://example.com'})(), type('Link', (object,), {'url': 'http://example.net'})()] # pragma: no cover"",
+            ""self = type('Mock', (object,), {'_link_allowed': lambda x: True, 'canonicalize': True, 'link_extractor': type('Mock', (object,), {'_process_links': lambda x: x})()})() # pragma: no cover"",
+            ""canonicalize_url = lambda url: url + '/canonical' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Any # pragma: no cover"",
+            ""from urllib.parse import urlparse # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""links = [{'url': 'http://example.com/page1'}, {'url': 'http://example.com/page2'}, {'url': 'http://example.com/page3'}] # pragma: no cover"",
+            ""canonicalize_url = lambda url: urlparse(url).geturl() + '?canonical' # pragma: no cover"",
+            ""self = type('Mock', (object,), {'_link_allowed': lambda self, x: True, 'canonicalize': True, 'link_extractor': type('Mock', (object,), {'_process_links': lambda self, links: links})()})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""links = [{'url': 'http://example.com/page1'}, {'url': 'http://example.com/page2'}, {'url': 'http://example.com/page3'}] # pragma: no cover"",
+            ""self = type('Mock', (object,), {'_link_allowed': lambda self, x: True, 'canonicalize': True, 'link_extractor': type('LinkExtractorMock', (object,), {'_process_links': lambda self, links: [{'url': link['url'], 'processed': True} for link in links]})()})() # pragma: no cover"",
+            ""canonicalize_url = lambda url: url + '?canonical=true' # pragma: no cover""
+        ]
+    }
+]",1,361,0.0001805,1515,0.0022725,0.0024530000000000003

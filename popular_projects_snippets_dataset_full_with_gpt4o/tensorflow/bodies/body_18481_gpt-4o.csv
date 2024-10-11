@@ -1,0 +1,269 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+size = pfor_input.unstacked_input(0)
+dtype = pfor_input.get_attr(""dtype"")
+dynamic_size = pfor_input.get_attr(""dynamic_size"")
+clear_after_read = pfor_input.get_attr(""clear_after_read"")
+identical_element_shapes = pfor_input.get_attr(""identical_element_shapes"")
+tensor_array_name = pfor_input.get_attr(""tensor_array_name"")
+handle, flow = data_flow_ops.tensor_array_v3(
+    size,
+    dtype=dtype,
+    # We don't set element shape since we don't know if writes are stacked or
+    # not yet.
+    element_shape=None,
+    dynamic_size=dynamic_size,
+    clear_after_read=clear_after_read,
+    identical_element_shapes=identical_element_shapes,
+    tensor_array_name=tensor_array_name)
+# Note we keep flow unstacked for now since we don't know if writes will be
+# stacked or not.
+exit((wrap(handle, False), wrap(flow, False)))
+
+# end code snippet
+
+# begin undefined variables
+pfor_input
+data_flow_ops
+wrap
+# end undefined variables
+
+# begin undefined attributes and methods
+pfor_input.unstacked_input
+pfor_input.get_attr
+data_flow_ops.tensor_array_v3
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.framework import dtypes"",
+            ""from tensorflow.python.ops import tensor_array_ops"",
+            ""from tensorflow.python.ops import array_ops""
+        ],
+        ""initialization"": [
+            ""pfor_input = type('Mock', (object,), {'unstacked_input': lambda x: 10, 'get_attr': lambda x: {'dtype': dtypes.float32, 'dynamic_size': True, 'clear_after_read': False, 'identical_element_shapes': True, 'tensor_array_name': 'example_tensor_array'}[x]})"",
+            ""data_flow_ops = type('Mock', (object,), {'tensor_array_v3': lambda size, dtype, element_shape, dynamic_size, clear_after_read, identical_element_shapes, tensor_array_name: (tf.TensorArray(dtype, size=size, dynamic_size=dynamic_size, clear_after_read=clear_after_read, element_shape=element_shape, identical_element_shapes=identical_element_shapes, name=tensor_array_name).handle, tf.constant(1.0))})"",
+            ""wrap = lambda handle, is_stack: handle""
+        ]
+    },
+    {
+        ""imports"": [
+            ""tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""pfor_input = type('Mock', (object,), {'unstacked_input': lambda x: 10, 'get_attr': lambda x: {'dtype': tf.float32, 'dynamic_size': True, 'clear_after_read': False, 'identical_element_shapes': True, 'tensor_array_name': 'test_tensor_array'}[x]})()"",
+            ""data_flow_ops = type('Mock', (object,), {'tensor_array_v3': lambda size, dtype, element_shape, dynamic_size, clear_after_read, identical_element_shapes, tensor_array_name: (tf.TensorArray(dtype=dtype, size=size, dynamic_size=dynamic_size, clear_after_read=clear_after_read, identical_element_shapes=identical_element_shapes, tensor_array_name=tensor_array_name)._implementation().handle, tf.constant(0.0))})()"",
+            ""wrap = lambda tensor, flag: (tensor, flag)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""from tensorflow.python.ops import data_flow_ops""
+        ],
+        ""initialization"": [
+            ""pfor_input = type('Mock', (object,), {'unstacked_input': lambda x: 10, 'get_attr': lambda attr: {'dtype': tf.float32, 'dynamic_size': False, 'clear_after_read': True, 'identical_element_shapes': True, 'tensor_array_name': 'test_array'}[attr]})()"",
+            ""wrap = lambda x, y: (x, y)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""pfor_input = type('Mock', (object,), {'unstacked_input': lambda i: 10, 'get_attr': lambda name: {'dtype': tf.float32, 'dynamic_size': True, 'clear_after_read': False, 'identical_element_shapes': False, 'tensor_array_name': 'example_tensor_array'}.get(name)})()"",
+            ""data_flow_ops = type('Mock', (object,), {'tensor_array_v3': lambda size, dtype, element_shape, dynamic_size, clear_after_read, identical_element_shapes, tensor_array_name: (tf.constant([1, 2, 3]), tf.constant([0.1, 0.2, 0.3]))})()"",
+            ""wrap = lambda x, flag: (x, flag)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import MethodType""
+        ],
+        ""initialization"": [
+            ""pfor_input = type('Mock', (object,), {})()"",
+            ""pfor_input.unstacked_input = MethodType(lambda self, x: 10, pfor_input)"",
+            ""pfor_input.get_attr = MethodType(lambda self, name: {'dtype': 'float32', 'dynamic_size': True, 'clear_after_read': False, 'identical_element_shapes': True, 'tensor_array_name': 'array'}[name], pfor_input)"",
+            ""data_flow_ops = type('Mock', (object,), {})()"",
+            ""data_flow_ops.tensor_array_v3 = MethodType(lambda self, size, dtype, element_shape, dynamic_size, clear_after_read, identical_element_shapes, tensor_array_name: ('handle', 'flow'), data_flow_ops)"",
+            ""wrap = lambda x, y: (x, y)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf""
+        ],
+        ""initialization"": [
+            ""pfor_input = type(\""Mock\"", (object,), {\""unstacked_input\"": lambda x: 10, \""get_attr\"": lambda x: {\n    \""dtype\"": tf.int32,\n    \""dynamic_size\"": True,\n    \""clear_after_read\"": False,\n    \""identical_element_shapes\"": True,\n    \""tensor_array_name\"": \""my_tensor_array\""\n}[x]})()"",
+            ""data_flow_ops = type(\""Mock\"", (object,), {\""tensor_array_v3\"": lambda size, dtype, element_shape, dynamic_size, clear_after_read, identical_element_shapes, tensor_array_name: (tf.constant([0]), tf.constant([1]))})()"",
+            ""wrap = lambda tensor, boolean: tensor""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""pfor_input = SimpleNamespace(unstacked_input=lambda x: np.array([5]), get_attr=lambda attr: True if attr == 'dynamic_size' or attr == 'clear_after_read' or attr == 'identical_element_shapes' else 'float32' if attr == 'dtype' else 'example_tensor_array')"",
+            ""data_flow_ops = SimpleNamespace(tensor_array_v3=lambda size, dtype, element_shape, dynamic_size, clear_after_read, identical_element_shapes, tensor_array_name: (np.array(['handle']), np.array(['flow'])))"",
+            ""wrap = lambda x, _: x""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""pfor_input = SimpleNamespace(unstacked_input=lambda x: 10, get_attr=lambda attr: {'dtype': np.float32, 'dynamic_size': True, 'clear_after_read': False, 'identical_element_shapes': True, 'tensor_array_name': 'my_tensor_array'}[attr])"",
+            ""data_flow_ops = SimpleNamespace(tensor_array_v3=lambda size, dtype, element_shape, dynamic_size, clear_after_read, identical_element_shapes, tensor_array_name: ('handle_mock', 'flow_mock'))"",
+            ""wrap = lambda x, y: (x, y)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np"",
+            ""from tensorflow.python.ops import data_flow_ops""
+        ],
+        ""initialization"": [
+            ""pfor_input = type('Mock', (object,), { 'unstacked_input': lambda x: 5, 'get_attr': lambda x: { 'dtype': np.float32, 'dynamic_size': False, 'clear_after_read': True, 'identical_element_shapes': False, 'tensor_array_name': 'test_array' }[x] })()"",
+            ""wrap = lambda handle, flow: (handle, flow)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import tensorflow as tf"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""pfor_input = type('Mock', (object,), { 'unstacked_input': lambda self, x: np.array([1, 2, 3, 4, 5]), 'get_attr': lambda self, attr: { 'dtype': tf.float32, 'dynamic_size': True, 'clear_after_read': False, 'identical_element_shapes': True, 'tensor_array_name': 'array_name' }[attr] })()"",
+            ""data_flow_ops = type('Mock', (object,), { 'tensor_array_v3': lambda size, dtype, element_shape, dynamic_size, clear_after_read, identical_element_shapes, tensor_array_name: (tf.TensorArray(dtype, size, dynamic_size=dynamic_size, clear_after_read=clear_after_read, identical_element_shapes=identical_element_shapes, name=tensor_array_name).handle, tf.constant([1.0])) })()"",
+            ""wrap = lambda x, y: (x, y)""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""pfor_input = type('Mock', (object,), {'unstacked_input': lambda x: 10, 'get_attr': lambda x: {'dtype': dtypes.float32, 'dynamic_size': True, 'clear_after_read': False, 'identical_element_shapes': True, 'tensor_array_name': 'example_tensor_array'}[x]}) # pragma: no cover"",
+            ""data_flow_ops = type('Mock', (object,), {'tensor_array_v3': lambda size, dtype, element_shape, dynamic_size, clear_after_read, identical_element_shapes, tensor_array_name: (tf.TensorArray(dtype, size=size, dynamic_size=dynamic_size, clear_after_read=clear_after_read, element_shape=element_shape, identical_element_shapes=identical_element_shapes, name=tensor_array_name).handle, tf.constant(1.0))}) # pragma: no cover"",
+            ""wrap = lambda handle, is_stack: handle # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""pfor_input = type('Mock', (object,), {'unstacked_input': lambda x: 10, 'get_attr': lambda x: {'dtype': tf.float32, 'dynamic_size': True, 'clear_after_read': False, 'identical_element_shapes': True, 'tensor_array_name': 'test_tensor_array'}[x]})() # pragma: no cover"",
+            ""data_flow_ops = type('Mock', (object,), {'tensor_array_v3': lambda size, dtype, element_shape, dynamic_size, clear_after_read, identical_element_shapes, tensor_array_name: (tf.TensorArray(dtype=dtype, size=size, dynamic_size=dynamic_size, clear_after_read=clear_after_read, identical_element_shapes=identical_element_shapes, tensor_array_name=tensor_array_name)._implementation().handle, tf.constant(0.0))})() # pragma: no cover"",
+            ""wrap = lambda tensor, flag: (tensor, flag) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""pfor_input = type('Mock', (object,), {'unstacked_input': lambda x: 10, 'get_attr': lambda attr: {'dtype': tf.float32, 'dynamic_size': False, 'clear_after_read': True, 'identical_element_shapes': True, 'tensor_array_name': 'test_array'}[attr]})() # pragma: no cover"",
+            ""wrap = lambda x, y: (x, y) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""pfor_input = type('Mock', (object,), {'unstacked_input': lambda i: 10, 'get_attr': lambda name: {'dtype': tf.float32, 'dynamic_size': True, 'clear_after_read': False, 'identical_element_shapes': False, 'tensor_array_name': 'example_tensor_array'}.get(name)})() # pragma: no cover"",
+            ""data_flow_ops = type('Mock', (object,), {'tensor_array_v3': lambda size, dtype, element_shape, dynamic_size, clear_after_read, identical_element_shapes, tensor_array_name: (tf.constant([1, 2, 3]), tf.constant([0.1, 0.2, 0.3]))})() # pragma: no cover"",
+            ""wrap = lambda x, flag: (x, flag) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import MethodType # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""pfor_input = type('Mock', (object,), {})() # pragma: no cover"",
+            ""pfor_input.unstacked_input = MethodType(lambda self, x: 10, pfor_input) # pragma: no cover"",
+            ""pfor_input.get_attr = MethodType(lambda self, name: {'dtype': 'float32', 'dynamic_size': True, 'clear_after_read': False, 'identical_element_shapes': True, 'tensor_array_name': 'array'}[name], pfor_input) # pragma: no cover"",
+            ""data_flow_ops = type('Mock', (object,), {})() # pragma: no cover"",
+            ""data_flow_ops.tensor_array_v3 = MethodType(lambda self, size, dtype, element_shape, dynamic_size, clear_after_read, identical_element_shapes, tensor_array_name: ('handle', 'flow'), data_flow_ops) # pragma: no cover"",
+            ""wrap = lambda x, y: (x, y) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""pfor_input = type(\""Mock\"", (object,), {\""unstacked_input\"": lambda x: 10, \""get_attr\"": lambda x: {# pragma: no cover"",
+            ""    \""dtype\"": tf.int32,# pragma: no cover"",
+            ""    \""dynamic_size\"": True,# pragma: no cover"",
+            ""    \""clear_after_read\"": False,# pragma: no cover"",
+            ""    \""identical_element_shapes\"": True,# pragma: no cover"",
+            ""    \""tensor_array_name\"": \""my_tensor_array\""# pragma: no cover"",
+            ""}[x]})() # pragma: no cover"",
+            ""data_flow_ops = type(\""Mock\"", (object,), {\""tensor_array_v3\"": lambda size, dtype, element_shape, dynamic_size, clear_after_read, identical_element_shapes, tensor_array_name: (tf.constant([0]), tf.constant([1]))})() # pragma: no cover"",
+            ""wrap = lambda tensor, boolean: tensor # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""pfor_input = SimpleNamespace(unstacked_input=lambda x: np.array([5]), get_attr=lambda attr: True if attr == 'dynamic_size' or attr == 'clear_after_read' or attr == 'identical_element_shapes' else 'float32' if attr == 'dtype' else 'example_tensor_array') # pragma: no cover"",
+            ""data_flow_ops = SimpleNamespace(tensor_array_v3=lambda size, dtype, element_shape, dynamic_size, clear_after_read, identical_element_shapes, tensor_array_name: (np.array(['handle']), np.array(['flow']))) # pragma: no cover"",
+            ""wrap = lambda x, _: x # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""pfor_input = SimpleNamespace(unstacked_input=lambda x: 10, get_attr=lambda attr: {'dtype': np.float32, 'dynamic_size': True, 'clear_after_read': False, 'identical_element_shapes': True, 'tensor_array_name': 'my_tensor_array'}[attr]) # pragma: no cover"",
+            ""data_flow_ops = SimpleNamespace(tensor_array_v3=lambda size, dtype, element_shape, dynamic_size, clear_after_read, identical_element_shapes, tensor_array_name: ('handle_mock', 'flow_mock')) # pragma: no cover"",
+            ""wrap = lambda x, y: (x, y) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""pfor_input = type('Mock', (object,), { 'unstacked_input': lambda x: 5, 'get_attr': lambda x: { 'dtype': np.float32, 'dynamic_size': False, 'clear_after_read': True, 'identical_element_shapes': False, 'tensor_array_name': 'test_array' }[x] })() # pragma: no cover"",
+            ""wrap = lambda handle, flow: (handle, flow) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""pfor_input = type('Mock', (object,), { 'unstacked_input': lambda self, x: np.array([1, 2, 3, 4, 5]), 'get_attr': lambda self, attr: { 'dtype': tf.float32, 'dynamic_size': True, 'clear_after_read': False, 'identical_element_shapes': True, 'tensor_array_name': 'array_name' }[attr] })() # pragma: no cover"",
+            ""data_flow_ops = type('Mock', (object,), { 'tensor_array_v3': lambda size, dtype, element_shape, dynamic_size, clear_after_read, identical_element_shapes, tensor_array_name: (tf.TensorArray(dtype, size, dynamic_size=dynamic_size, clear_after_read=clear_after_read, identical_element_shapes=identical_element_shapes, name=tensor_array_name).handle, tf.constant([1.0])) })() # pragma: no cover"",
+            ""wrap = lambda x, y: (x, y) # pragma: no cover""
+        ]
+    }
+]",1,513,0.0002565,1877,0.0028155,0.003072

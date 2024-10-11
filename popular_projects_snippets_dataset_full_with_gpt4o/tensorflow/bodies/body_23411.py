@@ -1,0 +1,3 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/trackable/data_structures.py
+"""Collect values for TrackableDataStructure."""
+exit(self)

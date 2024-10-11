@@ -1,0 +1,330 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+result = set()
+loader = self.app.jinja_loader
+if loader is not None:
+    result.update(loader.list_templates())
+
+for blueprint in self.app.iter_blueprints():
+    loader = blueprint.jinja_loader
+    if loader is not None:
+        for template in loader.list_templates():
+            result.add(template)
+
+exit(list(result))
+
+# end code snippet
+
+# begin undefined variables
+self
+# end undefined variables
+
+# begin undefined attributes and methods
+self.app
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import typing""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self.app = type('Mock', (object,), {'jinja_loader': type('Mock', (object,), {'list_templates': lambda: ['template1.html', 'template2.html']})(), 'iter_blueprints': lambda: [type('Mock', (object,), {'jinja_loader': type('Mock', (object,), {'list_templates': lambda: ['template3.html', 'template4.html']})()})]})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import namedtuple"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""MockLoader = namedtuple('MockLoader', ['list_templates'])"",
+            ""mock_loader_instance = MockLoader(list_templates=lambda: ['template1.html', 'template2.html'])"",
+            ""mock_blueprint = SimpleNamespace(jinja_loader=mock_loader_instance)"",
+            ""app = SimpleNamespace(jinja_loader=mock_loader_instance, iter_blueprints=lambda: [mock_blueprint])"",
+            ""self = SimpleNamespace(app=app)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Iterator, Union"",
+            ""class MockLoader:"",
+            ""    def list_templates(self) -> List[str]:"",
+            ""        return ['template1.html', 'template2.html']"",
+            ""class MockBlueprint:"",
+            ""    def __init__(self, jinja_loader: Union[None, MockLoader]):"",
+            ""        self.jinja_loader = jinja_loader"",
+            ""class MockApp:"",
+            ""    def __init__(self, jinja_loader: Union[None, MockLoader], blueprints: List[MockBlueprint]):"",
+            ""        self.jinja_loader = jinja_loader"",
+            ""        self.blueprints = blueprints"",
+            ""    def iter_blueprints(self) -> Iterator[MockBlueprint]:"",
+            ""        return iter(self.blueprints)""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self.app = MockApp(MockLoader(), [MockBlueprint(MockLoader()), MockBlueprint(None)])""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""self = types.SimpleNamespace()"",
+            ""self.app = types.SimpleNamespace(jinja_loader=types.SimpleNamespace(list_templates=lambda: ['template1.html', 'template2.html']), iter_blueprints=lambda: (types.SimpleNamespace(jinja_loader=types.SimpleNamespace(list_templates=lambda: ['blueprint_template1.html', 'blueprint_template2.html'])),))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List""
+        ],
+        ""initialization"": [
+            ""class MockLoader:\n    def list_templates(self) -> List[str]:\n        return ['template1.html', 'template2.html']"",
+            ""class MockBlueprint:\n    def __init__(self, jinja_loader: Any = None):\n        self.jinja_loader = jinja_loader"",
+            ""class MockApp:\n    def __init__(self, jinja_loader: Any = None, blueprints: List[Any] = []):\n        self.jinja_loader = jinja_loader\n        self._blueprints = blueprints\n    def iter_blueprints(self) -> List[Any]:\n        return self._blueprints"",
+            ""mock_loader = MockLoader()"",
+            ""blueprint1 = MockBlueprint(jinja_loader=mock_loader)"",
+            ""blueprint2 = MockBlueprint(jinja_loader=mock_loader)"",
+            ""self = type('Mock', (object,), {'app': MockApp(jinja_loader=None, blueprints=[blueprint1, blueprint2])})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace(app=SimpleNamespace(jinja_loader=type('MockLoader', (object,), {'list_templates': lambda: ['index.html', 'about.html']})(), iter_blueprints=lambda: [SimpleNamespace(jinja_loader=type('MockLoader', (object,), {'list_templates': lambda: ['home.html', 'contact.html']})())]))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace()"",
+            ""self.app = SimpleNamespace()"",
+            ""self.app.jinja_loader = type('Mock', (object,), {'list_templates': lambda: ['index.html', 'about.html']})()"",
+            ""self.app.iter_blueprints = lambda: [SimpleNamespace(jinja_loader=type('Mock', (object,), {'list_templates': lambda: ['contact.html', 'home.html']})())]""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Set"",
+            ""class MockLoader:"",
+            ""    def list_templates(self) -> List[str]:"",
+            ""        return ['template1.html', 'template2.html']""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})()"",
+            ""self.app = type('MockApp', (object,), {'jinja_loader': MockLoader(), 'iter_blueprints': lambda: []})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockLoader:"",
+            ""    def list_templates(self) -> List[str]:"",
+            ""        return ['template1', 'template2', 'template3']"",
+            """",
+            ""class MockBlueprint:"",
+            ""    jinja_loader = MockLoader()"",
+            """",
+            ""class MockApp:"",
+            ""    jinja_loader = MockLoader()"",
+            ""    def iter_blueprints(self) -> List[MockBlueprint]:"",
+            ""        return [MockBlueprint(), MockBlueprint()]"",
+            """",
+            ""self = type('MockSelf', (object,), {'app': MockApp()})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Type""
+        ],
+        ""initialization"": [
+            ""class MockLoader:"",
+            ""    def list_templates(self) -> List[str]:"",
+            ""        return ['template1.html', 'template2.html']"",
+            ""class MockBlueprint:"",
+            ""    jinja_loader: Optional[MockLoader]"",
+            ""    def __init__(self, loader: Optional[MockLoader]):"",
+            ""        self.jinja_loader = loader"",
+            ""class MockApp:"",
+            ""    jinja_loader: Optional[MockLoader]"",
+            ""    def __init__(self, loader: Optional[MockLoader], blueprints: List[MockBlueprint]):"",
+            ""        self.jinja_loader = loader"",
+            ""        self._blueprints = blueprints"",
+            ""    def iter_blueprints(self) -> List[MockBlueprint]:"",
+            ""        return self._blueprints"",
+            ""self = type('MockSelf', (object,), {})()"",
+            ""self.app = MockApp(loader=MockLoader(), blueprints=[MockBlueprint(loader=MockLoader()), MockBlueprint(loader=None)])""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import typing # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.app = type('Mock', (object,), {'jinja_loader': type('Mock', (object,), {'list_templates': lambda: ['template1.html', 'template2.html']})(), 'iter_blueprints': lambda: [type('Mock', (object,), {'jinja_loader': type('Mock', (object,), {'list_templates': lambda: ['template3.html', 'template4.html']})()})]}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from collections import namedtuple # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""MockLoader = namedtuple('MockLoader', ['list_templates']) # pragma: no cover"",
+            ""mock_loader_instance = MockLoader(list_templates=lambda: ['template1.html', 'template2.html']) # pragma: no cover"",
+            ""mock_blueprint = SimpleNamespace(jinja_loader=mock_loader_instance) # pragma: no cover"",
+            ""app = SimpleNamespace(jinja_loader=mock_loader_instance, iter_blueprints=lambda: [mock_blueprint]) # pragma: no cover"",
+            ""self = SimpleNamespace(app=app) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Iterator, Union # pragma: no cover"",
+            ""class MockLoader: # pragma: no cover"",
+            ""    def list_templates(self) -> List[str]: # pragma: no cover"",
+            ""        return ['template1.html', 'template2.html'] # pragma: no cover"",
+            ""class MockBlueprint: # pragma: no cover"",
+            ""    def __init__(self, jinja_loader: Union[None, MockLoader]): # pragma: no cover"",
+            ""        self.jinja_loader = jinja_loader # pragma: no cover"",
+            ""class MockApp: # pragma: no cover"",
+            ""    def __init__(self, jinja_loader: Union[None, MockLoader], blueprints: List[MockBlueprint]): # pragma: no cover"",
+            ""        self.jinja_loader = jinja_loader # pragma: no cover"",
+            ""        self.blueprints = blueprints # pragma: no cover"",
+            ""    def iter_blueprints(self) -> Iterator[MockBlueprint]: # pragma: no cover"",
+            ""        return iter(self.blueprints) # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.app = MockApp(MockLoader(), [MockBlueprint(MockLoader()), MockBlueprint(None)]) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = types.SimpleNamespace() # pragma: no cover"",
+            ""self.app = types.SimpleNamespace(jinja_loader=types.SimpleNamespace(list_templates=lambda: ['template1.html', 'template2.html']), iter_blueprints=lambda: (types.SimpleNamespace(jinja_loader=types.SimpleNamespace(list_templates=lambda: ['blueprint_template1.html', 'blueprint_template2.html'])),)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any, List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader:# pragma: no cover"",
+            ""    def list_templates(self) -> List[str]:# pragma: no cover"",
+            ""        return ['template1.html', 'template2.html'] # pragma: no cover"",
+            ""class MockBlueprint:# pragma: no cover"",
+            ""    def __init__(self, jinja_loader: Any = None):# pragma: no cover"",
+            ""        self.jinja_loader = jinja_loader # pragma: no cover"",
+            ""class MockApp:# pragma: no cover"",
+            ""    def __init__(self, jinja_loader: Any = None, blueprints: List[Any] = []):# pragma: no cover"",
+            ""        self.jinja_loader = jinja_loader# pragma: no cover"",
+            ""        self._blueprints = blueprints# pragma: no cover"",
+            ""    def iter_blueprints(self) -> List[Any]:# pragma: no cover"",
+            ""        return self._blueprints # pragma: no cover"",
+            ""mock_loader = MockLoader() # pragma: no cover"",
+            ""blueprint1 = MockBlueprint(jinja_loader=mock_loader) # pragma: no cover"",
+            ""blueprint2 = MockBlueprint(jinja_loader=mock_loader) # pragma: no cover"",
+            ""self = type('Mock', (object,), {'app': MockApp(jinja_loader=None, blueprints=[blueprint1, blueprint2])})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace(app=SimpleNamespace(jinja_loader=type('MockLoader', (object,), {'list_templates': lambda: ['index.html', 'about.html']})(), iter_blueprints=lambda: [SimpleNamespace(jinja_loader=type('MockLoader', (object,), {'list_templates': lambda: ['home.html', 'contact.html']})())])) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = SimpleNamespace() # pragma: no cover"",
+            ""self.app = SimpleNamespace() # pragma: no cover"",
+            ""self.app.jinja_loader = type('Mock', (object,), {'list_templates': lambda: ['index.html', 'about.html']})() # pragma: no cover"",
+            ""self.app.iter_blueprints = lambda: [SimpleNamespace(jinja_loader=type('Mock', (object,), {'list_templates': lambda: ['contact.html', 'home.html']})())] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Set # pragma: no cover"",
+            ""class MockLoader: # pragma: no cover"",
+            ""    def list_templates(self) -> List[str]: # pragma: no cover"",
+            ""        return ['template1.html', 'template2.html'] # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""self = type('Mock', (object,), {})() # pragma: no cover"",
+            ""self.app = type('MockApp', (object,), {'jinja_loader': MockLoader(), 'iter_blueprints': lambda: []})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def list_templates(self) -> List[str]: # pragma: no cover"",
+            ""        return ['template1', 'template2', 'template3'] # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockBlueprint: # pragma: no cover"",
+            ""    jinja_loader = MockLoader() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockApp: # pragma: no cover"",
+            ""    jinja_loader = MockLoader() # pragma: no cover"",
+            ""    def iter_blueprints(self) -> List[MockBlueprint]: # pragma: no cover"",
+            ""        return [MockBlueprint(), MockBlueprint()] # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'app': MockApp()}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List, Optional, Type # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockLoader: # pragma: no cover"",
+            ""    def list_templates(self) -> List[str]: # pragma: no cover"",
+            ""        return ['template1.html', 'template2.html'] # pragma: no cover"",
+            ""class MockBlueprint: # pragma: no cover"",
+            ""    jinja_loader: Optional[MockLoader] # pragma: no cover"",
+            ""    def __init__(self, loader: Optional[MockLoader]): # pragma: no cover"",
+            ""        self.jinja_loader = loader # pragma: no cover"",
+            ""class MockApp: # pragma: no cover"",
+            ""    jinja_loader: Optional[MockLoader] # pragma: no cover"",
+            ""    def __init__(self, loader: Optional[MockLoader], blueprints: List[MockBlueprint]): # pragma: no cover"",
+            ""        self.jinja_loader = loader # pragma: no cover"",
+            ""        self._blueprints = blueprints # pragma: no cover"",
+            ""    def iter_blueprints(self) -> List[MockBlueprint]: # pragma: no cover"",
+            ""        return self._blueprints # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {})() # pragma: no cover"",
+            ""self.app = MockApp(loader=MockLoader(), blueprints=[MockBlueprint(loader=MockLoader()), MockBlueprint(loader=None)]) # pragma: no cover""
+        ]
+    }
+]",1,356,0.000178,1568,0.002352,0.00253

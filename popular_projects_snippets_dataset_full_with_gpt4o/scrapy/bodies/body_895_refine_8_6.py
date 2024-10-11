@@ -1,0 +1,36 @@
+from twisted.internet.defer import Deferred # pragma: no cover
+
+protocolFactory = type('MockProtocolFactory', (object,), {})() # pragma: no cover
+self = type('MockSelf', (object,), { # pragma: no cover
+    '_protocolFactory': None, # pragma: no cover
+    'requestTunnel': lambda x: None, # pragma: no cover
+    'connectFailed': lambda x: None, # pragma: no cover
+    '_tunnelReadyDeferred': Deferred() # pragma: no cover
+})() # pragma: no cover
+
+from twisted.internet.defer import Deferred # pragma: no cover
+from twisted.internet.protocol import ClientFactory # pragma: no cover
+
+protocolFactory = ClientFactory() # pragma: no cover
+base_class = type('Base', (object,), {'connect': lambda self, pf: Deferred()}) # pragma: no cover
+self = type('Mock', (base_class,), {})() # pragma: no cover
+self._protocolFactory = protocolFactory # pragma: no cover
+self.requestTunnel = lambda x: None # pragma: no cover
+self.connectFailed = lambda x: None # pragma: no cover
+self._tunnelReadyDeferred = Deferred() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/scrapy/scrapy/core/downloader/handlers/http11.py
+from l3.Runtime import _l_
+self._protocolFactory = protocolFactory
+_l_(21052)
+connectDeferred = super().connect(protocolFactory)
+_l_(21053)
+connectDeferred.addCallback(self.requestTunnel)
+_l_(21054)
+connectDeferred.addErrback(self.connectFailed)
+_l_(21055)
+aux = self._tunnelReadyDeferred
+_l_(21056)
+exit(aux)

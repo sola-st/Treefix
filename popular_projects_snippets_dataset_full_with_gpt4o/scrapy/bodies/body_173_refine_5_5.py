@@ -1,0 +1,83 @@
+from typing import Any # pragma: no cover
+import functools # pragma: no cover
+from dataclasses import dataclass # pragma: no cover
+
+store_uri = 'dummy_uri' # pragma: no cover
+NotConfigured = Exception('Not Configured') # pragma: no cover
+settings = {'FILES_EXPIRES': 90, 'FILES_URLS_FIELD': 'file_urls', 'FILES_RESULT_FIELD': 'files'} # pragma: no cover
+@dataclass# pragma: no cover
+class Settings:# pragma: no cover
+    values: Any# pragma: no cover
+    def __init__(self, values: Any):# pragma: no cover
+        self.values = values# pragma: no cover
+    def get(self, key: str, default: Any = None) -> Any:# pragma: no cover
+        return self.values.get(key, default)# pragma: no cover
+    def getint(self, key: str, default: int = 0) -> int:# pragma: no cover
+        return int(self.values.get(key, default)) # pragma: no cover
+self = type('Mock', (object,), {'_get_store': lambda self, uri: None, '_key_for_pipe': lambda self, key, base_class_name, settings: key, 'EXPIRES': 30, 'DEFAULT_FILES_URLS_FIELD': 'default_file_urls', 'DEFAULT_FILES_RESULT_FIELD': 'default_files'})() # pragma: no cover
+download_func = lambda: None # pragma: no cover
+
+import functools # pragma: no cover
+
+store_uri = 'dummy_uri' # pragma: no cover
+class NotConfigured(Exception): pass # pragma: no cover
+settings = {'FILES_EXPIRES': 90, 'FILES_URLS_FIELD': 'file_urls', 'FILES_RESULT_FIELD': 'files'} # pragma: no cover
+class Settings:# pragma: no cover
+    def __init__(self, values):# pragma: no cover
+        self.values = values# pragma: no cover
+    def get(self, key, default=None):# pragma: no cover
+        return self.values.get(key, default)# pragma: no cover
+    def getint(self, key, default=0):# pragma: no cover
+        return int(self.values.get(key, default)) # pragma: no cover
+base_class = type('BaseClass', (object,), {'__init__': lambda self, download_func, settings: None}) # pragma: no cover
+download_func = lambda uri: 'download_mock' # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/scrapy/scrapy/pipelines/files.py
+from l3.Runtime import _l_
+if not store_uri:
+    _l_(20692)
+
+    raise NotConfigured
+    _l_(20691)
+
+if isinstance(settings, dict) or settings is None:
+    _l_(20694)
+
+    settings = Settings(settings)
+    _l_(20693)
+
+cls_name = "FilesPipeline"
+_l_(20695)
+self.store = self._get_store(store_uri)
+_l_(20696)
+resolve = functools.partial(self._key_for_pipe,
+                            base_class_name=cls_name,
+                            settings=settings)
+_l_(20697)
+self.expires = settings.getint(
+    resolve('FILES_EXPIRES'), self.EXPIRES
+)
+_l_(20698)
+if not hasattr(self, "FILES_URLS_FIELD"):
+    _l_(20700)
+
+    self.FILES_URLS_FIELD = self.DEFAULT_FILES_URLS_FIELD
+    _l_(20699)
+if not hasattr(self, "FILES_RESULT_FIELD"):
+    _l_(20702)
+
+    self.FILES_RESULT_FIELD = self.DEFAULT_FILES_RESULT_FIELD
+    _l_(20701)
+self.files_urls_field = settings.get(
+    resolve('FILES_URLS_FIELD'), self.FILES_URLS_FIELD
+)
+_l_(20703)
+self.files_result_field = settings.get(
+    resolve('FILES_RESULT_FIELD'), self.FILES_RESULT_FIELD
+)
+_l_(20704)
+
+super().__init__(download_func=download_func, settings=settings)
+_l_(20705)

@@ -1,0 +1,15 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/control_flow_ops_test.py
+nbranches = 5
+
+def make_func(bi):
+    exit(lambda: array_ops.constant(bi * 10., name="br{}_out".format(bi)))
+
+branches = {i: make_func(i) for i in range(nbranches)}
+branch_index = array_ops.placeholder_with_default(bi, [])
+case_out = control_flow_ops.switch_case(
+    branch_index, branches, default=make_func(6), name=self.make_name())
+if bi < 0 or bi >= nbranches:
+    expected = 60.
+else:
+    expected = bi * 10.
+self.assertEqual(expected, self.evaluate(case_out))

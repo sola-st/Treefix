@@ -1,0 +1,460 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+""""""Replace cell magic with token.
+
+    Note that 'src' will already have been processed by IPython's
+    TransformerManager().transform_cell.
+
+    Example,
+
+        get_ipython().run_cell_magic('t', '-n1', 'ls =!ls\\n')
+
+    becomes
+
+        ""a794.""
+        ls =!ls
+
+    The replacement, along with the transformed code, is returned.
+    """"""
+replacements: List[Replacement] = []
+
+tree = ast.parse(src)
+
+cell_magic_finder = CellMagicFinder()
+cell_magic_finder.visit(tree)
+if cell_magic_finder.cell_magic is None:
+    exit((src, replacements))
+header = cell_magic_finder.cell_magic.header
+mask = get_token(src, header)
+replacements.append(Replacement(mask=mask, src=header))
+exit((f""{mask}\n{cell_magic_finder.cell_magic.body}"", replacements))
+
+# end code snippet
+
+# begin undefined variables
+List
+Replacement
+ast
+src
+CellMagicFinder
+get_token
+# end undefined variables
+
+# begin undefined attributes and methods
+ast.parse
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import ast""
+        ],
+        ""initialization"": [
+            ""src = \""get_ipython().run_cell_magic('t', '-n1', 'ls =!ls\\n')\"""",
+            ""class Replacement:\n    def __init__(self, mask: str, src: str):\n        self.mask = mask\n        self.src = src"",
+            ""class CellMagic:\n    def __init__(self, header: str, body: str):\n        self.header = header\n        self.body = body"",
+            ""class CellMagicFinder(ast.NodeVisitor):\n    def __init__(self):\n        self.cell_magic = None\n    def visit_FunctionDef(self, node):\n        if node.name == 'run_cell_magic':\n            self.cell_magic = CellMagic(header=\""-n1\"", body=\""ls =!ls\"")"",
+            ""def get_token(src: str, header: str) -> str:\n    return \""a794\""""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import ast""
+        ],
+        ""initialization"": [
+            ""Replacement = type('Replacement', (object,), {'__init__': lambda self, mask, src: setattr(self, 'mask', mask) or setattr(self, 'src', src) })"",
+            ""src = '''def example_function():\\n    return \""Example Output\""'''"",
+            ""CellMagicFinder = type('CellMagicFinder', (object,), {'__init__': lambda self: setattr(self, 'cell_magic', None), 'visit': lambda self, node: setattr(self, 'cell_magic', type('CellMagic', (object,), {'header': 't -n1', 'body': 'ls =!ls'})()) if isinstance(node, ast.Module) else None})"",
+            ""get_token = lambda src, header: 'a794'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import ast""
+        ],
+        ""initialization"": [
+            ""src = ''  # Provide the source code as a string that will be processed"",
+            ""class Replacement:\n    def __init__(self, mask: str, src: str):\n        self.mask = mask\n        self.src = src"",
+            ""class CellMagicFinder(ast.NodeVisitor):\n    def __init__(self):\n        self.cell_magic = None\n    def visit(self, node):\n        # Dummy implementation for the visit method\n        self.cell_magic = type('CellMagic', (object,), {'header': 't', 'body': 'ls =!ls'})()\n        super().visit(node)"",
+            ""def get_token(src: str, header: str) -> str:\n    return 'a794'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import ast"",
+            ""import re""
+        ],
+        ""initialization"": [
+            ""class Replacement:\n    def __init__(self, mask: str, src: str):\n        self.mask = mask\n        self.src = src"",
+            ""src = \""get_ipython().run_cell_magic('t', '-n1', 'ls =!ls\\\\n')\"""",
+            ""class CellMagicFinder(ast.NodeVisitor):\n    def __init__(self):\n        self.cell_magic = None\n    def visit_Call(self, node):\n        if isinstance(node.func, ast.Attribute) and node.func.attr == 'run_cell_magic':\n            self.cell_magic = type('Mock', (object,), {\n                'header': node.args[0].s,\n                'body': node.args[2].s\n            })()\n        self.generic_visit(node)"",
+            ""def get_token(src: str, header: str) -> str:\n    return 'a794'  # Mock token generation\n""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import ast""
+        ],
+        ""initialization"": [
+            ""class Replacement:\n    def __init__(self, mask: str, src: str):\n        self.mask = mask\n        self.src = src"",
+            ""src = \""\""\""get_ipython().run_cell_magic('t', '-n1', 'ls =!ls\\n')\""\""\"""",
+            ""class CellMagic:\n    def __init__(self, header: str, body: str):\n        self.header = header\n        self.body = body"",
+            ""class CellMagicFinder(ast.NodeVisitor):\n    def __init__(self):\n        self.cell_magic = None\n    def visit_Call(self, node):\n        try:\n            if (isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Call) and node.func.value.func.id == 'get_ipython' and node.func.attr == 'run_cell_magic'):\n                header = node.args[0].s + ' ' + ' '.join(arg.s for arg in node.args[1:])\n                body = node.args[2].s.replace('\\\\n', '\\n')\n                self.cell_magic = CellMagic(header=header, body=body)\n        except Exception:\n            pass"",
+            ""def get_token(src: str, header: str) -> str:\n    return 'a794'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import ast""
+        ],
+        ""initialization"": [
+            ""class Replacement:"",
+            ""    def __init__(self, mask: str, src: str):"",
+            ""        self.mask = mask"",
+            ""        self.src = src"",
+            """",
+            ""src = ''"",
+            """",
+            ""class CellMagic:"",
+            ""    def __init__(self, header: str, body: str):"",
+            ""        self.header = header"",
+            ""        self.body = body"",
+            """",
+            ""class CellMagicFinder(ast.NodeVisitor):"",
+            ""    def __init__(self):"",
+            ""        self.cell_magic = None"",
+            """",
+            ""    def visit_FunctionDef(self, node):"",
+            ""        if node.name == 'cell_magic_function':"",
+            ""            self.cell_magic = CellMagic(header='%%t', body='ls =!ls')"",
+            """",
+            ""def get_token(src: str, header: str) -> str:"",
+            ""    return 'a794.'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import ast""
+        ],
+        ""initialization"": [
+            ""src = ''  # Initialize with an empty string or appropriate source code string"",
+            ""class Replacement:\n    def __init__(self, mask: str, src: str):\n        self.mask = mask\n        self.src = src"",
+            ""class CellMagicFinder(ast.NodeVisitor):\n    def __init__(self):\n        self.cell_magic = None\n\n    def visit_FunctionDef(self, node):\n        # Implement logic to detect cell magic\n        self.cell_magic = type('MockCellMagic', (object,), {'header': 't -n1', 'body': 'ls =!ls'})\n        self.generic_visit(node)"",
+            ""def get_token(src: str, header: str) -> str:\n    # Replace with logic to get token\n    return 'a794'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import ast""
+        ],
+        ""initialization"": [
+            ""class Replacement:\n    def __init__(self, mask: str, src: str):\n        self.mask = mask\n        self.src = src"",
+            ""src = ''"",
+            ""class CellMagic:\n    def __init__(self, header: str, body: str):\n        self.header = header\n        self.body = body"",
+            ""class CellMagicFinder(ast.NodeVisitor):\n    def __init__(self):\n        self.cell_magic = None\n    def visit_Call(self, node):\n        if isinstance(node.func, ast.Attribute) and node.func.attr == 'run_cell_magic':\n            if len(node.args) >= 3:\n                header = node.args[1].s\n                body = node.args[2].s\n                self.cell_magic = CellMagic(header=header, body=body)\n        self.generic_visit(node)"",
+            ""def get_token(src: str, header: str) -> str:\n    return \""a794.\""""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import ast"",
+            ""from typing import List"",
+            ""from dataclasses import dataclass""
+        ],
+        ""initialization"": [
+            ""@dataclass"",
+            ""class Replacement:"",
+            ""    mask: str"",
+            ""    src: str"",
+            """",
+            ""src = '''# dummy Python code\\nprint(\""Hello, world!\"")'''"",
+            """",
+            ""class CellMagicFinder(ast.NodeVisitor):"",
+            ""    def __init__(self):"",
+            ""        self.cell_magic = None  # Placeholder for actual cell magic object"",
+            """",
+            ""    def visit_FunctionDef(self, node):"",
+            ""        if node.name.startswith('cell_magic_'):  # Example criterion for cell magic"",
+            ""            self.cell_magic = type('MockCellMagic', (object,), {"",
+            ""                'header': 'magic_header',"",
+            ""                'body': 'magic_body'"",
+            ""            })()"",
+            ""        self.generic_visit(node)"",
+            """",
+            ""def get_token(src, header):"",
+            ""    # Placeholder function to return a token based on source and header"",
+            ""    return 'a794'""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""import ast""
+        ],
+        ""initialization"": [
+            ""src = '''print(1)\\nget_ipython().run_cell_magic('t', '-n1', 'ls =!ls\\n')\\n'''"",
+            ""class Replacement: def __init__(self, mask, src): self.mask = mask; self.src = src"",
+            ""class CellMagicFinder(ast.NodeVisitor): def __init__(self): self.cell_magic = None; def visit(self, node): if isinstance(node, ast.Expr) and hasattr(node, 'value') and isinstance(node.value, ast.Call) and getattr(node.value.func, 'attr', '') == 'run_cell_magic': self.cell_magic = type('CellMagic', (object,), {'header': 'cell_header', 'body': 'cell_body'})(); return; self.generic_visit(node)"",
+            ""def get_token(src, header): return 'a794.'""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import ast # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""src = \""get_ipython().run_cell_magic('t', '-n1', 'ls =!ls\\n')\"" # pragma: no cover"",
+            ""class Replacement:# pragma: no cover"",
+            ""    def __init__(self, mask: str, src: str):# pragma: no cover"",
+            ""        self.mask = mask# pragma: no cover"",
+            ""        self.src = src # pragma: no cover"",
+            ""class CellMagic:# pragma: no cover"",
+            ""    def __init__(self, header: str, body: str):# pragma: no cover"",
+            ""        self.header = header# pragma: no cover"",
+            ""        self.body = body # pragma: no cover"",
+            ""class CellMagicFinder(ast.NodeVisitor):# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.cell_magic = None# pragma: no cover"",
+            ""    def visit_FunctionDef(self, node):# pragma: no cover"",
+            ""        if node.name == 'run_cell_magic':# pragma: no cover"",
+            ""            self.cell_magic = CellMagic(header=\""-n1\"", body=\""ls =!ls\"") # pragma: no cover"",
+            ""def get_token(src: str, header: str) -> str:# pragma: no cover"",
+            ""    return \""a794\"" # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import ast # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""Replacement = type('Replacement', (object,), {'__init__': lambda self, mask, src: setattr(self, 'mask', mask) or setattr(self, 'src', src) }) # pragma: no cover"",
+            ""src = '''def example_function():\\n    return \""Example Output\""''' # pragma: no cover"",
+            ""CellMagicFinder = type('CellMagicFinder', (object,), {'__init__': lambda self: setattr(self, 'cell_magic', None), 'visit': lambda self, node: setattr(self, 'cell_magic', type('CellMagic', (object,), {'header': 't -n1', 'body': 'ls =!ls'})()) if isinstance(node, ast.Module) else None}) # pragma: no cover"",
+            ""get_token = lambda src, header: 'a794' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import ast # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""src = ''  # Provide the source code as a string that will be processed # pragma: no cover"",
+            ""class Replacement:# pragma: no cover"",
+            ""    def __init__(self, mask: str, src: str):# pragma: no cover"",
+            ""        self.mask = mask# pragma: no cover"",
+            ""        self.src = src # pragma: no cover"",
+            ""class CellMagicFinder(ast.NodeVisitor):# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.cell_magic = None# pragma: no cover"",
+            ""    def visit(self, node):# pragma: no cover"",
+            ""        # Dummy implementation for the visit method# pragma: no cover"",
+            ""        self.cell_magic = type('CellMagic', (object,), {'header': 't', 'body': 'ls =!ls'})()# pragma: no cover"",
+            ""        super().visit(node) # pragma: no cover"",
+            ""def get_token(src: str, header: str) -> str:# pragma: no cover"",
+            ""    return 'a794' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import ast # pragma: no cover"",
+            ""import re # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Replacement:# pragma: no cover"",
+            ""    def __init__(self, mask: str, src: str):# pragma: no cover"",
+            ""        self.mask = mask# pragma: no cover"",
+            ""        self.src = src # pragma: no cover"",
+            ""src = \""get_ipython().run_cell_magic('t', '-n1', 'ls =!ls\\\\n')\"" # pragma: no cover"",
+            ""class CellMagicFinder(ast.NodeVisitor):# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.cell_magic = None# pragma: no cover"",
+            ""    def visit_Call(self, node):# pragma: no cover"",
+            ""        if isinstance(node.func, ast.Attribute) and node.func.attr == 'run_cell_magic':# pragma: no cover"",
+            ""            self.cell_magic = type('Mock', (object,), {# pragma: no cover"",
+            ""                'header': node.args[0].s,# pragma: no cover"",
+            ""                'body': node.args[2].s# pragma: no cover"",
+            ""            })()# pragma: no cover"",
+            ""        self.generic_visit(node) # pragma: no cover"",
+            ""def get_token(src: str, header: str) -> str:# pragma: no cover"",
+            ""    return 'a794'  # Mock token generation# pragma: no cover"",
+            "" # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import ast # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Replacement:# pragma: no cover"",
+            ""    def __init__(self, mask: str, src: str):# pragma: no cover"",
+            ""        self.mask = mask# pragma: no cover"",
+            ""        self.src = src # pragma: no cover"",
+            ""src = \""\""\""get_ipython().run_cell_magic('t', '-n1', 'ls =!ls\\n')\""\""\"" # pragma: no cover"",
+            ""class CellMagic:# pragma: no cover"",
+            ""    def __init__(self, header: str, body: str):# pragma: no cover"",
+            ""        self.header = header# pragma: no cover"",
+            ""        self.body = body # pragma: no cover"",
+            ""class CellMagicFinder(ast.NodeVisitor):# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.cell_magic = None# pragma: no cover"",
+            ""    def visit_Call(self, node):# pragma: no cover"",
+            ""        try:# pragma: no cover"",
+            ""            if (isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Call) and node.func.value.func.id == 'get_ipython' and node.func.attr == 'run_cell_magic'):# pragma: no cover"",
+            ""                header = node.args[0].s + ' ' + ' '.join(arg.s for arg in node.args[1:])# pragma: no cover"",
+            ""                body = node.args[2].s.replace('\\\\n', '\\n')# pragma: no cover"",
+            ""                self.cell_magic = CellMagic(header=header, body=body)# pragma: no cover"",
+            ""        except Exception:# pragma: no cover"",
+            ""            pass # pragma: no cover"",
+            ""def get_token(src: str, header: str) -> str:# pragma: no cover"",
+            ""    return 'a794' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import ast # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Replacement: # pragma: no cover"",
+            ""    def __init__(self, mask: str, src: str): # pragma: no cover"",
+            ""        self.mask = mask # pragma: no cover"",
+            ""        self.src = src # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""src = '' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class CellMagic: # pragma: no cover"",
+            ""    def __init__(self, header: str, body: str): # pragma: no cover"",
+            ""        self.header = header # pragma: no cover"",
+            ""        self.body = body # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class CellMagicFinder(ast.NodeVisitor): # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.cell_magic = None # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def visit_FunctionDef(self, node): # pragma: no cover"",
+            ""        if node.name == 'cell_magic_function': # pragma: no cover"",
+            ""            self.cell_magic = CellMagic(header='%%t', body='ls =!ls') # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def get_token(src: str, header: str) -> str: # pragma: no cover"",
+            ""    return 'a794.' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import ast # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""src = ''  # Initialize with an empty string or appropriate source code string # pragma: no cover"",
+            ""class Replacement:# pragma: no cover"",
+            ""    def __init__(self, mask: str, src: str):# pragma: no cover"",
+            ""        self.mask = mask# pragma: no cover"",
+            ""        self.src = src # pragma: no cover"",
+            ""class CellMagicFinder(ast.NodeVisitor):# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.cell_magic = None# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def visit_FunctionDef(self, node):# pragma: no cover"",
+            ""        # Implement logic to detect cell magic# pragma: no cover"",
+            ""        self.cell_magic = type('MockCellMagic', (object,), {'header': 't -n1', 'body': 'ls =!ls'})# pragma: no cover"",
+            ""        self.generic_visit(node) # pragma: no cover"",
+            ""def get_token(src: str, header: str) -> str:# pragma: no cover"",
+            ""    # Replace with logic to get token# pragma: no cover"",
+            ""    return 'a794' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import ast # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class Replacement:# pragma: no cover"",
+            ""    def __init__(self, mask: str, src: str):# pragma: no cover"",
+            ""        self.mask = mask# pragma: no cover"",
+            ""        self.src = src # pragma: no cover"",
+            ""src = '' # pragma: no cover"",
+            ""class CellMagic:# pragma: no cover"",
+            ""    def __init__(self, header: str, body: str):# pragma: no cover"",
+            ""        self.header = header# pragma: no cover"",
+            ""        self.body = body # pragma: no cover"",
+            ""class CellMagicFinder(ast.NodeVisitor):# pragma: no cover"",
+            ""    def __init__(self):# pragma: no cover"",
+            ""        self.cell_magic = None# pragma: no cover"",
+            ""    def visit_Call(self, node):# pragma: no cover"",
+            ""        if isinstance(node.func, ast.Attribute) and node.func.attr == 'run_cell_magic':# pragma: no cover"",
+            ""            if len(node.args) >= 3:# pragma: no cover"",
+            ""                header = node.args[1].s# pragma: no cover"",
+            ""                body = node.args[2].s# pragma: no cover"",
+            ""                self.cell_magic = CellMagic(header=header, body=body)# pragma: no cover"",
+            ""        self.generic_visit(node) # pragma: no cover"",
+            ""def get_token(src: str, header: str) -> str:# pragma: no cover"",
+            ""    return \""a794.\"" # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import ast # pragma: no cover"",
+            ""from typing import List # pragma: no cover"",
+            ""from dataclasses import dataclass # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""@dataclass # pragma: no cover"",
+            ""class Replacement: # pragma: no cover"",
+            ""    mask: str # pragma: no cover"",
+            ""    src: str # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""src = '''# dummy Python code\\nprint(\""Hello, world!\"")''' # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class CellMagicFinder(ast.NodeVisitor): # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.cell_magic = None  # Placeholder for actual cell magic object # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def visit_FunctionDef(self, node): # pragma: no cover"",
+            ""        if node.name.startswith('cell_magic_'):  # Example criterion for cell magic # pragma: no cover"",
+            ""            self.cell_magic = type('MockCellMagic', (object,), { # pragma: no cover"",
+            ""                'header': 'magic_header', # pragma: no cover"",
+            ""                'body': 'magic_body' # pragma: no cover"",
+            ""            })() # pragma: no cover"",
+            ""        self.generic_visit(node) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def get_token(src, header): # pragma: no cover"",
+            ""    # Placeholder function to return a token based on source and header # pragma: no cover"",
+            ""    return 'a794' # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""import ast # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""src = '''print(1)\\nget_ipython().run_cell_magic('t', '-n1', 'ls =!ls\\n')\\n''' # pragma: no cover""
+        ]
+    }
+]",1,485,0.0002425,2324,0.003486,0.0037285

@@ -1,0 +1,5 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/autograph/operators/py_builtins_test.py
+# Note: a user function without a top-level function scope should
+# never be found in user code; it's only possible in generated code.
+l = 2  # pylint:disable=unused-variable
+exit(py_builtins.eval_in_original_context(eval, ('l',), test_scope))

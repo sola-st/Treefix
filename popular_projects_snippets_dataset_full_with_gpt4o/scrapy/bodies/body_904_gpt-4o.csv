@@ -1,0 +1,527 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+from twisted.internet import reactor
+timeout = request.meta.get('download_timeout') or self._connectTimeout
+agent = self._get_agent(request, timeout)
+
+# request details
+url = urldefrag(request.url)[0]
+method = to_bytes(request.method)
+headers = TxHeaders(request.headers)
+if isinstance(agent, self._TunnelingAgent):
+    headers.removeHeader(b'Proxy-Authorization')
+if request.body:
+    bodyproducer = _RequestBodyProducer(request.body)
+else:
+    bodyproducer = None
+start_time = time()
+d = agent.request(method, to_bytes(url, encoding='ascii'), headers, bodyproducer)
+# set download latency
+d.addCallback(self._cb_latency, request, start_time)
+# response body is ready to be consumed
+d.addCallback(self._cb_bodyready, request)
+d.addCallback(self._cb_bodydone, request, url)
+# check download timeout
+self._timeout_cl = reactor.callLater(timeout, d.cancel)
+d.addBoth(self._cb_timeout, request, url, timeout)
+exit(d)
+
+# end code snippet
+
+# begin undefined variables
+request
+self
+urldefrag
+to_bytes
+TxHeaders
+_RequestBodyProducer
+time
+# end undefined variables
+
+# begin undefined attributes and methods
+request.meta
+self._connectTimeout
+self._get_agent
+request.url
+request.method
+request.headers
+self._TunnelingAgent
+request.body
+self._cb_latency
+self._cb_bodyready
+self._cb_bodydone
+self._timeout_cl
+self._cb_timeout
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from scrapy.utils.python import to_bytes"",
+            ""from scrapy.downloadermiddlewares.redirect import BaseRedirectMiddleware"",
+            ""from w3lib.url import urldefrag"",
+            ""from twisted.web.http_headers import Headers"",
+            ""from time import time""
+        ],
+        ""initialization"": [
+            ""request = type('Request', (object,), {'meta': {'download_timeout': 30}, 'url': 'http://example.com', 'method': 'GET', 'headers': {}, 'body': None})()"",
+            ""self = type('Mock', (object,), {'_connectTimeout': 30, '_get_agent': lambda self, req, timeout: MockAgent(), '_cb_latency': lambda self, response, request, start_time: None, '_cb_bodyready': lambda self, response, request: None, '_cb_bodydone': lambda self, response, request, url: None, '_cb_timeout': lambda self, response, request, url, timeout: None, '_TunnelingAgent': type('Mock', (object,), dict)})()"",
+            ""urldefrag = urldefrag"",
+            ""to_bytes = to_bytes"",
+            ""TxHeaders = lambda headers: Headers({k: [v] for k, v in headers.items()})"",
+            ""_RequestBodyProducer = lambda body: None  # Mock for RequestBodyProducer"",
+            ""time = time""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import time"",
+            ""from urllib.parse import urldefrag"",
+            ""from twisted.python.compat import networkString as to_bytes"",
+            ""from twisted.web.http_headers import Headers as TxHeaders"",
+            ""from twisted.web.client import FileBodyProducer as _RequestBodyProducer""
+        ],
+        ""initialization"": [
+            ""request = type('MockRequest', (object,), {'meta': {}, 'url': 'http://example.com', 'method': 'GET', 'headers': {}, 'body': b''})()"",
+            ""self = type('MockSelf', (object,), {'_connectTimeout': 10, '_get_agent': lambda self, request, timeout: type('MockAgent', (object,), {'request': lambda self, method, url, headers, body: type('MockDeferred', (object,), {'addCallback': lambda self, cb, *args: self, 'addBoth': lambda self, cb, *args: self, 'cancel': lambda self: None})()})(), '_TunnelingAgent': object, '_cb_latency': lambda self, *args: None, '_cb_bodyready': lambda self, *args: None, '_cb_bodydone': lambda self, *args: None, '_cb_timeout': lambda self, *args: None})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import reactor"",
+            ""from urllib.parse import urldefrag"",
+            ""from scrapy.utils.python import to_bytes"",
+            ""from twisted.web.http_headers import Headers as TxHeaders"",
+            ""import time""
+        ],
+        ""initialization"": [
+            ""request = type('MockRequest', (object,), {'meta': {'download_timeout': 10}, 'url': 'http://example.com', 'method': 'GET', 'headers': {}, 'body': b''})()"",
+            ""self = type('MockSelf', (object,), {'_connectTimeout': 10, '_get_agent': lambda self, request, timeout: type('MockAgent', (object,), {'request': lambda self, method, url, headers, body: type('Deferred', (object,), {'addCallback': lambda self, callback, *args: self, 'addBoth': lambda self, callback, *args: self, 'cancel': lambda self: None})()})(), '_TunnelingAgent': type('MockTunnelingAgent', (object,), {})})()"",
+            ""urldefrag = urldefrag"",
+            ""to_bytes = to_bytes"",
+            ""TxHeaders = TxHeaders"",
+            ""_RequestBodyProducer = type('MockRequestBodyProducer', (object,), {'__init__': lambda self, body: None})"",
+            ""time = time.time"",
+            ""self._cb_latency = lambda *args: None"",
+            ""self._cb_bodyready = lambda *args: None"",
+            ""self._cb_bodydone = lambda *args: None"",
+            ""self._cb_timeout = lambda *args: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from urllib.parse import urldefrag"",
+            ""from twisted.web.http_headers import Headers as TxHeaders"",
+            ""from twisted.internet import reactor"",
+            ""import time""
+        ],
+        ""initialization"": [
+            ""request = type('Request', (object,), {'meta': {'download_timeout': 30}, 'url': 'http://example.com', 'method': 'GET', 'headers': {}, 'body': b'test'})()"",
+            ""self = type('MockSelf', (object,), {'_connectTimeout': 20, '_get_agent': lambda self, req, timeout: type('MockAgent', (object,), {'request': lambda self, method, url, headers, body: None})(), '_TunnelingAgent': type('MockTunnelingAgent', (object,), {})})()"",
+            ""to_bytes = lambda s, encoding='utf-8': s.encode(encoding) if isinstance(s, str) else s"",
+            ""_RequestBodyProducer = lambda body: type('MockBodyProducer', (object,), {'body': body})()"",
+            ""time = time.time"",
+            ""MockAgent = type('MockAgent', (object,), {'request': lambda self, method, url, headers, body: None})"",
+            ""self._cb_latency = lambda response, request, start: None"",
+            ""self._cb_bodyready = lambda response, request: None"",
+            ""self._cb_bodydone = lambda response, request, url: None"",
+            ""self._cb_timeout = lambda response, request, url, timeout: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.web.client import Agent"",
+            ""from urllib.parse import urldefrag"",
+            ""from twisted.python.failure import Failure"",
+            ""from time import time""
+        ],
+        ""initialization"": [
+            ""request = type('MockRequest', (object,), {'meta': {'download_timeout': 5}, 'url': 'http://example.com', 'method': 'GET', 'headers': {}, 'body': None})()"",
+            ""self = type('MockSelf', (object,), {'_connectTimeout': 10, '_get_agent': lambda request, timeout: Agent(reactor), '_TunnelingAgent': type('MockTunnelingAgent', (object,), {})(), '_cb_latency': lambda response, request, start_time: None, '_cb_bodyready': lambda response, request: None, '_cb_bodydone': lambda response, request, url: None, '_cb_timeout': lambda result, request, url, timeout: None})()"",
+            ""urldefrag = urldefrag"",
+            ""to_bytes = lambda s, encoding='utf-8': s.encode(encoding)"",
+            ""TxHeaders = lambda headers: headers"",
+            ""_RequestBodyProducer = lambda body: type('MockBodyProducer', (object,), {'startProducing': lambda self, consumer: None, 'pauseProducing': lambda self: None, 'stopProducing': lambda self: None})()"",
+            ""time = time""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from urllib.parse import urldefrag"",
+            ""from twisted.internet import reactor"",
+            ""from twisted.web.http_headers import Headers as TxHeaders"",
+            ""import time""
+        ],
+        ""initialization"": [
+            ""request = type('MockRequest', (object,), {'meta': {}, 'url': 'http://example.com', 'method': 'GET', 'headers': {}, 'body': None})()"",
+            ""self = type('MockSelf', (object,), {'_connectTimeout': 30, '_get_agent': lambda self, request, timeout: type('MockAgent', (object,), {'request': lambda self, method, url, headers, bodyproducer: type('MockDeferred', (object,), {'addCallback': lambda self, f, *args: self, 'addBoth': lambda self, f, *args: self, 'cancel': lambda self: None})()})(), '_cb_latency': lambda self, response, request, start_time: None, '_cb_bodyready': lambda self, response, request: None, '_cb_bodydone': lambda self, response, request, url: None, '_cb_timeout': lambda self, result, request, url, timeout: None, '_TunnelingAgent': type('MockTunnelingAgent', (object,), {})})()"",
+            ""urldefrag = urldefrag"",
+            ""to_bytes = lambda x, encoding='utf-8': x.encode(encoding)"",
+            ""TxHeaders = TxHeaders"",
+            ""_RequestBodyProducer = type('MockRequestBodyProducer', (object,), {'__init__': lambda self, body: None})"",
+            ""time = time.time""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet.defer import Deferred"",
+            ""from twisted.web.client import Agent"",
+            ""from twisted.web.http_headers import Headers"",
+            ""from urllib.parse import urldefrag"",
+            ""import time""
+        ],
+        ""initialization"": [
+            ""request = type('Request', (object,), {'meta': {'download_timeout': 10}, 'url': 'http://example.com', 'method': 'GET', 'headers': {'User-Agent': 'test-agent'}, 'body': b'Sample body'})()"",
+            ""self = type('MockSelf', (object,), {'_connectTimeout': 20, '_get_agent': lambda s, r, t: Agent(reactor), '_TunnelingAgent': type('TunnelingAgent', (object,), {})(), '_cb_latency': lambda *args: None, '_cb_bodyready': lambda *args: None, '_cb_bodydone': lambda *args: None, '_cb_timeout': lambda *args: None})()"",
+            ""to_bytes = lambda s, encoding='utf-8': s.encode(encoding)"",
+            ""TxHeaders = lambda headers: Headers({k: [to_bytes(v)] for k, v in headers.items()})"",
+            ""_RequestBodyProducer = lambda body: type('MockProducer', (object,), {'startProducing': lambda self, consumer: None, 'pauseProducing': lambda self: None, 'stopProducing': lambda self: None})()"",
+            ""time = time.time""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import reactor"",
+            ""from urllib.parse import urldefrag"",
+            ""import time""
+        ],
+        ""initialization"": [
+            ""request = type('MockRequest', (object,), {'meta': {'download_timeout': 10}, 'url': 'http://example.com', 'method': 'GET', 'headers': {}, 'body': None})()"",
+            ""self = type('MockSelf', (object,), {'_connectTimeout': 20, '_get_agent': lambda self, request, timeout: type('MockAgent', (object,), {'request': lambda self, method, url, headers, body: type('MockDeferred', (object,), {'addCallback': lambda self, callback, *args: self, 'addBoth': lambda self, callback, *args: self, 'cancel': lambda self: None})()})(), '_TunnelingAgent': type('MockTunnelingAgent', (object,), {})})()"",
+            ""urldefrag = urldefrag"",
+            ""to_bytes = lambda x, encoding='utf-8': x.encode(encoding)"",
+            ""TxHeaders = lambda headers: type('MockHeaders', (object,), {'removeHeader': lambda self, header: None})()"",
+            ""_RequestBodyProducer = lambda body: type('MockBodyProducer', (object,), {'startProducing': lambda self, consumer: None, 'pauseProducing': lambda self: None, 'stopProducing': lambda self: None})()"",
+            ""time = time.time"",
+            ""self._cb_latency = lambda d, request, start_time: None"",
+            ""self._cb_bodyready = lambda d, request: None"",
+            ""self._cb_bodydone = lambda d, request, url: None"",
+            ""self._cb_timeout = lambda d, request, url, timeout: None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from urllib.parse import urldefrag"",
+            ""from twisted.internet.defer import Deferred"",
+            ""from twisted.web.http_headers import Headers as TxHeaders"",
+            ""import time"",
+            ""from scrapy.utils.python import to_bytes"",
+            ""from mock import Mock""
+        ],
+        ""initialization"": [
+            ""request = type('Request', (object,), {'meta': {'download_timeout': 30}, 'url': 'http://example.com/path', 'method': 'GET', 'headers': {}, 'body': b'some body'})()"",
+            ""self = type('Mock', (object,), {'_connectTimeout': 10, '_get_agent': Mock(return_value=Mock(request=Mock(return_value=Deferred()))), '_TunnelingAgent': type('TunnelingAgent', (object,), {}), '_cb_latency': Mock(), '_cb_bodyready': Mock(), '_cb_bodydone': Mock(), '_cb_timeout': Mock()})()"",
+            ""urldefrag = urldefrag"",
+            ""to_bytes = to_bytes"",
+            ""TxHeaders = TxHeaders"",
+            ""_RequestBodyProducer = type('_RequestBodyProducer', (object,), {'__init__': lambda self, body: None})"",
+            ""time = time.time""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import defer"",
+            ""from twisted.web.client import Agent"",
+            ""from twisted.web.http_headers import Headers"",
+            ""from urllib.parse import urldefrag"",
+            ""import time""
+        ],
+        ""initialization"": [
+            ""class RequestMock:"",
+            ""    def __init__(self):"",
+            ""        self.meta = {'download_timeout': None}"",
+            ""        self.url = 'http://example.com'"",
+            ""        self.method = 'GET'"",
+            ""        self.headers = {'User-Agent': 'TestAgent'}"",
+            ""        self.body = None"",
+            """",
+            ""request = RequestMock()"",
+            """",
+            ""def to_bytes(data, encoding='utf-8'):"",
+            ""    if isinstance(data, str):"",
+            ""        return data.encode(encoding)"",
+            ""    return data"",
+            """",
+            ""class TxHeaders(Headers):"",
+            ""    def removeHeader(self, name):"",
+            ""        if name in self._rawHeaders:"",
+            ""            del self._rawHeaders[name]"",
+            """",
+            ""class _RequestBodyProducer:"",
+            ""    def __init__(self, body):"",
+            ""        self.body = body"",
+            ""    def startProducing(self, consumer):"",
+            ""        return defer.succeed(None)"",
+            ""    def pauseProducing(self):"",
+            ""        pass"",
+            ""    def stopProducing(self):"",
+            ""        pass"",
+            """",
+            ""time = time.time"",
+            """",
+            ""class MockAgent(Agent):"",
+            ""    pass"",
+            """",
+            ""class MockSelf:"",
+            ""    _connectTimeout = 10"",
+            ""    _TunnelingAgent = MockAgent"",
+            """",
+            ""    def _get_agent(self, request, timeout):"",
+            ""        return MockAgent(reactor)"",
+            """",
+            ""    def _cb_latency(self, response, request, start_time):"",
+            ""        pass"",
+            """",
+            ""    def _cb_bodyready(self, response, request):"",
+            ""        pass"",
+            """",
+            ""    def _cb_bodydone(self, response, request, url):"",
+            ""        pass"",
+            """",
+            ""    def _cb_timeout(self, result, request, url, timeout):"",
+            ""        pass"",
+            """",
+            ""self = MockSelf()""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from scrapy.utils.python import to_bytes # pragma: no cover"",
+            ""from scrapy.downloadermiddlewares.redirect import BaseRedirectMiddleware # pragma: no cover"",
+            ""from w3lib.url import urldefrag # pragma: no cover"",
+            ""from twisted.web.http_headers import Headers # pragma: no cover"",
+            ""from time import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""request = type('Request', (object,), {'meta': {'download_timeout': 30}, 'url': 'http://example.com', 'method': 'GET', 'headers': {}, 'body': None})() # pragma: no cover"",
+            ""urldefrag = urldefrag # pragma: no cover"",
+            ""to_bytes = to_bytes # pragma: no cover"",
+            ""TxHeaders = lambda headers: Headers({k: [v] for k, v in headers.items()}) # pragma: no cover"",
+            ""_RequestBodyProducer = lambda body: None  # Mock for RequestBodyProducer # pragma: no cover"",
+            ""time = time # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import time # pragma: no cover"",
+            ""from urllib.parse import urldefrag # pragma: no cover"",
+            ""from twisted.python.compat import networkString as to_bytes # pragma: no cover"",
+            ""from twisted.web.http_headers import Headers as TxHeaders # pragma: no cover"",
+            ""from twisted.web.client import FileBodyProducer as _RequestBodyProducer # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""request = type('MockRequest', (object,), {'meta': {}, 'url': 'http://example.com', 'method': 'GET', 'headers': {}, 'body': b''})() # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'_connectTimeout': 10, '_get_agent': lambda self, request, timeout: type('MockAgent', (object,), {'request': lambda self, method, url, headers, body: type('MockDeferred', (object,), {'addCallback': lambda self, cb, *args: self, 'addBoth': lambda self, cb, *args: self, 'cancel': lambda self: None})()})(), '_TunnelingAgent': object, '_cb_latency': lambda self, *args: None, '_cb_bodyready': lambda self, *args: None, '_cb_bodydone': lambda self, *args: None, '_cb_timeout': lambda self, *args: None})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import reactor # pragma: no cover"",
+            ""from urllib.parse import urldefrag # pragma: no cover"",
+            ""from scrapy.utils.python import to_bytes # pragma: no cover"",
+            ""from twisted.web.http_headers import Headers as TxHeaders # pragma: no cover"",
+            ""import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""request = type('MockRequest', (object,), {'meta': {'download_timeout': 10}, 'url': 'http://example.com', 'method': 'GET', 'headers': {}, 'body': b''})() # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'_connectTimeout': 10, '_get_agent': lambda self, request, timeout: type('MockAgent', (object,), {'request': lambda self, method, url, headers, body: type('Deferred', (object,), {'addCallback': lambda self, callback, *args: self, 'addBoth': lambda self, callback, *args: self, 'cancel': lambda self: None})()})(), '_TunnelingAgent': type('MockTunnelingAgent', (object,), {})})() # pragma: no cover"",
+            ""urldefrag = urldefrag # pragma: no cover"",
+            ""to_bytes = to_bytes # pragma: no cover"",
+            ""TxHeaders = TxHeaders # pragma: no cover"",
+            ""_RequestBodyProducer = type('MockRequestBodyProducer', (object,), {'__init__': lambda self, body: None}) # pragma: no cover"",
+            ""time = time.time # pragma: no cover"",
+            ""self._cb_latency = lambda *args: None # pragma: no cover"",
+            ""self._cb_bodyready = lambda *args: None # pragma: no cover"",
+            ""self._cb_bodydone = lambda *args: None # pragma: no cover"",
+            ""self._cb_timeout = lambda *args: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from urllib.parse import urldefrag # pragma: no cover"",
+            ""from twisted.web.http_headers import Headers as TxHeaders # pragma: no cover"",
+            ""from twisted.internet import reactor # pragma: no cover"",
+            ""import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""request = type('Request', (object,), {'meta': {'download_timeout': 30}, 'url': 'http://example.com', 'method': 'GET', 'headers': {}, 'body': b'test'})() # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'_connectTimeout': 20, '_get_agent': lambda self, req, timeout: type('MockAgent', (object,), {'request': lambda self, method, url, headers, body: None})(), '_TunnelingAgent': type('MockTunnelingAgent', (object,), {})})() # pragma: no cover"",
+            ""to_bytes = lambda s, encoding='utf-8': s.encode(encoding) if isinstance(s, str) else s # pragma: no cover"",
+            ""_RequestBodyProducer = lambda body: type('MockBodyProducer', (object,), {'body': body})() # pragma: no cover"",
+            ""time = time.time # pragma: no cover"",
+            ""MockAgent = type('MockAgent', (object,), {'request': lambda self, method, url, headers, body: None}) # pragma: no cover"",
+            ""self._cb_latency = lambda response, request, start: None # pragma: no cover"",
+            ""self._cb_bodyready = lambda response, request: None # pragma: no cover"",
+            ""self._cb_bodydone = lambda response, request, url: None # pragma: no cover"",
+            ""self._cb_timeout = lambda response, request, url, timeout: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.web.client import Agent # pragma: no cover"",
+            ""from urllib.parse import urldefrag # pragma: no cover"",
+            ""from twisted.python.failure import Failure # pragma: no cover"",
+            ""from time import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""request = type('MockRequest', (object,), {'meta': {'download_timeout': 5}, 'url': 'http://example.com', 'method': 'GET', 'headers': {}, 'body': None})() # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'_connectTimeout': 10, '_get_agent': lambda request, timeout: Agent(reactor), '_TunnelingAgent': type('MockTunnelingAgent', (object,), {})(), '_cb_latency': lambda response, request, start_time: None, '_cb_bodyready': lambda response, request: None, '_cb_bodydone': lambda response, request, url: None, '_cb_timeout': lambda result, request, url, timeout: None})() # pragma: no cover"",
+            ""urldefrag = urldefrag # pragma: no cover"",
+            ""to_bytes = lambda s, encoding='utf-8': s.encode(encoding) # pragma: no cover"",
+            ""TxHeaders = lambda headers: headers # pragma: no cover"",
+            ""_RequestBodyProducer = lambda body: type('MockBodyProducer', (object,), {'startProducing': lambda self, consumer: None, 'pauseProducing': lambda self: None, 'stopProducing': lambda self: None})() # pragma: no cover"",
+            ""time = time # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from urllib.parse import urldefrag # pragma: no cover"",
+            ""from twisted.internet import reactor # pragma: no cover"",
+            ""from twisted.web.http_headers import Headers as TxHeaders # pragma: no cover"",
+            ""import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""request = type('MockRequest', (object,), {'meta': {}, 'url': 'http://example.com', 'method': 'GET', 'headers': {}, 'body': None})() # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'_connectTimeout': 30, '_get_agent': lambda self, request, timeout: type('MockAgent', (object,), {'request': lambda self, method, url, headers, bodyproducer: type('MockDeferred', (object,), {'addCallback': lambda self, f, *args: self, 'addBoth': lambda self, f, *args: self, 'cancel': lambda self: None})()})(), '_cb_latency': lambda self, response, request, start_time: None, '_cb_bodyready': lambda self, response, request: None, '_cb_bodydone': lambda self, response, request, url: None, '_cb_timeout': lambda self, result, request, url, timeout: None, '_TunnelingAgent': type('MockTunnelingAgent', (object,), {})})() # pragma: no cover"",
+            ""urldefrag = urldefrag # pragma: no cover"",
+            ""to_bytes = lambda x, encoding='utf-8': x.encode(encoding) # pragma: no cover"",
+            ""TxHeaders = TxHeaders # pragma: no cover"",
+            ""_RequestBodyProducer = type('MockRequestBodyProducer', (object,), {'__init__': lambda self, body: None}) # pragma: no cover"",
+            ""time = time.time # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet.defer import Deferred # pragma: no cover"",
+            ""from twisted.web.client import Agent # pragma: no cover"",
+            ""from twisted.web.http_headers import Headers # pragma: no cover"",
+            ""from urllib.parse import urldefrag # pragma: no cover"",
+            ""import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""request = type('Request', (object,), {'meta': {'download_timeout': 10}, 'url': 'http://example.com', 'method': 'GET', 'headers': {'User-Agent': 'test-agent'}, 'body': b'Sample body'})() # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'_connectTimeout': 20, '_get_agent': lambda s, r, t: Agent(reactor), '_TunnelingAgent': type('TunnelingAgent', (object,), {})(), '_cb_latency': lambda *args: None, '_cb_bodyready': lambda *args: None, '_cb_bodydone': lambda *args: None, '_cb_timeout': lambda *args: None})() # pragma: no cover"",
+            ""to_bytes = lambda s, encoding='utf-8': s.encode(encoding) # pragma: no cover"",
+            ""TxHeaders = lambda headers: Headers({k: [to_bytes(v)] for k, v in headers.items()}) # pragma: no cover"",
+            ""_RequestBodyProducer = lambda body: type('MockProducer', (object,), {'startProducing': lambda self, consumer: None, 'pauseProducing': lambda self: None, 'stopProducing': lambda self: None})() # pragma: no cover"",
+            ""time = time.time # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import reactor # pragma: no cover"",
+            ""from urllib.parse import urldefrag # pragma: no cover"",
+            ""import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""request = type('MockRequest', (object,), {'meta': {'download_timeout': 10}, 'url': 'http://example.com', 'method': 'GET', 'headers': {}, 'body': None})() # pragma: no cover"",
+            ""self = type('MockSelf', (object,), {'_connectTimeout': 20, '_get_agent': lambda self, request, timeout: type('MockAgent', (object,), {'request': lambda self, method, url, headers, body: type('MockDeferred', (object,), {'addCallback': lambda self, callback, *args: self, 'addBoth': lambda self, callback, *args: self, 'cancel': lambda self: None})()})(), '_TunnelingAgent': type('MockTunnelingAgent', (object,), {})})() # pragma: no cover"",
+            ""urldefrag = urldefrag # pragma: no cover"",
+            ""to_bytes = lambda x, encoding='utf-8': x.encode(encoding) # pragma: no cover"",
+            ""TxHeaders = lambda headers: type('MockHeaders', (object,), {'removeHeader': lambda self, header: None})() # pragma: no cover"",
+            ""_RequestBodyProducer = lambda body: type('MockBodyProducer', (object,), {'startProducing': lambda self, consumer: None, 'pauseProducing': lambda self: None, 'stopProducing': lambda self: None})() # pragma: no cover"",
+            ""time = time.time # pragma: no cover"",
+            ""self._cb_latency = lambda d, request, start_time: None # pragma: no cover"",
+            ""self._cb_bodyready = lambda d, request: None # pragma: no cover"",
+            ""self._cb_bodydone = lambda d, request, url: None # pragma: no cover"",
+            ""self._cb_timeout = lambda d, request, url, timeout: None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from urllib.parse import urldefrag # pragma: no cover"",
+            ""from twisted.internet.defer import Deferred # pragma: no cover"",
+            ""from twisted.web.http_headers import Headers as TxHeaders # pragma: no cover"",
+            ""import time # pragma: no cover"",
+            ""from scrapy.utils.python import to_bytes # pragma: no cover"",
+            ""from mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""request = type('Request', (object,), {'meta': {'download_timeout': 30}, 'url': 'http://example.com/path', 'method': 'GET', 'headers': {}, 'body': b'some body'})() # pragma: no cover"",
+            ""self = type('Mock', (object,), {'_connectTimeout': 10, '_get_agent': Mock(return_value=Mock(request=Mock(return_value=Deferred()))), '_TunnelingAgent': type('TunnelingAgent', (object,), {}), '_cb_latency': Mock(), '_cb_bodyready': Mock(), '_cb_bodydone': Mock(), '_cb_timeout': Mock()})() # pragma: no cover"",
+            ""urldefrag = urldefrag # pragma: no cover"",
+            ""to_bytes = to_bytes # pragma: no cover"",
+            ""TxHeaders = TxHeaders # pragma: no cover"",
+            ""_RequestBodyProducer = type('_RequestBodyProducer', (object,), {'__init__': lambda self, body: None}) # pragma: no cover"",
+            ""time = time.time # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from twisted.internet import defer # pragma: no cover"",
+            ""from twisted.web.client import Agent # pragma: no cover"",
+            ""from twisted.web.http_headers import Headers # pragma: no cover"",
+            ""from urllib.parse import urldefrag # pragma: no cover"",
+            ""import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class RequestMock: # pragma: no cover"",
+            ""    def __init__(self): # pragma: no cover"",
+            ""        self.meta = {'download_timeout': None} # pragma: no cover"",
+            ""        self.url = 'http://example.com' # pragma: no cover"",
+            ""        self.method = 'GET' # pragma: no cover"",
+            ""        self.headers = {'User-Agent': 'TestAgent'} # pragma: no cover"",
+            ""        self.body = None # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""request = RequestMock() # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""def to_bytes(data, encoding='utf-8'): # pragma: no cover"",
+            ""    if isinstance(data, str): # pragma: no cover"",
+            ""        return data.encode(encoding) # pragma: no cover"",
+            ""    return data # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class TxHeaders(Headers): # pragma: no cover"",
+            ""    def removeHeader(self, name): # pragma: no cover"",
+            ""        if name in self._rawHeaders: # pragma: no cover"",
+            ""            del self._rawHeaders[name] # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class _RequestBodyProducer: # pragma: no cover"",
+            ""    def __init__(self, body): # pragma: no cover"",
+            ""        self.body = body # pragma: no cover"",
+            ""    def startProducing(self, consumer): # pragma: no cover"",
+            ""        return defer.succeed(None) # pragma: no cover"",
+            ""    def pauseProducing(self): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            ""    def stopProducing(self): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""time = time.time # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockAgent(Agent): # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""class MockSelf: # pragma: no cover"",
+            ""    _connectTimeout = 10 # pragma: no cover"",
+            ""    _TunnelingAgent = MockAgent # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def _get_agent(self, request, timeout): # pragma: no cover"",
+            ""        return MockAgent(reactor) # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def _cb_latency(self, response, request, start_time): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def _cb_bodyready(self, response, request): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def _cb_bodydone(self, response, request, url): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def _cb_timeout(self, result, request, url, timeout): # pragma: no cover"",
+            ""        pass # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""self = MockSelf() # pragma: no cover""
+        ]
+    }
+]",1,579,0.0002895,3461,0.0051915,0.005481

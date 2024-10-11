@@ -1,0 +1,346 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+
+axis = df_duplabels._get_axis_number(axis)
+# Transpose frame if axis == 1
+if axis == 1:
+    df_duplabels = df_duplabels.T
+
+# df has unambiguous level 'L1'
+assert_level_values(df_duplabels, [""L1""], axis=axis)
+
+# df has unique label 'L3'
+assert_label_values(df_duplabels, [""L3""], axis=axis)
+
+# df has duplicate labels 'L2'
+if axis == 0:
+    expected_msg = ""The column label 'L2' is not unique""
+else:
+    expected_msg = ""The index label 'L2' is not unique""
+
+with pytest.raises(ValueError, match=expected_msg):
+    assert_label_values(df_duplabels, [""L2""], axis=axis)
+
+# end code snippet
+
+# begin undefined variables
+df_duplabels
+axis
+assert_level_values
+assert_label_values
+pytest
+# end undefined variables
+
+# begin undefined attributes and methods
+df_duplabels._get_axis_number
+df_duplabels.T
+pytest.raises
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import pytest""
+        ],
+        ""initialization"": [
+            ""df_duplabels = pd.DataFrame({('L1', 'L2', 'L3'): [1, 2, 3], ('L1', 'L2', 'L4'): [4, 5, 6]}, index=[0, 1, 2])"",
+            ""axis = 0"",
+            ""def assert_level_values(df, levels, axis=0):\n    assert all(level in df.columns.get_level_values(0) for level in levels) if axis == 0 else assert all(level in df.index.get_level_values(0) for level in levels)"",
+            ""def assert_label_values(df, labels, axis=0):\n    assert all(label in df.columns if axis == 0 else label in df.index for label in labels)"",
+            ""df_duplabels._get_axis_number = lambda x: 0 if x == 0 else 1"",
+            ""df_duplabels.T = df_duplabels.transpose()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import pytest""
+        ],
+        ""initialization"": [
+            ""df_duplabels = pd.DataFrame({'L1': [1, 2], 'L2': [3, 4], 'L3': [5, 6]}, index=['L1', 'L2'])"",
+            ""axis = 0"",
+            ""def assert_level_values(df, levels, axis): pass"",
+            ""def assert_label_values(df, labels, axis): pass"",
+            ""df_duplabels._get_axis_number = lambda x: 0 if x == 0 else 1"",
+            ""df_duplabels.T = df_duplabels.transpose()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import pytest"",
+            ""from pandas.util.testing import assert_index_equal""
+        ],
+        ""initialization"": [
+            ""df_duplabels = pd.DataFrame({'L1': [1, 2], 'L2': [3, 4], 'L2': [5, 6]}, index=['L3', 'L3'])"",
+            ""axis = 0"",
+            ""def assert_level_values(df, levels, axis): assert_index_equal(df.columns if axis == 0 else df.index, pd.Index(levels))"",
+            ""def assert_label_values(df, labels, axis): assert labels[0] not in df.columns if axis == 0 else labels[0] not in df.index"",
+            ""pytest = type('Mock', (object,), {'raises': pytest.raises})"",
+            ""df_duplabels._get_axis_number = lambda axis: {'index': 0, 'columns': 1}.get(axis, axis)"",
+            ""df_duplabels.T = df_duplabels.transpose()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import pytest""
+        ],
+        ""initialization"": [
+            ""df_duplabels = pd.DataFrame({'L1': [1, 2], 'L2': [3, 4]}, index=['L1', 'L2'])"",
+            ""axis = 0"",
+            ""def assert_level_values(df, levels, axis):\n    pass"",
+            ""def assert_label_values(df, labels, axis):\n    if any(df.columns.duplicated()) if axis == 0 else any(df.index.duplicated()):\n        raise ValueError(f'The column label {labels[0]!r} is not unique' if axis == 0 else f'The index label {labels[0]!r} is not unique')"",
+            ""type('Mock', (object,), {'raises': pytest.raises})"",
+            ""type('Mock', (object,), {'_get_axis_number': lambda self, x: 0 if x == 0 else 1, 'T': pd.DataFrame.transpose})(object)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import pytest""
+        ],
+        ""initialization"": [
+            ""df_duplabels = pd.DataFrame({'L1': [1, 2, 3], 'L2': [4, 5, 6], 'L3': [7, 8, 9]}, index=['L1', 'L2', 'L3'])"",
+            ""axis = 0"",
+            ""def assert_level_values(df, levels, axis):\n    assert all(level in df.axes[axis] for level in levels), f\""Levels {levels} are not in axis {axis}\"""",
+            ""def assert_label_values(df, labels, axis):\n    if axis == 0:\n        assert all(label in df.columns for label in labels), f\""Labels {labels} are not in columns\""\n    else:\n        assert all(label in df.index for label in labels), f\""Labels {labels} are not in index\"""",
+            ""df_duplabels._get_axis_number = lambda axis: 0 if axis == 0 else 1"",
+            ""df_duplabels.T = df_duplabels.transpose()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import pytest""
+        ],
+        ""initialization"": [
+            ""df_duplabels = pd.DataFrame({('L1', 'a'): [1, 2], ('L1', 'L2'): [3, 4], ('L3', 'L2'): [5, 6]}, index=[0, 1])"",
+            ""axis = 0"",
+            ""def assert_level_values(df, levels, axis): pass"",
+            ""def assert_label_values(df, labels, axis): pass"",
+            ""df_duplabels._get_axis_number = lambda x: 0 if x == 0 else 1"",
+            ""df_duplabels.T = df_duplabels.transpose()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import pytest""
+        ],
+        ""initialization"": [
+            ""data = { 'L1': [1, 2, 3], 'L2': [4, 5, 6], 'L3': [7, 8, 9], 'L2': [10, 11, 12] }"",
+            ""df_duplabels = pd.DataFrame(data)"",
+            ""def assert_level_values(df, levels, axis): pass"",
+            ""def assert_label_values(df, labels, axis): pass"",
+            ""axis = 0"",
+            ""df_duplabels._get_axis_number = lambda axis: axis""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import pytest""
+        ],
+        ""initialization"": [
+            ""df_duplabels = pd.DataFrame({('L1', 'L2', 'L3'): [1, 2, 3], ('L1', 'L2', 'L4'): [4, 5, 6]})"",
+            ""axis = 0"",
+            ""def assert_level_values(df, levels, axis): assert all(level in df.axes[axis].names for level in levels)"",
+            ""def assert_label_values(df, labels, axis): unique_labels = df.axes[axis]; assert all(label in unique_labels for label in labels); assert len(set(unique_labels)) == len(unique_labels)"",
+            ""df_duplabels._get_axis_number = lambda axis: axis"",
+            ""df_duplabels.T = df_duplabels.transpose()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import pytest""
+        ],
+        ""initialization"": [
+            ""data = { 'L1': [1, 2, 3], 'L2': [4, 5, 6], 'L3': [1, 1, 1] }"",
+            ""df_duplabels = pd.DataFrame(data).set_index('L3')"",
+            ""axis = 1"",
+            ""assert_level_values = lambda df, levels, axis: all(level in df.axes[axis].names for level in levels)"",
+            ""assert_label_values = lambda df, labels, axis: all(label in df.axes[axis] for label in labels)"",
+            ""df_duplabels._get_axis_number = lambda axis_str: 1 if axis_str == 1 else 0"",
+            ""df_duplabels.T = df_duplabels.transpose()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import pytest"",
+            ""from pandas.testing import assert_frame_equal""
+        ],
+        ""initialization"": [
+            ""df_duplabels = pd.DataFrame({'L1': [1, 2], 'L2': [3, 4]}).rename_axis(index='L3', columns='L4')"",
+            ""axis = 1"",
+            ""def assert_level_values(df, levels, axis):\n    for level in levels:\n        if axis == 0 and level not in df.index.names:\n            raise AssertionError(f'Missing level {level} in index')\n        elif axis == 1 and level not in df.columns.names:\n            raise AssertionError(f'Missing level {level} in columns')"",
+            ""def assert_label_values(df, labels, axis):\n    if axis == 0:\n        if not all(label in df.index for label in labels):\n            raise ValueError(f'Label {labels} not present in index')\n    elif axis == 1:\n        if not all(label in df.columns for label in labels):\n            raise ValueError(f'Label {labels} not present in columns')"",
+            ""type('Mock', (object,), {'_get_axis_number': lambda self, x: 1 if x == 1 else 0, 'T': pd.DataFrame.transpose})""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import pytest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_duplabels = pd.DataFrame({('L1', 'L2', 'L3'): [1, 2, 3], ('L1', 'L2', 'L4'): [4, 5, 6]}, index=[0, 1, 2]) # pragma: no cover"",
+            ""axis = 0 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import pytest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_duplabels = pd.DataFrame({'L1': [1, 2], 'L2': [3, 4], 'L3': [5, 6]}, index=['L1', 'L2']) # pragma: no cover"",
+            ""axis = 0 # pragma: no cover"",
+            ""def assert_level_values(df, levels, axis): pass # pragma: no cover"",
+            ""def assert_label_values(df, labels, axis): pass # pragma: no cover"",
+            ""df_duplabels._get_axis_number = lambda x: 0 if x == 0 else 1 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import pytest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_duplabels = pd.DataFrame({'L1': [1, 2], 'L2': [3, 4], 'L2': [5, 6]}, index=['L3', 'L3']) # pragma: no cover"",
+            ""axis = 0 # pragma: no cover"",
+            ""def assert_level_values(df, levels, axis): assert_index_equal(df.columns if axis == 0 else df.index, pd.Index(levels)) # pragma: no cover"",
+            ""def assert_label_values(df, labels, axis): assert labels[0] not in df.columns if axis == 0 else labels[0] not in df.index # pragma: no cover"",
+            ""pytest = type('Mock', (object,), {'raises': pytest.raises}) # pragma: no cover"",
+            ""df_duplabels._get_axis_number = lambda axis: {'index': 0, 'columns': 1}.get(axis, axis) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import pytest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_duplabels = pd.DataFrame({'L1': [1, 2], 'L2': [3, 4]}, index=['L1', 'L2']) # pragma: no cover"",
+            ""axis = 0 # pragma: no cover"",
+            ""def assert_level_values(df, levels, axis):# pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""def assert_label_values(df, labels, axis):# pragma: no cover"",
+            ""    if any(df.columns.duplicated()) if axis == 0 else any(df.index.duplicated()):# pragma: no cover"",
+            ""        raise ValueError(f'The column label {labels[0]!r} is not unique' if axis == 0 else f'The index label {labels[0]!r} is not unique') # pragma: no cover"",
+            ""type('Mock', (object,), {'raises': pytest.raises}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import pytest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_duplabels = pd.DataFrame({'L1': [1, 2, 3], 'L2': [4, 5, 6], 'L3': [7, 8, 9]}, index=['L1', 'L2', 'L3']) # pragma: no cover"",
+            ""axis = 0 # pragma: no cover"",
+            ""def assert_level_values(df, levels, axis):# pragma: no cover"",
+            ""    assert all(level in df.axes[axis] for level in levels), f\""Levels {levels} are not in axis {axis}\"" # pragma: no cover"",
+            ""def assert_label_values(df, labels, axis):# pragma: no cover"",
+            ""    if axis == 0:# pragma: no cover"",
+            ""        assert all(label in df.columns for label in labels), f\""Labels {labels} are not in columns\""# pragma: no cover"",
+            ""    else:# pragma: no cover"",
+            ""        assert all(label in df.index for label in labels), f\""Labels {labels} are not in index\"" # pragma: no cover"",
+            ""df_duplabels._get_axis_number = lambda axis: 0 if axis == 0 else 1 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import pytest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_duplabels = pd.DataFrame({('L1', 'a'): [1, 2], ('L1', 'L2'): [3, 4], ('L3', 'L2'): [5, 6]}, index=[0, 1]) # pragma: no cover"",
+            ""axis = 0 # pragma: no cover"",
+            ""def assert_level_values(df, levels, axis): pass # pragma: no cover"",
+            ""def assert_label_values(df, labels, axis): pass # pragma: no cover"",
+            ""df_duplabels._get_axis_number = lambda x: 0 if x == 0 else 1 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import pytest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""data = { 'L1': [1, 2, 3], 'L2': [4, 5, 6], 'L3': [7, 8, 9], 'L2': [10, 11, 12] } # pragma: no cover"",
+            ""df_duplabels = pd.DataFrame(data) # pragma: no cover"",
+            ""def assert_level_values(df, levels, axis): pass # pragma: no cover"",
+            ""def assert_label_values(df, labels, axis): pass # pragma: no cover"",
+            ""axis = 0 # pragma: no cover"",
+            ""df_duplabels._get_axis_number = lambda axis: axis # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import pytest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_duplabels = pd.DataFrame({('L1', 'L2', 'L3'): [1, 2, 3], ('L1', 'L2', 'L4'): [4, 5, 6]}) # pragma: no cover"",
+            ""axis = 0 # pragma: no cover"",
+            ""def assert_level_values(df, levels, axis): assert all(level in df.axes[axis].names for level in levels) # pragma: no cover"",
+            ""def assert_label_values(df, labels, axis): unique_labels = df.axes[axis]; assert all(label in unique_labels for label in labels); assert len(set(unique_labels)) == len(unique_labels) # pragma: no cover"",
+            ""df_duplabels._get_axis_number = lambda axis: axis # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import pytest # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""data = { 'L1': [1, 2, 3], 'L2': [4, 5, 6], 'L3': [1, 1, 1] } # pragma: no cover"",
+            ""df_duplabels = pd.DataFrame(data).set_index('L3') # pragma: no cover"",
+            ""axis = 1 # pragma: no cover"",
+            ""assert_level_values = lambda df, levels, axis: all(level in df.axes[axis].names for level in levels) # pragma: no cover"",
+            ""assert_label_values = lambda df, labels, axis: all(label in df.axes[axis] for label in labels) # pragma: no cover"",
+            ""df_duplabels._get_axis_number = lambda axis_str: 1 if axis_str == 1 else 0 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import pytest # pragma: no cover"",
+            ""from pandas.testing import assert_frame_equal # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df_duplabels = pd.DataFrame({'L1': [1, 2], 'L2': [3, 4]}).rename_axis(index='L3', columns='L4') # pragma: no cover"",
+            ""axis = 1 # pragma: no cover"",
+            ""def assert_level_values(df, levels, axis):# pragma: no cover"",
+            ""    for level in levels:# pragma: no cover"",
+            ""        if axis == 0 and level not in df.index.names:# pragma: no cover"",
+            ""            raise AssertionError(f'Missing level {level} in index')# pragma: no cover"",
+            ""        elif axis == 1 and level not in df.columns.names:# pragma: no cover"",
+            ""            raise AssertionError(f'Missing level {level} in columns') # pragma: no cover"",
+            ""def assert_label_values(df, labels, axis):# pragma: no cover"",
+            ""    if axis == 0:# pragma: no cover"",
+            ""        if not all(label in df.index for label in labels):# pragma: no cover"",
+            ""            raise ValueError(f'Label {labels} not present in index')# pragma: no cover"",
+            ""    elif axis == 1:# pragma: no cover"",
+            ""        if not all(label in df.columns for label in labels):# pragma: no cover"",
+            ""            raise ValueError(f'Label {labels} not present in columns') # pragma: no cover"",
+            ""type('Mock', (object,), {'_get_axis_number': lambda self, x: 1 if x == 1 else 0, 'T': pd.DataFrame.transpose}) # pragma: no cover""
+        ]
+    }
+]",1,498,0.000249,2195,0.0032925,0.0035415

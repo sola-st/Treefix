@@ -1,0 +1,15 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/math_ops/clip_ops_test.py
+# Norm clipping when clip_norm < 5
+with self.session():
+    x = constant_op.constant([-3.0, 0.0, 0.0, 4.0, 0.0, 0.0], shape=[2, 3])
+    # Norm of x = sqrt(3^2 + 4^2) = 5
+    np_ans = [[-2.4, 0.0, 0.0], [3.2, 0.0, 0.0]]
+    clip_norm = 4.0
+    ans = clip_ops.clip_by_norm(x, clip_norm)
+    tf_ans = self.evaluate(ans)
+
+    ans = clip_ops.clip_by_norm(x, clip_norm)
+    tf_ans_tensor = self.evaluate(ans)
+
+self.assertAllClose(np_ans, tf_ans)
+self.assertAllClose(np_ans, tf_ans_tensor)

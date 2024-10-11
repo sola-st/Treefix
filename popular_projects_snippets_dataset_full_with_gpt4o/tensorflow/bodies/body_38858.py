@@ -1,0 +1,17 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/sparse_ops/sparse_slice_op_test.py
+with test_util.use_gpu():
+    sp_empty = self._SparseTensor_4x6_empty()
+    sp_input = self._SparseTensor_4x6()
+    sparse_tensor0 = sparse_ops.sparse_slice(sp_empty, [0, 0], [4, 1])
+    sparse_tensor1 = sparse_ops.sparse_slice(sp_input, [1, 1], [0, 0])
+    sparse_tensor2 = sparse_ops.sparse_slice(sp_input, [2, 1], [2, 1])
+    empty_inds = np.empty(shape=(0, 2), dtype=np.int64)
+    self.assertAllEqual(sparse_tensor0.indices, empty_inds)
+    self.assertAllEqual(sparse_tensor0.values, [])
+    self.assertAllEqual(sparse_tensor0.dense_shape, [4, 1])
+    self.assertAllEqual(sparse_tensor1.indices, empty_inds)
+    self.assertAllEqual(sparse_tensor1.values, [])
+    self.assertAllEqual(sparse_tensor1.dense_shape, [0, 0])
+    self.assertAllEqual(sparse_tensor2.indices, empty_inds)
+    self.assertAllEqual(sparse_tensor2.values, [])
+    self.assertAllEqual(sparse_tensor2.dense_shape, [2, 1])

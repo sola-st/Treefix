@@ -1,0 +1,23 @@
+import pandas as pd # pragma: no cover
+import pytest # pragma: no cover
+import numpy as np # pragma: no cover
+
+data = np.random.randn(5, 5) # pragma: no cover
+columns = ['A', 'B', 'C', 'D', 'E'] # pragma: no cover
+float_frame = pd.DataFrame(data, columns=columns) # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/pandas/pandas/tests/frame/methods/test_add_prefix_suffix.py
+from l3.Runtime import _l_
+with pytest.raises(ValueError, match="No axis named 2 for object type DataFrame"):
+    _l_(16387)
+
+    float_frame.add_prefix("foo#", axis=2)
+    _l_(16386)
+
+with pytest.raises(ValueError, match="No axis named 2 for object type DataFrame"):
+    _l_(16389)
+
+    float_frame.add_suffix("foo#", axis=2)
+    _l_(16388)

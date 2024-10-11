@@ -1,0 +1,18 @@
+# Extracted from ./data/repos/pandas/pandas/tests/dtypes/test_dtypes.py
+assert PeriodDtype.is_dtype(dtype)
+assert PeriodDtype.is_dtype("period[D]")
+assert PeriodDtype.is_dtype("period[3D]")
+assert PeriodDtype.is_dtype(PeriodDtype("3D"))
+assert PeriodDtype.is_dtype("period[U]")
+assert PeriodDtype.is_dtype("period[S]")
+assert PeriodDtype.is_dtype(PeriodDtype("U"))
+assert PeriodDtype.is_dtype(PeriodDtype("S"))
+
+assert not PeriodDtype.is_dtype("D")
+assert not PeriodDtype.is_dtype("3D")
+assert not PeriodDtype.is_dtype("U")
+assert not PeriodDtype.is_dtype("S")
+assert not PeriodDtype.is_dtype("foo")
+assert not PeriodDtype.is_dtype(np.object_)
+assert not PeriodDtype.is_dtype(np.int64)
+assert not PeriodDtype.is_dtype(np.float64)
