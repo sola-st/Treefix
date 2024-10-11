@@ -1,0 +1,26 @@
+# L3: DO NOT INSTRUMENT
+
+# Extracted from https://stackoverflow.com/questions/2128505/difference-between-filter-and-filter-by-in-sqlalchemy
+from l3.Runtime import _l_
+def filter_by(self, **kwargs):
+    _l_(14653)
+
+    aux = self.filter(sql.and_(**kwargs))
+    _l_(14652)
+    return aux
+
+session.query(db.users).filter_by(name='Joe', surname='Dodson')
+_l_(14654)
+
+session.query(db.users).filter(or_(db.users.name=='Ryan', db.users.country=='England'))
+_l_(14655)
+
+session.query(db.users).filter((db.users.name=='Ryan') | (db.users.country=='England'))
+_l_(14656)
+
+Users.query.get(123)
+_l_(14657)
+# And even by a composite PK
+Users.query.get(123, 321)
+_l_(14658)
+

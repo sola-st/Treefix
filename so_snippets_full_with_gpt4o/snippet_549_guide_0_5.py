@@ -1,0 +1,30 @@
+import urllib.request # pragma: no cover
+import socket # pragma: no cover
+
+class MockHTTPResponse: # pragma: no cover
+    def read(self): # pragma: no cover
+        return b'Mocked response from urllib request.' # pragma: no cover
+    def decode(self, encoding): # pragma: no cover
+        return 'Mocked response decoded.' # pragma: no cover
+old_urlopen = urllib.request.urlopen # pragma: no cover
+urllib.request.urlopen = lambda request: MockHTTPResponse() # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from https://stackoverflow.com/questions/2792650/import-error-no-module-name-urllib2
+from l3.Runtime import _l_
+try:
+    import urllib.request
+    _l_(15094)
+
+except ImportError:
+    pass
+url = "http://www.google.com/"
+_l_(15095)
+request = urllib.request.Request(url)
+_l_(15096)
+response = urllib.request.urlopen(request)
+_l_(15097)
+print (response.read().decode('utf-8'))
+_l_(15098)
+

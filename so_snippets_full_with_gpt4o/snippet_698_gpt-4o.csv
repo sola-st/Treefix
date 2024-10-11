@@ -1,0 +1,306 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+Reserved.objects.all().filter(client=client_id).order_by('check_in')
+
+Reserved.objects.all().filter(client=client_id).order_by('-check_in')
+
+
+# end code snippet
+
+# begin undefined variables
+Reserved
+client_id
+# end undefined variables
+
+# begin undefined attributes and methods
+Reserved.objects
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from dataclasses import dataclass""
+        ],
+        ""initialization"": [
+            ""@dataclass\nclass Client:\n    id: int"",
+            ""@dataclass\nclass Reservation:\n    client: int\n    check_in: str"",
+            ""class MockQuerySet:\n    def __init__(self, data: List[Reservation]):\n        self.data = data\n    def all(self):\n        return self\n    def filter(self, **kwargs):\n        client_id = kwargs.get('client')\n        return MockQuerySet([item for item in self.data if item.client == client_id])\n    def order_by(self, field_name):\n        reverse = field_name.startswith('-')\n        field_name = field_name.lstrip('-')\n        self.data.sort(key=lambda x: getattr(x, field_name), reverse=reverse)\n        return self\n    def __repr__(self):\n        return f'MockQuerySet(data={self.data})'"",
+            ""Reserved = type('Mock', (object,), {'objects': MockQuerySet([Reservation(client=1, check_in='2023-10-01'), Reservation(client=2, check_in='2023-10-05'), Reservation(client=1, check_in='2023-10-03')])})"",
+            ""client_id = 1""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List"",
+            ""from random import randint""
+        ],
+        ""initialization"": [
+            ""client_id = randint(1, 100)"",
+            ""Reserved = type('Mock', (object,), {'objects': type('MockObjects', (object,), {'all': lambda: type('MockQuerySet', (object,), {'filter': lambda self, client: self, 'order_by': lambda self, field_name: self})()})()})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any"",
+            ""from unittest.mock import MagicMock""
+        ],
+        ""initialization"": [
+            ""Reserved = type('Mock', (object,), {'objects': MagicMock()})"",
+            ""client_id = 123""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from django.db import models""
+        ],
+        ""initialization"": [
+            ""class ReservedMockManager:\n    def all(self):\n        return self\n\n    def filter(self, client):\n        return self\n\n    def order_by(self, field):\n        return []\n\nclass Reserved(models.Model):\n    objects = ReservedMockManager()"",
+            ""client_id = 1""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""Reserved = type('Mock', (object,), {'objects': Mock()})"",
+            ""client_id = 123""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from django.db import models""
+        ],
+        ""initialization"": [
+            ""class Reserved(models.Model):"",
+            ""    client = models.IntegerField()"",
+            ""    check_in = models.DateTimeField()"",
+            """",
+            ""    @classmethod"",
+            ""    def objects(cls):"",
+            ""        class Manager:"",
+            ""            def all(self):"",
+            ""                return self"",
+            ""            def filter(self, **kwargs):"",
+            ""                return [Reserved(client=kwargs['client'], check_in=models.DateTimeField.now())]"",
+            ""            def order_by(self, *args):"",
+            ""                return [Reserved(client=client_id, check_in=models.DateTimeField.now())]"",
+            ""        return Manager()"",
+            """",
+            ""client_id = 1""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from django.db import models""
+        ],
+        ""initialization"": [
+            ""class MockQuerySet:"",
+            ""    def all(self):"",
+            ""        return self"",
+            """",
+            ""    def filter(self, **kwargs):"",
+            ""        return self"",
+            """",
+            ""    def order_by(self, *args):"",
+            ""        return self"",
+            """",
+            ""Reserved = type('Mock', (object,), {'objects': MockQuerySet()})"",
+            ""client_id = 1""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from django.db import models""
+        ],
+        ""initialization"": [
+            ""class Reserved(models.Model):\n    check_in = models.DateTimeField()\n\nclass MockManager:\n    def all(self):\n        return self\n\n    def filter(self, **kwargs):\n        return self\n\n    def order_by(self, *args):\n        return [Reserved(check_in='2023-01-01T00:00:00Z'), Reserved(check_in='2023-01-02T00:00:00Z')]\n\nReserved.objects = MockManager()\n"",
+            ""client_id = 1""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock""
+        ],
+        ""initialization"": [
+            ""client_id = 1"",
+            ""Reserved = Mock()"",
+            ""Reserved.objects = Mock()"",
+            ""Reserved.objects.all = Mock(return_value=Mock(filter=Mock(return_value=Mock(order_by=Mock(return_value=[])))))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""client_id = 1"",
+            ""class MockQuerySet:\n    def all(self):\n        return self\n    def filter(self, **kwargs):\n        return self\n    def order_by(self, *args):\n        return self\nReserved = type('Reserved', (object,), {'objects': MockQuerySet()})""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from dataclasses import dataclass # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""@dataclass# pragma: no cover"",
+            ""class Client:# pragma: no cover"",
+            ""    id: int # pragma: no cover"",
+            ""@dataclass# pragma: no cover"",
+            ""class Reservation:# pragma: no cover"",
+            ""    client: int# pragma: no cover"",
+            ""    check_in: str # pragma: no cover"",
+            ""class MockQuerySet:# pragma: no cover"",
+            ""    def __init__(self, data: List[Reservation]):# pragma: no cover"",
+            ""        self.data = data# pragma: no cover"",
+            ""    def all(self):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""    def filter(self, **kwargs):# pragma: no cover"",
+            ""        client_id = kwargs.get('client')# pragma: no cover"",
+            ""        return MockQuerySet([item for item in self.data if item.client == client_id])# pragma: no cover"",
+            ""    def order_by(self, field_name):# pragma: no cover"",
+            ""        reverse = field_name.startswith('-')# pragma: no cover"",
+            ""        field_name = field_name.lstrip('-')# pragma: no cover"",
+            ""        self.data.sort(key=lambda x: getattr(x, field_name), reverse=reverse)# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""    def __repr__(self):# pragma: no cover"",
+            ""        return f'MockQuerySet(data={self.data})' # pragma: no cover"",
+            ""Reserved = type('Mock', (object,), {'objects': MockQuerySet([Reservation(client=1, check_in='2023-10-01'), Reservation(client=2, check_in='2023-10-05'), Reservation(client=1, check_in='2023-10-03')])}) # pragma: no cover"",
+            ""client_id = 1 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover"",
+            ""from random import randint # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""client_id = randint(1, 100) # pragma: no cover"",
+            ""Reserved = type('Mock', (object,), {'objects': type('MockObjects', (object,), {'all': lambda: type('MockQuerySet', (object,), {'filter': lambda self, client: self, 'order_by': lambda self, field_name: self})()})()}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import Any # pragma: no cover"",
+            ""from unittest.mock import MagicMock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""Reserved = type('Mock', (object,), {'objects': MagicMock()}) # pragma: no cover"",
+            ""client_id = 123 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from django.db import models # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class ReservedMockManager:# pragma: no cover"",
+            ""    def all(self):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def filter(self, client):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def order_by(self, field):# pragma: no cover"",
+            ""        return []# pragma: no cover"",
+            ""client_id = 1 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""Reserved = type('Mock', (object,), {'objects': Mock()}) # pragma: no cover"",
+            ""client_id = 123 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from django.db import models # pragma: no cover""
+        ],
+        ""initialization"": [
+            "" # pragma: no cover"",
+            ""client_id = 1 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from django.db import models # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockQuerySet: # pragma: no cover"",
+            ""    def all(self): # pragma: no cover"",
+            ""        return self # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def filter(self, **kwargs): # pragma: no cover"",
+            ""        return self # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""    def order_by(self, *args): # pragma: no cover"",
+            ""        return self # pragma: no cover"",
+            "" # pragma: no cover"",
+            ""Reserved = type('Mock', (object,), {'objects': MockQuerySet()}) # pragma: no cover"",
+            ""client_id = 1 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from django.db import models # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""# pragma: no cover"",
+            ""class MockManager:# pragma: no cover"",
+            ""    def all(self):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def filter(self, **kwargs):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""# pragma: no cover"",
+            ""    def order_by(self, *args):# pragma: no cover"",
+            ""        return [Reserved(check_in='2023-01-01T00:00:00Z'), Reserved(check_in='2023-01-02T00:00:00Z')]# pragma: no cover"",
+            "" # pragma: no cover"",
+            ""client_id = 1 # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from unittest.mock import Mock # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""client_id = 1 # pragma: no cover"",
+            ""Reserved = Mock() # pragma: no cover"",
+            ""Reserved.objects = Mock() # pragma: no cover"",
+            ""Reserved.objects.all = Mock(return_value=Mock(filter=Mock(return_value=Mock(order_by=Mock(return_value=[]))))) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from typing import List # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""client_id = 1 # pragma: no cover"",
+            ""class MockQuerySet:# pragma: no cover"",
+            ""    def all(self):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""    def filter(self, **kwargs):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""    def order_by(self, *args):# pragma: no cover"",
+            ""        return self# pragma: no cover"",
+            ""Reserved = type('Reserved', (object,), {'objects': MockQuerySet()}) # pragma: no cover""
+        ]
+    }
+]",1,325,0.0001625,1273,0.0019095,0.002072

@@ -1,0 +1,1259 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+try: # uncovered
+    from crtime import get_crtimes_in_dir # uncovered
+except ImportError: # uncovered
+    pass # uncovered
+for fname, date in get_crtimes_in_dir(""."", raise_on_error=True, as_epoch=False): # uncovered
+    print(fname, date) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os"",
+            ""from datetime import datetime""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(dir_path, raise_on_error=False, as_epoch=False):"",
+            ""    try:"",
+            ""        files = os.listdir(dir_path)"",
+            ""    except Exception as e:"",
+            ""        if raise_on_error:"",
+            ""            raise e"",
+            ""        else:"",
+            ""            return []"",
+            ""    crtimes = []"",
+            ""    for f in files:"",
+            ""        crtime = os.path.getctime(os.path.join(dir_path, f))"",
+            ""        date = datetime.fromtimestamp(crtime) if not as_epoch else crtime"",
+            ""        crtimes.append((f, date))"",
+            ""    return crtimes""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import datetime""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(path, raise_on_error=False, as_epoch=True):"",
+            ""    for entry in os.scandir(path):"",
+            ""        if entry.is_file():"",
+            ""            creation_time = entry.stat().st_ctime"",
+            ""            if not as_epoch:"",
+            ""                creation_time = datetime.datetime.fromtimestamp(creation_time)"",
+            ""            yield entry.name, creation_time""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""from datetime import datetime""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):\n    try:\n        files = os.listdir(directory)\n        for file in files:\n            if as_epoch:\n                yield file, os.path.getctime(file)\n            else:\n                yield file, datetime.fromtimestamp(os.path.getctime(file))\n    except Exception as e:\n        if raise_on_error:\n            raise e\n        else:\n            yield '', None""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import time"",
+            ""from typing import List, Tuple""
+        ],
+        ""initialization"": [
+            ""def mock_get_crtimes_in_dir(directory: str, raise_on_error: bool, as_epoch: bool) -> List[Tuple[str, str]]:"",
+            ""    files = os.listdir(directory)"",
+            ""    crtimes = [(file, time.ctime(os.path.getctime(file))) for file in files]"",
+            ""    return crtimes"",
+            ""type('Mock', (object,), {'get_crtimes_in_dir': mock_get_crtimes_in_dir});""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""from datetime import datetime""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(dirname, raise_on_error=True, as_epoch=False):"",
+            ""    if not os.path.isdir(dirname):"",
+            ""        if raise_on_error:"",
+            ""            raise ValueError('Directory does not exist')"",
+            ""        return"",
+            ""    files = os.listdir(dirname)"",
+            ""    result = []"",
+            ""    for f in files:"",
+            ""        path = os.path.join(dirname, f)"",
+            ""        if os.path.isfile(path):"",
+            ""            stat = os.stat(path)"",
+            ""            crtime = stat.st_ctime"",
+            ""            if not as_epoch:"",
+            ""                crtime = datetime.fromtimestamp(crtime).strftime('%Y-%m-%d %H:%M:%S')"",
+            ""            result.append((f, crtime))"",
+            ""    return result""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import random"",
+            ""from datetime import datetime""
+        ],
+        ""initialization"": [
+            ""type Mock=getattr(type('Mock', (object,), {}), '__init__') or (lambda: None)"",
+            ""setattr(os, 'stat', Mock(lambda _: Mock(st_ctime=random.randint(1, int(datetime.now().timestamp())))))"",
+            ""def get_crtimes_in_dir(dir_path, raise_on_error=False, as_epoch=True):"",
+            ""    for entry in os.listdir(dir_path):"",
+            ""        if os.path.isfile(entry):"",
+            ""            cr_time = os.stat(entry).st_ctime"",
+            ""            if not as_epoch:"",
+            ""                cr_time = datetime.fromtimestamp(cr_time).strftime('%Y-%m-%d %H:%M:%S')"",
+            ""            yield entry, cr_time""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import time""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(path, raise_on_error=False, as_epoch=True):"",
+            ""    for fname in os.listdir(path):"",
+            ""        if as_epoch:"",
+            ""            date = time.time()"",
+            ""        else:"",
+            ""            date = time.ctime()"",
+            ""        yield fname, date""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import time""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""    # Mock implementation of get_crtimes_in_dir"",
+            ""    for fname in os.listdir(directory):"",
+            ""        if not fname.startswith('.'):  # Skip hidden files"",
+            ""            crt_time = time.time()  # Use the current time for simplicity"",
+            ""            yield fname, crt_time if as_epoch else time.ctime(crt_time)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import time""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""    # Mock implementation"",
+            ""    def create_time(file):"",
+            ""        return time.ctime(os.path.getctime(file)) if not as_epoch else os.path.getctime(file)"",
+            ""    try:"",
+            ""        files = os.listdir(directory)"",
+            ""        return [(f, create_time(os.path.join(directory, f))) for f in files]"",
+            ""    except Exception as e:"",
+            ""        if raise_on_error:"",
+            ""            raise e"",
+            ""        else:"",
+            ""            return []""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import random"",
+            ""from datetime import datetime, timedelta""
+        ],
+        ""initialization"": [
+            ""def mock_get_crtimes_in_dir(dir_path, raise_on_error=True, as_epoch=False):"",
+            ""    mock_data = []"",
+            ""    for i in range(5):"",
+            ""        fname = f'file_{i}'"",
+            ""        date = datetime.now() - timedelta(days=random.randint(0, 365))"",
+            ""        if as_epoch:"",
+            ""            date = int(date.timestamp())"",
+            ""        mock_data.append((fname, date))"",
+            ""    return mock_data"",
+            ""get_crtimes_in_dir = mock_get_crtimes_in_dir""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(dir_path, raise_on_error=False, as_epoch=False): # pragma: no cover"",
+            ""    try: # pragma: no cover"",
+            ""        files = os.listdir(dir_path) # pragma: no cover"",
+            ""    except Exception as e: # pragma: no cover"",
+            ""        if raise_on_error: # pragma: no cover"",
+            ""            raise e # pragma: no cover"",
+            ""        else: # pragma: no cover"",
+            ""            return [] # pragma: no cover"",
+            ""    crtimes = [] # pragma: no cover"",
+            ""    for f in files: # pragma: no cover"",
+            ""        crtime = os.path.getctime(os.path.join(dir_path, f)) # pragma: no cover"",
+            ""        date = datetime.fromtimestamp(crtime) if not as_epoch else crtime # pragma: no cover"",
+            ""        crtimes.append((f, date)) # pragma: no cover"",
+            ""    return crtimes # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(path, raise_on_error=False, as_epoch=True): # pragma: no cover"",
+            ""    for entry in os.scandir(path): # pragma: no cover"",
+            ""        if entry.is_file(): # pragma: no cover"",
+            ""            creation_time = entry.stat().st_ctime # pragma: no cover"",
+            ""            if not as_epoch: # pragma: no cover"",
+            ""                creation_time = datetime.datetime.fromtimestamp(creation_time) # pragma: no cover"",
+            ""            yield entry.name, creation_time # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):# pragma: no cover"",
+            ""    try:# pragma: no cover"",
+            ""        files = os.listdir(directory)# pragma: no cover"",
+            ""        for file in files:# pragma: no cover"",
+            ""            if as_epoch:# pragma: no cover"",
+            ""                yield file, os.path.getctime(file)# pragma: no cover"",
+            ""            else:# pragma: no cover"",
+            ""                yield file, datetime.fromtimestamp(os.path.getctime(file))# pragma: no cover"",
+            ""    except Exception as e:# pragma: no cover"",
+            ""        if raise_on_error:# pragma: no cover"",
+            ""            raise e# pragma: no cover"",
+            ""        else:# pragma: no cover"",
+            ""            yield '', None # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import time # pragma: no cover"",
+            ""from typing import List, Tuple # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def mock_get_crtimes_in_dir(directory: str, raise_on_error: bool, as_epoch: bool) -> List[Tuple[str, str]]: # pragma: no cover"",
+            ""    files = os.listdir(directory) # pragma: no cover"",
+            ""    crtimes = [(file, time.ctime(os.path.getctime(file))) for file in files] # pragma: no cover"",
+            ""    return crtimes # pragma: no cover"",
+            ""type('Mock', (object,), {'get_crtimes_in_dir': mock_get_crtimes_in_dir}); # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(dirname, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""    if not os.path.isdir(dirname): # pragma: no cover"",
+            ""        if raise_on_error: # pragma: no cover"",
+            ""            raise ValueError('Directory does not exist') # pragma: no cover"",
+            ""        return # pragma: no cover"",
+            ""    files = os.listdir(dirname) # pragma: no cover"",
+            ""    result = [] # pragma: no cover"",
+            ""    for f in files: # pragma: no cover"",
+            ""        path = os.path.join(dirname, f) # pragma: no cover"",
+            ""        if os.path.isfile(path): # pragma: no cover"",
+            ""            stat = os.stat(path) # pragma: no cover"",
+            ""            crtime = stat.st_ctime # pragma: no cover"",
+            ""            if not as_epoch: # pragma: no cover"",
+            ""                crtime = datetime.fromtimestamp(crtime).strftime('%Y-%m-%d %H:%M:%S') # pragma: no cover"",
+            ""            result.append((f, crtime)) # pragma: no cover"",
+            ""    return result # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import random # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(dir_path, raise_on_error=False, as_epoch=True): # pragma: no cover"",
+            ""    for entry in os.listdir(dir_path): # pragma: no cover"",
+            ""        if os.path.isfile(entry): # pragma: no cover"",
+            ""            cr_time = os.stat(entry).st_ctime # pragma: no cover"",
+            ""            if not as_epoch: # pragma: no cover"",
+            ""                cr_time = datetime.fromtimestamp(cr_time).strftime('%Y-%m-%d %H:%M:%S') # pragma: no cover"",
+            ""            yield entry, cr_time # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(path, raise_on_error=False, as_epoch=True): # pragma: no cover"",
+            ""    for fname in os.listdir(path): # pragma: no cover"",
+            ""        if as_epoch: # pragma: no cover"",
+            ""            date = time.time() # pragma: no cover"",
+            ""        else: # pragma: no cover"",
+            ""            date = time.ctime() # pragma: no cover"",
+            ""        yield fname, date # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""    # Mock implementation of get_crtimes_in_dir # pragma: no cover"",
+            ""    for fname in os.listdir(directory): # pragma: no cover"",
+            ""        if not fname.startswith('.'):  # Skip hidden files # pragma: no cover"",
+            ""            crt_time = time.time()  # Use the current time for simplicity # pragma: no cover"",
+            ""            yield fname, crt_time if as_epoch else time.ctime(crt_time) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""    # Mock implementation # pragma: no cover"",
+            ""    def create_time(file): # pragma: no cover"",
+            ""        return time.ctime(os.path.getctime(file)) if not as_epoch else os.path.getctime(file) # pragma: no cover"",
+            ""    try: # pragma: no cover"",
+            ""        files = os.listdir(directory) # pragma: no cover"",
+            ""        return [(f, create_time(os.path.join(directory, f))) for f in files] # pragma: no cover"",
+            ""    except Exception as e: # pragma: no cover"",
+            ""        if raise_on_error: # pragma: no cover"",
+            ""            raise e # pragma: no cover"",
+            ""        else: # pragma: no cover"",
+            ""            return [] # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import random # pragma: no cover"",
+            ""from datetime import datetime, timedelta # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def mock_get_crtimes_in_dir(dir_path, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""    mock_data = [] # pragma: no cover"",
+            ""    for i in range(5): # pragma: no cover"",
+            ""        fname = f'file_{i}' # pragma: no cover"",
+            ""        date = datetime.now() - timedelta(days=random.randint(0, 365)) # pragma: no cover"",
+            ""        if as_epoch: # pragma: no cover"",
+            ""            date = int(date.timestamp()) # pragma: no cover"",
+            ""        mock_data.append((fname, date)) # pragma: no cover"",
+            ""    return mock_data # pragma: no cover"",
+            ""get_crtimes_in_dir = mock_get_crtimes_in_dir # pragma: no cover""
+        ]
+    }
+]",3,356,0.000178,1527,0.0022905,0.0024685
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+try: # uncovered
+    from crtime import get_crtimes_in_dir # uncovered
+except ImportError: # uncovered
+    pass # uncovered
+for fname, date in get_crtimes_in_dir(""."", raise_on_error=True, as_epoch=False):
+    print(fname, date)
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os"",
+            ""import tempfile"",
+            ""from datetime import datetime""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""    files = os.listdir(directory)"",
+            ""    for f in files:"",
+            ""        path = os.path.join(directory, f)"",
+            ""        if os.path.isfile(path):"",
+            ""            crtime = os.path.getctime(path)"",
+            ""            if not as_epoch:"",
+            ""                crtime = datetime.fromtimestamp(crtime).strftime('%Y-%m-%d %H:%M:%S')"",
+            ""            yield f, crtime"",
+            ""temp_dir = tempfile.TemporaryDirectory()"",
+            ""with open(os.path.join(temp_dir.name, 'test_file.txt'), 'w') as temp_file:"",
+            ""    temp_file.write('This is a test file.')"",
+            ""os.chdir(temp_dir.name)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import random"",
+            ""from datetime import datetime, timedelta""
+        ],
+        ""initialization"": [
+            ""def mock_get_crtimes_in_dir(dir_path, raise_on_error=True, as_epoch=False):"",
+            ""    if not os.path.exists(dir_path):"",
+            ""        if raise_on_error:"",
+            ""            raise FileNotFoundError(f'Path {dir_path} does not exist.')"",
+            ""        return"",
+            ""    files = [f'file_{i}' for i in range(5)]"",
+            ""    for fname in files:"",
+            ""        date = datetime.now() - timedelta(days=random.randint(0, 365))"",
+            ""        if as_epoch:"",
+            ""            date = int(date.timestamp())"",
+            ""        yield fname, date"",
+            ""type('crtime', (object,), {'get_crtimes_in_dir': mock_get_crtimes_in_dir})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import random"",
+            ""from datetime import datetime, timedelta""
+        ],
+        ""initialization"": [
+            ""type Mock = type('Mock', (object,), {})"",
+            ""def mock_get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""    mock_data = []"",
+            ""    for i in range(5):"",
+            ""        fname = f'file_{i}'"",
+            ""        date = datetime.now() - timedelta(days=random.randint(0, 365))"",
+            ""        if as_epoch:"",
+            ""            date = int(date.timestamp())"",
+            ""        mock_data.append((fname, date))"",
+            ""    return mock_data"",
+            ""crtime = Mock()"",
+            ""setattr(crtime, 'get_crtimes_in_dir', mock_get_crtimes_in_dir)""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockCrtime:  # Mock class to simulate ImportError"",
+            ""    @staticmethod"",
+            ""    def get_crtimes_in_dir(path, raise_on_error=False, as_epoch=True):"",
+            ""        import os"",
+            ""        from datetime import datetime"",
+            ""        try:"",
+            ""            files = os.listdir(path)"",
+            ""            for file in files:"",
+            ""                timestamp = os.path.getctime(file)"",
+            ""                if not as_epoch:"",
+            ""                    timestamp = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')"",
+            ""                yield file, timestamp"",
+            ""        except Exception as e:"",
+            ""            if raise_on_error:"",
+            ""                raise e"",
+            ""            return"",
+            ""raise ImportError""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import time""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""    # Mock implementation to generate creation time for files"",
+            ""    mock_files = ['file1.txt', 'file2.txt', 'file3.txt']"",
+            ""    for fname in mock_files:"",
+            ""        date = time.time() if as_epoch else time.ctime(time.time())"",
+            ""        yield fname, date""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import random"",
+            ""from datetime import datetime, timedelta""
+        ],
+        ""initialization"": [
+            ""class crtime_mock:"",
+            ""    @staticmethod"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""        mock_data = []"",
+            ""        for i in range(5):"",
+            ""            fname = f'file_{i}.txt'"",
+            ""            date = datetime.now() - timedelta(days=random.randint(0, 365))"",
+            ""            if as_epoch:"",
+            ""                date = int(date.timestamp())"",
+            ""            else:"",
+            ""                date = date.strftime('%Y-%m-%d %H:%M:%S')"",
+            ""            mock_data.append((fname, date))"",
+            ""        return mock_data"",
+            ""from crtime_mock import crtime_mock as crtime""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import random"",
+            ""from datetime import datetime, timedelta""
+        ],
+        ""initialization"": [
+            ""type MockModule = type('Mock', (object,), {'get_crtimes_in_dir': lambda directory, raise_on_error=True, as_epoch=False: [(f'file_{i}', datetime.now() - timedelta(days=random.randint(0, 365))) for i in range(5)]})"",
+            ""import sys"",
+            ""sys.modules['crtime'] = MockModule""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import random"",
+            ""from datetime import datetime, timedelta""
+        ],
+        ""initialization"": [
+            ""class MockCrTimeModule:"",
+            ""    @staticmethod"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""        mock_data = []"",
+            ""        for i in range(5):"",
+            ""            fname = f'file_{i}.txt'"",
+            ""            date = datetime.now() - timedelta(days=random.randint(0, 365))"",
+            ""            if as_epoch:"",
+            ""                date = int(date.timestamp())"",
+            ""            mock_data.append((fname, date))"",
+            ""        return mock_data"",
+            ""import sys"",
+            ""sys.modules['crtime'] = MockCrTimeModule""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""type Mock = type('Mock', (object,), {})"",
+            ""crtime = Mock()"",
+            ""def mock_get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""    import os"",
+            ""    from datetime import datetime"",
+            ""    try:"",
+            ""        files = os.listdir(directory)"",
+            ""        for file in files:"",
+            ""            path = os.path.join(directory, file)"",
+            ""            if os.path.isfile(path):"",
+            ""                creation_time = os.path.getctime(path)"",
+            ""                yield file, creation_time if as_epoch else datetime.fromtimestamp(creation_time)"",
+            ""    except Exception as e:"",
+            ""        if raise_on_error:"",
+            ""            raise e"",
+            ""        else:"",
+            ""            return"",
+            ""crtime.get_crtimes_in_dir = mock_get_crtimes_in_dir""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import time""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""    # Mock implementation of get_crtimes_in_dir"",
+            ""    def create_time(file):"",
+            ""        return time.ctime(os.path.getctime(file)) if not as_epoch else os.path.getctime(file)"",
+            ""    try:"",
+            ""        files = os.listdir(directory)"",
+            ""        if not files:"",
+            ""            raise FileNotFoundError('No files found in the directory')"",
+            ""        return [(f, create_time(os.path.join(directory, f))) for f in files]"",
+            ""    except Exception as e:"",
+            ""        if raise_on_error:"",
+            ""            raise e"",
+            ""        else:"",
+            ""            return []"",
+            ""mocked_dir_path = '.'"",
+            ""mocked_files = ['file1.txt', 'file2.txt']"",
+            ""for filename in mocked_files:"",
+            ""    with open(os.path.join(mocked_dir_path, filename), 'w') as f:"",
+            ""        f.write('Mock content')""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import tempfile # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""    files = os.listdir(directory) # pragma: no cover"",
+            ""    for f in files: # pragma: no cover"",
+            ""        path = os.path.join(directory, f) # pragma: no cover"",
+            ""        if os.path.isfile(path): # pragma: no cover"",
+            ""            crtime = os.path.getctime(path) # pragma: no cover"",
+            ""            if not as_epoch: # pragma: no cover"",
+            ""                crtime = datetime.fromtimestamp(crtime).strftime('%Y-%m-%d %H:%M:%S') # pragma: no cover"",
+            ""            yield f, crtime # pragma: no cover"",
+            ""temp_dir = tempfile.TemporaryDirectory() # pragma: no cover"",
+            ""with open(os.path.join(temp_dir.name, 'test_file.txt'), 'w') as temp_file: # pragma: no cover"",
+            ""    temp_file.write('This is a test file.') # pragma: no cover"",
+            ""os.chdir(temp_dir.name) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import random # pragma: no cover"",
+            ""from datetime import datetime, timedelta # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def mock_get_crtimes_in_dir(dir_path, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""    if not os.path.exists(dir_path): # pragma: no cover"",
+            ""        if raise_on_error: # pragma: no cover"",
+            ""            raise FileNotFoundError(f'Path {dir_path} does not exist.') # pragma: no cover"",
+            ""        return # pragma: no cover"",
+            ""    files = [f'file_{i}' for i in range(5)] # pragma: no cover"",
+            ""    for fname in files: # pragma: no cover"",
+            ""        date = datetime.now() - timedelta(days=random.randint(0, 365)) # pragma: no cover"",
+            ""        if as_epoch: # pragma: no cover"",
+            ""            date = int(date.timestamp()) # pragma: no cover"",
+            ""        yield fname, date # pragma: no cover"",
+            ""type('crtime', (object,), {'get_crtimes_in_dir': mock_get_crtimes_in_dir}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import random # pragma: no cover"",
+            ""from datetime import datetime, timedelta # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def mock_get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""    mock_data = [] # pragma: no cover"",
+            ""    for i in range(5): # pragma: no cover"",
+            ""        fname = f'file_{i}' # pragma: no cover"",
+            ""        date = datetime.now() - timedelta(days=random.randint(0, 365)) # pragma: no cover"",
+            ""        if as_epoch: # pragma: no cover"",
+            ""            date = int(date.timestamp()) # pragma: no cover"",
+            ""        mock_data.append((fname, date)) # pragma: no cover"",
+            ""    return mock_data # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockCrtime:  # Mock class to simulate ImportError # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def get_crtimes_in_dir(path, raise_on_error=False, as_epoch=True): # pragma: no cover"",
+            ""        try: # pragma: no cover"",
+            ""            files = os.listdir(path) # pragma: no cover"",
+            ""            for file in files: # pragma: no cover"",
+            ""                timestamp = os.path.getctime(file) # pragma: no cover"",
+            ""                if not as_epoch: # pragma: no cover"",
+            ""                    timestamp = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S') # pragma: no cover"",
+            ""                yield file, timestamp # pragma: no cover"",
+            ""        except Exception as e: # pragma: no cover"",
+            ""            if raise_on_error: # pragma: no cover"",
+            ""                raise e # pragma: no cover"",
+            ""            return # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""    # Mock implementation to generate creation time for files # pragma: no cover"",
+            ""    mock_files = ['file1.txt', 'file2.txt', 'file3.txt'] # pragma: no cover"",
+            ""    for fname in mock_files: # pragma: no cover"",
+            ""        date = time.time() if as_epoch else time.ctime(time.time()) # pragma: no cover"",
+            ""        yield fname, date # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import random # pragma: no cover"",
+            ""from datetime import datetime, timedelta # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class crtime_mock: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""        mock_data = [] # pragma: no cover"",
+            ""        for i in range(5): # pragma: no cover"",
+            ""            fname = f'file_{i}.txt' # pragma: no cover"",
+            ""            date = datetime.now() - timedelta(days=random.randint(0, 365)) # pragma: no cover"",
+            ""            if as_epoch: # pragma: no cover"",
+            ""                date = int(date.timestamp()) # pragma: no cover"",
+            ""            else: # pragma: no cover"",
+            ""                date = date.strftime('%Y-%m-%d %H:%M:%S') # pragma: no cover"",
+            ""            mock_data.append((fname, date)) # pragma: no cover"",
+            ""        return mock_data # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import random # pragma: no cover"",
+            ""from datetime import datetime, timedelta # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import random # pragma: no cover"",
+            ""from datetime import datetime, timedelta # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCrTimeModule: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""        mock_data = [] # pragma: no cover"",
+            ""        for i in range(5): # pragma: no cover"",
+            ""            fname = f'file_{i}.txt' # pragma: no cover"",
+            ""            date = datetime.now() - timedelta(days=random.randint(0, 365)) # pragma: no cover"",
+            ""            if as_epoch: # pragma: no cover"",
+            ""                date = int(date.timestamp()) # pragma: no cover"",
+            ""            mock_data.append((fname, date)) # pragma: no cover"",
+            ""        return mock_data # pragma: no cover"",
+            ""sys.modules['crtime'] = MockCrTimeModule # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""def mock_get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""    try: # pragma: no cover"",
+            ""        files = os.listdir(directory) # pragma: no cover"",
+            ""        for file in files: # pragma: no cover"",
+            ""            path = os.path.join(directory, file) # pragma: no cover"",
+            ""            if os.path.isfile(path): # pragma: no cover"",
+            ""                creation_time = os.path.getctime(path) # pragma: no cover"",
+            ""                yield file, creation_time if as_epoch else datetime.fromtimestamp(creation_time) # pragma: no cover"",
+            ""    except Exception as e: # pragma: no cover"",
+            ""        if raise_on_error: # pragma: no cover"",
+            ""            raise e # pragma: no cover"",
+            ""        else: # pragma: no cover"",
+            ""            return # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import time # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""    # Mock implementation of get_crtimes_in_dir # pragma: no cover"",
+            ""    def create_time(file): # pragma: no cover"",
+            ""        return time.ctime(os.path.getctime(file)) if not as_epoch else os.path.getctime(file) # pragma: no cover"",
+            ""    try: # pragma: no cover"",
+            ""        files = os.listdir(directory) # pragma: no cover"",
+            ""        if not files: # pragma: no cover"",
+            ""            raise FileNotFoundError('No files found in the directory') # pragma: no cover"",
+            ""        return [(f, create_time(os.path.join(directory, f))) for f in files] # pragma: no cover"",
+            ""    except Exception as e: # pragma: no cover"",
+            ""        if raise_on_error: # pragma: no cover"",
+            ""            raise e # pragma: no cover"",
+            ""        else: # pragma: no cover"",
+            ""            return [] # pragma: no cover"",
+            ""mocked_dir_path = '.' # pragma: no cover"",
+            ""mocked_files = ['file1.txt', 'file2.txt'] # pragma: no cover"",
+            ""for filename in mocked_files: # pragma: no cover"",
+            ""    with open(os.path.join(mocked_dir_path, filename), 'w') as f: # pragma: no cover"",
+            ""        f.write('Mock content') # pragma: no cover""
+        ]
+    }
+]",3,2210,0.001105,1878,0.002817,0.003922
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+try: # uncovered
+    from crtime import get_crtimes_in_dir # uncovered
+except ImportError: # uncovered
+    pass # uncovered
+for fname, date in get_crtimes_in_dir(""."", raise_on_error=True, as_epoch=False):
+    print(fname, date)
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os"",
+            ""from datetime import datetime""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""    if not os.path.isdir(directory):"",
+            ""        if raise_on_error:"",
+            ""            raise ValueError('Directory does not exist')"",
+            ""        return"",
+            ""    files = os.listdir(directory)"",
+            ""    result = []"",
+            ""    for f in files:"",
+            ""        path = os.path.join(directory, f)"",
+            ""        if os.path.isfile(path):"",
+            ""            crtime = os.path.getctime(path)"",
+            ""            if not as_epoch:"",
+            ""                crtime = datetime.fromtimestamp(crtime).strftime('%Y-%m-%d %H:%M:%S')"",
+            ""            result.append((f, crtime))"",
+            ""    return result"",
+            ""import sys"",
+            ""sys.modules['crtime'] = type('Mock', (object,), {'get_crtimes_in_dir': get_crtimes_in_dir})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""class MockCrTimeModule:"",
+            ""    @staticmethod"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""        return ["",
+            ""            ('file1.txt', '2023-01-01 12:00:00'),"",
+            ""            ('file2.txt', '2023-02-01 12:00:00'),"",
+            ""            ('file3.txt', '2023-03-01 12:00:00')"",
+            ""        ]"",
+            ""sys.modules['crtime'] = MockCrTimeModule"",
+            ""raise ImportError""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys"",
+            ""import os"",
+            ""from datetime import datetime""
+        ],
+        ""initialization"": [
+            ""class MockCrTimeModule:"",
+            ""    @staticmethod"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""        files = [f'file_{i}.txt' for i in range(5)]"",
+            ""        for filename in files:"",
+            ""            crtime = datetime.now().timestamp() - i * 86400"",
+            ""  # Mock creation times 1 day apart"",
+            ""            date = datetime.fromtimestamp(crtime) if not as_epoch else crtime"",
+            ""            yield filename, date"",
+            ""sys.modules['crtime'] = MockCrTimeModule""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""    try:"",
+            ""        files = os.listdir(directory)"",
+            ""        for file in files:"",
+            ""            path = os.path.join(directory, file)"",
+            ""            crtime_epoch = os.path.getctime(path)"",
+            ""            if as_epoch:"",
+            ""                yield file, crtime_epoch"",
+            ""            else:"",
+            ""                from datetime import datetime"",
+            ""                yield file, datetime.fromtimestamp(crtime_epoch).strftime('%Y-%m-%d %H:%M:%S')"",
+            ""    except Exception as e:"",
+            ""        if raise_on_error:"",
+            ""            raise e"",
+            ""        else:"",
+            ""            return"",
+            ""class MockCrTimeException(Exception):"",
+            ""    pass"",
+            ""try:"",
+            ""    raise MockCrTimeException('simulated import error')"",
+            ""except ImportError:"",
+            ""    pass"",
+            ""directory = '.'"",
+            ""with open(os.path.join(directory, 'testfile.txt'), 'w') as f:"",
+            ""    f.write('This is a test file.')""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""from datetime import datetime""
+        ],
+        ""initialization"": [
+            ""class MockCrTime:"",
+            ""    @staticmethod"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""        files = os.listdir(directory)"",
+            ""        for f in files:"",
+            ""            if os.path.isfile(os.path.join(directory, f)):"",
+            ""                crtime = os.path.getctime(os.path.join(directory, f))"",
+            ""                yield f, datetime.fromtimestamp(crtime) if not as_epoch else crtime"",
+            ""sys.modules['crtime'] = MockCrTime""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import random"",
+            ""from datetime import datetime, timedelta""
+        ],
+        ""initialization"": [
+            ""class MockCrtimeModule:"",
+            ""    @staticmethod"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""        mock_data = []"",
+            ""        for i in range(5):"",
+            ""            fname = f'file_{i}.txt'"",
+            ""            date = datetime.now() - timedelta(days=random.randint(0, 365))"",
+            ""            if as_epoch:"",
+            ""                date = int(date.timestamp())"",
+            ""            else:"",
+            ""                date = date.strftime('%Y-%m-%d %H:%M:%S')"",
+            ""            mock_data.append((fname, date))"",
+            ""        return mock_data"",
+            ""import sys"",
+            ""sys.modules['crtime'] = MockCrtimeModule""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""class MockCrTimeModule:"",
+            ""    @staticmethod"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""        # Mock implementation"",
+            ""        return [('mock_file.txt', '2023-01-01 00:00:00') if not as_epoch else ('mock_file.txt', 1672531200)]"",
+            ""sys.modules['crtime'] = MockCrTimeModule""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import tempfile""
+        ],
+        ""initialization"": [
+            ""class MockCrTimeModule:"",
+            ""    @staticmethod"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""        files = os.listdir(directory)"",
+            ""        for f in files:"",
+            ""            path = os.path.join(directory, f)"",
+            ""            if os.path.isfile(path):"",
+            ""                crtime = os.path.getctime(path)"",
+            ""                if not as_epoch:"",
+            ""                    crtime = time.ctime(crtime)"",
+            ""                yield f, crtime"",
+            ""import sys"",
+            ""sys.modules['crtime'] = MockCrTimeModule"",
+            ""temp_dir = tempfile.TemporaryDirectory()"",
+            ""with open(os.path.join(temp_dir.name, 'test_file.txt'), 'w') as temp_file:"",
+            ""    temp_file.write('This is a test file.')"",
+            ""os.chdir(temp_dir.name)""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""class MockCrTimeModule:"",
+            ""    @staticmethod"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False):"",
+            ""        import os"",
+            ""        from datetime import datetime, timedelta"",
+            ""        import random"",
+            ""        files = ['file1.txt', 'file2.txt', 'file3.txt']"",
+            ""        current_time = datetime.now()"",
+            ""        mock_data = []"",
+            ""        for file in files:"",
+            ""            random_days = random.randint(0, 365)"",
+            ""            file_time = (current_time - timedelta(days=random_days)).timestamp()"",
+            ""            if not as_epoch:"",
+            ""                file_time = datetime.fromtimestamp(file_time).strftime('%Y-%m-%d %H:%M:%S')"",
+            ""            mock_data.append((file, file_time))"",
+            ""        return mock_data"",
+            ""import sys"",
+            ""sys.modules['crtime'] = MockCrTimeModule""
+        ]
+    },
+    {
+        ""imports"": [],
+        ""initialization"": [
+            ""import sys"",
+            ""class crtime:  # Mock class to simulate ImportError"",
+            ""    @staticmethod"",
+            ""    def get_crtimes_in_dir(path, raise_on_error=False, as_epoch=True):"",
+            ""        import os"",
+            ""        from datetime import datetime"",
+            ""        try:"",
+            ""            files = os.listdir(path)"",
+            ""            for file in files:"",
+            ""                timestamp = os.path.getctime(file)"",
+            ""                if not as_epoch:"",
+            ""                    timestamp = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')"",
+            ""                yield file, timestamp"",
+            ""        except Exception as e:"",
+            ""            if raise_on_error:"",
+            ""                raise e"",
+            ""            return"",
+            ""sys.modules['crtime'] = crtime  # Mock the crtime module to simulate ImportError""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""    if not os.path.isdir(directory): # pragma: no cover"",
+            ""        if raise_on_error: # pragma: no cover"",
+            ""            raise ValueError('Directory does not exist') # pragma: no cover"",
+            ""        return # pragma: no cover"",
+            ""    files = os.listdir(directory) # pragma: no cover"",
+            ""    result = [] # pragma: no cover"",
+            ""    for f in files: # pragma: no cover"",
+            ""        path = os.path.join(directory, f) # pragma: no cover"",
+            ""        if os.path.isfile(path): # pragma: no cover"",
+            ""            crtime = os.path.getctime(path) # pragma: no cover"",
+            ""            if not as_epoch: # pragma: no cover"",
+            ""                crtime = datetime.fromtimestamp(crtime).strftime('%Y-%m-%d %H:%M:%S') # pragma: no cover"",
+            ""            result.append((f, crtime)) # pragma: no cover"",
+            ""    return result # pragma: no cover"",
+            ""sys.modules['crtime'] = type('Mock', (object,), {'get_crtimes_in_dir': get_crtimes_in_dir}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCrTimeModule: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""        return [ # pragma: no cover"",
+            ""            ('file1.txt', '2023-01-01 12:00:00'), # pragma: no cover"",
+            ""            ('file2.txt', '2023-02-01 12:00:00'), # pragma: no cover"",
+            ""            ('file3.txt', '2023-03-01 12:00:00') # pragma: no cover"",
+            ""        ] # pragma: no cover"",
+            ""sys.modules['crtime'] = MockCrTimeModule # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys # pragma: no cover"",
+            ""import os # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCrTimeModule: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""        files = [f'file_{i}.txt' for i in range(5)] # pragma: no cover"",
+            ""        for filename in files: # pragma: no cover"",
+            ""            crtime = datetime.now().timestamp() - i * 86400 # pragma: no cover"",
+            ""  # Mock creation times 1 day apart # pragma: no cover"",
+            ""            date = datetime.fromtimestamp(crtime) if not as_epoch else crtime # pragma: no cover"",
+            ""            yield filename, date # pragma: no cover"",
+            ""sys.modules['crtime'] = MockCrTimeModule # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""    try: # pragma: no cover"",
+            ""        files = os.listdir(directory) # pragma: no cover"",
+            ""        for file in files: # pragma: no cover"",
+            ""            path = os.path.join(directory, file) # pragma: no cover"",
+            ""            crtime_epoch = os.path.getctime(path) # pragma: no cover"",
+            ""            if as_epoch: # pragma: no cover"",
+            ""                yield file, crtime_epoch # pragma: no cover"",
+            ""            else: # pragma: no cover"",
+            ""                yield file, datetime.fromtimestamp(crtime_epoch).strftime('%Y-%m-%d %H:%M:%S') # pragma: no cover"",
+            ""    except Exception as e: # pragma: no cover"",
+            ""        if raise_on_error: # pragma: no cover"",
+            ""            raise e # pragma: no cover"",
+            ""        else: # pragma: no cover"",
+            ""            return # pragma: no cover"",
+            ""class MockCrTimeException(Exception): # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""try: # pragma: no cover"",
+            ""    pass"",
+            ""except ImportError: # pragma: no cover"",
+            ""    pass # pragma: no cover"",
+            ""directory = '.' # pragma: no cover"",
+            ""with open(os.path.join(directory, 'testfile.txt'), 'w') as f: # pragma: no cover"",
+            ""    f.write('This is a test file.') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCrTime: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""        files = os.listdir(directory) # pragma: no cover"",
+            ""        for f in files: # pragma: no cover"",
+            ""            if os.path.isfile(os.path.join(directory, f)): # pragma: no cover"",
+            ""                crtime = os.path.getctime(os.path.join(directory, f)) # pragma: no cover"",
+            ""                yield f, datetime.fromtimestamp(crtime) if not as_epoch else crtime # pragma: no cover"",
+            ""sys.modules['crtime'] = MockCrTime # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import random # pragma: no cover"",
+            ""from datetime import datetime, timedelta # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCrtimeModule: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""        mock_data = [] # pragma: no cover"",
+            ""        for i in range(5): # pragma: no cover"",
+            ""            fname = f'file_{i}.txt' # pragma: no cover"",
+            ""            date = datetime.now() - timedelta(days=random.randint(0, 365)) # pragma: no cover"",
+            ""            if as_epoch: # pragma: no cover"",
+            ""                date = int(date.timestamp()) # pragma: no cover"",
+            ""            else: # pragma: no cover"",
+            ""                date = date.strftime('%Y-%m-%d %H:%M:%S') # pragma: no cover"",
+            ""            mock_data.append((fname, date)) # pragma: no cover"",
+            ""        return mock_data # pragma: no cover"",
+            ""sys.modules['crtime'] = MockCrtimeModule # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCrTimeModule: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""        # Mock implementation # pragma: no cover"",
+            ""        return [('mock_file.txt', '2023-01-01 00:00:00') if not as_epoch else ('mock_file.txt', 1672531200)] # pragma: no cover"",
+            ""sys.modules['crtime'] = MockCrTimeModule # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import tempfile # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockCrTimeModule: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""        files = os.listdir(directory) # pragma: no cover"",
+            ""        for f in files: # pragma: no cover"",
+            ""            path = os.path.join(directory, f) # pragma: no cover"",
+            ""            if os.path.isfile(path): # pragma: no cover"",
+            ""                crtime = os.path.getctime(path) # pragma: no cover"",
+            ""                if not as_epoch: # pragma: no cover"",
+            ""                    crtime = time.ctime(crtime) # pragma: no cover"",
+            ""                yield f, crtime # pragma: no cover"",
+            ""sys.modules['crtime'] = MockCrTimeModule # pragma: no cover"",
+            ""temp_dir = tempfile.TemporaryDirectory() # pragma: no cover"",
+            ""with open(os.path.join(temp_dir.name, 'test_file.txt'), 'w') as temp_file: # pragma: no cover"",
+            ""    temp_file.write('This is a test file.') # pragma: no cover"",
+            ""os.chdir(temp_dir.name) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class MockCrTimeModule: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def get_crtimes_in_dir(directory, raise_on_error=True, as_epoch=False): # pragma: no cover"",
+            ""        files = ['file1.txt', 'file2.txt', 'file3.txt'] # pragma: no cover"",
+            ""        current_time = datetime.now() # pragma: no cover"",
+            ""        mock_data = [] # pragma: no cover"",
+            ""        for file in files: # pragma: no cover"",
+            ""            random_days = random.randint(0, 365) # pragma: no cover"",
+            ""            file_time = (current_time - timedelta(days=random_days)).timestamp() # pragma: no cover"",
+            ""            if not as_epoch: # pragma: no cover"",
+            ""                file_time = datetime.fromtimestamp(file_time).strftime('%Y-%m-%d %H:%M:%S') # pragma: no cover"",
+            ""            mock_data.append((file, file_time)) # pragma: no cover"",
+            ""        return mock_data # pragma: no cover"",
+            ""sys.modules['crtime'] = MockCrTimeModule # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            """"
+        ],
+        ""initialization"": [
+            ""class crtime:  # Mock class to simulate ImportError # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def get_crtimes_in_dir(path, raise_on_error=False, as_epoch=True): # pragma: no cover"",
+            ""        try: # pragma: no cover"",
+            ""            files = os.listdir(path) # pragma: no cover"",
+            ""            for file in files: # pragma: no cover"",
+            ""                timestamp = os.path.getctime(file) # pragma: no cover"",
+            ""                if not as_epoch: # pragma: no cover"",
+            ""                    timestamp = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S') # pragma: no cover"",
+            ""                yield file, timestamp # pragma: no cover"",
+            ""        except Exception as e: # pragma: no cover"",
+            ""            if raise_on_error: # pragma: no cover"",
+            ""                raise e # pragma: no cover"",
+            ""            return # pragma: no cover"",
+            ""sys.modules['crtime'] = crtime  # Mock the crtime module to simulate ImportError # pragma: no cover""
+        ]
+    }
+]",3,4415,0.0022075,1987,0.0029805,0.005188

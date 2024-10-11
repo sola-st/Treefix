@@ -1,0 +1,273 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"Provide self-contained and concrete Python values to initialize the undefined variables in the code snippet.
+
+# begin code snippet
+x = df.first('d') # Returns the first day. '3d' gives first three days.
+
+
+# end code snippet
+
+# begin undefined variables
+df
+# end undefined variables
+
+# begin undefined attributes and methods
+df.first
+# end undefined attributes and methods
+
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""data = {'dates': pd.date_range(start='1/1/2022', periods=10, freq='D'), 'values': np.random.randn(10)}"",
+            ""df = pd.DataFrame(data).set_index('dates')"",
+            ""def first(self, freq):"",
+            ""    return self.resample(freq).first()"",
+            ""type('Mock', (object,), {'first': first})(df)""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""from pandas import Timestamp""
+        ],
+        ""initialization"": [
+            ""df = pd.DataFrame({"",
+            ""  'date': [Timestamp('2023-01-01'), Timestamp('2023-01-02'), Timestamp('2023-01-03')],"",
+            ""  'value': [10, 20, 30]"",
+            ""})"",
+            ""df.set_index('date', inplace=True)"",
+            ""df.__class__.first = lambda self, period: self.head(int(period[:-1]))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""from pandas import Timestamp""
+        ],
+        ""initialization"": [
+            ""df = pd.DataFrame({"",
+            ""    'date': pd.date_range(start='2022-01-01', periods=7, freq='D'),"",
+            ""    'value': [10, 20, 30, 40, 50, 60, 70]"",
+            ""}).set_index('date')"",
+            ""df.__class__ = type('Mock', (pd.DataFrame,), {"",
+            ""    'first': lambda self, n: self.head(int(n.replace('d', '')))"",
+            ""})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""df = pd.DataFrame({'date': pd.date_range(start='2021-01-01', periods=10, freq='D')})"",
+            ""df = df.set_index('date')"",
+            ""df.__class__ = type('Mock', (pd.DataFrame,), {'first': lambda self, d: self.head(int(d[0])) if d != 'd' else self.head(1)})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import datetime""
+        ],
+        ""initialization"": [
+            ""dates = pd.date_range('20230101', periods=6)"",
+            ""data = [1, 2, 3, 4, 5, 6]"",
+            ""df = pd.DataFrame(data, index=dates, columns=['A'])"",
+            ""type('Mock', (object,), {'first': lambda self, period: self.loc[:period]})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""date_rng = pd.date_range(start='2020-01-01', end='2020-01-08', freq='D')"",
+            ""df = pd.DataFrame(date_rng, columns=['date'])"",
+            ""df.set_index('date', inplace=True)"",
+            ""df['data'] = np.random.randint(0, 100, size=(len(date_rng)))"",
+            ""df.first = type('Mock', (object,), {'d': df.head(1), '3d': df.head(3)}).first""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""from datetime import datetime""
+        ],
+        ""initialization"": [
+            ""data = {'date': [datetime(2023, 1, 1), datetime(2023, 1, 2), datetime(2023, 1, 3), datetime(2023, 1, 4)]}"",
+            ""df = pd.DataFrame(data)"",
+            ""df = df.set_index('date')"",
+            ""df.first = type('Mock', (object,), {'__call__': lambda self, period: df.head(int(period[0]))})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""import numpy as np""
+        ],
+        ""initialization"": [
+            ""data = {'date': pd.date_range(start='1/1/2023', periods=10, freq='D'), 'value': np.random.randint(1, 100, size=10)}"",
+            ""df = pd.DataFrame(data)"",
+            ""type('Mock', (object,), {'first': lambda self, period: df.iloc[:min(int(period[:-1]), len(df))]})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd"",
+            ""from datetime import datetime, timedelta""
+        ],
+        ""initialization"": [
+            ""data = {'date': [datetime(2023, 1, 1) + timedelta(days=i) for i in range(10)], 'value': range(10)}"",
+            ""df = pd.DataFrame(data).set_index('date')"",
+            ""type('Mock', (object,), {'first': lambda self, n: self.head(int(n[:-1]))})"",
+            ""df.__class__ = type('Mock', (df.__class__,), dict(df.__class__.__dict__))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd""
+        ],
+        ""initialization"": [
+            ""data = {'date': pd.date_range(start='2023-01-01', periods=10, freq='D'), 'values': range(10)}"",
+            ""df = pd.DataFrame(data).set_index('date')"",
+            ""type('Mock', (object,), {'first': lambda self, period: self.head(int(period[:-1]))})"",
+            ""df.first = df.first""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""data = {'dates': pd.date_range(start='1/1/2022', periods=10, freq='D'), 'values': np.random.randn(10)} # pragma: no cover"",
+            ""df = pd.DataFrame(data).set_index('dates') # pragma: no cover"",
+            ""def first(self, freq): # pragma: no cover"",
+            ""    return self.resample(freq).first() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""from pandas import Timestamp # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df = pd.DataFrame({ # pragma: no cover"",
+            ""  'date': [Timestamp('2023-01-01'), Timestamp('2023-01-02'), Timestamp('2023-01-03')], # pragma: no cover"",
+            ""  'value': [10, 20, 30] # pragma: no cover"",
+            ""}) # pragma: no cover"",
+            ""df.set_index('date', inplace=True) # pragma: no cover"",
+            ""df.__class__.first = lambda self, period: self.head(int(period[:-1])) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""from pandas import Timestamp # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df = pd.DataFrame({ # pragma: no cover"",
+            ""    'date': pd.date_range(start='2022-01-01', periods=7, freq='D'), # pragma: no cover"",
+            ""    'value': [10, 20, 30, 40, 50, 60, 70] # pragma: no cover"",
+            ""}).set_index('date') # pragma: no cover"",
+            ""df.__class__ = type('Mock', (pd.DataFrame,), { # pragma: no cover"",
+            ""    'first': lambda self, n: self.head(int(n.replace('d', ''))) # pragma: no cover"",
+            ""}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""df = pd.DataFrame({'date': pd.date_range(start='2021-01-01', periods=10, freq='D')}) # pragma: no cover"",
+            ""df = df.set_index('date') # pragma: no cover"",
+            ""df.__class__ = type('Mock', (pd.DataFrame,), {'first': lambda self, d: self.head(int(d[0])) if d != 'd' else self.head(1)}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""dates = pd.date_range('20230101', periods=6) # pragma: no cover"",
+            ""data = [1, 2, 3, 4, 5, 6] # pragma: no cover"",
+            ""df = pd.DataFrame(data, index=dates, columns=['A']) # pragma: no cover"",
+            ""type('Mock', (object,), {'first': lambda self, period: self.loc[:period]}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""date_rng = pd.date_range(start='2020-01-01', end='2020-01-08', freq='D') # pragma: no cover"",
+            ""df = pd.DataFrame(date_rng, columns=['date']) # pragma: no cover"",
+            ""df.set_index('date', inplace=True) # pragma: no cover"",
+            ""df['data'] = np.random.randint(0, 100, size=(len(date_rng))) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""from datetime import datetime # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""data = {'date': [datetime(2023, 1, 1), datetime(2023, 1, 2), datetime(2023, 1, 3), datetime(2023, 1, 4)]} # pragma: no cover"",
+            ""df = pd.DataFrame(data) # pragma: no cover"",
+            ""df = df.set_index('date') # pragma: no cover"",
+            ""df.first = type('Mock', (object,), {'__call__': lambda self, period: df.head(int(period[0]))})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""import numpy as np # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""data = {'date': pd.date_range(start='1/1/2023', periods=10, freq='D'), 'value': np.random.randint(1, 100, size=10)} # pragma: no cover"",
+            ""df = pd.DataFrame(data) # pragma: no cover"",
+            ""type('Mock', (object,), {'first': lambda self, period: df.iloc[:min(int(period[:-1]), len(df))]}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover"",
+            ""from datetime import datetime, timedelta # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""data = {'date': [datetime(2023, 1, 1) + timedelta(days=i) for i in range(10)], 'value': range(10)} # pragma: no cover"",
+            ""df = pd.DataFrame(data).set_index('date') # pragma: no cover"",
+            ""type('Mock', (object,), {'first': lambda self, n: self.head(int(n[:-1]))}) # pragma: no cover"",
+            ""df.__class__ = type('Mock', (df.__class__,), dict(df.__class__.__dict__)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import pandas as pd # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""data = {'date': pd.date_range(start='2023-01-01', periods=10, freq='D'), 'values': range(10)} # pragma: no cover"",
+            ""df = pd.DataFrame(data).set_index('date') # pragma: no cover"",
+            ""type('Mock', (object,), {'first': lambda self, period: self.head(int(period[:-1]))}) # pragma: no cover"",
+            ""df.first = df.first # pragma: no cover""
+        ]
+    }
+]",1,312,0.000156,1306,0.001959,0.0021149999999999997

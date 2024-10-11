@@ -1,0 +1,637 @@
+prompt,raw_predictions,predictions,prompt_type,input_size,input_price,output_size,output_price,total_price
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+try: # uncovered
+    from parallel_sync import wget # uncovered
+except ImportError: # uncovered
+    pass # uncovered
+urls = ['http://something.png', 'http://somthing.tar.gz', 'http://somthing.zip']
+wget.download('/tmp', urls) # uncovered
+# or a single file:
+wget.download('/tmp', urls[0], filenames='x.zip', extract=True) # uncovered
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""wget = type('Mock', (object,), {'download': lambda path, urls, filenames=None, extract=False: print(f'Downloading {urls} to {path}, filenames={filenames}, extract={extract}')})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""wget = SimpleNamespace(download=lambda *args, **kwargs: print('Downloading', args, kwargs))""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""MockWget = type('MockWget', (object,), {'download': lambda *args, **kwargs: print('Simulated download with args:', args, 'and kwargs:', kwargs)})"",
+            ""wget = MockWget()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import shutil"",
+            ""import requests""
+        ],
+        ""initialization"": [
+            ""class MockWget:"",
+            ""    @staticmethod"",
+            ""    def download(path, urls, filenames=None, extract=False):"",
+            ""        if not os.path.exists(path):"",
+            ""            os.makedirs(path)"",
+            ""        if isinstance(urls, str):"",
+            ""            urls = [urls]"",
+            ""        for url in urls:"",
+            ""            filename = os.path.join(path, os.path.basename(url) if filenames is None else filenames)"",
+            ""            with open(filename, 'wb') as f:"",
+            ""                f.write(requests.get(url).content)"",
+            ""            if extract and filename.endswith('.zip'):"",
+            ""                shutil.unpack_archive(filename, path)"",
+            ""mock_wget = type('Mock', (object,), dict(wget=MockWget))"",
+            ""wget = mock_wget.wget""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""class MockWget:"",
+            ""    def download(self, path, urls, filenames=None, extract=False):"",
+            ""        if not os.path.exists(path):"",
+            ""            os.makedirs(path)"",
+            ""        if isinstance(urls, str):"",
+            ""            urls = [urls]"",
+            ""        for url in urls:"",
+            ""            print(f\""Downloading {url} to {path}\"")"",
+            ""        if filenames:"",
+            ""            print(f\""Files will be saved as {filenames}\"")"",
+            ""        if extract:"",
+            ""            print(\""Extracting files...\"")"",
+            ""type('Mock', (object,), {'wget': MockWget()})""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import requests""
+        ],
+        ""initialization"": [
+            ""urls = ['http://something.png', 'http://somthing.tar.gz', 'http://somthing.zip']"",
+            ""class MockWget:"",
+            ""    @staticmethod"",
+            ""    def download(destination, urls, filenames=None, extract=False):"",
+            ""        if isinstance(urls, list):"",
+            ""            for url in urls:"",
+            ""                print(f'Downloading {url} to {destination}')"",
+            ""        else:"",
+            ""            print(f'Downloading {urls} to {destination} as {filenames}')"",
+            ""        if extract:"",
+            ""            print(f'Extracting {filenames}')"",
+            ""wget = MockWget()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os""
+        ],
+        ""initialization"": [
+            ""wget = type('Mock', (object,), {'download': lambda self, dir, urls, filenames=None, extract=False: print(f'Downloading {urls} to {dir} with filenames={filenames} and extract={extract}')})()""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""parallel_sync = types.ModuleType('parallel_sync')"",
+            ""def mock_download(destination, urls, filenames=None, extract=False):"",
+            ""    print('Downloaded to:', destination)"",
+            ""    print('URLs:', urls)"",
+            ""    if filenames:"",
+            ""        print('Filenames:', filenames)"",
+            ""    if extract:"",
+            ""        print('Extract:', extract)"",
+            ""parallel_sync.wget = types.SimpleNamespace(download=mock_download)"",
+            ""sys.modules['parallel_sync'] = parallel_sync""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import type(\""Mock\"", (object,), {}) as class_mock"",
+            ""from typing import List""
+        ],
+        ""initialization"": [
+            ""class MockWget(class_mock):"",
+            ""    @staticmethod"",
+            ""    def download(destination: str, urls: List[str], filenames: str = None, extract: bool = False):"",
+            ""        print(f\""Downloading to {destination}\"")"",
+            ""        for url in urls:"",
+            ""            print(f\"" - {url}\"")"",
+            ""        if filenames:"",
+            ""            print(f\"" - Filenames: {filenames}\"")"",
+            ""        if extract:"",
+            ""            print(\"" - Extracting files\"")"",
+            ""wget = MockWget""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace"",
+            ""import os""
+        ],
+        ""initialization"": [
+            ""wget = SimpleNamespace(download=lambda path, urls, filenames=None, extract=False: print(f\""Downloading {urls} to {path} with filenames={filenames} and extract={extract}\""))""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""wget = type('Mock', (object,), {'download': lambda path, urls, filenames=None, extract=False: print(f'Downloading {urls} to {path}, filenames={filenames}, extract={extract}')}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""wget = SimpleNamespace(download=lambda *args, **kwargs: print('Downloading', args, kwargs)) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""MockWget = type('MockWget', (object,), {'download': lambda *args, **kwargs: print('Simulated download with args:', args, 'and kwargs:', kwargs)}) # pragma: no cover"",
+            ""wget = MockWget() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import shutil # pragma: no cover"",
+            ""import requests # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockWget: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def download(path, urls, filenames=None, extract=False): # pragma: no cover"",
+            ""        if not os.path.exists(path): # pragma: no cover"",
+            ""            os.makedirs(path) # pragma: no cover"",
+            ""        if isinstance(urls, str): # pragma: no cover"",
+            ""            urls = [urls] # pragma: no cover"",
+            ""        for url in urls: # pragma: no cover"",
+            ""            filename = os.path.join(path, os.path.basename(url) if filenames is None else filenames) # pragma: no cover"",
+            ""            with open(filename, 'wb') as f: # pragma: no cover"",
+            ""                f.write(requests.get(url).content) # pragma: no cover"",
+            ""            if extract and filename.endswith('.zip'): # pragma: no cover"",
+            ""                shutil.unpack_archive(filename, path) # pragma: no cover"",
+            ""mock_wget = type('Mock', (object,), dict(wget=MockWget)) # pragma: no cover"",
+            ""wget = mock_wget.wget # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockWget: # pragma: no cover"",
+            ""    def download(self, path, urls, filenames=None, extract=False): # pragma: no cover"",
+            ""        if not os.path.exists(path): # pragma: no cover"",
+            ""            os.makedirs(path) # pragma: no cover"",
+            ""        if isinstance(urls, str): # pragma: no cover"",
+            ""            urls = [urls] # pragma: no cover"",
+            ""        for url in urls: # pragma: no cover"",
+            ""            print(f\""Downloading {url} to {path}\"") # pragma: no cover"",
+            ""        if filenames: # pragma: no cover"",
+            ""            print(f\""Files will be saved as {filenames}\"") # pragma: no cover"",
+            ""        if extract: # pragma: no cover"",
+            ""            print(\""Extracting files...\"") # pragma: no cover"",
+            ""type('Mock', (object,), {'wget': MockWget()}) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import requests # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""urls = ['http://something.png', 'http://somthing.tar.gz', 'http://somthing.zip'] # pragma: no cover"",
+            ""class MockWget: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def download(destination, urls, filenames=None, extract=False): # pragma: no cover"",
+            ""        if isinstance(urls, list): # pragma: no cover"",
+            ""            for url in urls: # pragma: no cover"",
+            ""                print(f'Downloading {url} to {destination}') # pragma: no cover"",
+            ""        else: # pragma: no cover"",
+            ""            print(f'Downloading {urls} to {destination} as {filenames}') # pragma: no cover"",
+            ""        if extract: # pragma: no cover"",
+            ""            print(f'Extracting {filenames}') # pragma: no cover"",
+            ""wget = MockWget() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""wget = type('Mock', (object,), {'download': lambda self, dir, urls, filenames=None, extract=False: print(f'Downloading {urls} to {dir} with filenames={filenames} and extract={extract}')})() # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""parallel_sync = types.ModuleType('parallel_sync') # pragma: no cover"",
+            ""def mock_download(destination, urls, filenames=None, extract=False): # pragma: no cover"",
+            ""    print('Downloaded to:', destination) # pragma: no cover"",
+            ""    print('URLs:', urls) # pragma: no cover"",
+            ""    if filenames: # pragma: no cover"",
+            ""        print('Filenames:', filenames) # pragma: no cover"",
+            ""    if extract: # pragma: no cover"",
+            ""        print('Extract:', extract) # pragma: no cover"",
+            ""parallel_sync.wget = types.SimpleNamespace(download=mock_download) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            """"
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover"",
+            ""import os # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""wget = SimpleNamespace(download=lambda path, urls, filenames=None, extract=False: print(f\""Downloading {urls} to {path} with filenames={filenames} and extract={extract}\"")) # pragma: no cover""
+        ]
+    }
+]",3,379,0.0001895,1228,0.001842,0.0020315
+"When trying to execute the code snippet with the provided imports and initialization, the lines with # uncovered are not executed.
+
+# begin code snippet
+try: # uncovered
+    from parallel_sync import wget # uncovered
+except ImportError: # uncovered
+    pass # uncovered
+urls = ['http://something.png', 'http://somthing.tar.gz', 'http://somthing.zip']
+wget.download('/tmp', urls)
+# or a single file:
+wget.download('/tmp', urls[0], filenames='x.zip', extract=True)
+
+# end code snippet
+
+Please, provide self-contained and concrete Python modified values of the imports and initialization to execute one of the uncovered paths in the code snippet.
+Respond strictly with JSON. The JSON should be compatible with the TypeScript type `Response` from the following:
+
+```ts
+interface Response {
+// Python import statements needed in the initialization code. One string per import.
+imports: string[];
+// Python code to initialize the undefined variables and make the code snippet executable. One string per undefined variable. The statements in the code snippet above are not part of the initialization of undefined variables. Therefore, their copy or modified versions should not be added here. The values should be self-contained and concrete, i.e. without assumptions or expected replacements of any code that is not present in the code snippet. In case there are undefined attributes or methods and the attribute or method base is not initialized, initialize the attribute or method base using type(""Mock"", bases, dict), where bases is a tuple containing the base classes that the Mock object inherits from, e.g. object, and dict is a dictionary containing the initialization of the undefined attributes and methods in the code snippet.
+initialization: string[];
+}
+```","[
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""parallel_sync = types.ModuleType('parallel_sync')"",
+            ""def mock_download(destination, urls, filenames=None, extract=False):"",
+            ""    print(f'Downloaded to: {destination}')"",
+            ""    print(f'URLs: {urls}')"",
+            ""    if filenames:"",
+            ""        print(f'Filenames: {filenames}')"",
+            ""    if extract:"",
+            ""        print(f'Extract: {extract}')"",
+            ""parallel_sync.wget = types.SimpleNamespace(download=mock_download)"",
+            ""sys.modules['parallel_sync'] = parallel_sync""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""from types import ModuleType""
+        ],
+        ""initialization"": [
+            ""parallel_sync = ModuleType('parallel_sync')"",
+            ""class MockWget:"",
+            ""    @staticmethod"",
+            ""    def download(dest, urls, filenames=None, extract=False):"",
+            ""        print(f'Downloading {urls} to {dest} with filenames={filenames} and extract={extract}')"",
+            ""parallel_sync.wget = MockWget"",
+            ""import sys"",
+            ""sys.modules['parallel_sync'] = parallel_sync""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""class MockWget:"",
+            ""    @staticmethod"",
+            ""    def download(path, urls, filenames=None, extract=False):"",
+            ""        print(f\""Downloading {urls} to {path} with filenames={filenames} and extract={extract}\"")"",
+            ""wget = SimpleNamespace(download=MockWget.download)"",
+            ""parallel_sync = SimpleNamespace(wget=wget)"",
+            ""import sys"",
+            ""sys.modules['parallel_sync'] = parallel_sync""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""types""
+        ],
+        ""initialization"": [
+            ""parallel_sync = types.ModuleType('parallel_sync')"",
+            ""class MockWget:"",
+            ""    @staticmethod"",
+            ""    def download(destination, urls, filenames=None, extract=False):"",
+            ""        print(f'Downloading {urls} to {destination}')"",
+            ""        if filenames:"",
+            ""            print(f'Filenames: {filenames}')"",
+            ""        if extract:"",
+            ""            print('Extracting files')"",
+            ""parallel_sync.wget = MockWget"",
+            ""sys.modules['parallel_sync'] = parallel_sync""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types"",
+            ""import sys""
+        ],
+        ""initialization"": [
+            ""parallel_sync = types.ModuleType('parallel_sync')"",
+            ""def mock_download(destination, urls, filenames=None, extract=False):"",
+            ""    print(f'Downloading {urls} to {destination} with filenames={filenames} and extract={extract}')"",
+            ""parallel_sync.wget = types.SimpleNamespace(download=mock_download)"",
+            ""sys.modules['parallel_sync'] = parallel_sync""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""parallel_sync = types.ModuleType('parallel_sync')"",
+            ""def mock_download(destination, urls, filenames=None, extract=False):"",
+            ""    print(f'Downloading to: {destination}')"",
+            ""    if isinstance(urls, list):"",
+            ""        for url in urls:"",
+            ""            print(f'URL: {url}')"",
+            ""    else:"",
+            ""        print(f'URL: {urls}')"",
+            ""    if filenames:"",
+            ""        print(f'Filenames: {filenames}')"",
+            ""    if extract:"",
+            ""        print('Extracting files...')"",
+            ""parallel_sync.wget = types.SimpleNamespace(download=mock_download)"",
+            ""sys.modules['parallel_sync'] = parallel_sync""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""import sys"",
+            ""import types""
+        ],
+        ""initialization"": [
+            ""parallel_sync = types.ModuleType('parallel_sync')"",
+            ""def mock_download(destination, urls, filenames=None, extract=False):"",
+            ""    print('Downloaded to:', destination)"",
+            ""    print('URLs:', urls)"",
+            ""    if filenames:"",
+            ""        print('Filenames:', filenames)"",
+            ""    if extract:"",
+            ""        print('Extract:', extract)"",
+            ""parallel_sync.wget = types.SimpleNamespace(download=mock_download)"",
+            ""sys.modules['parallel_sync'] = parallel_sync""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""parallel_sync = SimpleNamespace(wget=SimpleNamespace(download=lambda path, urls, filenames=None, extract=False: print(f'Downloading {urls} to {path} with filenames={filenames} and extract={extract}')))"",
+            ""sys.modules['parallel_sync'] = parallel_sync""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types""
+        ],
+        ""initialization"": [
+            ""parallel_sync = types.ModuleType('parallel_sync')"",
+            ""def mock_download(destination, urls, filenames=None, extract=False):"",
+            ""    print('Downloaded to:', destination)"",
+            ""    print('URLs:', urls)"",
+            ""    if filenames:"",
+            ""        print('Filenames:', filenames)"",
+            ""    if extract:"",
+            ""        print('Extract:', extract)"",
+            ""parallel_sync.wget = types.SimpleNamespace(download=mock_download)"",
+            ""import sys"",
+            ""sys.modules['parallel_sync'] = parallel_sync""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os"",
+            ""from types import SimpleNamespace""
+        ],
+        ""initialization"": [
+            ""parallel_sync = SimpleNamespace(wget=SimpleNamespace(download=lambda path, urls, filenames=None, extract=False: print(f'Downloading {urls} to {path} with filenames={filenames} and extract={extract}'))) "",
+            ""import sys"",
+            ""sys.modules['parallel_sync'] = parallel_sync""
+        ]
+    }
+]","[
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""parallel_sync = types.ModuleType('parallel_sync') # pragma: no cover"",
+            ""def mock_download(destination, urls, filenames=None, extract=False): # pragma: no cover"",
+            ""    print(f'Downloaded to: {destination}') # pragma: no cover"",
+            ""    print(f'URLs: {urls}') # pragma: no cover"",
+            ""    if filenames: # pragma: no cover"",
+            ""        print(f'Filenames: {filenames}') # pragma: no cover"",
+            ""    if extract: # pragma: no cover"",
+            ""        print(f'Extract: {extract}') # pragma: no cover"",
+            ""parallel_sync.wget = types.SimpleNamespace(download=mock_download) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""from types import ModuleType # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""parallel_sync = ModuleType('parallel_sync') # pragma: no cover"",
+            ""class MockWget: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def download(dest, urls, filenames=None, extract=False): # pragma: no cover"",
+            ""        print(f'Downloading {urls} to {dest} with filenames={filenames} and extract={extract}') # pragma: no cover"",
+            ""parallel_sync.wget = MockWget # pragma: no cover"",
+            ""sys.modules['parallel_sync'] = parallel_sync # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockWget: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def download(path, urls, filenames=None, extract=False): # pragma: no cover"",
+            ""        print(f\""Downloading {urls} to {path} with filenames={filenames} and extract={extract}\"") # pragma: no cover"",
+            ""wget = SimpleNamespace(download=MockWget.download) # pragma: no cover"",
+            ""parallel_sync = SimpleNamespace(wget=wget) # pragma: no cover"",
+            ""sys.modules['parallel_sync'] = parallel_sync # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""class MockWget: # pragma: no cover"",
+            ""    @staticmethod # pragma: no cover"",
+            ""    def download(destination, urls, filenames=None, extract=False): # pragma: no cover"",
+            ""        print(f'Downloading {urls} to {destination}') # pragma: no cover"",
+            ""        if filenames: # pragma: no cover"",
+            ""            print(f'Filenames: {filenames}') # pragma: no cover"",
+            ""        if extract: # pragma: no cover"",
+            ""            print('Extracting files') # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover"",
+            ""import sys # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""parallel_sync = types.ModuleType('parallel_sync') # pragma: no cover"",
+            ""def mock_download(destination, urls, filenames=None, extract=False): # pragma: no cover"",
+            ""    print(f'Downloading {urls} to {destination} with filenames={filenames} and extract={extract}') # pragma: no cover"",
+            ""parallel_sync.wget = types.SimpleNamespace(download=mock_download) # pragma: no cover"",
+            ""sys.modules['parallel_sync'] = parallel_sync # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""parallel_sync = types.ModuleType('parallel_sync') # pragma: no cover"",
+            ""def mock_download(destination, urls, filenames=None, extract=False): # pragma: no cover"",
+            ""    print(f'Downloading to: {destination}') # pragma: no cover"",
+            ""    if isinstance(urls, list): # pragma: no cover"",
+            ""        for url in urls: # pragma: no cover"",
+            ""            print(f'URL: {url}') # pragma: no cover"",
+            ""    else: # pragma: no cover"",
+            ""        print(f'URL: {urls}') # pragma: no cover"",
+            ""    if filenames: # pragma: no cover"",
+            ""        print(f'Filenames: {filenames}') # pragma: no cover"",
+            ""    if extract: # pragma: no cover"",
+            ""        print('Extracting files...') # pragma: no cover"",
+            ""parallel_sync.wget = types.SimpleNamespace(download=mock_download) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""import sys # pragma: no cover"",
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""parallel_sync = types.ModuleType('parallel_sync') # pragma: no cover"",
+            ""def mock_download(destination, urls, filenames=None, extract=False): # pragma: no cover"",
+            ""    print('Downloaded to:', destination) # pragma: no cover"",
+            ""    print('URLs:', urls) # pragma: no cover"",
+            ""    if filenames: # pragma: no cover"",
+            ""        print('Filenames:', filenames) # pragma: no cover"",
+            ""    if extract: # pragma: no cover"",
+            ""        print('Extract:', extract) # pragma: no cover"",
+            ""parallel_sync.wget = types.SimpleNamespace(download=mock_download) # pragma: no cover"",
+            ""sys.modules['parallel_sync'] = parallel_sync # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""parallel_sync = SimpleNamespace(wget=SimpleNamespace(download=lambda path, urls, filenames=None, extract=False: print(f'Downloading {urls} to {path} with filenames={filenames} and extract={extract}'))) # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import types # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""parallel_sync = types.ModuleType('parallel_sync') # pragma: no cover"",
+            ""def mock_download(destination, urls, filenames=None, extract=False): # pragma: no cover"",
+            ""    print('Downloaded to:', destination) # pragma: no cover"",
+            ""    print('URLs:', urls) # pragma: no cover"",
+            ""    if filenames: # pragma: no cover"",
+            ""        print('Filenames:', filenames) # pragma: no cover"",
+            ""    if extract: # pragma: no cover"",
+            ""        print('Extract:', extract) # pragma: no cover"",
+            ""parallel_sync.wget = types.SimpleNamespace(download=mock_download) # pragma: no cover"",
+            ""sys.modules['parallel_sync'] = parallel_sync # pragma: no cover""
+        ]
+    },
+    {
+        ""imports"": [
+            ""import os # pragma: no cover"",
+            ""from types import SimpleNamespace # pragma: no cover""
+        ],
+        ""initialization"": [
+            ""parallel_sync = SimpleNamespace(wget=SimpleNamespace(download=lambda path, urls, filenames=None, extract=False: print(f'Downloading {urls} to {path} with filenames={filenames} and extract={extract}')))  # pragma: no cover"",
+            ""sys.modules['parallel_sync'] = parallel_sync # pragma: no cover""
+        ]
+    }
+]",3,1957,0.0009785,1334,0.002001,0.0029795000000000004

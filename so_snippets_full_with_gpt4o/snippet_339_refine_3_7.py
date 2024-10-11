@@ -1,0 +1,37 @@
+from past.builtins import xrange # pragma: no cover
+
+from builtins import range as xrange # pragma: no cover
+
+class dict_compat:# pragma: no cover
+    def __init__(self, d):# pragma: no cover
+        self.d = d# pragma: no cover
+    def items(self):# pragma: no cover
+        return self.d.items()# pragma: no cover
+    def iteritems(self):# pragma: no cover
+        return iter(self.d.items())# pragma: no cover
+# pragma: no cover
+_dict = {i: i * 2 for i in range(10000000)}# pragma: no cover
+dict = dict_compat(_dict) # pragma: no cover
+
+# L3: DO NOT INSTRUMENT
+
+# Extracted from https://stackoverflow.com/questions/10458437/what-is-the-difference-between-dict-items-and-dict-iteritems-in-python2
+from l3.Runtime import _l_
+dict = {i: i * 2 for i in xrange(10000000)}  
+_l_(14213)  
+# Slow and memory hungry.
+for key, value in dict.items():
+    _l_(14215)
+
+    print(key,":",value)
+    _l_(14214)
+
+dict = {i: i * 2 for i in xrange(10000000)}  
+_l_(14216)  
+# More memory efficient.
+for key, value in dict.iteritems():
+    _l_(14218)
+
+    print(key,":",value)
+    _l_(14217)
+
