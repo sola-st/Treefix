@@ -45,7 +45,7 @@ python -m l3.evaluation.CombineData
 
 The average results, such as the ones presented at Tables II and III of the paper, will be available on a `*_grouped.csv` file, where the coverage achieved by the set of prefixes P is in column `coverage_percentage` and the coverage achieved by p_best is in column `max_coverage_prediction_value`.
 
-### Diversity of Values
+### Diversity of Values (RQ4)
 
 1. Get the list of `.csv` files generated on the same folder of the original code snippets, i.e. at `./so_snippets` and `./popular_projects_snippets_dataset`. Write the path of the `.csv` files to a `.txt` file, e.g.  `model_predictions.txt`
 
@@ -61,7 +61,7 @@ The output of this is a raw JSON file: `treefix_types_and_values.json`.
 python -m l3.evaluation.SummarizePredictionsDiversity
 ```
 
-### Efficiency and Costs
+### Efficiency and Costs (RQ5)
 
 1. Get the list of `.csv` files generated on the same folder of the original code snippets, i.e. at `./so_snippets` and `./popular_projects_snippets_dataset`. Write the path of the `.csv` files to a `.txt` file, e.g.  `model_predictions.txt`
 
