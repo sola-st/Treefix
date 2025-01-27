@@ -1,0 +1,10 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/random/random_index_shuffle_test.py
+seed = math_ops.cast(seed, seed_dtype)
+index = math_ops.cast(range(max_index + 1), index_dtype)
+new_index = stateless.index_shuffle(index, seed, max_index=max_index)
+self.assertEqual(new_index.dtype, index_dtype)
+new_index = self.evaluate(new_index)
+self.assertAllGreaterEqual(new_index, 0)
+self.assertAllLessEqual(new_index, max_index)
+self.assertLen(new_index, max_index + 1)
+self.assertLen(set(new_index), max_index + 1)

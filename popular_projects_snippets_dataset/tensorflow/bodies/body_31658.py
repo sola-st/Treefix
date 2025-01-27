@@ -1,0 +1,17 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/nn_ops/pooling_ops_test.py
+for (data_format, use_gpu) in GetTestConfigs():
+    self._testMaxPoolGradValidPadding1_1(data_format, use_gpu)
+    self._testMaxPoolGradValidPadding1_2(data_format, use_gpu)
+    self._testMaxPoolGradValidPadding2_1_6(data_format, use_gpu)
+    self._testMaxPoolGradValidPadding2_1_7(data_format, use_gpu)
+    self._testMaxPoolGradValidPadding2_2(data_format, use_gpu)
+    self._testMaxPoolGradSamePadding1_1(data_format, use_gpu)
+    self._testMaxPoolGradSamePadding1_2(data_format, use_gpu)
+    self._testMaxPoolGradSamePadding2_1(data_format, use_gpu)
+    self._testMaxPoolGradSamePadding2_2(data_format, use_gpu)
+    self._testMaxPoolGradSamePadding3_1(data_format, use_gpu)
+    self._testMaxPoolExplicitPadding_1(data_format, use_gpu)
+    self._testMaxPoolExplicitPadding_2(data_format, use_gpu)
+    self._testMaxPoolExplicitPaddingStrides(data_format, use_gpu)
+    self._testMaxPoolExplicitPaddingLeftGreater(data_format, use_gpu)
+    self._testMaxPoolExplicitPaddingBatchChannel(data_format, use_gpu)

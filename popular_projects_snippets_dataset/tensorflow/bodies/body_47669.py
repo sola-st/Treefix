@@ -1,0 +1,23 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/keras/layers/convolutional.py
+super(SeparableConv2D, self).__init__(
+    rank=2,
+    filters=filters,
+    kernel_size=kernel_size,
+    strides=strides,
+    padding=padding,
+    data_format=data_format,
+    dilation_rate=dilation_rate,
+    depth_multiplier=depth_multiplier,
+    activation=activations.get(activation),
+    use_bias=use_bias,
+    depthwise_initializer=initializers.get(depthwise_initializer),
+    pointwise_initializer=initializers.get(pointwise_initializer),
+    bias_initializer=initializers.get(bias_initializer),
+    depthwise_regularizer=regularizers.get(depthwise_regularizer),
+    pointwise_regularizer=regularizers.get(pointwise_regularizer),
+    bias_regularizer=regularizers.get(bias_regularizer),
+    activity_regularizer=regularizers.get(activity_regularizer),
+    depthwise_constraint=constraints.get(depthwise_constraint),
+    pointwise_constraint=constraints.get(pointwise_constraint),
+    bias_constraint=constraints.get(bias_constraint),
+    **kwargs)

@@ -1,0 +1,16 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/summary_ops/summary_v1_ops_test.py
+with ops.Graph().as_default():
+    const = constant_op.constant(10.0)
+    summ1 = summary.histogram("h", const)
+    summ2 = summary.scalar("o", const, collections=["foo_key"])
+    summ3 = summary.scalar("c", const)
+    merge = summary.merge_all()
+    self.assertEqual("MergeSummary", merge.op.type)
+    self.assertEqual(2, len(merge.op.inputs))
+    self.assertEqual(summ1, merge.op.inputs[0])
+    self.assertEqual(summ3, merge.op.inputs[1])
+    merge = summary.merge_all("foo_key")
+    self.assertEqual("MergeSummary", merge.op.type)
+    self.assertEqual(1, len(merge.op.inputs))
+    self.assertEqual(summ2, merge.op.inputs[0])
+    self.assertTrue(summary.merge_all("bar_key") is None)

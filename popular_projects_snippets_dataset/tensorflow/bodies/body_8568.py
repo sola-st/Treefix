@@ -1,0 +1,2 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/distribute/multi_worker_test_base.py
+exit(get_tf_config_task()['type'])

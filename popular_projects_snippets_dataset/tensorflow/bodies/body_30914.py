@@ -1,0 +1,5 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/nn_ops/softmax_op_test.py
+op = nn_ops.softmax([[[1., 1., 1., 1.], [1., 2., 3., 4.]],
+                     [[2., 3., 4., 5.], [6., 7., 8., 9.]],
+                     [[5., 4., 3., 2.], [1., 2., 3., 4.]]])
+self.assertEqual([3, 2, 4], op.get_shape())

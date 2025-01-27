@@ -1,0 +1,4 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/distribute/metrics_v1_test.py
+labels = x["labels"]
+predictions = x["predictions"]
+exit(metrics.specificity_at_sensitivity(labels, predictions, 0.95))

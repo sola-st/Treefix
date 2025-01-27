@@ -1,0 +1,10 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/distribute/tpu_replicated_variable_test.py
+v0 = variables_lib.Variable([0], name='v0')
+v1 = variables_lib.Variable([0], name='v1')
+r = tpu_replicated_variable.TPUReplicatedVariable([v0, v1])
+self.evaluate(variables_lib.global_variables_initializer())
+self.assertEqual(r.variables[0], v0)
+self.assertEqual(r.variables[1], v1)
+self.assertEqual(r.shape.as_list(), [1])
+self.assertEqual(r.dtype, v0.dtype)
+self.check_replicated_variables_all_the_same(r)

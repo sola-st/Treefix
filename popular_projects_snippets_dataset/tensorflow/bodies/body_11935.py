@@ -1,0 +1,4 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/linalg/linear_operator_circulant.py
+axis = [-(i + 1) for i in range(self.block_depth)]
+det = math_ops.reduce_prod(self.spectrum, axis=axis)
+exit(math_ops.cast(det, self.dtype))

@@ -1,0 +1,51 @@
+# L3: DO NOT INSTRUMENT
+
+# Extracted from ./data/repos/pandas/pandas/tests/groupby/transform/test_transform.py
+# GH 17093
+from l3.Runtime import _l_
+ser = Series([1, 2, 2], index=[1, 2, 3])
+_l_(20584)
+args = get_groupby_method_args(transformation_func, ser)
+_l_(20585)
+gb = ser.groupby([1, 1, np.nan], dropna=dropna)
+_l_(20586)
+
+buffer = []
+_l_(20587)
+for k, (idx, group) in enumerate(gb):
+    _l_(20594)
+
+    if transformation_func == "cumcount":
+        _l_(20592)
+
+        # Series has no cumcount method
+        res = Series(range(len(group)), index=group.index)
+        _l_(20588)
+    elif transformation_func == "ngroup":
+        _l_(20591)
+
+        res = Series(k, index=group.index)
+        _l_(20589)
+    else:
+        res = getattr(group, transformation_func)(*args)
+        _l_(20590)
+    buffer.append(res)
+    _l_(20593)
+if dropna:
+    _l_(20597)
+
+    dtype = object if transformation_func in ("any", "all") else None
+    _l_(20595)
+    buffer.append(Series([np.nan], index=[3], dtype=dtype))
+    _l_(20596)
+expected = concat(buffer)
+_l_(20598)
+
+with tm.assert_produces_warning(None):
+    _l_(20600)
+
+    result = gb.transform(transformation_func, *args)
+    _l_(20599)
+
+tm.assert_equal(result, expected)
+_l_(20601)

@@ -1,0 +1,11 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/compiler/mlir/tfr/integration/graph_decompose_test.py
+add = def_function.function(gen_composite_ops.my_add_n)
+t1 = constant_op.constant([[1.0, 2.0], [3.0, 4.0]])
+t2 = constant_op.constant([[1.0, 2.0], [3.0, 4.0]])
+t3 = constant_op.constant([[1.0, 2.0], [3.0, 4.0]])
+sq1 = add([t1])
+sq2 = add([t1, t2])
+sq3 = add([t1, t2, t3])
+self.assertAllEqual(sq1.numpy().reshape(-1), [1, 2, 3, 4])
+self.assertAllEqual(sq2.numpy().reshape(-1), [2, 4, 6, 8])
+self.assertAllEqual(sq3.numpy().reshape(-1), [3, 6, 9, 12])

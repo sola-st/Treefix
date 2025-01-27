@@ -1,0 +1,29 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/tools/compatibility/tf_upgrade_v2_test.py
+text = ("tf.nn.softmax_cross_entropy_with_logits("
+        "labels=tf.stop_gradient(labels), logits=logits, dim=2)")
+expected_text = (
+    "tf.nn.softmax_cross_entropy_with_logits("
+    "labels=tf.stop_gradient(labels), logits=logits, axis=2)")
+_, unused_report, unused_errors, new_text = self._upgrade(text)
+self.assertEqual(new_text, expected_text)
+
+text = ("tf.nn.softmax_cross_entropy_with_logits("
+        "labels=tf.stop_gradient(foo(bar)))")
+expected_text = ("tf.nn.softmax_cross_entropy_with_logits("
+                 "labels=tf.stop_gradient(foo(bar)))")
+_, unused_report, unused_errors, new_text = self._upgrade(text)
+self.assertEqual(expected_text, new_text)
+
+text = ("tf.nn.softmax_cross_entropy_with_logits("
+        "labels=foo())")
+expected_text = ("tf.nn.softmax_cross_entropy_with_logits("
+                 "labels=tf.stop_gradient(foo()))")
+_, unused_report, unused_errors, new_text = self._upgrade(text)
+self.assertEqual(expected_text, new_text)
+
+text = ("tf.nn.softmax_cross_entropy_with_logits("
+        "labels=foo().zz())")
+expected_text = ("tf.nn.softmax_cross_entropy_with_logits("
+                 "labels=tf.stop_gradient(foo().zz()))")
+_, unused_report, unused_errors, new_text = self._upgrade(text)
+self.assertEqual(expected_text, new_text)

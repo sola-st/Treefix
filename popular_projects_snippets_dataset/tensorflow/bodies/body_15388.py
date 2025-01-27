@@ -1,0 +1,9 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/ragged/row_partition.py
+del memo
+dtype = self.dtype
+nrows = tensor_shape.dimension_value(self._nrows[0])
+nvals = tensor_shape.dimension_value(self._nvals[0])
+uniform_row_length = (None if self._uniform_row_length is None else
+                      tensor_shape.dimension_value(
+                          self._uniform_row_length[0]))
+exit(RowPartitionSpec(nrows, nvals, uniform_row_length, dtype))

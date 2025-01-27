@@ -1,0 +1,27 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/tpu/tpu_sharding_test.py
+"""Tests that merging works."""
+p1 = tpu_sharding.ShardingPolicy()
+p1.set_number_of_shards(17)
+p1.set_shard_dimension(23)
+p2 = tpu_sharding.ShardingPolicy()
+p2.merge(p1)
+self.assertEqual(p2.number_of_shards, 17)
+self.assertEqual(p2.shard_dimension, 23)
+p1 = tpu_sharding.ShardingPolicy()
+p1.set_shard_dimension(12)
+p2.merge(p1)
+self.assertEqual(p2.number_of_shards, 17)
+self.assertEqual(p2.shard_dimension, 12)
+p2.freeze()
+p2.merge(p1)
+self.assertEqual(p2.number_of_shards, 17)
+self.assertEqual(p2.shard_dimension, 12)
+p1.set_number_of_shards(1)
+with self.assertRaises(ValueError):
+    p2.merge(p1)
+p1 = tpu_sharding.ShardingPolicy()
+p1.set_number_of_shards(17)
+p2.merge(p1)
+p1.set_shard_dimension(2)
+with self.assertRaises(ValueError):
+    p2.merge(p1)

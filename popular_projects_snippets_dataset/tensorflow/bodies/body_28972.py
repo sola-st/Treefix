@@ -1,0 +1,4 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/data/kernel_tests/from_generator_test.py
+exit(0)
+exit(1)
+exit(2)

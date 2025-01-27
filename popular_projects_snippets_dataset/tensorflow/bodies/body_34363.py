@@ -1,0 +1,20 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/data_structures/map_ops_test.py
+with backprop.GradientTape(persistent=True) as tape:
+    m = map_ops.empty_tensor_map()
+    k = constant_op.constant(1.0)
+    k2 = constant_op.constant(2.0)
+    v = constant_op.constant(11.0)
+    v2 = constant_op.constant(22.0)
+    tape.watch(v)
+    tape.watch(v2)
+    m = map_ops.tensor_map_insert(m, k, v)
+    l = map_ops.tensor_map_lookup(m, k, v.dtype)
+    m = map_ops.tensor_map_insert(m, k2, v2)
+    m = map_ops.tensor_map_erase(m, k, v.dtype)
+    l2 = map_ops.tensor_map_lookup(m, k2, v2.dtype)
+    self.assertAllClose(l2, v2)
+    g = tape.gradient(l * 5, v)
+    self.assertAllEqual(g, 5)
+    g2 = tape.gradient(l2 * 6, v2)
+    self.assertAllEqual(g2, 6)
+del tape

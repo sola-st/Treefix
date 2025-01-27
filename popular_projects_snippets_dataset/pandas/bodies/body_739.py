@@ -1,0 +1,11 @@
+# Extracted from ./data/repos/pandas/pandas/tests/dtypes/test_inference.py
+assert is_scalar(np.int64(1))
+assert is_scalar(np.float64(1.0))
+assert is_scalar(np.int32(1))
+assert is_scalar(np.complex64(2))
+assert is_scalar(np.object_("foobar"))
+assert is_scalar(np.str_("foobar"))
+assert is_scalar(np.unicode_("foobar"))
+assert is_scalar(np.bytes_(b"foobar"))
+assert is_scalar(np.datetime64("2014-01-01"))
+assert is_scalar(np.timedelta64(1, "h"))

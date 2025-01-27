@@ -1,0 +1,11 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/grappler/layout_optimizer_test.py
+x_image = array_ops.reshape(x, [-1, 28, 28, 1])
+w_conv1 = _weight([5, 5, 1, 32])
+b_conv1 = _bias([32])
+h_conv1 = nn.relu(_conv2d(x_image, w_conv1) + b_conv1)
+h_pool1 = _max_pool_2x2(h_conv1)
+w_conv2 = _weight([5, 5, 32, 64])
+b_conv2 = _bias([64])
+h_conv2 = nn.relu(_conv2d(h_pool1, w_conv2) + b_conv2)
+h_pool2 = _max_pool_2x2(h_conv2)
+exit(h_pool2)

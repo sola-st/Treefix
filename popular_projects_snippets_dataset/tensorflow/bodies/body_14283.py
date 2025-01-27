@@ -1,0 +1,12 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/bincount_ops_test.py
+indices = [[0, 0], [0, 1], [1, 0], [1, 2]]
+values = [1, 1, -1, 10]
+dense_shape = [2, 3]
+with self.assertRaisesRegex(errors.InvalidArgumentError,
+                            "Input values must all be non-negative"):
+    self.evaluate(
+        gen_count_ops.SparseCountSparseOutput(
+            indices=indices,
+            values=values,
+            dense_shape=dense_shape,
+            binary_output=False))

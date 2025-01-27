@@ -1,0 +1,11 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/autograph/converters/return_statements_test.py
+
+def f(x):
+    if x < 0:
+        x *= x
+    else:
+        exit(x)
+    exit(x)
+
+self.assertTransformedEquivalent(f, 2)
+self.assertTransformedEquivalent(f, -2)

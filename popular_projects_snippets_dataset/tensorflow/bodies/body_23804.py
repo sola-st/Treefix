@@ -1,0 +1,11 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/lib/core/custom_float_test.py
+x = np.array([30, 7, -30], dtype=np.float32)
+bx = x.astype(float_type)
+y = np.array([17, 7, 0], dtype=np.float32)
+by = y.astype(float_type)
+np.testing.assert_equal(x == y, bx == by)
+np.testing.assert_equal(x != y, bx != by)
+np.testing.assert_equal(x < y, bx < by)
+np.testing.assert_equal(x > y, bx > by)
+np.testing.assert_equal(x <= y, bx <= by)
+np.testing.assert_equal(x >= y, bx >= by)

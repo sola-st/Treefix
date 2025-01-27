@@ -1,0 +1,27 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/array_ops/diag_op_test.py
+with self.session():
+    v = np.array([3.0, 4.0])
+    mat = np.array([[0.0, 1.0, 0.0], [1.0, 0.0, 1.0]])
+    expected = np.array([[3.0, 1.0, 0.0], [1.0, 4.0, 1.0]])
+    output = array_ops.matrix_set_diag(mat, v)
+    self.assertEqual((2, 3), output.get_shape())
+    self.assertAllEqual(expected, self.evaluate(output))
+
+    v = np.array([3.0, 4.0])
+    mat = np.array([[0.0, 1.0], [1.0, 0.0], [1.0, 1.0]])
+    expected = np.array([[3.0, 1.0], [1.0, 4.0], [1.0, 1.0]])
+    output = array_ops.matrix_set_diag(mat, v)
+    self.assertEqual((3, 2), output.get_shape())
+    self.assertAllEqual(expected, self.evaluate(output))
+
+    # Diagonal bands.
+    for align in alignment_list:
+        for _, tests in [tall_cases(align), fat_cases(align)]:
+            for diags, (vecs, banded_mat) in tests.items():
+                mask = banded_mat[0] == 0
+                input_mat = np.random.randint(10, size=mask.shape)
+                solution = input_mat * mask + banded_mat[0]
+                output = array_ops.matrix_set_diag(
+                    input_mat, vecs[0], k=diags, align=align)
+                self.assertEqual(output.get_shape(), solution.shape)
+                self.assertAllEqual(output, solution)

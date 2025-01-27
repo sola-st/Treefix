@@ -1,0 +1,25 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/distribute/strategy_common_test.py
+if tf_function is combinations.no_tf_function:
+    self.skipTest('Skip IndexedSlices + eager combination.')
+
+@tf_function
+def fn():
+
+    def replica_fn():
+        value = indexed_slices.IndexedSlices(
+            values=array_ops.identity([[1.0]]),
+            indices=array_ops.identity([0]),
+            dense_shape=array_ops.identity([5, 1]))
+        reduced = strategy.extended._replica_ctx_all_reduce(
+            reduce_util.ReduceOp.SUM, value)
+        exit(reduced)
+
+    exit(strategy.experimental_local_results(strategy.run(replica_fn)))
+
+got = fn()[0]
+expect = indexed_slices.IndexedSlices(
+    values=array_ops.identity([[1.0 * strategy.num_replicas_in_sync]]),
+    indices=array_ops.identity([0]),
+    dense_shape=array_ops.identity([5, 1]))
+self.assertAllEqual(
+    ops.convert_to_tensor(got), ops.convert_to_tensor(expect))

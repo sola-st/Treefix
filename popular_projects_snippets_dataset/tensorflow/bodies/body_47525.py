@@ -1,0 +1,20 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/keras/layers/recurrent_v2.py
+super(LSTMCell, self).__init__(
+    units,
+    activation=activation,
+    recurrent_activation=recurrent_activation,
+    use_bias=use_bias,
+    kernel_initializer=kernel_initializer,
+    recurrent_initializer=recurrent_initializer,
+    bias_initializer=bias_initializer,
+    unit_forget_bias=unit_forget_bias,
+    kernel_regularizer=kernel_regularizer,
+    recurrent_regularizer=recurrent_regularizer,
+    bias_regularizer=bias_regularizer,
+    kernel_constraint=kernel_constraint,
+    recurrent_constraint=recurrent_constraint,
+    bias_constraint=bias_constraint,
+    dropout=dropout,
+    recurrent_dropout=recurrent_dropout,
+    implementation=kwargs.pop('implementation', 2),
+    **kwargs)

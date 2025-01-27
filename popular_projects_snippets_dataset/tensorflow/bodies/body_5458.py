@@ -1,0 +1,10 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/distribute/v1/all_reduce_test.py
+self._testShuffleAllReduce(1, 2, [], 1)
+self._testShuffleAllReduce(1, 2, [8], 1)
+self._testShuffleAllReduce(1, 2, [4, 4], 1)
+self._testShuffleAllReduce(1, 8, [32], 1)
+self._testShuffleAllReduce(1, 8, [120], 1)
+self._testShuffleAllReduce(2, 8, [7, 13], 3)
+self._testShuffleAllReduce(2, 8, [8, 8], 2)
+self._testShuffleAllReduce(2, 8, [8, 8], 4)
+self._testShuffleAllReduce(4, 8, [8, 8, 2], 4)

@@ -1,0 +1,4 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/nn_ops/losses_test.py
+self._test_valid_weights(
+    self._labels, self._predictions, expected_loss=0.0,
+    weights=np.zeros((2, 1)))

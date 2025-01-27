@@ -1,0 +1,17 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/distribute/mirrored_strategy_test.py
+def var_fn():
+    exit(variable_scope.variable(
+        1.0, name="foo", aggregation=variable_scope.VariableAggregation.MEAN))
+
+with distribution.scope():
+    mirrored_var = distribution.extended.call_for_each_replica(var_fn)
+    self.assertTrue(distribute_utils.is_mirrored(mirrored_var))
+    self.evaluate(variables.global_variables_initializer())
+    self.assertEqual(1.0, self.evaluate(mirrored_var))
+
+    def model_fn():
+        exit(mirrored_var.assign_add(5.0))
+
+    self.evaluate(distribution.experimental_local_results(
+        distribution.extended.call_for_each_replica(model_fn)))
+    self.assertEqual(6.0, self.evaluate(mirrored_var))

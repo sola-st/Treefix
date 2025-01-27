@@ -1,0 +1,9 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/linalg/tridiagonal_solve_op_test.py
+self._testWithLists(
+    diags=np.array([[_sample_diags, -_sample_diags, _sample_diags],
+                    [-_sample_diags, _sample_diags, -_sample_diags]]),
+    rhs=np.array([[_sample_rhs, 2 * _sample_rhs, 3 * _sample_rhs],
+                  [4 * _sample_rhs, 5 * _sample_rhs, 6 * _sample_rhs]]),
+    expected=np.array(
+        [[_sample_result, -2 * _sample_result, 3 * _sample_result],
+         [-4 * _sample_result, 5 * _sample_result, -6 * _sample_result]]))

@@ -1,0 +1,71 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/ops/batch_norm_benchmark.py
+print("Forward convolution (lower layers).")
+shape = [8, 128, 128, 32]
+axes = [0, 1, 2]
+t1 = self._run_graph("cpu", shape, axes, 10, "op", True, False, 5)
+t2 = self._run_graph("cpu", shape, axes, 10, "py", True, False, 5)
+t3 = self._run_graph("cpu", shape, axes, 10, "slow", True, False, 5)
+print_difference("op vs py", t1, t2)
+print_difference("py vs slow", t2, t3)
+if FLAGS.use_gpu:
+    t1 = self._run_graph("gpu", shape, axes, 10, "op", True, False, 50)
+    t2 = self._run_graph("gpu", shape, axes, 10, "py", True, False, 50)
+    t3 = self._run_graph("gpu", shape, axes, 10, "slow", True, False, 50)
+    print_difference("op vs py", t1, t2)
+    print_difference("py vs slow", t2, t3)
+print("Forward/backward convolution (lower layers).")
+t1 = self._run_graph("cpu", shape, axes, 10, "op", True, True, 5)
+t2 = self._run_graph("cpu", shape, axes, 10, "py", True, True, 5)
+t3 = self._run_graph("cpu", shape, axes, 10, "slow", True, True, 5)
+print_difference("op vs py", t1, t2)
+print_difference("py vs slow", t2, t3)
+if FLAGS.use_gpu:
+    t1 = self._run_graph("gpu", shape, axes, 10, "op", True, True, 50)
+    t2 = self._run_graph("gpu", shape, axes, 10, "py", True, True, 50)
+    t3 = self._run_graph("gpu", shape, axes, 10, "slow", True, True, 50)
+    print_difference("op vs py", t1, t2)
+    print_difference("py vs slow", t2, t3)
+print("Forward convolution (higher layers).")
+shape = [256, 17, 17, 32]
+axes = [0, 1, 2]
+t1 = self._run_graph("cpu", shape, axes, 10, "op", True, False, 5)
+t2 = self._run_graph("cpu", shape, axes, 10, "py", True, False, 5)
+t3 = self._run_graph("cpu", shape, axes, 10, "slow", True, False, 5)
+print_difference("op vs py", t1, t2)
+print_difference("py vs slow", t2, t3)
+if FLAGS.use_gpu:
+    t1 = self._run_graph("gpu", shape, axes, 10, "op", True, False, 50)
+    t2 = self._run_graph("gpu", shape, axes, 10, "py", True, False, 50)
+    t3 = self._run_graph("gpu", shape, axes, 10, "slow", True, False, 50)
+    print_difference("op vs py", t1, t2)
+    print_difference("py vs slow", t2, t3)
+print("Forward/backward convolution (higher layers).")
+t1 = self._run_graph("cpu", shape, axes, 10, "op", True, True, 5)
+t2 = self._run_graph("cpu", shape, axes, 10, "py", True, True, 5)
+t3 = self._run_graph("cpu", shape, axes, 10, "slow", True, True, 5)
+print_difference("op vs py", t1, t2)
+print_difference("py vs slow", t2, t3)
+if FLAGS.use_gpu:
+    t1 = self._run_graph("gpu", shape, axes, 10, "op", True, True, 50)
+    t2 = self._run_graph("gpu", shape, axes, 10, "py", True, True, 50)
+    t3 = self._run_graph("gpu", shape, axes, 10, "slow", True, True, 50)
+    print_difference("op vs py", t1, t2)
+    print_difference("py vs slow", t2, t3)
+print("Forward fully-connected.")
+shape = [1024, 32]
+axes = [0]
+t1 = self._run_graph("cpu", shape, axes, 10, "py", True, False, 5)
+t2 = self._run_graph("cpu", shape, axes, 10, "slow", True, False, 5)
+print_difference("py vs slow", t1, t2)
+if FLAGS.use_gpu:
+    t1 = self._run_graph("gpu", shape, axes, 10, "py", True, False, 50)
+    t2 = self._run_graph("gpu", shape, axes, 10, "slow", True, False, 50)
+    print_difference("py vs slow", t1, t2)
+print("Forward/backward fully-connected.")
+t1 = self._run_graph("cpu", shape, axes, 10, "py", True, True, 50)
+t2 = self._run_graph("cpu", shape, axes, 10, "slow", True, True, 50)
+print_difference("py vs slow", t1, t2)
+if FLAGS.use_gpu:
+    t1 = self._run_graph("gpu", shape, axes, 10, "py", True, True, 5)
+    t2 = self._run_graph("gpu", shape, axes, 10, "slow", True, True, 5)
+    print_difference("py vs slow", t1, t2)

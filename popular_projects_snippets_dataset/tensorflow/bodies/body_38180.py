@@ -1,0 +1,10 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/math_ops/cwise_ops_test.py
+mag = np.random.rand(10).astype(np.float32)
+angle = (2 * np.pi * np.arange(10) / 10.).astype(np.float32)
+cplx = mag * np.exp(1j * angle)
+cplx = np.append(cplx, [1., 1.j, -1., -1.j])
+self._compareAngle(cplx, use_gpu=False)
+self._compareAngle(cplx, use_gpu=True)
+real = (np.arange(-2, 2) / 2.).astype(np.float64)
+self._compareAngle(real, use_gpu=False)
+self._compareAngle(real, use_gpu=True)

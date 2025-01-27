@@ -1,0 +1,6 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/sparse_ops/sparse_to_dense_op_py_test.py
+tf_ans = sparse_ops.sparse_to_dense([[1, 3], [2, 0]], [3, 4], 1, -1)
+np_ans = np.array([[-1, -1, -1, -1],
+                   [-1, -1, -1, 1],
+                   [1, -1, -1, -1]]).astype(np.int32)
+self.assertAllClose(np_ans, tf_ans)

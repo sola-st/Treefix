@@ -1,0 +1,19 @@
+# Extracted from ./data/repos/pandas/pandas/tests/window/test_rolling_functions.py
+
+indices = [datetime(1975, 1, i) for i in range(1, 6)]
+# So that we can have 3 datapoints on last day (4, 10, and 20)
+indices.append(datetime(1975, 1, 5, 1))
+indices.append(datetime(1975, 1, 5, 2))
+series = Series(list(range(0, 5)) + [10, 20], index=indices)
+# Use floats instead of ints as values
+series = series.map(lambda x: float(x))
+# Sort chronologically
+series = series.sort_index()
+
+# Default how should be min
+expected = Series(
+    [0.0, 1.0, 2.0, 3.0, 4.0],
+    index=DatetimeIndex([datetime(1975, 1, i, 0) for i in range(1, 6)], freq="D"),
+)[::step]
+r = series.resample("D").min().rolling(window=1, step=step)
+tm.assert_series_equal(expected, r.min())

@@ -1,0 +1,10 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/checkpoint/checkpoint_test.py
+prefix = os.path.join(self.get_temp_dir(), "ckpt")
+v = variables_lib.Variable(1.)
+original_ckpt = trackable_utils.Checkpoint(v=v)
+copied_ckpt = copy.deepcopy(original_ckpt)
+copied_ckpt.v.assign(2.)
+self.assertAllClose(1., v)
+save_path = copied_ckpt.save(file_prefix=prefix)
+original_ckpt.restore(save_path=save_path).assert_consumed()
+self.assertAllClose(2., v)

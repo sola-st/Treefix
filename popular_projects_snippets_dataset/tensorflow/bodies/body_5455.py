@@ -1,0 +1,10 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/distribute/v1/all_reduce_test.py
+self._testRingAllReduce(1, 2, [], 1)
+self._testRingAllReduce(1, 2, [8], 1)
+self._testRingAllReduce(1, 2, [4, 4], 1)
+self._testRingAllReduce(6, 1, [8], 1)
+self._testRingAllReduce(1, 8, [32], 1)
+self._testRingAllReduce(1, 8, [120], 1)
+self._testRingAllReduce(2, 8, [7, 13], 1)
+self._testRingAllReduce(2, 8, [8, 8], 2)
+self._testRingAllReduce(2, 8, [8, 8], 4)

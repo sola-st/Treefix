@@ -1,0 +1,6 @@
+# Extracted from ./data/repos/tensorflow/tensorflow/python/kernel_tests/nn_ops/xent_op_test_base.py
+labels = np.array([[0., 0., 0., 1.],
+                   [0., .5, .5, 0.]]).astype(dtypes.bfloat16.as_numpy_dtype)
+logits = np.array([[1., 1., 1., 1.],
+                   [1., 2., 3., 4.]]).astype(dtypes.bfloat16.as_numpy_dtype)
+self._testXent2D(labels, logits)
