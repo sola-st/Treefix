@@ -14,12 +14,6 @@ Start a container based on the image:
 docker run -it --name treefix treefix_image bash
 ```
 
-Inside the container, enter the `Treefix`` directory:
-
-```
-cd Treefix
-```
-
 
 ## Option 2: Install on your machine
 
