@@ -1,5 +1,28 @@
 # Installation Guide
 
+## Option 1: Install in Docker container
+
+Create the Docker image:
+
+```
+docker build -t treefix_image .
+```
+
+Start a container based on the image:
+
+```
+docker run -it --name treefix treefix_image bash
+```
+
+Inside the container, enter the `Treefix`` directory:
+
+```
+cd Treefix
+```
+
+
+## Option 2: Install on your machine
+
 Create and enter a virtual environment:
 
 ```
