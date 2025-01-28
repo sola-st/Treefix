@@ -11,7 +11,7 @@ docker build -t treefix_image .
 Start a container based on the image:
 
 ```
-docker run -it --name treefix treefix_image bash
+docker run -it treefix_image
 ```
 
 
