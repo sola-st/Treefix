@@ -3,7 +3,9 @@ import pandas as pd
 
 from matplotlib import pyplot as plt
 
-folder_path = "./metrics_full_datasets_with_GPT4o/random_functions/GPTValuePredictor/raw"
+#folder_path = "./metrics_full_datasets_with_GPT4o/random_functions/GPTValuePredictor/raw"
+
+folder_path = "./metrics_full_datasets_with_GPT4o/so_snippets/GPTValuePredictor/raw"
 
 files = os.listdir(folder_path)
 files = [file for file in files if file.startswith("metrics_") and file.endswith(".csv")]
@@ -46,6 +48,9 @@ refine = []
 guide = []
 nodes_in_P = []
 p_location = []
+full_coverage_initial = 0
+executed_refine = 0
+executed_guide = 0
 for file in files:
     df = pd.read_csv(f'{folder_path}/{file}')
     name = df.iloc[0]['file']
@@ -55,6 +60,13 @@ for file in files:
     refine.append(df.iloc[1]['num_executions'])
     guide.append(df.iloc[2]['num_executions'])
     nodes_in_P.append(df.iloc[2]['minimal_predictions_set_size'])
+
+    if df.iloc[1]['num_executions'] == 0 and df.iloc[2]['num_executions'] == 0:
+        full_coverage_initial += 1
+    if df.iloc[1]['num_executions'] > 0:
+        executed_refine += 1
+    if df.iloc[2]['num_executions'] > 0:
+        executed_guide += 1
 
     max_coverage_prediction = str(df.iloc[2]['max_coverage_prediction'])
     if 'initial' in max_coverage_prediction:
@@ -110,3 +122,7 @@ print(p_location.count('refine'))
 
 print(refine.count(0))
 print(guide.count(0))
+
+print(f"Snippets with 100% coverage on step 1: {full_coverage_initial}")
+print(f"Snippets that went to step 2: {executed_refine}")
+print(f"Snippets that went to step 3: {executed_guide}")
