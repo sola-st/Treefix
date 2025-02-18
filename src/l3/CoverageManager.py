@@ -15,10 +15,9 @@ class CoverageManager:
     def _save_metrics(self, file, predictor_name):
         if param.dataset == "random_functions":
             project_name = file.split("/")[2]
-            file_name = file.split("/")[4].split('.')[0]
         else:
             project_name = ""
-            file_name = file.split("/")[2].split('.')[0]
+        file_name = file.split("/")[-1].split('.')[0]
         total_lines = count_lines(file)
         
         df = pd.DataFrame() 
