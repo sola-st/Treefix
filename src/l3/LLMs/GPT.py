@@ -89,7 +89,8 @@ class GPTValuePredictor:
         self.manage_conversation_history()
 
         input_size = self.conversation_history_size
-        raw_predictions = self.query_model()
+        raw_raw_predictions = self.query_model()
+        raw_predictions = [prediction for prediction in raw_raw_predictions if prediction["message"]["content"]]
         if self.prompt_type == 1:
             self.latest_predictions = raw_predictions
         raw_predictions, predictions, output_size = self.post_process_predictions(raw_predictions)
