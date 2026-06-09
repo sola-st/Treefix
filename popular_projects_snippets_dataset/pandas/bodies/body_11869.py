@@ -20,7 +20,7 @@ result = read_fwf(
     names=names,
     widths=widths,
     parse_dates=True,
-    date_parser=lambda s: datetime.strptime(s, "%Y%j%H%M%S"),
+    date_format="%Y%j%H%M%S",
 )
 expected = DataFrame(
     [
